@@ -12,10 +12,20 @@
 	 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-   <script src="https://code.highcharts.com/highcharts.js"></script>
+   
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+
+
+
 	<title>Document</title>
 
 	<style>
@@ -372,6 +382,8 @@ h4 {
         <button  class="btn btn-warning" id="summary-button">Summary</button>
         <button id="stateSatisfaction-btn" class="btn btn-warning">state Satisfaction</button>
         <button class="btn btn-warning"  id="mlaSatisfaction-btn">MLA Satisfaction</button>
+        <button class="btn btn-warning"  id="prefferedparty-btn">Prefferd Party</button>
+        <button class="btn btn-warning"  id="PrefferMLAcandidate-btn">PREFERRED MLA CANDIDATE</button>
     </nav>
 	<div id="parentele">
     <div>
@@ -755,6 +767,167 @@ Highcharts.chart(chartContainer, {
     console.error(error);
   }
 }
+
+
+
+
+// prefferd Pary 
+const prefferdParty = document.querySelector('#prefferedparty-btn');
+prefferdParty.addEventListener('click', renderPrefferdParty);
+
+async function renderPrefferdParty() {
+  const selectedDistrict = districtDropdown.value;
+  const selectedConstituency = constituencyDropdown.value;
+  const selectedWeek = weekDropdown.value;
+
+  try {
+    // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
+    const castResponse = await axios.post('/PrefferdCaste', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+    const castData = castResponse.data;
+
+    if (castData && Object.keys(castData).length > 0) {
+
+      // Transform the data into an array of objects that Highcharts can use
+      const chartData = Object.keys(castData).map(caste => {
+        const casteData = castData[caste];
+        return {
+          name: caste,
+          data: [Number(casteData.YSRCP.slice(0, -1)), Number(casteData.TDP.slice(0, -1)), Number(casteData.JSP.slice(0, -1)), Number(casteData.Others.slice(0, -1))]
+        };
+      });
+
+      // Create the chart container if it doesn't exist
+      let chartContainer = document.getElementById('chart-container');
+      if (!chartContainer) {
+        chartContainer = document.createElement('div');
+        chartContainer.id = 'chart-container';
+        resultContainer.appendChild(chartContainer);
+      }
+
+      // Use Highcharts to create the stacked bar chart
+      Highcharts.chart(chartContainer, {
+        chart: {
+          type: 'bar'
+        },
+        title: {
+          text: 'Prefferd Party By Caste'
+        },
+        xAxis: {
+          categories: chartData.map(caste => caste.name)
+        },
+        yAxis: {
+          title: {
+            text: '%'
+          }
+        },
+        legend: {
+          reversed: true
+        },
+        plotOptions: {
+          series: {
+            stacking: 'normal'
+          }
+        },
+        series: [{
+          name: 'TDP',
+          data: chartData.map(caste => Number(caste.data[1])),
+          color: 'red'
+        }, {
+          name: 'YSRCP',
+          data: chartData.map(caste => Number(caste.data[0])),
+          color: 'green'
+        }, {
+          name: 'JSP',
+          data: chartData.map(caste => Number(caste.data[2])),
+          color: 'blue'
+        }, {
+          name: 'Others',
+          data: chartData.map(caste => Number(caste.data[3])),
+          color: 'yellow '
+        }]
+      });
+    } else {
+      console.log('Data is not an object or is empty:', castData);
+      resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+// prefferd MLA CANDIDATE
+const PrefferMLAcandidate = document.querySelector('#PrefferMLAcandidate-btn');
+PrefferMLAcandidate.addEventListener('click', renderPrefferMLAcandidate);
+async function renderPrefferMLAcandidate() {
+  const selectedDistrict = districtDropdown.value;
+  const selectedConstituency = constituencyDropdown.value;
+  const selectedWeek = weekDropdown.value;
+
+  try {
+    // Call the PrefferdCaste endpoint to get the data for the pie chart
+    const castResponse = await axios.post('/PrefferMLAcandidate', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+    const castData = castResponse.data;
+
+    if (castData && Object.keys(castData).length > 0) {
+
+      // Transform the data into an array of objects that Highcharts can use
+      const chartData = Object.keys(castData).map(caste => {
+        const casteData = castData[caste];
+        return {
+          name: caste,
+          y: Number(castData[caste].good_percentage.slice(0, -1))
+        };
+      });
+
+      // Create the chart container if it doesn't exist
+      let chartContainer = document.getElementById('chart-container');
+      if (!chartContainer) {
+        chartContainer = document.createElement('div');
+        chartContainer.id = 'chart-container';
+        resultContainer.appendChild(chartContainer);
+      }
+
+      // Use Highcharts to create the pie chart
+      Highcharts.chart(chartContainer, {
+        chart: {
+          type: 'pie'
+        },
+        title: {
+          text: 'Prefferd MLA CANDIDATE'
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}</b>: {point.y:.1f} %'
+            }
+          }
+        },
+        series: [{
+          name: 'good%',
+          data: chartData
+        }]
+      });
+    } else {
+      console.log('Data is not an object or is empty:', castData);
+      resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+$(document).ready(function() {
+  $("#left-nav-btn").click(function() {
+    // your existing code for handling the button click goes here
+
+    // show the summary by default
+    $("#summary-button").click();
+  });
+})
 
 
 

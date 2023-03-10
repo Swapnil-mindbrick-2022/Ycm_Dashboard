@@ -30,6 +30,8 @@ let routes = (app) => {
   router.post('/api/summary-report',constituencyController.SummeryReport);
   router.post('/Mlasatishfaction',constituencyController.Mlasatishfaction)
   router.post('/Castsatisfactionmla',constituencyController.Castsatisfactionmla)
+  router.post('/PrefferdCaste',constituencyController.PrefferdCaste)
+  router.post('/PrefferMLAcandidate',constituencyController.PrefferMLAcandidate)
 
 
 
