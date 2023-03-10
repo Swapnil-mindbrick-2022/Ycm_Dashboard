@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File </title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" 
+integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="./CSS/index.css"> -->
+
+    <style>
+      .upload-container {
+        display: flex;
+        justify-content: center;
+        width: 500px;
+        height: 500;
+        
+      }
+      label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.js div#preloader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  
+  /* You can change the background color and image URL here.  This solution works with animated .svg and animated .gif */
+  background: #ffffff url('https://gist.githubusercontent.com/condensed-io/d4da34ecfdeda137ad4787fbd244ed27/raw/b96d939e9baf98ff79394c11af83c10a6acdd241/pac.svg') no-repeat center center;
+}
+  
+  
+    
+    
+    </style>
+</head>
+
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-black" style="color:white">
+   
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto" style="margin: 5px; padding: 10px;">
+        <form action="/products" method="post">
+					<input class="btn btn-primary btn-lg" type="submit" name="submit" value="data">
+				</form>
+        <li class="nav-item" style="margin: 5px; padding: 10px;">
+          <a class="dropdown-item" href="/uploadhistory">UploadHistory</a>
+         
+        </li>
+        <!-- <li class="nav-item" style="margin: 5px; padding: 10px;">
+          
+          <a class="dropdown-item" href="/response">Responses</a>
+        </li> -->
+      </ul>
+        <button class="btn btn-danger"><a href="/logout" style="color:white">Logout</a></button>
+  
+    </div>
+  </nav>
+  
+<div class="container col-sm-12" id="choose-files" oncopy="return false" oncut="return false" onpaste="return false">
+  <div class="row">
+
+      <div class="d-flex flex-column justify-content-center align-items-center " style ='height:600px; background-color: aqua;' >
+        <div class="p-2 d-flex justify-content-center  align-items-center bg-success " style="width: 100%;">
+          <form action="/multipleupload" method="post" enctype="multipart/form-data">
+            <b>upload multiple file :</b> 
+            
+            <input type="file" name="files" multiple>
+                        <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
+        </form>
+        </div>
+      </div>
+  </div>
+</div>
+<div id="preloader"></div>
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+<script>
+document.documentElement.classList.add("js");
+
+// dom is loaded
+jQuery(document).ready(function($) {  
+
+// fade out preloader
+$('#preloader').fadeOut('load',function(){$(this).remove();});
+
+});
+</script>
+
+
+</body>
+</html>

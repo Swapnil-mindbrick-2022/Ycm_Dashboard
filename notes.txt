@@ -1,0 +1,341 @@
+app.get('/submit', (req, res) => {
+  const selectedOption = req.query.option;
+  let query = '';
+
+  // Build the query based on the selected option
+  switch (selectedOption) {
+    case 'districts':
+      query = 'SELECT District, ...'; // Add the query for districts here
+      break;
+    case 'parliament':
+      query = 'SELECT Parliament, ...'; // Add the query for parliament here
+      break;
+    case 'caste':
+      query = 'SELECT Caste, ...'; // Add the query for caste here
+      break;
+    default:
+      res.send('Invalid option');
+      return;
+  }
+
+  // Execute the query using Sequelize and retrieve the results
+  db.sequelize.query(query, { type: db.sequelize.QueryTypes.SELECT })
+    .then(results => {
+      // Render the results into an HTML table using EJS
+      ejs.renderFile('table.ejs', { data: results }, (err, html) => {
+        if (err) throw err;
+        res.send(html);
+      });
+    })
+    .catch(error => {
+      throw error;
+    });
+});
+
+
+
+
+dynamic filter table with all individul collumn filter 
+const form = document.getElementById("form");
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+  const url = `/DPC_Data?selectedOption=${selectedOption}`;
+  try {
+    const response = await axios.get(url);
+    if (response.status === 200) {
+      let data = [];
+      const contentType = response.headers["content-type"];
+      if (contentType.includes("application/json")) {
+        data = response.data;
+      } else if (contentType.includes("text/plain")) {
+        // Parse the plain text data into a JSON object
+        data = JSON.parse(response.data);
+      } else if (contentType.includes("application/xml")) {
+        // Parse the XML data into a JSON object
+        data = parseXmlToJSON(response.data);
+      } else {
+        throw new Error("Unsupported response type");
+      }
+      const mainele = document.getElementById("mainele");
+      mainele.innerHTML = `
+        <table id="datatable">
+          <thead>
+            <tr>
+              ${Object.keys(data[0]).map(key => `
+                <th>
+                  ${key}
+                 
+                  <select class="filter-dropdown">
+                    <option value=""> ${key}</option>
+                    ${Array.from(new Set(data.map(row => row[key]))).map(value => `
+                      <option value="${value}">${value}</option>
+                    `).join("")}
+                  </select>
+                </th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${data.map(row => `
+              <tr>
+                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+      // Initialize DataTable plugin with pagination and column filtering options
+      $(document).ready(function() {
+        const table = $('#datatable').DataTable({
+          "pagingType": "full_numbers",
+          "searching": true,
+          "ordering": true,
+          "order": [[ 0, "asc" ]],
+          "columnDefs": [
+            { "targets": '_all', "searchable": true },
+            { "targets": '_all', "sortable": true }
+          ]
+        });
+        $('.search-input').on('keyup', function () {
+          const columnIdx = $(this).parent().index();
+          const searchValue = $(this).val();
+          table.column(columnIdx).search(searchValue).draw();
+        });
+        $('.filter-dropdown').on('change', function () {
+          const columnIdx = $(this).parent().index();
+          const filterValue = $(this).val();
+          table.column(columnIdx).search(filterValue).draw();
+        });
+      });
+    } else {
+      throw new Error("Response not OK");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+
+
+
+
+
+
+
+
+
+// for indexing   
+      query += `CREATE INDEX idx_district ON datasurveys(DISTRICT);
+                 CREATE INDEX idx_district_party ON datasurveys(DISTRICT, \`WHICH PARTY WILL YOU SUPPORT IF THE ELECTIONS ARE HELD BY NOW?\`);
+                 CREATE INDEX idx_district_factor ON datasurveys(DISTRICT, FACTOR);`;
+    
+query += `CREATE INDEX idx_parliament ON datasurveys(PARLIAMENT);
+             CREATE INDEX idx_parliament_party ON datasurveys(PARLIAMENT, \`WHICH PARTY WILL YOU SUPPORT IF THE ELECTIONS ARE HELD BY NOW?\`);
+             CREATE INDEX idx_parliament_factor ON datasurveys(PARLIAMENT, FACTOR);`;
+
+
+
+
+
+const uploadmuliplefiles = async (req, res, next) => {
+  const message = [];
+  const batchSize = 70000;
+  const filePath = __basedir + "/resources/static/assets/uploads/";
+
+  const occupationMap = {
+    'స్వయం ఉపాధి / సొంత వ్యాపారం': 'Self-Employed/Business',
+    'గృహిణి': 'House-Wife',
+    'రోజు వారి కూలి': 'Daily Wager',
+    'విద్యార్థులు / ఇతరులు': 'Students/Others',
+    'రైతు': 'Farmer',
+    'ఉద్యోగస్తులు': 'Salaried'
+  };
+
+  const preferredMLAMap = {
+    'బాగోలేదు': 'Not Good',
+    'బాగుంది': 'Good',
+    'ఏమి చెప్పలేను': 'Idle'
+  };
+  
+  for (let file of req.files) {
+    try {
+      const path = filePath + file.filename;
+      const rows = reader.read(path, { type: 'file' });
+      const sheetNames = rows.SheetNames;
+  
+      for (let sheetName of sheetNames) {
+        const arr = reader.utils.sheet_to_json(rows.Sheets[sheetName]);
+        const batches = chunkArray(arr, batchSize);
+  
+        for (let batch of batches) {
+          const bulkData = batch.map((res) => {
+            return {
+              DISTRICT: res["DISTRICT"] || null,
+              PARLIAMENT: res.PARLIAMENT  || null,
+              PHASE: res["PHASE"] || null,
+              TIMESTAMP: res["TIMESTAMP"] || null,
+              GENDER: res["GENDER"] || null,
+              ["CONTACT NUMBER"]: res["CONTACT NUMBER"] || null,
+              ["AGE GROUP"]: res["AGE GROUP"] || null,
+              OCCUPATION: occupationMap[res.OCCUPATION] || null,
+              CASTE: res["CASTE"] || null,
+              CONSTITUENCY: res["CONSTITUENCY"] || null,
+              ['MANDAL NAME']: res['MANDAL NAME'] || null,
+              ['GP NAME']: res['GP NAME'] || null,
+              ['CM SATISFACTION']: res['CM SATISFACTION'] || null,
+              ["WHICH PARTY WILL YOU SUPPORT IF THE ELECTIONS ARE HELD BY NOW?"]: res["WHICH PARTY WILL YOU SUPPORT IF THE ELECTIONS ARE HELD BY NOW?"] || null,
+              ['CURRENT MLA SATISFACTION']: res['CURRENT MLA SATISFACTION'] || null,
+              ['PREFERED MLA']: preferredMLAMap[res['PREFERED MLA']] || null,
+              ['FACTOR']: res['FACTOR'] || null,
+            };
+          });
+  
+          await PD_data.bulkCreate(bulkData, {
+            raw: true,
+            benchmark: true,
+            returning: false,
+          });
+
+
+
+
+Here are all the data types available in Sequelize:
+
+Sequelize.STRING: for strings.
+Sequelize.CHAR: for strings with a fixed length.
+Sequelize.TEXT: for long strings.
+Sequelize.INTEGER: for integers.
+Sequelize.BIGINT: for large integers.
+Sequelize.FLOAT: for floating point numbers.
+Sequelize.REAL: for single-precision floating point numbers.
+Sequelize.DOUBLE: for double-precision floating point numbers.
+Sequelize.DECIMAL: for fixed-point numbers.
+Sequelize.DATE: for dates.
+Sequelize.DATEONLY: for dates without time.
+Sequelize.BOOLEAN: for booleans.
+Sequelize.ENUM: for enumerable values.
+Sequelize.ARRAY: for arrays of other data types.
+Sequelize.JSON: for JSON data.
+Sequelize.JSONB: for JSON data stored as binary format.
+Sequelize.UUID: for UUIDs.
+Sequelize.GEOMETRY: for spatial data types.
+Sequelize.GEOGRAPHY: for geographic data types.
+Additionally, Sequelize provides some special types for dealing with associations between models:
+
+Sequelize.INTEGER: for foreign keys.
+Sequelize.ARRAY(Sequelize.INTEGER): for many-to-many associations.
+Note that the availability of some data types depends on the database engine and version you are using. For example, the ENUM data type may not be available in some databases, while the JSONB data type is specific to PostgreSQL. Therefore, it's important to refer to the Sequelize documentation and the database dialect documentation to determine which data types are available for your specific use case.
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Page</title>
+    <style>
+      body {
+        background: linear-gradient(to bottom right, #2c3e50, #dda8d4);
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('political-image-1.jpg');
+        background-repeat: no-repeat;
+        background-size: contain;
+        z-index: -1;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('political-image-2.jpg');
+        background-repeat: no-repeat;
+        background-size: contain;
+        z-index: -1;
+      }
+
+      .political-image-3 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: 300px;
+        background-image: url('political-image-3.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: -1;
+      }
+
+      .political-image-4 {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background-image: url('political-image-4.jpg');
+        background-repeat: no-repeat;
+        background-size: contain;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="political-image-3"></div>
+    <div class="political-image-4"></div>
+    <!-- The rest of your HTML code goes here -->
+  </body>
+</html>
+
+
+
+
+
+// for cm question 
+SELECT
+  GROUP_CONCAT(CONCAT(ROUND(IF(Gender = 'MALE', SUM(IF(\`CM_Satisfaction\` = 'Good', factor, 0)), 0) / SUM(IF(Gender = 'MALE', factor, 0)) * 100), '%')) AS MALE,
+  GROUP_CONCAT(CONCAT(ROUND(IF(Gender = 'FEMALE', SUM(IF(\`CM_Satisfaction\` = 'Good', factor, 0)), 0) / SUM(IF(Gender = 'FEMALE', factor, 0)) * 100), '%')) AS FEMALE,
+  GROUP_CONCAT(CONCAT(ROUND(SUM(IF(\`CM_Satisfaction\` = 'Good', factor, 0)) / SUM(factor) * 100), '%')) AS TOTAL
+FROM 
+  fileddata
+WHERE 
+  Gender IS NOT NULL AND \`CM_Satisfaction\` IS NOT NULL AND factor IS NOT NULL
+  ${district ? `AND District = '${district}'` : ''}
+  ${constituency ? `AND Constituency = '${constituency}'` : ''}
+  ${week ? `AND Week = '${week}'` : ''}
+  
+UNION ALL
+
+SELECT
+  GROUP_CONCAT(CONCAT(ROUND(IF(Gender = 'MALE', SUM(IF(\`CM_Satisfaction\` = 'Not Good', factor, 0)), 0) / SUM(IF(Gender = 'MALE', factor, 0)) * 100), '%')) AS MALE,
+  GROUP_CONCAT(CONCAT(ROUND(IF(Gender = 'FEMALE', SUM(IF(\`CM_Satisfaction\` = 'Not Good', factor, 0)), 0) / SUM(IF(Gender = 'FEMALE', factor, 0)) * 100), '%')) AS FEMALE,
+  GROUP_CONCAT(CONCAT(ROUND(SUM(IF(\`CM_Satisfaction\` = 'Not Good', factor, 0)) / SUM(factor) * 100), '%')) AS TOTAL
+FROM 
+  fileddata
+WHERE 
+  Gender IS NOT NULL AND \`CM_Satisfaction\` IS NOT NULL AND factor IS NOT NULL
+  ${district ? `AND District = '${district}'` : ''}
+  ${constituency ? `AND Constituency = '${constituency}'` : ''}
+  ${week ? `AND Week = '${week}'` : ''}
+
+
+
+
+		const goodSmileyDiv = document.createElement('div');
+		goodSmileyDiv.innerHTML = '&#x1F603; Satisfaction with STATE Government: Good';
+		resultContainer.appendChild(goodSmileyDiv);
+
+		// Create a div for the "Not Good" smiley
+		const notGoodSmileyDiv = document.createElement('div');
+		notGoodSmileyDiv.innerHTML = '&#x1F641; Satisfaction with STATE Government: Not Good';
+		resultContainer.appendChild(notGoodSmileyDiv);

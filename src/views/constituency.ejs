@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" 
+	integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+	 integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+	 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+   <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+	<title>Document</title>
+
+	<style>
+		/* Styling for the header */
+		body {
+  background: linear-gradient(to bottom right, #2c3e50, #ebefce);
+}
+
+		/* Styling for the header */
+		#parentele{
+			display: flex;
+			justify-content: flex-end;
+			border: 2px solid yellow;
+			height: 580px;
+			/* width: 1650px; */
+			
+		}
+		.header {
+			background: linear-gradient(to bottom right, #2c3e50, #dda8d4);
+			color:black;
+			padding: 10px;
+			box-sizing: border-box;
+			text-align: center;
+		}
+
+		/* Styling for the left side navbar */
+		.left-nav {
+			position: fixed;
+			top: 140px;
+			left: 0;
+			width: 35%;
+			height: 80%;
+      background: linear-gradient(to bottom right, #2c3e50, #ebefce);
+			color:black;
+			padding: 35px;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			overflow-y: auto;
+			border: 1px solid blue;
+			border-radius: 1%;
+		}
+
+		/* Styling for the right side navbar */
+
+
+		/* Styling for the headings in side navbars */
+		.left-nav h2
+		 {
+			margin: 0;
+			padding: 10px 0;
+			text-align: center;
+		}
+
+		/* Styling for the links in side navbars */
+		.left-nav ul
+		{
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+		}
+
+		.left-nav li
+		 {
+			width: 100%;
+			margin: 10px 0;
+		}
+
+		.left-nav a {
+			color: black;
+			text-decoration: none;
+			width: 100%;
+			display: block;
+			padding: 10px;
+			box-sizing: border-box;
+			text-align: center;
+			border-radius: 5px;
+			transition: background-color 0.3s ease;
+		}
+
+		.left-nav a:hover
+ {
+			background-color: #555;
+		}
+		#mainele{
+			border:2px solid black;
+			height: 580px;
+			width: 950px;
+
+		}
+		    /* Set table width to 100% */
+			table {
+      width: 100%;
+    }
+
+    /* Add some spacing between table cells */
+    td, th {
+      padding: 8px;
+    }
+
+    /* Add some borders to table cells */
+    td {
+      border: 1px solid #ddd;
+    }
+
+    /* Add a gray background color to the header row */
+    thead tr {
+      background-color: #f1f1f1;
+    }
+
+    /* Add a hover effect to table rows */
+    tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    /* Customize pagination buttons */
+    .paginate_button {
+      background-color: #e7e7e7;
+      border: 1px solid #ddd;
+      color: black;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .paginate_button:hover {
+      background-color: #ddd;
+    }
+
+    .paginate_button.current {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    /* Customize column filter inputs */
+    .dataTables_filter input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .dataTables_filter input:focus {
+      outline: none;
+      box-shadow: 0 0 3px #ddd;
+    }
+	.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 400px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card h2 {
+  margin: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card p {
+  margin: 0 20px 20px;
+  font-size: 16px;
+  text-align: justify;
+}
+
+/* Mobile Styles */
+
+@media only screen and (max-width: 600px) {
+  .card {
+    width: 90%;
+    height: auto;
+  }
+
+  .card img {
+    height: 50%;
+  }
+
+  .card h2 {
+    font-size: 18px;
+  }
+
+  .card p {
+    font-size: 14px;
+  }
+}/* Style the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+/* Style the table headers */
+th {
+  background-color: #f2f2f2;
+  text-align: left;
+  padding: 8px;
+  font-size: 16px;
+}
+
+/* Style the table rows */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+/* Style the table cells */
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+.box {
+  background-color: #f4f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+  width:400px;
+}
+
+.box:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.box h2 {
+  margin: 0;
+}
+.box2 {
+  background-color: #f4f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+  width:800px;
+  margin-left: 450px;
+}
+
+/* section part */
+section {
+  float: left;
+  width: 90%;
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid lightgray;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #666;
+}
+
+select {
+  padding: 5px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  width:100%;
+}
+
+.btn {
+  padding: 10px;
+  margin: 10px;
+  background-color: #16160b;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width:auto;
+}
+
+.btn:hover {
+  background-color: #00d904;
+}
+
+h2 {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid black;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+h4 {
+  padding: 5px;
+  margin: 5px;
+  background-color: lightcyan;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+}
+
+
+
+/* Add media queries for responsive design */
+@media only screen and (max-width: 600px) {
+  /* Adjust the table layout for small screens */
+  table, th, td {
+    display: block;
+    width: 100%;
+  }
+  th, td {
+    text-align: center;
+  }
+}
+
+	</style>
+</head>
+<body>
+	<!-- Header -->
+	<header class="header">
+		<h1>Constituency View</h1>
+	</header>
+    <nav style="margin-left: 20rem;">
+        <button  class="btn btn-warning" id="summary-button">Summary</button>
+        <button id="stateSatisfaction-btn" class="btn btn-warning">state Satisfaction</button>
+        <button class="btn btn-warning"  id="mlaSatisfaction-btn">MLA Satisfaction</button>
+    </nav>
+	<div id="parentele">
+    <div>
+      <nav class="left-nav">
+        <h2 style="border: 1px solid black; padding: 10px; margin: 10px;">Constituency View</h2>
+        <header>
+          <h4 style="background-color:lightcyan; padding: 5px; margin: 5px;">SELECTION</h4>
+        </header>
+        <section style="margin: 5px;">
+          <label for="districtDropdown" style="display: block; margin-bottom: 5px;">DISTRICTS</label>
+          <select name="District" id="districtDropdown" style="padding: 5px; margin-bottom: 5px;">
+            <option value="">Select a district</option>
+          </select>
+        </section>
+        <section style="margin: 5px;">
+          <label for="constituencyDropdown" style="display: block; margin-bottom: 5px;">CONSTITUENCY</label>
+          <select name="R_Constituency" id="constituencyDropdown" style="padding: 5px; margin-bottom: 5px;">
+            <option value="">Select a constituency</option>
+          </select>
+        </section>
+        <section style="margin: 5px;">
+          <label for="weekDropdown" style="display: block; margin-bottom: 5px;">SURVEY DATE</label>
+          <select name="Week" id="weekDropdown" style="padding: 5px; margin-bottom: 5px;">
+            <option value="">Select a survey date</option>
+          </select>
+        </section>
+        <button id="left-nav-btn" type="button" class="btn btn-primary" style="padding: 5px; margin: 5px;">Submit</button>
+      </nav>
+    </div>
+    
+		
+     
+      <div id="mainele">  </div>
+     
+    
+		
+	</div>
+	<script>
+
+
+// Select DOM elements
+const districtDropdown = document.querySelector('#districtDropdown');
+const constituencyDropdown = document.querySelector('#constituencyDropdown');
+const weekDropdown = document.querySelector('#weekDropdown');
+
+
+
+// Event listener for district dropdown
+districtDropdown.addEventListener('change', async function() {
+  const selectedDistrict = this.value;
+  
+  // Make GET request using Axios
+  const response = await axios.get('/constituencies', { params: { district: selectedDistrict } });
+  const constituencies = response.data;
+  
+  // Populate constituency dropdown
+  constituencyDropdown.innerHTML = '<option value="">Select a constituency</option>';
+  constituencies.forEach(constituency => {
+    const option = document.createElement('option');
+    option.value = constituency;
+    option.textContent = constituency;
+    constituencyDropdown.appendChild(option);
+  });
+});
+
+// Event listener for constituency dropdown
+constituencyDropdown.addEventListener('change', async function() {
+  const selectedDistrict = districtDropdown.value;
+  const selectedConstituency = this.value;
+  
+  // Make GET request using Axios
+  const response = await axios.get('/weeks', { params: { district: selectedDistrict, constituency: selectedConstituency } });
+  const weeks = response.data;
+  
+  // Populate week dropdown
+  weekDropdown.innerHTML = '<option value="">Select a survey date</option>';
+  weeks.forEach(week => {
+    const option = document.createElement('option');
+    option.value = week;
+    option.textContent = week;
+    weekDropdown.appendChild(option);
+  });
+});
+
+// Initial GET request for districts
+axios.get('/districts')
+  .then(response => {
+    const districts = response.data;
+    
+    // Populate district dropdown
+    districtDropdown.innerHTML = '<option value="">Select a district</option>';
+    districts.forEach(district => {
+      const option = document.createElement('option');
+      option.value = district;
+      option.textContent = district;
+      districtDropdown.appendChild(option);
+    });
+  })
+  .catch(error => {
+    console.log(error);
+  });
+
+const submitButton = document.querySelector('#left-nav-btn');
+const resultContainer = document.querySelector('#mainele');
+const stateSatisfaction = document.querySelector('#stateSatisfaction-btn');
+stateSatisfaction.addEventListener('click', renderstateSatisfactionTable);
+
+
+async function renderstateSatisfactionTable() {
+  const selectedDistrict = districtDropdown.value;
+  const selectedConstituency = constituencyDropdown.value;
+  const selectedWeek = weekDropdown.value;
+
+  try {
+    // Call the CM_Satisfaction endpoint to get the data
+    const response1 = await axios.post('/CM_Satisfaction', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+    const data1 = response1.data;
+
+    // Build the first table for CM_Satisfaction By Male And Female %
+    const table1 = document.createElement('table');
+    table1.style.borderCollapse = 'collapse';
+    table1.style.width = '100%';
+
+    // Create the header row
+    const headerRow1 = table1.insertRow();
+    for (const key in data1[0]) {
+      const headerCell = headerRow1.insertCell();
+      headerCell.textContent = key;
+      headerCell.style.border = '1px solid black';
+    }
+
+    // Add a row for each result
+    data1.forEach(result => {
+      const row = table1.insertRow();
+      for (const key in result) {
+        const cell = row.insertCell();
+        cell.textContent = result[key];
+        cell.style.border = '1px solid black';
+      }
+    });
+
+    // Add an h1 tag above the table
+    const h1 = document.createElement('h1');
+    h1.textContent = 'Satisfaction with STATE Government?';
+    h1.style.textAlign = 'center';
+    h1.style.padding = '10px';
+    h1.style.backgroundColor = 'lightgray';
+    h1.style.borderRadius = '5px';
+   
+
+// Add the table to the result container
+// resultContainer.appendChild(table1);
+
+    // Call the TopFiveCast endpoint to get the data
+    const response2 = await axios.post('/TopFiveCast', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+    const data2 = response2.data;
+
+    // Build the second table
+    const table2 = document.createElement('table');
+    table2.style.borderCollapse = 'collapse';
+    table2.style.width = '100%';
+
+    // Create the header row
+    const headerRow2 = table2.insertRow();
+    const casteHeaderCell = headerRow2.insertCell();
+    casteHeaderCell.textContent = 'Caste';
+    casteHeaderCell.style.border = '1px solid black';
+    const goodPercentageHeaderCell = headerRow2.insertCell();
+    goodPercentageHeaderCell.textContent = 'Good Percentage';
+    goodPercentageHeaderCell.style.border = '1px solid black';
+    const notGoodPercentageHeaderCell = headerRow2.insertCell();
+    notGoodPercentageHeaderCell.textContent = 'Not Good Percentage';
+    notGoodPercentageHeaderCell.style.border = '1px solid black';
+
+    // Add a row for each caste
+    Object.keys(data2).forEach((caste) => {
+      const row = table2.insertRow();
+      const casteCell = row.insertCell();
+      casteCell.textContent = caste;
+      casteCell.style.border = '1px solid black';
+      const goodPercentageCell = row.insertCell();
+      goodPercentageCell.textContent = data2[caste].good_percentage;
+      goodPercentageCell.style.border = '1px solid black';
+      const notGoodPercentageCell = row.insertCell();
+      notGoodPercentageCell.textContent = data2[caste].not_good_percentage;
+      notGoodPercentageCell.style.border = '1px solid black';
+    });
+
+    // Add the tables to the result container
+    // const resultContainer = document.getElementById('mainele');
+// Create the h1 tag and center it
+const h1_2 = document.createElement('h1');
+h1_2.textContent = 'Top 5 Caste’s Satisfaction with STATE Government?';
+h1_2.style.textAlign = 'center';
+h1_2.style.padding = '10px';
+h1_2.style.backgroundColor = 'lightgray';
+h1_2.style.borderRadius = '5px';
+
+// Add the h1 tag and second table to the result container
+resultContainer.innerHTML = '';
+resultContainer.appendChild(table1);
+resultContainer.insertBefore(h1, table1);
+resultContainer.appendChild(h1_2); // Add the h1 tag before the second table
+resultContainer.appendChild(table2);
+
+
+
+  } catch (error) {
+    console.log(error);
+    const resultContainer = document.getElementById('mainele');
+    resultContainer.innerHTML = '<p>Something went wrong. Please try again.</p>';
+  }
+}
+
+const summaryButton = document.querySelector('#summary-button');
+summaryButton.addEventListener('click', renderSummaryTable);
+
+async function renderSummaryTable() {
+  const selectedDistrict = districtDropdown.value;
+  const selectedConstituency = constituencyDropdown.value;
+  const selectedWeek = weekDropdown.value;
+
+  try {
+    // Call the new SummaryReport endpoint to get the data
+    const response = await axios.post('/api/summary-report', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+
+    const data = response.data;
+
+    if (Array.isArray(data) && data.length > 0) {
+      // Build the table for the summary report
+      const table = document.createElement('table');
+      table.style.borderCollapse = 'collapse';
+      table.style.width = '100%';
+
+      // Create the header row
+      const headerRow = table.insertRow();
+      for (const key in data[0]) {
+        const headerCell = headerRow.insertCell();
+        headerCell.textContent = key;
+        headerCell.style.border = '1px solid black';
+      }
+
+      // Add a row for each result
+      data.forEach(result => {
+        const row = table.insertRow();
+        for (const key in result) {
+          const cell = row.insertCell();
+          cell.textContent = result[key];
+          cell.style.border = '1px solid black';
+        }
+      });
+
+
+
+      // Clear any previous results and add the new table
+      resultContainer.innerHTML = '';
+      resultContainer.appendChild(table);
+
+      // Add an h1 tag above the table
+      const tableHeader = document.createElement('h1');
+      tableHeader.textContent = 'Summary Report';
+      resultContainer.insertBefore(tableHeader, table);
+    } else {
+      console.log('Data is not an array or is empty:', data);
+      resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
+    }
+  } catch (error) {
+    console.error(error);
+    resultContainer.innerHTML = '<p>Something went wrong. Please try again.</p>';
+  }
+}
+
+const MLASatishfactionButton = document.querySelector('#mlaSatisfaction-btn');
+MLASatishfactionButton.addEventListener('click', renderMlasatishfaction);
+async function renderMlasatishfaction() {
+  const selectedDistrict = districtDropdown.value;
+  const selectedConstituency = constituencyDropdown.value;
+  const selectedWeek = weekDropdown.value;
+
+  try {
+    // Call the new SummaryReport endpoint to get the data
+    const response = await axios.post('/Mlasatishfaction', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+
+    const data = response.data;
+
+    if (Array.isArray(data) && data.length > 0) {
+      // Build the table for the summary report
+      const table = document.createElement('table');
+      table.style.borderCollapse = 'collapse';
+      table.style.width = '100%';
+
+      // Create the header row
+      const headerRow = table.insertRow();
+      for (const key in data[0]) {
+        const headerCell = headerRow.insertCell();
+        headerCell.textContent = key;
+        headerCell.style.border = '1px solid black';
+      }
+
+      // Add a row for each result
+      data.forEach(result => {
+        const row = table.insertRow();
+        for (const key in result) {
+          const cell = row.insertCell();
+          cell.textContent = result[key];
+          cell.style.border = '1px solid black';
+        }
+      });
+      
+      // Clear any previous results and add the new table
+      resultContainer.innerHTML = '';
+      resultContainer.appendChild(table);
+
+      // Add an h1 tag above the table
+      const tableHeader = document.createElement('h1');
+      tableHeader.textContent = 'Satisfaction with Sitting MLA?';
+      resultContainer.insertBefore(tableHeader, table);
+
+      // Call the Castsatisfactionmla endpoint to get the data for the stacked bar chart
+      const castResponse = await axios.post('/Castsatisfactionmla', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+      const castData = castResponse.data;
+
+  
+// Transform the data into an array of objects that Highcharts can use
+const chartData = [];
+Object.keys(castData).forEach(caste => {
+  chartData.push({
+    name: caste,
+    data: [Number(castData[caste].good_percentage.slice(0, -1)), Number(castData[caste].not_good_percentage.slice(0, -1))]
+  });
+});
+
+// Create the chart container if it doesn't exist
+let chartContainer = document.getElementById('chart-container');
+if (!chartContainer) {
+  chartContainer = document.createElement('div');
+  chartContainer.id = 'chart-container';
+  resultContainer.appendChild(chartContainer);
+}
+
+// Use Highcharts to create the stacked bar chart
+Highcharts.chart(chartContainer, {
+  chart: {
+    type: 'bar'
+  },
+  title: {
+    text: 'Satisfaction with Sitting MLA by Caste'
+  },
+  xAxis: {
+    categories: chartData.map(caste => caste.name)
+  },
+  yAxis: {
+    title: {
+      text: '%'
+    }
+  },
+  legend: {
+    reversed: true
+  },
+  plotOptions: {
+    series: {
+      stacking: 'normal'
+    }
+  },
+  series: [ {
+    name: 'No',
+    data: chartData.map(caste => Number(caste.data[1])),
+    color: 'red'
+  },{
+    name: 'Yes',
+    data: chartData.map(caste => Number(caste.data[0])),
+    color: 'green'
+  }]
+});
+
+    } else {
+      console.log('Data is not an array or is empty:', data);
+      resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+
+	</script>
+
+
+</body>
+</html>
