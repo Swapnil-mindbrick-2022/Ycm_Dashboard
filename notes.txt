@@ -339,3 +339,62 @@ WHERE
 		const notGoodSmileyDiv = document.createElement('div');
 		notGoodSmileyDiv.innerHTML = '&#x1F641; Satisfaction with STATE Government: Not Good';
 		resultContainer.appendChild(notGoodSmileyDiv);
+
+
+
+
+
+
+
+
+
+
+
+
+const districtAndParliaments = async (req, res, next) => {
+  const { selectedOption, selectedParty } = req.query;
+
+  if (!selectedOption || !selectedParty) {
+    res.status(400).send('Please select both options');
+    return;
+  }
+
+  let districtOrParliament = '';
+  if (selectedOption === 'District') {
+    districtOrParliament = 'fd.`District`';
+  } else if (selectedOption === 'PARLIAMENT') {
+    districtOrParliament = 'fd.`Parliament`';
+  } else {
+    res.status(400).send('Invalid selectedOption');
+    return;
+  }
+
+  const query = `
+    SELECT 
+      tc.Caste,
+      CONCAT(ROUND(SUM(CASE WHEN ${districtOrParliament} = 'ANANTAPUR' THEN fd.factor ELSE 0 END) / SUM(fd.factor) * 100), '%') AS ANANTAPUR,
+      CONCAT(ROUND(SUM(CASE WHEN ${districtOrParliament} = 'PRAKASAM' THEN fd.factor ELSE 0 END) / SUM(fd.factor) * 100), '%') AS PRAKASAM,
+      CONCAT(ROUND(SUM(CASE WHEN ${districtOrParliament} = 'VISAKHAPATNAM' THEN fd.factor ELSE 0 END) / SUM(fd.factor) * 100), '%') AS VISAKHAPATNAM,
+      CONCAT(ROUND(SUM(CASE WHEN ${districtOrParliament} = 'VIZIANAGARAM' THEN fd.factor ELSE 0 END) / SUM(fd.factor) * 100), '%') AS VIZIANAGARAM
+    FROM fileddata fd 
+    JOIN (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND \`Party\` = '${selectedParty}' ORDER BY Caste) tc ON fd.Caste = tc.Caste
+    WHERE fd.\`Party\` = '${selectedParty}' 
+    GROUP BY tc.Caste;
+  `;
+
+  try {
+    const result = await db.sequelize.query(query);
+    const data = result[0].map((item) => {
+      const newObj = { Caste: item.Caste };
+      newObj['ANANTAPUR'] = item.ANANTAPUR;
+      newObj['PRAKASAM'] = item.PRAKASAM;
+      newObj['VISAKHAPATNAM'] = item.VISAKHAPATNAM;
+      newObj['VIZIANAGARAM'] = item.VIZIANAGARAM;
+      return newObj;
+    });
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};

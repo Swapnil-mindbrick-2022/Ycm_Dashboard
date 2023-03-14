@@ -8,6 +8,7 @@ const excelController = require("../controllers/tutorials/excel.controller");
 const userController = require("../controllers/tutorials/user.controller");
 const overviewController = require("../controllers/tutorials/overview.controller")
 const constituencyController = require('../controllers/tutorials/constituency.controller')
+const communityController = require('../controllers/tutorials/community.controller')
 const upload = require("../middlewares/upload");
 
 
@@ -32,6 +33,10 @@ let routes = (app) => {
   router.post('/Castsatisfactionmla',constituencyController.Castsatisfactionmla)
   router.post('/PrefferdCaste',constituencyController.PrefferdCaste)
   router.post('/PrefferMLAcandidate',constituencyController.PrefferMLAcandidate)
+  router.post('/PrefferdMLAByCaste',constituencyController.PrefferdMLAByCaste)
+  router.post('/PrefferdCMByCaste',constituencyController.PrefferdCMByCaste)
+  // router.get('/api/districtAndParliament',communityController.districtAndParliament)
+  router.get('/districtAndParliaments',communityController.districtAndParliaments)
 
 
 
@@ -49,7 +54,9 @@ router.get('/overview',(req,res)=>{
 router.get('/constituency',(req,res)=>{
     res.render('constituency')
 })
-
+router.get('/community',(req,res)=>{
+  res.render('community')
+})
   // router.get('/register',userController.registerpage)
   
 
@@ -69,6 +76,8 @@ router.get('/constituency',(req,res)=>{
   
   app.use("/", router);
 
+  
+
 
 
 
@@ -76,4 +85,5 @@ router.get('/constituency',(req,res)=>{
 
 };
 module.exports = routes;
+
 

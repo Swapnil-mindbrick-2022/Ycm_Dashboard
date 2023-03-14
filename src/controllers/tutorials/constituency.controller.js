@@ -459,7 +459,7 @@ const PrefferdCaste= async(req,res,next)=>{
     });
 
     res.json(output);
-    console.log(output);
+    // console.log(output);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -510,7 +510,7 @@ GROUP BY fileddata.\`MLA Preference\`
     results.forEach((result) => {
       matrix[result["MLA Preference"]] = [result.Good_Percentage, result.Not_Good_Percentage];
     });
-    console.log(matrix);
+    // console.log(matrix);
 
     // Build the JSON object
     const output = {};
@@ -522,12 +522,149 @@ GROUP BY fileddata.\`MLA Preference\`
     });
 
     res.json(output);
-    console.log(output);
+    // console.log(output);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 } 
+
+
+const PrefferdMLAByCaste = async(req,res,next)=>{
+  try {
+    const { district, constituency, week } = req.body;
+
+    const query = `
+    SELECT 
+    fileddata.Caste,
+    CONCAT(
+      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`MLA Preference\` = 'Same MLA' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+      '%'
+    ) AS 'SameMLA',
+    CONCAT(
+      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`MLA Preference\` = ' Other MLA' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+      '%'
+    ) AS 'OtherMLA',
+    CONCAT(
+      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`MLA Preference\` = 'Anyone' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+      '%'
+    ) AS 'Anyone'
+    
+    FROM 
+    fileddata,
+    (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Week = :week ) AS Castes
+    WHERE 
+    fileddata.Caste IS NOT NULL 
+    AND \`MLA Preference\` IS NOT NULL 
+    AND factor IS NOT NULL 
+    AND District = :district
+    AND R_Constituency = :constituency
+    AND Week = :week
+    AND fileddata.Caste = Castes.Caste
+    GROUP BY fileddata.Caste
+    `;
+    const results = await db.sequelize.query(query, { 
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: {
+        district,
+        constituency,
+        week
+      }
+    });
+
+    // Transform the result into a matrix with castes as rows and good/not good percentages as columns
+    const matrix = {};
+    results.forEach((result) => {
+      matrix[result.Caste] = [result.SameMLA, result.OtherMLA, result.Anyone];
+    });
+
+    // Build the JSON object
+    const output = {};
+    Object.keys(matrix).forEach((caste) => {
+      output[caste] = {
+        SameMLA: matrix[caste][0],
+        OtherMLA: matrix[caste][1],
+        Anyone:matrix[caste][2],
+        // Others:matrix[caste][3]
+      };
+    });
+
+    res.json(output);
+    console.log(output);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+
+
+
+}
+
+const PrefferdCMByCaste =async (req,res,next)=>{
+  try {
+    const { district, constituency, week } = req.body;
+
+    const query = `
+    SELECT 
+    fileddata.Caste,
+    CONCAT(
+      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`CM_Satisfaction\` = 'Not Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+      '%'
+    ) AS 'NotGood',
+    CONCAT(
+      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`CM_Satisfaction\` = 'Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+      '%'
+    ) AS 'Good',
+    CONCAT(ROUND((SUM(CASE WHEN fileddata.\`CM_Satisfaction\` NOT IN ('Not Good', 'Good') 
+    THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`Others\`
+    FROM 
+    fileddata,
+    (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Week = :week ) AS Castes
+    WHERE 
+    fileddata.Caste IS NOT NULL 
+    AND \`CM_Satisfaction\` IS NOT NULL 
+    AND factor IS NOT NULL 
+    AND District = :district
+    AND R_Constituency = :constituency
+    AND Week = :week
+    AND fileddata.Caste = Castes.Caste
+    GROUP BY fileddata.Caste
+    `;
+    const results = await db.sequelize.query(query, { 
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: {
+        district,
+        constituency,
+        week
+      }
+    });
+
+    // Transform the result into a matrix with castes as rows and good/not good percentages as columns
+    const matrix = {};
+    results.forEach((result) => {
+      matrix[result.Caste] = [result.Good, result.NotGood];
+    });
+
+    // Build the JSON object
+    const output = {};
+    Object.keys(matrix).forEach((caste) => {
+      output[caste] = {
+        Good: matrix[caste][0],
+        NotGood: matrix[caste][1],
+        // Others:matrix[caste][3]
+      };
+    });
+
+    res.json(output);
+    console.log(output);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  
+
+}
+
 
 
  
@@ -542,6 +679,8 @@ module.exports = {
     Castsatisfactionmla,
     PrefferdCaste,
     PrefferMLAcandidate,
+    PrefferdMLAByCaste,
+    PrefferdCMByCaste
   
   };
   
