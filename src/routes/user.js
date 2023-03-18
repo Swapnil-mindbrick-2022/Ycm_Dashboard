@@ -9,6 +9,7 @@ const userController = require("../controllers/tutorials/user.controller");
 const overviewController = require("../controllers/tutorials/overview.controller")
 const constituencyController = require('../controllers/tutorials/constituency.controller')
 const communityController = require('../controllers/tutorials/community.controller')
+const trendController = require('../controllers/tutorials/trend.controller')
 const upload = require("../middlewares/upload");
 
 
@@ -35,9 +36,11 @@ let routes = (app) => {
   router.post('/PrefferMLAcandidate',constituencyController.PrefferMLAcandidate)
   router.post('/PrefferdMLAByCaste',constituencyController.PrefferdMLAByCaste)
   router.post('/PrefferdCMByCaste',constituencyController.PrefferdCMByCaste)
-  // router.get('/api/districtAndParliament',communityController.districtAndParliament)
+  
   router.get('/districtAndParliaments',communityController.districtAndParliaments)
-
+  router.get('/distrctParliment',trendController.DISTRICT_PARLIMENT)
+  router.post('/TrendReport',trendController.TrendReport)
+ 
 
 
 
@@ -56,6 +59,9 @@ router.get('/constituency',(req,res)=>{
 })
 router.get('/community',(req,res)=>{
   res.render('community')
+})
+router.get('/trend',(req,res)=>{
+  res.render('Trend')
 })
   // router.get('/register',userController.registerpage)
   

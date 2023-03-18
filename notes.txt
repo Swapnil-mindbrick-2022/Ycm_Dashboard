@@ -398,3 +398,93 @@ const districtAndParliaments = async (req, res, next) => {
     res.status(500).send('Internal Server Error');
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const form = document.getElementById('form');
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+  const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
+
+  const response = await fetch('/TrendReport', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ selectedOption, DisParllimnet})
+  });
+
+  const data = await response.json();
+  console.log(data)
+
+  // Create the chart
+  const chartData = {};
+  const parties = ['2019 YSRCP', '2019 TDP', '2019 JSP', '2014 YSRCP', '2014 TDP', '2014 Others', 'TDP', 'JSP', 'YSRCP', 'Not Decided', 'BJP', 'INC'];
+  for (const party of parties) {
+    chartData[party] = [];
+  }
+
+  data.sort((a, b) => a.Constituency.localeCompare(b.Constituency)); // sort data by constituency
+
+  const uniqueConstituencies = [...new Set(data.map(obj => obj.Constituency))];
+  console.log(uniqueConstituencies)
+
+  for (const constituency of uniqueConstituencies) {
+    const constituencyData = {};
+    for (const party of parties) {
+      constituencyData[party] = 0;
+    }
+
+    for (const row of data.filter(obj => obj.Constituency === constituency)) {
+      for (const party of parties) {
+        constituencyData[party] += parseFloat(row[party]);
+      }
+    }
+
+    for (const party of parties) {
+      chartData[party].push({x: constituency, y: constituencyData[party]});
+    }
+  }
+
+  Highcharts.chart('mainele', {
+    chart: {
+      type: 'spline'
+    },
+    title: {
+      text: 'Election Trend Report'
+    },
+    xAxis: {
+      categories: uniqueConstituencies, // use sorted and unique constituency array
+    },
+    yAxis: {
+      title: {
+        text: 'Percentage of Votes (%)'
+      },
+      labels: {
+        format: '{value}%'
+      }
+    },
+    series: Object.keys(chartData).map(key => {
+      return {
+        name: key,
+        data: chartData[key].map(item => ({x: item.x, y: item.y * 100})), // multiply by 100 and format as percentage
+      }
+    })
+  });
+});
