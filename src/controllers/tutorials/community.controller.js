@@ -41,15 +41,15 @@ const districtAndParliaments = async (req, res, next) => {
   const attributes = [
     'Caste',
     ...districts.map(district => [
-      Sequelize.literal(`CONCAT(ROUND(SUM(CASE WHEN ${districtOrParliament} = '${district}' THEN factor ELSE 0 END) / SUM(factor) * 100), '%')`),
+      Sequelize.literal(`COALESCE(CONCAT(ROUND(SUM(CASE WHEN ${districtOrParliament} = '${district}' AND Party = '${selectedParty}' THEN factor ELSE 0 END)/SUM(CASE WHEN ${districtOrParliament} = '${district}' THEN factor ELSE 0 END)*100, 2), '%'), 0)`),
       district
-    ])
+    ]),
   ];
+  
 
   const result = await db.fileddata.findAll({
     attributes,
     where: {
-      Party: selectedParty,
       Caste: {
         [Op.not]: null
       }
@@ -64,16 +64,18 @@ const districtAndParliaments = async (req, res, next) => {
   const output = result.map(item => {
     const newObj = { Caste: item.Caste };
     districts.forEach(district => {
-      newObj[district] = item[district];
+      newObj[`${district} - ${selectedParty}`] = `${item[district]}`;
     });
     return newObj;
   });
 
   res.json(output);
+  // console.log(output)
 };
+
+
 
 module.exports = {
   districtAndParliaments
 };
 
-  

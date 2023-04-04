@@ -3,7 +3,7 @@ const nodeify = require('nodeify');
 const CsvParser = require("json2csv").Parser;
 const db = require("../../models");
 const resultdata = db.resultdata
-const filedata = db.PD_data
+const fileddata = db.fileddata
 
 const _ = require('lodash');
 
@@ -69,33 +69,33 @@ const uploadmuliplefiles = async (req, res, next) => {
               ['Constituency']:res['Constituency'] ||res['CONSTITUENCY']|| null,
               ['Mandal Name']:res['Mandal Name'] ||res['MANDAL NAME']|| null,
               ['Ward Number']:res['Ward Number'] ||res['GP NAME']|| null,
-              ['Have you received any schemes from Government?']:res[' Have you received any schemes from Government?'] || null,
-              ['CM_Satisfaction']:res[' CM_Satisfaction'] ||res[' CM SATISFACTION']|| null,
-              ['Party']:res[' Party'] || null,
-              ["MLA Satisfaction"]:res[" MLA Satisfaction"] || null,
-              ['MLA Preference']:res[' MLA Preference'] || null,
+              ['Have you received any schemes from Government?']:res['Have you received any schemes from Government?'] || null,
+              ['CM_Satisfaction']:res['CM_Satisfaction'] ||res[' CM SATISFACTION']|| null,
+              ['Party']:res['Party'] || null,
+              ["MLA Satisfaction"]:res["MLA Satisfaction"] || null,
+              ['MLA Preference']:res['MLA Preference'] || null,
               ['Factor']:res['Factor'] || null,
               ['Set']:res['Set'] || null,
               ["SET_F"]:res["SET_F"] || null,
               ['Consider']:res['Consider'] || null,
-              ['Known Candidate']:res[' Known Candidate'] || null,
-              ['Better Candidate']:res[' Better Candidate'] || null,
+              ['Known Candidate']:res['Known Candidate'] || null,
+              ['Better Candidate']:res['Better Candidate'] || null,
               ['Known Candidate(TDP)']:res['Known Candidate(TDP)'] || null,
-              ['YSRCP Co-ordinator']:res[' YSRCP Co-ordinator'] || null,
-              ['Tirupathi Bye elections']:res[' Tirupathi Bye elections'] || null,
+              ['YSRCP Co-ordinator']:res['YSRCP Co-ordinator'] || null,
+              ['Tirupathi Bye elections']:res['Tirupathi Bye elections'] || null,
               ["If Not Why.?"]:res["If Not Why.?"] || null,
-              ['YSRCP-Best Candidate']:res[' YSRCP-Best Candidate'] || null,
-              ['TDP+JSP Alliance']:res[' TDP+JSP Alliance'] || null,
+              ['YSRCP-Best Candidate']:res['YSRCP-Best Candidate'] || null,
+              ['TDP+JSP Alliance']:res['TDP+JSP Alliance'] || null,
               ['TDP Full']:res['TDP Full'] || null,
               ['JSP Full']:res['JSP Full'] || null,
               ['TDP Candidate(Alliance)']:res['TDP Candidate(Alliance)'] || null,
               ['JSP Candidate(Alliance)']:res['JSP Candidate(Alliance)'] || null,
               ['TDP Candidate']:res['TDP Candidate'] || null,
               ['JSP Candidate']:res['JSP Candidate'] || null,
-              ["TDP Candidate(Alliance)"]:res[" TDP Candidate(Alliance)"] || null,
+              ["TDP Candidate(Alliance)"]:res["TDP Candidate(Alliance)"] || null,
               ['JSP Candidate(Alliance)']:res['JSP Candidate(Alliance)'] || null,
               ['Week']:res['Week'] || null,
-              ['Schemes Termination']:res[' Schemes Termination'] || null,
+              ['Schemes Termination']:res['Schemes Termination'] || null,
               };
             });
     

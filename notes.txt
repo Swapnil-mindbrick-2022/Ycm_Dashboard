@@ -488,3 +488,435 @@ form.addEventListener('submit', async (event) => {
     })
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const districtAndParliaments = async (req, res, next) => {
+  const { selectedOption, selectedParty } = req.query;
+
+  if (!selectedOption || !selectedParty) {
+    res.status(400).send('Please select both options');
+    return;
+  }
+
+  let districtOrParliament = '';
+
+  if (selectedOption.toUpperCase() === 'DISTRICT') {
+    districtOrParliament = 'District';
+  } else if (selectedOption.toUpperCase() === 'PARLIAMENT') {
+    districtOrParliament = 'Parliament';
+  } else {
+    res.status(400).send('Invalid selectedOption');
+    return;
+  }
+
+  const districts = await db.fileddata.findAll({
+    attributes: [[Sequelize.literal(`DISTINCT(${districtOrParliament})`), 'district']],
+    order: [[Sequelize.col('district'), 'ASC']],
+    raw: true
+  }).then(rows => rows.map(row => row.district));
+
+  const attributes = [
+    'Caste',
+    ...districts.map(district => [
+      Sequelize.literal(`CONCAT(ROUND(SUM(CASE WHEN ${districtOrParliament} = '${district}' THEN factor ELSE 0 END) / SUM(factor) * 100), '%')`),
+      district
+    ])
+  ];
+
+  const result = await db.fileddata.findAll({
+    attributes,
+    where: {
+      Party: selectedParty,
+      Caste: {
+        [Op.not]: null
+      }
+    },
+    group: ['Caste'],
+    order: [
+      ['Caste', 'ASC']
+    ],
+    raw: true
+  });
+
+  const output = result.map(item => {
+    const newObj = { Caste: item.Caste };
+    districts.forEach(district => {
+      newObj[district] = item[district];
+    });
+    return newObj;
+  });
+
+  res.json(output);
+};
+
+
+
+
+
+
+show by avg district 
+
+
+const districtAndParliaments = async (req, res, next) => {
+  const { selectedOption, selectedParty } = req.query;
+
+  if (!selectedOption || !selectedParty) {
+    res.status(400).send('Please select both options');
+    return;
+  }
+
+  let districtOrParliament = '';
+
+  if (selectedOption.toUpperCase() === 'DISTRICT') {
+    districtOrParliament = 'District';
+  } else if (selectedOption.toUpperCase() === 'PARLIAMENT') {
+    districtOrParliament = 'Parliament';
+  } else {
+    res.status(400).send('Invalid selectedOption');
+    return;
+  }
+
+  const districts = await db.fileddata.findAll({
+    attributes: [[Sequelize.literal(`DISTINCT(${districtOrParliament})`), 'district']],
+    order: [[Sequelize.col('district'), 'ASC']],
+    raw: true
+  }).then(rows => rows.map(row => row.district));
+
+  const attributes = [
+    'Caste', 'R_Constituency',
+    
+    ...districts.map(district => [
+      Sequelize.literal(`CONCAT(ROUND(LEAST(AVG(CASE WHEN ${districtOrParliament} = '${district}' THEN factor ELSE 0 END) * 100, 100)), '%')`),
+      district
+    ])
+  ];
+
+  const result = await db.fileddata.findAll({
+    attributes,
+    where: {
+      Party: selectedParty,
+      
+      Caste: {
+        [Op.not]: null
+      }
+    },
+    group: ['Caste'],
+    order: [
+      ['Caste', 'ASC']
+    ],
+    raw: true
+  });
+
+  const output = result.map(item => {
+    const newObj = { Caste: item.Caste };
+    districts.forEach(district => {
+      newObj[district] = item[district];
+    });
+    return newObj;
+  });
+
+  res.json(output);
+};
+
+
+
+
+
+
+const districtAndParliaments = async (req, res, next) => {
+  const { selectedOption, selectedParty } = req.query;
+
+  if (!selectedOption || !selectedParty) {
+    res.status(400).send('Please select both options');
+    return;
+  }
+
+  let districtOrParliament = '';
+
+  if (selectedOption.toUpperCase() === 'DISTRICT') {
+    districtOrParliament = 'District';
+  } else if (selectedOption.toUpperCase() === 'PARLIAMENT') {
+    districtOrParliament = 'Parliament';
+  } else {
+    res.status(400).send('Invalid selectedOption');
+    return;
+  }
+
+  const districts = await db.fileddata.findAll({
+    attributes: [[Sequelize.literal(`DISTINCT(${districtOrParliament})`), 'district']],
+    order: [[Sequelize.col('district'), 'ASC']],
+    raw: true
+  }).then(rows => rows.map(row => row.district));
+
+  const attributes = [
+    'Caste', 'R_Constituency',
+    
+    ...districts.map(district => [
+      Sequelize.literal(`CONCAT(ROUND(LEAST(AVG(CASE WHEN ${districtOrParliament} = '${district}' THEN factor ELSE 0 END) * 100, 100)), '%')`),
+      district
+    ]),
+
+    Sequelize.literal(`CONCAT(ROUND(LEAST(AVG(CASE WHEN Party = '${selectedParty}' THEN factor ELSE 0 END) * 100, 100)), '%')`),
+  ];
+
+  const result = await db.fileddata.findAll({
+    attributes,
+    where: {
+      Caste: {
+        [Op.not]: null
+      }
+    },
+    group: ['Caste'],
+    order: [
+      ['Caste', 'ASC']
+    ],
+    raw: true
+  });
+
+  const output = result.map(item => {
+    const newObj = { Caste: item.Caste };
+    districts.forEach(district => {
+      newObj[district] = item[district];
+    });
+    newObj[selectedParty] = item[`CONCAT(ROUND(LEAST(AVG(CASE WHEN Party = '${selectedParty}' THEN factor ELSE 0 END) * 100, 100)), '%')`];
+    return newObj;
+  });
+
+  res.json(output);
+  console.log(output)
+};
+
+
+
+
+
+
+
+
+
+
+const districtAndParliaments = async (req, res, next) => {
+  const { selectedOption, selectedParty } = req.query;
+
+  if (!selectedOption || !selectedParty) {
+    res.status(400).send('Please select both options');
+    return;
+  }
+
+  let districtOrParliament = '';
+
+  if (selectedOption.toUpperCase() === 'DISTRICT') {
+    districtOrParliament = 'District';
+  } else if (selectedOption.toUpperCase() === 'PARLIAMENT') {
+    districtOrParliament = 'Parliament';
+  } else {
+    res.status(400).send('Invalid selectedOption');
+    return;
+  }
+
+  const districts = await db.fileddata.findAll({
+    attributes: [[Sequelize.literal(`DISTINCT(${districtOrParliament})`), 'district']],
+    order: [[Sequelize.col('district'), 'ASC']],
+    raw: true
+  }).then(rows => rows.map(row => row.district));
+
+  const attributes = [
+    'Caste',
+    
+    ...districts.map(district => [
+      Sequelize.literal(`CONCAT(ROUND(LEAST(AVG(CASE WHEN ${districtOrParliament} = '${district}' AND Caste IS NOT NULL AND Party = '${selectedParty}' THEN factor ELSE 0 END) * 100, 100)), '%')`),
+      district
+    ]),
+
+    Sequelize.literal(`CONCAT(ROUND(LEAST(AVG(CASE WHEN Caste IS NOT NULL AND Party = '${selectedParty}' THEN factor ELSE 0 END) * 100, 100)), '%')`),
+  ];
+
+  const result = await db.fileddata.findAll({
+    attributes,
+    where: {
+      Caste: {
+        [Op.not]: null
+      }
+    },
+    group: ['Caste'],
+    order: [
+      ['Caste', 'ASC']
+    ],
+    raw: true
+  });
+
+  const output = result.map(item => {
+    const newObj = { Caste: item.Caste };
+    districts.forEach(district => {
+      newObj[district] = `${item[district]}`;
+    });
+    newObj[selectedParty] = `${item[`CONCAT(ROUND(LEAST(AVG(CASE WHEN ${districtOrParliament} IS NOT NULL AND Caste IS NOT NULL AND Party = '${selectedParty}' THEN factor ELSE 0 END) * 100, 100)), '%')`]}`;
+    return newObj;
+  });
+
+  res.json(output);
+  console.log(output)
+};
+
+
+
+
+
+
+const districtAndParliaments = async (req, res, next) => {
+  const { selectedOption, selectedParty } = req.query;
+
+  if (!selectedOption || !selectedParty) {
+    res.status(400).send('Please select both options');
+    return;
+  }
+
+  let districtOrParliament = '';
+
+  if (selectedOption.toUpperCase() === 'DISTRICT') {
+    districtOrParliament = 'District';
+  } else if (selectedOption.toUpperCase() === 'PARLIAMENT') {
+    districtOrParliament = 'Parliament';
+  } else {
+    res.status(400).send('Invalid selectedOption');
+    return;
+  }
+
+  const districts = await db.fileddata.findAll({
+    attributes: [[Sequelize.literal(`DISTINCT(${districtOrParliament})`), 'district']],
+    order: [[Sequelize.col('district'), 'ASC']],
+    raw: true
+  }).then(rows => rows.map(row => row.district));
+
+  const attributes = [
+    'Caste',
+    
+    ...districts.map(district => [
+      Sequelize.literal(`CONCAT(ROUND(LEAST(AVG(CASE WHEN ${districtOrParliament} = '${district}' AND Caste IS NOT NULL AND Party = '${selectedParty}' THEN factor ELSE 0 END) * 100, 100)), '%')`),
+      district
+    ]),
+
+    Sequelize.literal(`CONCAT(ROUND(LEAST(AVG(CASE WHEN Caste IS NOT NULL AND Party = '${selectedParty}' THEN factor ELSE 0 END) * 100, 100)), '%')`),
+  ];
+
+  const result = await db.fileddata.findAll({
+    attributes,
+    where: {
+      Caste: {
+        [Op.not]: null
+      }
+    },
+    group: ['Caste'],
+    order: [
+      ['Caste', 'ASC']
+    ],
+    raw: true
+  });
+
+  const output = result.map(item => {
+    const newObj = { Caste: item.Caste };
+    districts.forEach(district => {
+      newObj[district] = `${item[district]}`;
+    });
+    // newObj[selectedParty] = `${item[`ROUND(LEAST(AVG(CASE WHEN Caste IS NOT NULL AND Party = '${selectedParty}' THEN factor ELSE 0 END) * 100, 100))`]}`;
+    return newObj;
+  });
+
+  res.json(output);
+  console.log(output)
+};
+
+
+
+
+
+/// Comunitu page with indexing
+
+const districtAndParliaments = async (req, res, next) => {
+  const { selectedOption, selectedParty } = req.query;
+
+  if (!selectedOption || !selectedParty) {
+    res.status(400).send('Please select both options');
+    return;
+  }
+
+  let districtOrParliament = '';
+
+  if (selectedOption.toUpperCase() === 'DISTRICT') {
+    districtOrParliament = 'District';
+  } else if (selectedOption.toUpperCase() === 'PARLIAMENT') {
+    districtOrParliament = 'Parliament';
+  } else {
+    res.status(400).send('Invalid selectedOption');
+    return;
+  }
+
+  const districts = await db.fileddata.findAll({
+    attributes: [[Sequelize.literal(`DISTINCT(${districtOrParliament})`), 'district']],
+    order: [[Sequelize.col('district'), 'ASC']],
+    raw: true
+  }).then(rows => rows.map(row => row.district));
+
+  const attributes = [
+    'Caste',
+    ...districts.map(district => [
+      Sequelize.literal(`COALESCE(CONCAT(ROUND(SUM(CASE WHEN ${districtOrParliament} = '${district}' AND Party = '${selectedParty}' THEN factor ELSE 0 END)/SUM(CASE WHEN ${districtOrParliament} = '${district}' THEN factor ELSE 0 END)*100, 2), '%'), 0)`),
+      district
+    ]),
+  ];
+
+  const result = await db.fileddata.findAll({
+    attributes,
+    where: {
+      Caste: {
+        [Op.not]: null
+      },
+      Party: selectedParty,
+      [districtOrParliament]: {
+        [Op.not]: null
+      }
+    },
+    group: ['Caste'],
+    order: [
+      ['Caste', 'ASC']
+    ],
+    raw: true,
+    // Add the following option to use the suggested index
+    indexHints: [{ type: QueryTypes.INDEX, values: ['idx_party_district_parliament_caste'] }]
+  });
+
+  const output = result.map(item => {
+    const newObj = { Caste: item.Caste };
+    districts.forEach(district => {
+      newObj[`${district} - ${selectedParty}`] = `${item[district]}`;
+    });
+    return newObj;
+  });
+
+  res.json(output);
+  // console.log(output)
+};

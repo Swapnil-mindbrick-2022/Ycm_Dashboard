@@ -32,6 +32,7 @@ db.users=require("./user.model.js")(sequelize, Sequelize)
 db.fileddata= require('./PD_data')(sequelize,Sequelize) // 
 db.resultdata= require('./result.model.js')(sequelize,Sequelize) 
 db.uploadhistory=require("./uploadhistory.model.js")(sequelize, Sequelize)
+db.Trenddata=require('./trend.model.js')(sequelize, Sequelize)
 
 
 db.sequelize.sync({ force: false })

@@ -29,7 +29,7 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
-	<title>Document</title>
+	<title>Treds</title>
 
 	<style>
  body {
@@ -293,6 +293,10 @@ td {
   margin-left: 450px;
 }
 
+/*  for chart  */
+
+
+
 
 /* Add media queries for responsive design */
 @media only screen and (max-width: 600px) {
@@ -390,7 +394,10 @@ td {
               </form>
             </nav>
           </div>
-              <div id="mainele"></div>
+          <figure class="highcharts-figure">
+            <div id="mainele"></div>
+            
+        </figure>
 			
 		
 
@@ -398,7 +405,7 @@ td {
 <script>
 
 
-// Attach an event listener to the submit button
+
 // Attach an event listener to the radio inputs
 const radioInputs = document.querySelectorAll('input[name="selectedOption"]');
 radioInputs.forEach((radioInput) => {
@@ -443,75 +450,123 @@ radioInputs.forEach((radioInput) => {
 const form = document.getElementById('form');
 
 form.addEventListener('submit', async (event) => {
-event.preventDefault();
+    event.preventDefault();
 
-const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
-const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
+    try {
+        const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
 
-const response = await fetch('/TrendReport', {
-method: 'POST',
-headers: {
-'Content-Type': 'application/json'
-},
-body: JSON.stringify({ selectedOption, DisParllimnet })
-});
+        const response = await fetch('/TrendReport', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ selectedOption, DisParllimnet })
+        });
 
-const data = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-Highcharts.chart('mainele', {
-chart: {
-type: 'spline'
-},
-title: {
-text: 'Trend Report'
-},
-xAxis: {
-categories: data.map(item => item.Constituency)
-},
-yAxis: {
-title: {
-text: 'Percentage'
-}
-},
-series: [{
-name: '2019 YSRCP',
-data: data.map(item => parseFloat(item['2019 YSRCP'].slice(0, -1)))
-}, {
-name: '2019 TDP',
-data: data.map(item => parseFloat(item['2019 TDP'].slice(0, -1)))
-}, {
-name: '2019 JSP',
-data: data.map(item => parseFloat(item['2019 JSP'].slice(0, -1)))
-}, {
-name: '2014 YSRCP',
-data: data.map(item => parseFloat(item['2014 YSRCP'].slice(0, -1)))
-}, {
-name: '2014 TDP',
-data: data.map(item => parseFloat(item['2014 TDP'].slice(0, -1)))
-}, {
-name: '2014 Others',
-data: data.map(item => parseFloat(item['2014 Others'].slice(0, -1)))
-}
-, {
-name: 'TDP',
-data: data.map(item => parseFloat(item['TDP'].toString().slice(0, -1)))
-}, {
-name: 'JSP',
-data: data.map(item => parseFloat(item['JSP'].toString().slice(0, -1)))
-}, {
-name: 'YSRCP',
-data: data.map(item => parseFloat(item['YSRCP'].toString().slice(0, -1)))
-}, {
-name: 'Not Decided',
-data: data.map(item => parseFloat(item['Not Decided'].toString().slice(0, -1)))
-}, {
-name: 'BJP',
-data: data.map(item => parseFloat(item['BJP'].toString().slice(0, -1)))
-    },  {
-name: 'INC',
-data: data.map(item => parseFloat(item['INC'].toString().slice(0, -1)))
-    }, ]
-});
+        const data = await response.json();
+
+        Highcharts.chart('mainele', {
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'Trend Report'
+            },
+            xAxis: {
+                categories: data.map(item => item['R_Constituency']),
+                title: {
+                    text: 'Constituency'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Party Percentage'
+                }
+            },
+            tooltip: {
+        valueSuffix: '%',
+        stickOnContact: true
+    },
+
+    plotOptions: {
+        series: {
+            point: {
+                events: {
+                    click: function () {
+                        window.location.href = this.series.options.website;
+                    }
+                }
+            },
+            cursor: 'pointer'
+        }
+    },
+
+
+            series: [{
+                name: '2019 YSRCP',
+                data: data.map(item => parseFloat(item['2019 YSRCP'].slice(0, -1)))
+            }, {
+                name: '2019 TDP',
+                data: data.map(item => parseFloat(item['2019 TDP'].slice(0, -1)))
+            }, {
+                name: '2019 JSP',
+                data: data.map(item => parseFloat(item['2019 JSP'].slice(0, -1)))
+            }, {
+                name: '2019_OTHERS',
+                data: data.map(item => parseFloat(item['2019_OTHERS'].slice(0, -1)))
+            }
+                , {
+                    name: 'TDP',
+                    data: data.map(item => parseFloat(item['TDP'].toString().slice(0, -1)))
+                }, {
+                    name: 'JSP',
+                    data: data.map(item => parseFloat(item['JSP'].toString().slice(0, -1)))
+                }, {
+                    name: 'YSRCP',
+                    data: data.map(item => parseFloat(item['YSRCP'].toString().slice(0, -1)))
+                }, {
+                    name: 'Not Decided',
+                    data: data.map(item => parseFloat(item['Not Decided'].toString().slice(0, -1)))
+                }, {
+                    name: 'BJP',
+                    data: data.map(item => parseFloat(item['BJP'].toString().slice(0, -1)))
+                },  {
+                    name: 'INC',
+                    data: data.map(item => parseFloat(item['INC'].toString().slice(0, -1)))
+                }, ]
+                ,    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 550
+            },
+            chartOptions: {
+                chart: {
+                    spacingLeft: 3,
+                    spacingRight: 3
+                },
+                legend: {
+                    itemWidth: 150
+                },
+                xAxis: {
+                  categories: data.map(item => item['R_Constituency']),
+                    title: 'Consticuency '
+                },
+                yAxis: {
+                    visible: false
+                }
+            }
+        }]
+    }
+        });
+
+    } catch (error) {
+        console.error('Error: ', error);
+    }
 });
 
 
