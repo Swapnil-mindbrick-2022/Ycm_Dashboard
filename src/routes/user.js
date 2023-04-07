@@ -24,7 +24,7 @@ let routes = (app) => {
   // router.get("/getalldata",userauth, excelController.getTutorials);
   // router.get("/download",excelController.download);
   router.post("/register", userController().postRegister);  // post to register user
-  router.post('/login',passport.authenticate('local',{successRedirect:'/data',failureRedirect:'/'}));
+  router.post('/login',passport.authenticate('local',{successRedirect:'/homepage',failureRedirect:'/'}));
   router.get('/logout',userController().logout)
   router.get('/districts',constituencyController.DISTRICT)
   router.get('/constituencies',constituencyController.CONSTITUENCY)
