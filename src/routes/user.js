@@ -17,7 +17,9 @@ const upload = require("../middlewares/upload");
 let routes = (app) => {
   
   router.post('/multipleupload',upload.array('files'),excelController.uploadmuliplefiles)
-  router.get('/DPC_Data',overviewController.DPC_data)
+  router.post('/DPC_Data',overviewController.DPC_data)
+  router.get('/parliament',overviewController.Parliament)//axios call for parliament based on districts----
+  router.get('/caste',overviewController.getCaste) //axios call for caste based on districts and parliament---
 
   // router.get("/getalldata",userauth, excelController.getTutorials);
   // router.get("/download",excelController.download);

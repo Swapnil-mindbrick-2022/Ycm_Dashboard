@@ -26,7 +26,7 @@
 	<title>Document</title>
 
 	<style>
- body {
+    body {
   background: linear-gradient(to bottom right, #2c3e50, #ebefce);
 }
 
@@ -52,8 +52,8 @@
 			position: fixed;
 			top: 140px;
 			left: 0;
-			width: 35%;
-			height: 78%;
+			width: 30%;
+			height: 50%;
 			background-color:white;
 			color:black;
 			padding: 20px;
@@ -64,7 +64,7 @@
 			align-items: center;
 			overflow-y: auto;
 			border: 1px solid blue;
-			/* border-radius: 10%; */
+			border-radius: 10%;
 		}
 
 		/* Styling for the right side navbar */
@@ -329,15 +329,13 @@ td {
 }
 
 
-
-
 	</style>
 </head>
 <body>
 	<!-- Header -->
 	<header class="header">
 		<div class="box2">
-			<h1>Community</h1>
+			<h1>Overview</h1>
 		  </div>
 	</header>
 	<nav style="margin-left: 70rem;" class="top-nav ">
@@ -368,120 +366,96 @@ td {
 		<div>
 		  <nav class="left-nav">
 			<div class="box">
-				<h2>Community</h2>
+				<h2>Overview</h2>
 			  </div>
 			<header>
 			  <h4>SELECTION</h4>
 			</header>
-            <form id="form" method="get" action="/districtAndParliaments">
-
-                <ul>
-                  <span>See By</span>
-                  <li><input type="radio" name="selectedOption" value='District'>DISTRICTS</li>
-                  <li><input type="radio" name="selectedOption" value="PARLIAMENT">PARLIAMENT</li>
-                
-              
-                
-                  <span>SEE % OF</span>
-                  <li><input type="radio" name="selectedParty" value="TDP">TDP</li>
-                  <li><input type="radio" name="selectedParty" value="JSP">JSP</li>
-                  <li><input type="radio" name="selectedParty" value="YSRCP">YSRCP</li>
-                </ul>
-              
-                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                
-              </form>
-            </nav>
-          </div>
-              <div id="mainele">
-                <!-- <div id="loader" style="display: none;">
-                  Loading...
-                </div> -->
-
-              </div>
-              
-              
+			<form id="form" method="get" action="/DPC_Data">
+			  <ul>
+				<span>See By</span>
+				<li><input type="radio" name="selectedOption" value="District">DISTRICTS</li>
+				<li><input type="radio" name="selectedOption" value="PARLIAMENT">PARLIAMENT</li>
+				<li><input type="radio" name="selectedOption" value="Caste">CASTE</li>
+			  </ul>
+			  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+			</form>
+		  </nav>
+		</div>
+		<div id="mainele"></div>
+    
 			
 		
 
 
 <script>
-
-
-// Attach an event listener to the submit button
-document.querySelector('#form').addEventListener('submit', async (event) => {
+const form = document.getElementById("form");
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
-   // Show the loader
+  
   // Add a loader to the page
   const loader = document.createElement("div");
   loader.classList.add("loader");
   loader.style.position = "fixed";
-  loader.style.top = "50%";
-  loader.style.left = "60%";
+  loader.style.top = "25%";
+  loader.style.left = "50%";
   loader.style.transform = "translate(-50%, -50%)";
-  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+  loader.style.border = "4px solid rgba(0, 0, 0, 0.1)";
   loader.style.borderTopColor = "#3498db";
-  loader.style.borderRadius = "75%";
-  loader.style.width = "250px";
-  loader.style.height = "250px";
+  loader.style.borderRadius = "50%";
+  loader.style.width = "500px";
+  loader.style.height = "500px";
   loader.style.animation = "spin 1s ease-in-out infinite";
-  const text = document.createElement("span");
-text.textContent = "Loading data";
-text.style.position = "absolute";
-text.style.top = "50%";
-text.style.left = "50%";
-text.style.transform = "translate(-50%, -50%)";
-text.style.fontSize = "20px";
-text.style.fontWeight = "bold";
-loader.appendChild(text);
 
   document.body.appendChild(loader);
 
-  const selectedOption = document.querySelector('input[name="selectedOption"]:checked');
-  const selectedParty = document.querySelector('input[name="selectedParty"]:checked');
-  
 
-  if (!selectedOption || !selectedParty) {
-    console.error('Please select both options');
-    return;
-  }
-
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+  const url = `/DPC_Data?selectedOption=${selectedOption}`;
   try {
-    const { data } = await axios.get(`/districtAndParliaments?selectedOption=${selectedOption.value}&selectedParty=${selectedParty.value}`);
-    if (data && data.length > 0) {
-      const tableHeaders = Object.keys(data[0]).map((header, index) => `
-        <th>
-          ${header}
-          ${index === 0 ? `
-            <select class="filter-dropdown">
-              <option value=""> ${header}</option>
-              ${Array.from(new Set(data.map(row => row[header]))).map(value => `
-                <option value="${value}">${value}</option>
-              `).join("")}
-            </select>` : ''}
-        </th>
-      `).join("");
-
-      const tableRows = data.map(row => `
-        <tr>
-          ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
-        </tr>
-      `).join("");
-
+    const response = await axios.get(url);
+    if (response.status === 200) {
+      let data = [];
+      const contentType = response.headers["content-type"];
+      if (contentType.includes("application/json")) {
+        data = response.data;
+      } else if (contentType.includes("text/plain")) {
+        // Parse the plain text data into a JSON object
+        data = JSON.parse(response.data);
+      } else if (contentType.includes("application/xml")) {
+        // Parse the XML data into a JSON object
+        data = parseXmlToJSON(response.data);
+      } else {
+        throw new Error("Unsupported response type");
+      }
       const mainele = document.getElementById("mainele");
       mainele.innerHTML = `
         <table id="datatable">
-          <thead>
-            <tr>
-              ${tableHeaders}
-            </tr>
-          </thead>
+			<thead>
+				<tr>
+					${Object.keys(data[0]).map((key, index) => `
+					<th>
+						${key}
+						${index === 0 ? `
+						<select class="filter-dropdown">
+							<option value=""> ${key}</option>
+							${Array.from(new Set(data.map(row => row[key]))).map(value => `
+							<option value="${value}">${value}</option>
+							`).join("")}
+						</select>` : ''}
+					</th>`).join("")}
+				</tr>
+				</thead>
+
           <tbody>
-            ${tableRows}
+            ${data.map(row => `
+              <tr>
+                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+              </tr>
+            `).join("")}
           </tbody>
         </table>
       `;
-
       // Initialize DataTable plugin with pagination and column filtering options
       $(document).ready(function() {
         const table = $('#datatable').DataTable({
@@ -506,17 +480,15 @@ loader.appendChild(text);
         });
       });
     } else {
-      console.error('No data found');
+      throw new Error("Response not OK");
     }
   } catch (error) {
     console.error(error);
-  }
-  finally {
+  } finally {
     // Remove the loader from the page
     document.body.removeChild(loader);
   }
 });
-
 
 
 </script>

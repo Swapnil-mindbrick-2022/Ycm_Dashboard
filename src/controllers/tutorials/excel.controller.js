@@ -64,7 +64,7 @@ const uploadmuliplefiles = async (req, res, next) => {
               ['Age Group']:res['Age Group'] ||res['AGE GROUP']|| null,
               ['Occupation']:res['Occupation'] ||res['OCCUPATION']||null,
               ['Caste Category']:res['Caste Category'] || null,
-              ["R.Caste"]:res["R.Caste"] || null,
+              ["RCaste"]:res["R.Caste"] || null,
               ["Caste"]:res["Caste"] || null,
               ['Constituency']:res['Constituency'] ||res['CONSTITUENCY']|| null,
               ['Mandal Name']:res['Mandal Name'] ||res['MANDAL NAME']|| null,

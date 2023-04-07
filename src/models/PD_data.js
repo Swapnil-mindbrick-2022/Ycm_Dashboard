@@ -66,7 +66,7 @@ module.exports = (sequelize, Sequelize) => {
     ['Caste Category']: {
       type: Sequelize.STRING
     },
-    ["R.Caste"]:{
+    ['RCaste']:{
       type: Sequelize.STRING
     },
     ["Caste"]:{

@@ -920,3 +920,89 @@ const districtAndParliaments = async (req, res, next) => {
   res.json(output);
   // console.log(output)
 };
+
+
+
+
+const form = document.getElementById("form");
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+  const url = `/DPC_Data?selectedOption=${selectedOption}`;
+  try {
+    loadingWrapper.style.display = "block"; // Show the loader
+    const response = await axios.get(url);
+    if (response.status === 200) {
+      let data = [];
+      const contentType = response.headers["content-type"];
+      if (contentType.includes("application/json")) {
+        data = response.data;
+      } else if (contentType.includes("text/plain")) {
+        // Parse the plain text data into a JSON object
+        data = JSON.parse(response.data);
+      } else if (contentType.includes("application/xml")) {
+        // Parse the XML data into a JSON object
+        data = parseXmlToJSON(response.data);
+      } else {
+        throw new Error("Unsupported response type");
+      }
+      const mainele = document.getElementById("mainele");
+      mainele.innerHTML = `
+        <table id="datatable">
+            <thead>
+              <tr>
+                ${Object.keys(data[0]).map((key, index) => `
+                <th>
+                    ${key}
+                    ${index === 0 ? `
+                    <select class="filter-dropdown">
+                        <option value=""> ${key}</option>
+                        ${Array.from(new Set(data.map(row => row[key]))).map(value => `
+                        <option value="${value}">${value}</option>
+                        `).join("")}
+                    </select>` : ''}
+                </th>`).join("")}
+              </tr>
+              </thead>
+
+          <tbody>
+            ${data.map(row => `
+              <tr>
+                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+      // Initialize DataTable plugin with pagination and column filtering options
+      $(document).ready(function() {
+        const table = $('#datatable').DataTable({
+          "pagingType": "full_numbers",
+          "searching": true,
+          "ordering": true,
+          "order": [[ 0, "asc" ]],
+          "columnDefs": [
+            { "targets": '_all', "searchable": true },
+            { "targets": '_all', "sortable": true }
+          ]
+        });
+        $('.search-input').on('keyup', function () {
+          const columnIdx = $(this).parent().index();
+          const searchValue = $(this).val();
+          table.column(columnIdx).search(searchValue).draw();
+        });
+        $('.filter-dropdown').on('change', function () {
+          const columnIdx = $(this).parent().index();
+          const filterValue = $(this).val();
+          table.column(columnIdx).search(filterValue).draw();
+        });
+      });
+    } else {
+      throw new Error("Response not OK");
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loadingWrapper.style.display = "none";
+  }
+}); 
