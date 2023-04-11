@@ -1006,3 +1006,44 @@ form.addEventListener("submit", async (event) => {
     loadingWrapper.style.display = "none";
   }
 }); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    query = `SELECT 
+        District, 
+        CONCAT(
+            ROUND((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100, 2), '%'
+        ) AS YSRCP,
+        CONCAT(
+            ROUND((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100, 2), '%'
+        ) AS TDP,
+        CONCAT(
+            ROUND(((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100, 2), '%'
+        ) AS JSP_BJP,
+        CONCAT(
+            ROUND((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100, 2), '%'
+        ) AS OTHER
+    FROM fileddata
+    WHERE Party IS NOT NULL
+    ${Gender ? `AND Gender = '${Gender}'` : ''}
+    ${Caste ? `AND Caste = '${Caste}'` : ''}
+    ${age ? `AND \`Age Group\` = '${age}'` : ''}
+    ${District ? `AND District = '${District}'` : ''}
+    ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+    GROUP BY District;
+    `;
