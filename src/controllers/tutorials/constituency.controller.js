@@ -58,15 +58,16 @@ const SURVEYDATE = async(req,res,next)=>{
   
     try {
       const results = await db.sequelize.query(
-        'SELECT DISTINCT Week FROM fileddata WHERE District = :district AND R_Constituency = :constituency',
+        'SELECT DISTINCT Date FROM fileddata WHERE District = :district AND R_Constituency = :constituency',
         {
           replacements: { district: selectedDistrict, constituency: selectedConstituency },
           type: sequelize.QueryTypes.SELECT
         }
       );
   
-      const weeks = results.map(result => result.Week);
+      const weeks = results.map(result => result.Date);
       res.json(weeks);
+      console.log(weeks)
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
@@ -77,7 +78,7 @@ const SURVEYDATE = async(req,res,next)=>{
 
 
 const CM_Satisfaction = async (req, res) => {
-  const { district, constituency, week } = req.body;
+  const { district, constituency, Date } = req.body;
 
   try {
     const result = await db.sequelize.query(
@@ -91,7 +92,7 @@ const CM_Satisfaction = async (req, res) => {
         Gender IS NOT NULL AND \`CM_Satisfaction\` IS NOT NULL AND factor IS NOT NULL
         ${district ? `AND District = '${district}'` : ''}
         ${constituency ? `AND R_Constituency = '${constituency}'` : ''}
-        ${week ? `AND Week = '${week}'` : ''}
+        ${Date ? `AND Date = '${Date}'` : ''}
       
       UNION ALL
       
@@ -105,7 +106,7 @@ const CM_Satisfaction = async (req, res) => {
         Gender IS NOT NULL AND \`CM_Satisfaction\` IS NOT NULL AND factor IS NOT NULL
         ${district ? `AND District = '${district}'` : ''}
         ${constituency ? `AND R_Constituency = '${constituency}'` : ''}
-        ${week ? `AND Week = '${week}'` : ''}
+        ${Date ? `AND Date = '${Date}'` : ''}
     `, { type: sequelize.QueryTypes.SELECT });
 
     // res.json([result]); // wrap result in an array
@@ -118,7 +119,7 @@ const CM_Satisfaction = async (req, res) => {
 
 const TopFiveCast= async(req,res,next)=>{
   try {
-    const { district, constituency, week } = req.body;
+    const { district, constituency, Date } = req.body;
 
     const query = `
       SELECT 
@@ -133,14 +134,14 @@ const TopFiveCast= async(req,res,next)=>{
         ) AS Not_Good_Percentage
       FROM 
         fileddata,
-        (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Week = :week LIMIT 5) AS Castes
+        (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date LIMIT 5) AS Castes
       WHERE 
         fileddata.Caste IS NOT NULL 
         AND CM_Satisfaction IS NOT NULL 
         AND factor IS NOT NULL 
         AND District = :district
         AND R_Constituency = :constituency
-        AND Week = :week
+        AND Date = :Date
         AND fileddata.Caste = Castes.Caste
       GROUP BY fileddata.Caste
       ORDER BY Good_Percentage DESC
@@ -150,7 +151,7 @@ const TopFiveCast= async(req,res,next)=>{
       replacements: {
         district,
         constituency,
-        week
+        Date
       }
     });
 
@@ -180,10 +181,10 @@ const TopFiveCast= async(req,res,next)=>{
 
 const SummeryReport = async (req, res, next) => {
   try {
-    const { district, constituency, week } = req.body;
+    const { district, constituency, Date } = req.body;
 
-    if (!district || !constituency || !week) {
-      return res.status(400).json({ error: 'Missing district, constituency, or week field in request body' });
+    if (!district || !constituency || !Date) {
+      return res.status(400).json({ error: 'Missing district, constituency, or Date field in request body' });
     }
 
     const query = `
@@ -204,13 +205,13 @@ const SummeryReport = async (req, res, next) => {
       WHERE fileddata.CM_Satisfaction IN ('Good', 'Not Good')
         AND fileddata.District = :district
         AND fileddata.R_Constituency = :constituency
-        AND fileddata.Week = :week
+        AND fileddata.Date = :Date
       GROUP BY resultdata.\`Mandal Name\`, resultdata.\`2019_YSRCP\`, resultdata.\`2019_TDP\`, resultdata.\`2019_JSP\`, resultdata.\`2014_YSRCP\`, resultdata.\`2014_TDP\`, resultdata.\`2014_Others\`
       ORDER BY resultdata.\`Mandal Name\`;
     `;
 
     const result = await db.sequelize.query(query, {
-      replacements: { district, constituency, week },
+      replacements: { district, constituency, Date },
       type: sequelize.QueryTypes.SELECT,
     });
 
@@ -298,7 +299,7 @@ const SummeryReport = async (req, res, next) => {
 // };
 
 const Mlasatishfaction = async (req, res) => {
-  const { district, constituency, week } = req.body;
+  const { district, constituency, Date } = req.body;
 
   try {
     const result = await db.sequelize.query(
@@ -312,7 +313,7 @@ const Mlasatishfaction = async (req, res) => {
         Gender IS NOT NULL AND \`MLA Satisfaction\` IS NOT NULL AND factor IS NOT NULL
         ${district ? `AND District = '${district}'` : ''}
         ${constituency ? `AND R_Constituency = '${constituency}'` : ''}
-        ${week ? `AND Week = '${week}'` : ''}
+        ${Date ? `AND Date = '${Date}'` : ''}
       
       UNION ALL
       
@@ -326,7 +327,7 @@ const Mlasatishfaction = async (req, res) => {
         Gender IS NOT NULL AND \`MLA Satisfaction\` IS NOT NULL AND factor IS NOT NULL
         ${district ? `AND District = '${district}'` : ''}
         ${constituency ? `AND R_Constituency = '${constituency}'` : ''}
-        ${week ? `AND Week = '${week}'` : ''}
+        ${Date ? `AND Date = '${Date}'` : ''}
     `, { type: sequelize.QueryTypes.SELECT });
 
     // res.json([result]); // wrap result in an array
@@ -340,7 +341,7 @@ const Mlasatishfaction = async (req, res) => {
 
 const Castsatisfactionmla= async(req,res,next)=>{
   try {
-    const { district, constituency, week } = req.body;
+    const { district, constituency, Date } = req.body;
 
     const query = `
       SELECT 
@@ -355,14 +356,14 @@ const Castsatisfactionmla= async(req,res,next)=>{
         ) AS Not_Good_Percentage
       FROM 
         fileddata,
-        (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Week = :week ) AS Castes
+        (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS Castes
       WHERE 
         fileddata.Caste IS NOT NULL 
         AND \`MLA Satisfaction\` IS NOT NULL 
         AND factor IS NOT NULL 
         AND District = :district
         AND R_Constituency = :constituency
-        AND Week = :week
+        AND Date = :Date
         AND fileddata.Caste = Castes.Caste
       GROUP BY fileddata.Caste
       ORDER BY Good_Percentage DESC
@@ -372,7 +373,7 @@ const Castsatisfactionmla= async(req,res,next)=>{
       replacements: {
         district,
         constituency,
-        week
+        Date
       }
     });
 
@@ -401,7 +402,7 @@ const Castsatisfactionmla= async(req,res,next)=>{
 
 const PrefferdCaste= async(req,res,next)=>{
   try {
-    const { district, constituency, week } = req.body;
+    const { district, constituency, Date } = req.body;
 
     const query = `
     SELECT 
@@ -433,14 +434,14 @@ const PrefferdCaste= async(req,res,next)=>{
     CONCAT(ROUND((SUM(CASE WHEN fileddata.\`Party\` NOT IN ('YSRCP', 'TDP', 'JSP','BJP','INC','Not Decided') THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`Others\`
     FROM 
     fileddata,
-    (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Week = :week ) AS Castes
+    (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS Castes
     WHERE 
     fileddata.Caste IS NOT NULL 
     AND \`Party\` IS NOT NULL 
     AND factor IS NOT NULL 
     AND District = :district
     AND R_Constituency = :constituency
-    AND Week = :week
+    AND Date = :Date
     AND fileddata.Caste = Castes.Caste
     GROUP BY fileddata.Caste
     `;
@@ -449,7 +450,7 @@ const PrefferdCaste= async(req,res,next)=>{
       replacements: {
         district,
         constituency,
-        week
+        Date
       }
     });
 
@@ -484,7 +485,7 @@ const PrefferdCaste= async(req,res,next)=>{
 // Prefferd MLA CANDIDATE question based on MLA satishfaction  FOR those where party belongs to YSRCP
 const PrefferMLAcandidate= async(req,res,next)=>{
   try {
-    const { district, constituency, week } = req.body;
+    const { district, constituency, Date } = req.body;
 
     const query = `
       SELECT 
@@ -499,14 +500,14 @@ const PrefferMLAcandidate= async(req,res,next)=>{
         ) AS Not_Good_Percentage
       FROM 
         fileddata,
-        (SELECT DISTINCT \`MLA Preference\` FROM fileddata WHERE \`MLA Preference\` IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Week = :week ) AS \`MLA Preference\`
+        (SELECT DISTINCT \`MLA Preference\` FROM fileddata WHERE \`MLA Preference\` IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS \`MLA Preference\`
       WHERE 
         fileddata.\`MLA Preference\` IS NOT NULL 
         AND \`MLA Satisfaction\` IS NOT NULL 
         AND factor IS NOT NULL 
         AND District = :district
         AND R_Constituency = :constituency
-        AND Week = :week
+        AND Date = :Date
         AND Party = 'YSRCP'
         AND  fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\`
 GROUP BY fileddata.\`MLA Preference\`
@@ -517,7 +518,7 @@ GROUP BY fileddata.\`MLA Preference\`
       replacements: {
         district,
         constituency,
-        week
+        Date
       }
     });
 
@@ -548,7 +549,7 @@ GROUP BY fileddata.\`MLA Preference\`
 
 const PrefferdMLAByCaste = async(req,res,next)=>{
   try {
-    const { district, constituency, week } = req.body;
+    const { district, constituency, Date } = req.body;
 
     const query = `
     SELECT 
@@ -570,14 +571,14 @@ const PrefferdMLAByCaste = async(req,res,next)=>{
     
     FROM 
     fileddata,
-    (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Week = :week ) AS Castes
+    (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS Castes
     WHERE 
     fileddata.Caste IS NOT NULL 
     AND \`MLA Preference\` IS NOT NULL 
     AND factor IS NOT NULL 
     AND District = :district
     AND R_Constituency = :constituency
-    AND Week = :week
+    AND Date = :Date
     AND fileddata.Caste = Castes.Caste
     GROUP BY fileddata.Caste
     `;
@@ -586,7 +587,7 @@ const PrefferdMLAByCaste = async(req,res,next)=>{
       replacements: {
         district,
         constituency,
-        week
+        Date
       }
     });
 
@@ -627,7 +628,7 @@ const PrefferdMLAByCaste = async(req,res,next)=>{
 
 const PrefferdCMByCaste =async (req,res,next)=>{
   try {
-    const { district, constituency, week } = req.body;
+    const { district, constituency, Date } = req.body;
 
     const query = `
     SELECT 
@@ -644,14 +645,14 @@ const PrefferdCMByCaste =async (req,res,next)=>{
     THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`Others\`
     FROM 
     fileddata,
-    (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Week = :week ) AS Castes
+    (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS Castes
     WHERE 
     fileddata.Caste IS NOT NULL 
     AND \`CM_Satisfaction\` IS NOT NULL 
     AND factor IS NOT NULL 
     AND District = :district
     AND R_Constituency = :constituency
-    AND Week = :week
+    AND Date = :Date
     AND fileddata.Caste = Castes.Caste
     GROUP BY fileddata.Caste
     `;
@@ -660,7 +661,7 @@ const PrefferdCMByCaste =async (req,res,next)=>{
       replacements: {
         district,
         constituency,
-        week
+        Date
       }
     });
 
@@ -746,7 +747,7 @@ const PrefferdCMByCaste =async (req,res,next)=>{
 // only  for TDP + JSP Alliance data 
 const TDP_JSP_Alliance = async (req, res, next) => {
   try {
-    const { district, constituency, week } = req.body;
+    const { district, constituency, Date } = req.body;
 
     const query = `
       SELECT 
@@ -755,7 +756,7 @@ const TDP_JSP_Alliance = async (req, res, next) => {
         CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'Will Not Vote' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`Will Not Vote\`,
         CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'TDP+JSP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`TDP+JSP\`
       FROM fileddata fd 
-      WHERE fd.District = :District AND fd.R_Constituency = :R_Constituency AND fd.Week = :Week AND fd.\`TDP+JSP Alliance\` IS NOT NULL
+      WHERE fd.District = :District AND fd.R_Constituency = :R_Constituency AND fd.Date = :Date AND fd.\`TDP+JSP Alliance\` IS NOT NULL
         AND Party IN ('TDP', 'JSP')
       GROUP BY Party;
     `;
@@ -765,7 +766,7 @@ const TDP_JSP_Alliance = async (req, res, next) => {
       replacements: {
         District: district,
         R_Constituency: constituency,
-        Week: week
+        Date: Date
       }
     });
     const query2 = `
@@ -774,7 +775,7 @@ const TDP_JSP_Alliance = async (req, res, next) => {
         COUNT(*) 
  
         FROM fileddata 
-        WHERE fileddata.District = :District AND fileddata.R_Constituency = :R_Constituency AND fileddata.Week = :Week AND \`TDP Full\` IS NOT NULL
+        WHERE fileddata.District = :District AND fileddata.R_Constituency = :R_Constituency AND fileddata.Date = :Date AND \`TDP Full\` IS NOT NULL
        
     GROUP BY \`TDP Full\`;
 `;
@@ -784,7 +785,7 @@ const TDP_JSP_Alliance = async (req, res, next) => {
     replacements: {
       District: district,
       R_Constituency: constituency,
-      Week: week
+      Date: Date
     }
   });
 
@@ -794,7 +795,7 @@ const TDP_JSP_Alliance = async (req, res, next) => {
   COUNT(*) 
  
   FROM fileddata 
-  WHERE fileddata.District = :District AND fileddata.R_Constituency = :R_Constituency AND fileddata.Week = :Week AND \`JSP Full\` IS NOT NULL
+  WHERE fileddata.District = :District AND fileddata.R_Constituency = :R_Constituency AND fileddata.Date = :Date AND \`JSP Full\` IS NOT NULL
  
 
 GROUP BY \`JSP Full\`;
@@ -806,7 +807,7 @@ GROUP BY \`JSP Full\`;
     replacements: {
       District: district,
       R_Constituency: constituency,
-      Week: week
+      Date: Date
     }
   });
 
@@ -822,7 +823,7 @@ GROUP BY \`JSP Full\`;
 
 const PrefferYSRCPCoordinator= async(req,res,next)=>{
   try {
-    const { district, constituency, week } = req.body;
+    const { district, constituency, Date } = req.body;
 
     const query = `
       SELECT 
@@ -837,14 +838,14 @@ const PrefferYSRCPCoordinator= async(req,res,next)=>{
         ) AS Not_Good_Percentage
       FROM 
         fileddata,
-        (SELECT DISTINCT \`YSRCP Co-ordinator\` FROM fileddata WHERE \`YSRCP Co-ordinator\` IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Week = :week ) AS \`YSRCP Co-ordinator\`
+        (SELECT DISTINCT \`YSRCP Co-ordinator\` FROM fileddata WHERE \`YSRCP Co-ordinator\` IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS \`YSRCP Co-ordinator\`
       WHERE 
         fileddata.\`YSRCP Co-ordinator\` IS NOT NULL 
         AND \`MLA Satisfaction\` IS NOT NULL 
         AND factor IS NOT NULL 
         AND District = :district
         AND R_Constituency = :constituency
-        AND Week = :week
+        AND Date = :Date
         AND  fileddata.\`YSRCP Co-ordinator\` = \`YSRCP Co-ordinator\`.\`YSRCP Co-ordinator\`
 GROUP BY fileddata.\`YSRCP Co-ordinator\`
       ORDER BY Good_Percentage DESC
@@ -854,7 +855,7 @@ GROUP BY fileddata.\`YSRCP Co-ordinator\`
       replacements: {
         district,
         constituency,
-        week
+        Date
       }
     });
 

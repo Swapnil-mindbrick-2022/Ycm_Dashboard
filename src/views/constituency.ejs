@@ -458,7 +458,7 @@
         </section>
         <section style="margin: 5px;">
           <label for="weekDropdown" style="display: block; margin-bottom: 5px;">SURVEY DATE</label>
-          <select name="Week" id="weekDropdown" style="padding: 5px; margin-bottom: 5px;">
+          <select name="Date" id="weekDropdown" style="padding: 5px; margin-bottom: 5px;">
             <option value="">Select a survey date</option>
           </select>
         </section>
@@ -580,7 +580,7 @@
       document.body.appendChild(loader);
       try {
         // Call the CM_Satisfaction endpoint to get the data
-        const response1 = await axios.post('/CM_Satisfaction', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+        const response1 = await axios.post('/CM_Satisfaction', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
         const data1 = response1.data;
 
         // Build the first table for CM_Satisfaction By Male And Female %
@@ -632,7 +632,7 @@
         // resultContainer.appendChild(table1);
 
         // Call the TopFiveCast endpoint to get the data
-        const response2 = await axios.post('/TopFiveCast', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+        const response2 = await axios.post('/TopFiveCast', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
         const data2 = response2.data;
 
         // Build the second table
@@ -736,7 +736,7 @@
 
       try {
         // Call the new SummaryReport endpoint to get the data
-        const response = await axios.post('/api/summary-report', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+        const response = await axios.post('/api/summary-report', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
 
         const data = response.data;
 
@@ -856,7 +856,7 @@
 
       try {
         // Call the new SummaryReport endpoint to get the data
-        const response = await axios.post('/Mlasatishfaction', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+        const response = await axios.post('/Mlasatishfaction', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
 
         const data = response.data;
 
@@ -894,7 +894,7 @@
           resultContainer.insertBefore(tableHeader, table);
 
           // Call the Castsatisfactionmla endpoint to get the data for the stacked bar chart
-          const castResponse = await axios.post('/Castsatisfactionmla', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+          const castResponse = await axios.post('/Castsatisfactionmla', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
           const castData = castResponse.data;
 
 
@@ -1010,7 +1010,7 @@
 
       try {
         // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
-        const castResponse = await axios.post('/PrefferdCaste', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+        const castResponse = await axios.post('/PrefferdCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
         const castData = castResponse.data;
 
         if (castData && Object.keys(castData).length > 0) {
@@ -1148,7 +1148,7 @@
       document.body.appendChild(loader);
       try {
         // Call the PrefferdCaste endpoint to get the data for the pie chart
-        const castResponse = await axios.post('/PrefferMLAcandidate', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+        const castResponse = await axios.post('/PrefferMLAcandidate', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
         const castData = castResponse.data;
 
 
@@ -1271,7 +1271,7 @@
       document.body.appendChild(loader);
       try {
         // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
-        const castResponse = await axios.post('/PrefferdMLAByCaste', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+        const castResponse = await axios.post('/PrefferdMLAByCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
         const castData = castResponse.data;
         console.log(castData);
 
@@ -1398,7 +1398,7 @@
       document.body.appendChild(loader);
       try {
         // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
-        const castResponse = await axios.post('/PrefferdCMByCaste', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+        const castResponse = await axios.post('/PrefferdCMByCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
         const castData = castResponse.data;
         console.log(castData)
 
@@ -1516,7 +1516,7 @@
       document.body.appendChild(loader);
       try {
         // Call the TDP_JSP_Alliance endpoint to get the data for the pie charts
-        const TDPJSPResponse = await axios.post('/TDP_JSP_Alliance', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+        const TDPJSPResponse = await axios.post('/TDP_JSP_Alliance', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
         const TDPJSPData = TDPJSPResponse.data;
         console.log(TDPJSPData);
 
@@ -1743,7 +1743,7 @@
 
       try {
         // Call the PrefferdCaste endpoint to get the data for the pie chart
-        const castResponse = await axios.post('/PrefferYSRCPCoordinator', { district: selectedDistrict, constituency: selectedConstituency, week: selectedWeek });
+        const castResponse = await axios.post('/PrefferYSRCPCoordinator', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
         const castData = castResponse.data;
 
 
