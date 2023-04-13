@@ -189,7 +189,7 @@ const SummeryReport = async (req, res, next) => {
 
     const query = `
       SELECT 
-        fileddata.\`Mandal Name\`,
+        fileddata.\`Rev_Mandal\`,
         CONCAT(resultdata.\`2019_YSRCP\`) AS \`2019 YSRCP\`,
         CONCAT(resultdata.\`2019_TDP\`) AS \`2019 TDP\`,
         CONCAT(resultdata.\`2019_JSP\`) AS \`2019 JSP\`,
@@ -201,7 +201,7 @@ const SummeryReport = async (req, res, next) => {
         CONCAT(ROUND((SUM(CASE WHEN fileddata.Party = 'JSP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`JSP\`,
         CONCAT(ROUND((SUM(CASE WHEN fileddata.Party NOT IN ('YSRCP', 'TDP', 'JSP') THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`Others\`
       FROM resultdata
-      LEFT JOIN fileddata ON resultdata.\`Mandal Name\` = fileddata.\`Mandal Name\`
+      LEFT JOIN fileddata ON resultdata.\`Mandal Name\` = fileddata.\`Rev_Mandal\`
       WHERE fileddata.CM_Satisfaction IN ('Good', 'Not Good')
         AND fileddata.District = :district
         AND fileddata.R_Constituency = :constituency

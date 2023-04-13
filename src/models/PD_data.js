@@ -161,6 +161,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     ['Schemes Termination']:{
       type: Sequelize.STRING
+    },
+    Rev_Mandal:{
+      type: Sequelize.STRING
+
     }
   }, {
     timestamps: false
