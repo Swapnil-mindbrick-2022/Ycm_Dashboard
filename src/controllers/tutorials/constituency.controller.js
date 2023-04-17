@@ -189,7 +189,7 @@ const SummeryReport = async (req, res, next) => {
 
     const query = `
       SELECT 
-        fileddata.\`Rev_Mandal\`,
+        fileddata.\`Rev_Mandal\` As MANDAL,
         CONCAT(resultdata.\`2019_YSRCP\`) AS \`2019 YSRCP\`,
         CONCAT(resultdata.\`2019_TDP\`) AS \`2019 TDP\`,
         CONCAT(resultdata.\`2019_JSP\`) AS \`2019 JSP\`,
@@ -474,7 +474,31 @@ const PrefferdCaste= async(req,res,next)=>{
       };
     });
 
-    res.json(output);
+    const query2 = `
+    SELECT 
+    \`Party\`,
+    COUNT(*) 
+   
+    FROM fileddata 
+    WHERE fileddata.District = :District AND fileddata.R_Constituency = :R_Constituency AND fileddata.Date = :Date AND \`Party\` IS NOT NULL
+   
+  
+  GROUP BY \`Party\`;
+  
+    `;
+  
+    const result1 = await db.sequelize.query(query2, {
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: {
+        District: district,
+        R_Constituency: constituency,
+        Date: Date
+      }
+    });
+
+
+
+    res.status(200).json({ output, result1 });
     // console.log(output);
   } catch (error) {
     console.error(error);
@@ -745,6 +769,7 @@ const PrefferdCMByCaste =async (req,res,next)=>{
 // }
 
 // only  for TDP + JSP Alliance data 
+// only  for TDP + JSP Alliance data 
 const TDP_JSP_Alliance = async (req, res, next) => {
   try {
     const { district, constituency, Date } = req.body;
@@ -818,7 +843,6 @@ GROUP BY \`JSP Full\`;
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
-
 //PrefferYSRCPCoordinator 
 
 const PrefferYSRCPCoordinator= async(req,res,next)=>{

@@ -39,7 +39,7 @@
   <style>
     /* Styling for the header */
     body {
-      background: linear-gradient(to bottom right, #2c3e50, #ebefce);
+      background: linear-gradient(to bottom right, #263747, #ebefce);
     }
 
     /* Styling for the header */
@@ -195,63 +195,7 @@
       box-shadow: 0 0 3px #ddd;
     }
 
-    .card {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 300px;
-      height: 400px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease-in-out;
-    }
-
-    .card:hover {
-      transform: scale(1.05);
-    }
-
-    .card img {
-      width: 100%;
-      height: 60%;
-      object-fit: cover;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-    }
-
-    .card h2 {
-      margin: 20px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .card p {
-      margin: 0 20px 20px;
-      font-size: 16px;
-      text-align: justify;
-    }
-
-    /* Mobile Styles */
-
-    @media only screen and (max-width: 600px) {
-      .card {
-        width: 90%;
-        height: auto;
-      }
-
-      .card img {
-        height: 50%;
-      }
-
-      .card h2 {
-        font-size: 18px;
-      }
-
-      .card p {
-        font-size: 14px;
-      }
-    }
-
+ 
     /* Style the table */
     table {
       width: 100%;
@@ -356,6 +300,9 @@
     .btn:hover {
       background-color: #00d904;
     }
+    .btn.active:hover {
+  background-color: #00d904;
+}
 
     h2 {
       padding: 10px;
@@ -418,6 +365,116 @@
         transform: rotate(360deg);
       }
     }
+
+    .summary-table {
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  width: 100%;
+}
+
+.summary-table td,
+.summary-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+.summary-table-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3498db;
+  text-transform: uppercase;
+  color:#ffff;
+
+}
+.summary-table tr:nth-child(1) td:nth-child(2) {
+  background-color: #262bcd; /* red */
+  color: #fff; /* white text color */
+}
+.summary-table tr:nth-child(1) td:nth-child(3) {
+  background-color: #1cdcb9; /* red */
+  color: #fff; /* white text color */
+}
+
+.summary-table tr:nth-child(2) td:nth-child(n+2) {
+  background-color: #ff8080; /* red */
+  color: #fff; /* white text color */
+}
+
+.summary-table tr:nth-child(2) td:nth-child(n+3) {
+  background-color: #ffcc80; /* orange */
+}
+
+.summary-table tr:nth-child(2) td:nth-child(n+4) {
+  background-color: #26cd31; /* green */
+  color: #fff; /* white text color */
+}
+
+.summary-header-cell {
+  font-weight: bold;
+  background-color: #f0f0f0;
+  text-transform: uppercase; /* uppercase header text */
+  padding: 12px; /* increased padding for header cell */
+}
+
+/* Media query for desktop */
+/* @media only screen and (min-width: 1200px) { */
+  /* Styling for header */
+  #parentele {
+    /* Update styles for desktop */
+    height: 580px;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Styling for left side navbar */
+  .left-nav {
+    /* Update styles for desktop */
+    top: 140px;
+    width: 30%;
+    padding: 35px;
+  }
+
+  /* Styling for main content */
+  #mainele {
+    /* Update styles for desktop */
+    left: 30%;
+    width: 70%;
+  }
+}
+
+/* Media query for iPad */
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  /* Styling for header */
+  #parentele {
+    /* Update styles for iPad */
+    height: 480px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Styling for left side navbar */
+  .left-nav {
+    /* Update styles for iPad */
+    top: 120px;
+    width: 100%;
+    padding: 20px;
+  }
+
+  /* Styling for main content */
+  #mainele {
+    /* Update styles for iPad */
+    left: 0;
+    width: 100%;
+    overflow-x: auto;
+    white-space: normal;
+  }
+}
+
+
+
   </style>
 </head>
 
@@ -471,6 +528,16 @@
 
   </div>
   <script>
+    // get all buttons and add click event listener to each one
+const buttons = document.querySelectorAll('.btn');
+buttons.forEach(button => {
+  button.addEventListener('click', function() {
+    // remove 'active' class from all buttons
+    buttons.forEach(b => b.classList.remove('active'));
+    // add 'active' class to clicked button
+    this.classList.add('active');
+  });
+});
 
 
     // Select DOM elements
@@ -735,81 +802,81 @@
       document.body.appendChild(loader);
 
       try {
-        // Call the new SummaryReport endpoint to get the data
-        const response = await axios.post('/api/summary-report', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
+  // Call the new SummaryReport endpoint to get the data
+  const response = await axios.post('/api/summary-report', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
 
-        const data = response.data;
+  const data = response.data;
 
-        if (Array.isArray(data) && data.length > 0) {
-          // Build the table for the summary report
-          const table = document.createElement('table');
-          table.style.borderCollapse = 'collapse';
-          table.style.width = '100%';
+  if (Array.isArray(data) && data.length > 0) {
+    // Build the table for the summary report
+    const table = document.createElement('table');
+    table.classList.add('summary-table');
 
-          // Add the first row with column names
-          const colNameRow = table.insertRow();
-          let cell = colNameRow.insertCell();
-          cell.colSpan = '1';
-          cell = colNameRow.insertCell();
-          cell.textContent = '2019';
-          cell.colSpan = '3';
-          cell.style.border = '1px solid black';
-          cell = colNameRow.insertCell();
-          cell.textContent = '2014';
-          cell.colSpan = '3';
-          cell.style.border = '1px solid black';
-          cell = colNameRow.insertCell();
-          cell.textContent = 'Survey Results';
-          cell.colSpan = '4';
-          cell.style.border = '1px solid black';
+    // Add the first row with column names
+    const colNameRow = table.insertRow();
+    let cell = colNameRow.insertCell();
+    cell.colSpan = '1';
+    cell = colNameRow.insertCell();
+    cell.textContent = '2019';
+    cell.colSpan = '3';
+    cell.classList.add('summary-header-cell');
+    cell = colNameRow.insertCell();
+    cell.textContent = '2014';
+    cell.colSpan = '3';
+    cell.classList.add('summary-header-cell');
+    cell = colNameRow.insertCell();
+    cell.textContent = 'Survey Results';
+    cell.colSpan = '4';
+    cell.classList.add('summary-header-cell');
 
-          // Add the second row with additional column names
-          const colNameRow2 = table.insertRow(0); // Add row at index 0 to put it at the top
-          cell = colNameRow2.insertCell();
-          cell.colSpan = '1';
-          cell = colNameRow2.insertCell();
-          cell.textContent = 'Past history';
-          cell.colSpan = '6';
-          cell.style.border = '1px solid black';
-          cell = colNameRow2.insertCell();
-          cell.textContent = 'Which party do you vote for in next MLA Election?';
-          cell.colSpan = '4';
-          cell.style.border = '1px solid black';
+    // Add the second row with additional column names
+    const colNameRow2 = table.insertRow(0); // Add row at index 0 to put it at the top
+    cell = colNameRow2.insertCell();
+    cell.colSpan = '1';
+    cell = colNameRow2.insertCell();
+    cell.textContent = 'Past history';
+    cell.colSpan = '6';
+    cell.classList.add('summary-header-cell');
+    cell = colNameRow2.insertCell();
+    cell.textContent = 'Which party do you vote for in next MLA Election?';
+    cell.colSpan = '4';
+    cell.classList.add('summary-header-cell');
 
-          // Create the header row
-          const headerRow = table.insertRow();
-          for (const key in data[0]) {
-            const headerCell = headerRow.insertCell();
-            headerCell.textContent = key;
-            headerCell.style.border = '1px solid black';
-          }
+    // Create the header row
+    const headerRow = table.insertRow();
+    for (const key in data[0]) {
+      const headerCell = headerRow.insertCell();
+      headerCell.textContent = key;
+      headerCell.classList.add('summary-header-cell');
+    }
 
-          // Add a row for each result
-          data.forEach(result => {
-            const row = table.insertRow();
-            for (const key in result) {
-              const cell = row.insertCell();
-              cell.textContent = result[key];
-              cell.style.border = '1px solid black';
-            }
-          });
-
-          // Clear any previous results and add the new table
-          resultContainer.innerHTML = '';
-          resultContainer.appendChild(table);
-
-          // Add an h1 tag above the table
-          const tableHeader = document.createElement('h1');
-          tableHeader.textContent = 'Summary Report';
-          resultContainer.insertBefore(tableHeader, table);
-        } else {
-          console.log('Data is not an array or is empty:', data);
-          resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
-        }
-      } catch (error) {
-        console.error(error);
-        resultContainer.innerHTML = '<p>Something went wrong. Please try again.</p>';
+    // Add a row for each result
+    data.forEach(result => {
+      const row = table.insertRow();
+      for (const key in result) {
+        const cell = row.insertCell();
+        cell.textContent = result[key];
       }
+    });
+
+    // Clear any previous results and add the new table
+    resultContainer.innerHTML = '';
+    resultContainer.appendChild(table);
+
+    // Add an h1 tag above the table
+    const tableHeader = document.createElement('h1');
+    tableHeader.classList.add('summary-table-header');
+    tableHeader.textContent = 'Summary Report';
+    resultContainer.insertBefore(tableHeader, table);
+  } else {
+    console.log('Data is not an array or is empty:', data);
+    resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
+  }
+} catch (error) {
+  console.error(error);
+  resultContainer.innerHTML = '<p>Something went wrong. Please try again.</p>';
+}
+
       finally {
     // Remove the loader from the page
     document.body.removeChild(loader);
@@ -1011,7 +1078,11 @@
       try {
         // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
         const castResponse = await axios.post('/PrefferdCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castData = castResponse.data;
+        const castDataa = castResponse.data;
+        const castData= castDataa.output 
+        const castData2=  castDataa.result1
+        console.log(castData2)  
+
 
         if (castData && Object.keys(castData).length > 0) {
 
@@ -1027,11 +1098,25 @@
 
           // Create the chart container if it doesn't exist
           let chartContainer = document.getElementById('chart-container');
-          if (!chartContainer) {
-            chartContainer = document.createElement('div');
-            chartContainer.id = 'chart-container';
-            resultContainer.appendChild(chartContainer);
-          }
+if (!chartContainer) {
+  chartContainer = document.createElement('div');
+  chartContainer.id = 'chart-container';
+  chartContainer.style.display = 'inline-block'; // change display property to inline-block
+  chartContainer.style.width = '60%';
+  chartContainer.style.height = '100%';
+  resultContainer.appendChild(chartContainer);
+}
+
+let chartContainer1 = document.getElementById('chart-container1');
+if (!chartContainer1) {
+  chartContainer1 = document.createElement('div');
+  chartContainer1.id = 'chart-container1';
+  chartContainer1.style.display = 'inline-block'; // change display property to inline-block
+  chartContainer1.style.width = '40%';
+  chartContainer1.style.height = '100%';
+  resultContainer.appendChild(chartContainer1);
+}
+
 
           // Use Highcharts to create the stacked bar chart
           Highcharts.chart(chartContainer, {
@@ -1077,12 +1162,12 @@
             {
               name: 'BJP',
               data: chartData.map(caste => Number(caste.data[3])),
-              color: 'orange'
+              color: 'rgb(237,125, 49)'
             },
             {
               name: 'INC',
               data: chartData.map(caste => Number(caste.data[4])),
-              color: 'purple'
+              color: 'rgb(5,99, 193)'
             },
             {
               name: 'Not Decided',
@@ -1095,6 +1180,65 @@
               color: 'rgb(192,192, 192)'
             }]
           });
+           // Calculate total count for result2
+        const result2TotalCount = castData2.reduce((total, d) => total + d['COUNT(*)'], 0);
+
+// Create a pie chart for result2
+const result2PieData = castData2.map(d => {
+  let color;
+  switch (d['Party']) {
+    case 'YSRCP':
+      color = 'rgb(1, 169, 91)';
+      break;
+    case 'TDP':
+      color = 'rgb(255, 192, 0)';
+      break;
+    case 'JSP':
+      color = 'rgb(250,20, 14)';
+      break;
+    case 'BJP':
+      color = 'rgb(237,125, 49)';
+      break;
+    case 'INC':
+      color = 'rgb(5,99, 193)';
+      break;
+    case 'Not Decided':
+      color = 'rgb(192,192, 192)';
+      break;
+    default:
+      color = 'gray';
+  }
+  return {
+    name: d['Party'],
+    y: (d['COUNT(*)'] / result2TotalCount) * 100,
+    color: color
+  };
+});
+
+Highcharts.chart(chartContainer1, {
+  chart: {
+    type: 'pie'
+  },
+  title: {
+    text: 'PREFERRED TOTAL PARTY'
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: {
+        enabled: true,
+        format: '{point.name}: {point.percentage:.1f} %'
+      }
+    }
+  },
+  series: [{
+    data: result2PieData
+  }]
+});
+
+
+          
         } else {
           console.log('Data is not an object or is empty:', castData);
           resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
@@ -1200,9 +1344,9 @@
     data: chartData
   }],
   colors: [
-    'rgb(169, 91, 91)', // Same MLA - Red
-    'rgb(119, 112, 112)', // Other MLA - Grey
-    'rgb(68, 14, 196)' // Anyone - Blue
+    'rgb(1, 169, 91)', // Same MLA - Red
+    'rgb(0, 119, 112)', // Other MLA - Grey
+    'rgb(68, 114, 196)' // Anyone - Blue
   ]
 });
 
@@ -1334,16 +1478,16 @@
             series: [{
               name: 'SameMLA',
               data: chartData.map(caste => Number(caste.data[0])),
-              color: 'rgb(169, 91, 91)'
+              color: 'rgb(1, 169, 91)'
 
             }, {
               name: 'OtherMLA',
               data: chartData.map(caste => Number(caste.data[1])),
-              color: 'rgb(119, 112, 112)'
+              color: 'rgb(0, 119, 112)'
             }, {
               name: 'Anyone',
               data: chartData.map(caste => Number(caste.data[2])),
-              color: 'rgb(68, 14, 196)'
+              color: 'rgb(68, 114, 196)'
             }, {
               name: 'Invalid',
               data: chartData.map(caste => Number(caste.data[3])),
