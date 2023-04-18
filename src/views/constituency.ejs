@@ -39,7 +39,7 @@
   <style>
     /* Styling for the header */
     body {
-      background: linear-gradient(to bottom right, #263747, #ebefce);
+      background: linear-gradient(to bottom right,  #2c3e50, #ebefce);
     }
 
     /* Styling for the header */
@@ -149,17 +149,17 @@
 
     /* Add some borders to table cells */
     td {
-      border: 1px solid #ddd;
+      border: 1px solid #097b1c;
     }
 
     /* Add a gray background color to the header row */
     thead tr {
-      background-color: #f1f1f1;
+      background-color: #1013ab;
     }
 
     /* Add a hover effect to table rows */
     tbody tr:hover {
-      background-color: #f5f5f5;
+      background-color: #d40f57e7;
     }
 
     /* Customize pagination buttons */
@@ -472,6 +472,7 @@
     white-space: normal;
   }
 }
+
 
 
 
@@ -979,48 +980,78 @@ buttons.forEach(button => {
           if (!chartContainer) {
             chartContainer = document.createElement('div');
             chartContainer.id = 'chart-container';
+           
+
+
             resultContainer.appendChild(chartContainer);
           }
 
           // Use Highcharts to create the stacked bar chart
           Highcharts.chart(chartContainer, {
-            chart: {
-              type: 'bar'
-            },
-            title: {
-              text: 'Satisfaction with Sitting MLA by Caste'
-            },
-            xAxis: {
-              categories: chartData.map(caste => caste.name)
-            },
-            yAxis: {
-              title: {
-                text: '%'
-              }
-            },
-            legend: {
-              reversed: true
-            },
-            plotOptions: {
-              series: {
-                stacking: 'normal',
-                dataLabels: {
-                  enabled: true,
-                  format: '{y}%'
-                }
-              }
-            },
-            series: [{
-              name: 'No',
-              data: chartData.map(caste => Number(caste.data[1])),
-              color: 'rgb(250, 20, 14)'
-            }, {
-              name: 'Yes',
-              data: chartData.map(caste => Number(caste.data[0])),
-              color: 'rgb(1, 169, 91)'
-            }]
-          });
-
+  chart: {
+    type: 'bar',
+    backgroundColor: 'transparent'
+  },
+  title: {
+    text: 'Satisfaction with Sitting MLA by Caste',
+    style: {
+      color: '#fff'
+    }
+  },
+  xAxis: {
+    categories: chartData.map(caste => caste.name),
+    labels: {
+      style: {
+        color: '#fff'
+      }
+    }
+  },
+  yAxis: {
+    title: {
+      text: '%',
+      style: {
+        color: '#fff'
+      }
+    },
+    labels: {
+      style: {
+        color: '#fff'
+      }
+    }
+  },
+  legend: {
+    reversed: true,
+    itemStyle: {
+      color: '#fff'
+    }
+  },
+  plotOptions: {
+    series: {
+      stacking: 'normal',
+      dataLabels: {
+        enabled: true,
+        format: '{y}%',
+        style: {
+          color: '#fff'
+        }
+      }
+    }
+  },
+  series: [{
+    name: 'No',
+    data: chartData.map(caste => Number(caste.data[1])),
+    color: 'rgb(250, 20, 14)'
+  }, {
+    name: 'Yes',
+    data: chartData.map(caste => Number(caste.data[0])),
+    color: 'rgb(1, 169, 91)'
+  }],
+  tooltip: {
+    style: {
+      color: '#fff'
+    }
+  }
+});
         } else {
           console.log('Data is not an array or is empty:', data);
           resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
@@ -1121,7 +1152,8 @@ if (!chartContainer1) {
           // Use Highcharts to create the stacked bar chart
           Highcharts.chart(chartContainer, {
             chart: {
-              type: 'bar'
+              type: 'bar',
+              backgroundColor: 'transparent'
             },
             title: {
               text: 'Prefferd Party By Caste'
@@ -1142,7 +1174,10 @@ if (!chartContainer1) {
                 stacking: 'normal',
                 dataLabels: {
                   enabled: true,
-                  format: '{y}%'
+                  format: '{y}%',
+                  style: {
+          color: '#fff'
+        }
                 }
               }
             },
@@ -1217,7 +1252,8 @@ const result2PieData = castData2.map(d => {
 
 Highcharts.chart(chartContainer1, {
   chart: {
-    type: 'pie'
+    type: 'pie',
+    backgroundColor: 'transparent'
   },
   title: {
     text: 'PREFERRED TOTAL PARTY'
@@ -1228,7 +1264,7 @@ Highcharts.chart(chartContainer1, {
       cursor: 'pointer',
       dataLabels: {
         enabled: true,
-        format: '{point.name}: {point.percentage:.1f} %'
+        format: '{point.name}: {point.percentage:.1f} %',
       }
     }
   },

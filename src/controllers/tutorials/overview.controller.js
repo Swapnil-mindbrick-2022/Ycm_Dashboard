@@ -27,57 +27,73 @@ const DPC_data = async (req, res, next) => {
   // Build the query based on the selected option
   switch (selectedOption) {
     case 'District':
-        query = `SELECT 
-        District, 
-        concat(round(((SUM(CASE WHEN \`Party\` = 'YSRCP' THEN Factor ELSE 0 END) / sum(Factor)) * 100)),'%') AS YSRCP,
-        concat(round(((SUM(CASE WHEN \`Party\` = 'TDP' THEN Factor ELSE 0 END) / sum(Factor)) * 100)),'%') AS TDP,
-        concat(round((((SUM(CASE WHEN \`Party\` = 'JSP' THEN Factor ELSE 0 END)+SUM(CASE WHEN \`Party\` = 'BJP' THEN Factor ELSE 0 END)) / sum(Factor)) * 100)),'%') AS JSP_BJP,
-        concat(round(((SUM(CASE WHEN \`Party\`  not in ('TDP','YSRCP','JSP','BJP') THEN Factor ELSE 0 END) / sum(Factor)) * 100)),'%') AS OTHER
-      FROM fileddata
-      WHERE \`Party\` IS NOT NULL
-      ${Gender ? `AND Gender = '${Gender}'`:''}
-      ${Caste ? `AND Caste = '${Caste}'`:''}
-      ${age ? `AND \`Age Group\` = '${age}'`:''}
-      ${District ? `AND District = '${District}'`:''}
-      ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'`:''}
-     
-      GROUP BY
-      District;`; // Add the query for districts here
+      case 'District':
+        query = `
+          SELECT
+            t1.District,
+            CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
+            CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS TDP,
+            CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
+            CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
+          FROM fileddata AS t1
+          JOIN (
+            SELECT District,R_Constituency, MAX(Week) AS Max_week
+            FROM fileddata
+            GROUP BY R_Constituency,District
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
+          WHERE Party IS NOT NULL
+          ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+          ${Caste ? `AND t1.Caste = '${Caste}'` : ''}
+          ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+          ${District ? `AND t1.District = '${District}'` : ''}
+          ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+          GROUP BY t1.District
+          ORDER BY SUM(Factor) DESC;
+        `;// Add the query for districts here
       break;
     case 'PARLIAMENT':
-        query = `SELECT 
-        PARLIAMENT,
-        concat(round(((SUM(CASE WHEN \`Party\` = 'YSRCP' THEN Factor ELSE 0 END) / sum(Factor)) * 100)),'%') AS YSRCP,
-        concat(round(((SUM(CASE WHEN \`Party\` = 'TDP' THEN Factor ELSE 0 END) / sum(Factor)) * 100)),'%') AS TDP,
-        concat(round((((SUM(CASE WHEN \`Party\` = 'JSP' THEN Factor ELSE 0 END)+SUM(CASE WHEN \`Party\` = 'BJP' THEN Factor ELSE 0 END)) / sum(Factor)) * 100)),'%') AS JSP_BJP,
-        concat(round(((SUM(CASE WHEN \`Party\`  not in ('TDP','YSRCP','JSP','BJP') THEN Factor ELSE 0 END) / sum(Factor)) * 100)),'%') AS OTHER
-      FROM fileddata
-      WHERE \`Party\` IS NOT NULL
-      ${Gender ? `AND Gender = '${Gender}'`:''}
-      ${Caste ? `AND Caste = '${Caste}'`:''}
-      ${age ? `AND \`Age Group\` = '${age}'`:''}
-      ${District ? `AND District = '${District}'`:''}
-      ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'`:''}
-      GROUP BY
-      PARLIAMENT;`; // Add the query for parliament here--------
+        query = `SELECT
+        t1.PARLIAMENT,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS TDP,
+        CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
+      FROM fileddata AS t1
+      JOIN (
+        SELECT District,R_Constituency, MAX(Week) AS Max_week
+        FROM fileddata
+        GROUP BY R_Constituency,District
+      ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
+      WHERE Party IS NOT NULL
+      ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+      ${Caste ? `AND t1.Caste = '${Caste}'` : ''}
+      ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+      ${District ? `AND t1.District = '${District}'` : ''}
+      ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+      GROUP BY t1.PARLIAMENT
+      ORDER BY SUM(Factor) DESC;`; // Add the query for parliament here--------
       break;
     case 'Caste':
-        query = `SELECT 
-        Caste, 
-        concat(round(((SUM(CASE WHEN \`Party\` = 'YSRCP' THEN Factor ELSE 0 END) / sum(Factor)) * 100)),'%') AS YSRCP,
-        concat(round(((SUM(CASE WHEN \`Party\` = 'TDP' THEN Factor ELSE 0 END) / sum(Factor)) * 100)),'%') AS TDP,
-        concat(round((((SUM(CASE WHEN \`Party\` = 'JSP' THEN Factor ELSE 0 END)+SUM(CASE WHEN \`Party\` = 'BJP' THEN Factor ELSE 0 END)) / sum(Factor)) * 100)),'%') AS JSP_BJP,
-        concat(round(((SUM(CASE WHEN \`Party\`  not in ('TDP','YSRCP','JSP','BJP') THEN Factor ELSE 0 END) / sum(Factor)) * 100)),'%') AS OTHER
-      FROM fileddata
-      WHERE \`Party\` IS NOT NULL
-      ${Gender ? `AND Gender = '${Gender}'`:''}
-      ${Caste ? `AND Caste = '${Caste}'`:''}
-      ${age ? `AND \`Age Group\` = '${age}'`:''}
-      ${District ? `AND District = '${District}'`:''}
-      ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'`:''}
-    
-      GROUP BY
-      Caste;`; // Add the query for caste here
+        query = `SELECT
+        t1.Caste,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS TDP,
+        CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
+      FROM fileddata AS t1
+      JOIN (
+        SELECT District,R_Constituency, MAX(Week) AS Max_week
+        FROM fileddata
+        GROUP BY R_Constituency,District
+      ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
+      WHERE Party IS NOT NULL
+      ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+      ${Caste ? `AND t1.Caste = '${Caste}'` : ''}
+      ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+      ${District ? `AND t1.District = '${District}'` : ''}
+      ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+      GROUP BY t1.Caste
+      ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
       // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
       break;
     default:
@@ -89,7 +105,7 @@ const DPC_data = async (req, res, next) => {
     const data = await db.sequelize.query(query, { type: db.sequelize.QueryTypes.SELECT });
     // res.render('overviewpage', { "data ":data});
     // res.send(data)
-    // console.log(data)
+    console.log(data)
     res.send(data)
   } catch (error) {
     console.error(error);
