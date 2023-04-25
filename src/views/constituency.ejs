@@ -1308,7 +1308,7 @@ Highcharts.chart(chartContainer1, {
         resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
         return;
       }
-      e.preventDefault()
+      // e.preventDefault()
       // Add a loader to the page
       const loader = document.createElement("div");
       loader.classList.add("loader");
@@ -2010,8 +2010,9 @@ Highcharts.chart(chartContainer1, {
     ]
   });
         } else {
-          console.log('Data is not an object or is empty:', castData);
-          resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
+          // console.log('Data is not an object or is empty:', castData);
+          // resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
+          renderPrefferMLAcandidate()
         }
       } catch (error) {
         console.error(error);

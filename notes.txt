@@ -1079,13 +1079,13 @@ form.addEventListener("submit", async (event) => {
                         const transporter = nodemailer.createTransport({
                           service: 'gmail',
                           auth: {
-                            user: 'swapnil@etgresearch.in', // replace with your own Gmail address
-                            pass: 'Swapnil321@', // replace with your own Gmail password
+                            user: '', // replace with your own Gmail address
+                            pass: '', // replace with your own Gmail password
                           },
                         });
           
                         const mailOptions = {
-                          from: 'swapnil@etgresearch.in', // replace with your own Gmail address
+                          from: , // replace with your own Gmail address
                           to: email,
                           subject: 'Registration successful',
                           text: `Thank you for registering! Your username is ${email} and your password is ${rollno}.`,

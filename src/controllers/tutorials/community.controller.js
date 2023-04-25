@@ -56,7 +56,8 @@ const districtAndParliaments = async (req, res, next) => {
       },
       group: ['Caste'],
       order: [
-        ['Caste', 'ASC']
+        // ['Caste', 'ASC']
+        [Sequelize.literal('SUM(factor)'), 'DESC'],
       ],
       raw: true
     });

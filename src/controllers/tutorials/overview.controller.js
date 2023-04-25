@@ -48,7 +48,7 @@ const DPC_data = async (req, res, next) => {
           ${District ? `AND t1.District = '${District}'` : ''}
           ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
           GROUP BY t1.District
-          ORDER BY SUM(Factor) ASC;
+          ORDER BY SUM(Factor) DESC;
         `;// Add the query for districts here
       break;
     case 'PARLIAMENT':
@@ -71,7 +71,7 @@ const DPC_data = async (req, res, next) => {
       ${District ? `AND t1.District = '${District}'` : ''}
       ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
       GROUP BY t1.PARLIAMENT
-      ORDER BY SUM(Factor) ASC;`; // Add the query for parliament here--------
+      ORDER BY SUM(Factor) DESC;`; // Add the query for parliament here--------
       break;
     case 'Caste':
         query = `SELECT
