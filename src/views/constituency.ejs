@@ -647,54 +647,49 @@ buttons.forEach(button => {
 
       document.body.appendChild(loader);
       try {
-        // Call the CM_Satisfaction endpoint to get the data
-        const response1 = await axios.post('/CM_Satisfaction', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const data1 = response1.data;
-
-        // Build the first table for CM_Satisfaction By Male And Female %
-        const table1 = document.createElement('table');
-        table1.style.borderCollapse = 'collapse';
-        table1.style.width = '100%';
-
-        // Create the header row
-        const headerRow1 = table1.insertRow();
-        const newHeaderCell = headerRow1.insertCell();
-        newHeaderCell.textContent = ''; // Add text to the new header cell
-        newHeaderCell.style.border = '1px solid black';
-        for (const key in data1[0]) {
-          const headerCell = headerRow1.insertCell();
-          headerCell.textContent = key;
-          headerCell.style.border = '1px solid black';
-        }
-
-        // Add a row for each result
-        data1.forEach((result, index) => {
-          const row = table1.insertRow();
-          const newCell = row.insertCell(); // Add a new cell to the beginning of the row
-          newCell.style.border = '1px solid black';
-          if (index === 0) {
-            newCell.textContent = ''; // Add a smiley face to the new cell in the second row
-            newCell.innerHTML = '😀 Good'; // Unicode character for a smiling face
-          } else if (index === 1) {
-            newCell.textContent = ''; // Add a frowning face to the new cell in the third row
-            newCell.innerHTML = '😞 Not Good'; // Unicode character for a frowning face
-          }
-          for (const key in result) {
-            const cell = row.insertCell();
-            cell.textContent = result[key];
-            cell.style.border = '1px solid black';
-          }
-        });
-
-        // Add an h1 tag above the table
-        const h1 = document.createElement('h1');
-        h1.textContent = 'Satisfaction with STATE Government?';
-        h1.style.textAlign = 'center';
-        h1.style.padding = '10px';
-        h1.style.backgroundColor = 'lightgray';
-        h1.style.borderRadius = '5px';
+// Call the CM_Satisfaction endpoint to get the data
+const response1 = await axios.post('/CM_Satisfaction', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
+const data1 = response1.data;
 
 
+// Create the table element
+const table1 = document.createElement('table');
+table1.style.borderCollapse = 'collapse';
+table1.style.width = '100%';
+
+// Create the header row
+const headerRow1 = table1.insertRow();
+const headerCell1 = headerRow1.insertCell();
+headerCell1.textContent = 'Type';
+headerCell1.style.border = '1px solid black';
+const goodHeaderCell = headerRow1.insertCell();
+goodHeaderCell.textContent = 'SATISFIED';
+goodHeaderCell.style.border = '1px solid black';
+const notGoodHeaderCell = headerRow1.insertCell();
+notGoodHeaderCell.textContent = 'NOT SATISFIED';
+notGoodHeaderCell.style.border = '1px solid black';
+
+// Add rows for Male, Female, and Total
+Object.keys(data1['Good']).forEach((key) => {
+  const row = table1.insertRow();
+  const rowHeaderCell = row.insertCell();
+  rowHeaderCell.textContent = key;
+  rowHeaderCell.style.border = '1px solid black';
+  const goodCell = row.insertCell();
+  goodCell.textContent = data1['Good'][key];
+  goodCell.style.border = '1px solid black';
+  const notGoodCell = row.insertCell();
+  notGoodCell.textContent = data1['Not Good'][key];
+  notGoodCell.style.border = '1px solid black';
+});
+
+// Add an h1 tag above the table
+const h1 = document.createElement('h1');
+h1.textContent = 'Satisfaction with STATE Government?';
+h1.style.textAlign = 'center';
+h1.style.padding = '10px';
+h1.style.backgroundColor = 'lightgray';
+h1.style.borderRadius = '5px';
 
         // Add the table to the result container
         // resultContainer.appendChild(table1);
@@ -714,10 +709,10 @@ buttons.forEach(button => {
         casteHeaderCell.textContent = 'Caste';
         casteHeaderCell.style.border = '1px solid black';
         const goodPercentageHeaderCell = headerRow2.insertCell();
-        goodPercentageHeaderCell.textContent = 'Good Percentage';
+        goodPercentageHeaderCell.textContent = 'SATISFIED';
         goodPercentageHeaderCell.style.border = '1px solid black';
         const notGoodPercentageHeaderCell = headerRow2.insertCell();
-        notGoodPercentageHeaderCell.textContent = 'Not Good Percentage';
+        notGoodPercentageHeaderCell.textContent = 'NOT SATISFIED';
         notGoodPercentageHeaderCell.style.border = '1px solid black';
 
         // Add a row for each caste
@@ -727,10 +722,10 @@ buttons.forEach(button => {
           casteCell.textContent = caste;
           casteCell.style.border = '1px solid black';
           const goodPercentageCell = row.insertCell();
-          goodPercentageCell.textContent = data2[caste].good_percentage;
+          goodPercentageCell.textContent = data2[caste].SATISFIED;
           goodPercentageCell.style.border = '1px solid black';
           const notGoodPercentageCell = row.insertCell();
-          notGoodPercentageCell.textContent = data2[caste].not_good_percentage;
+          notGoodPercentageCell.textContent = data2[caste]['NOT SATISFIED'];
           notGoodPercentageCell.style.border = '1px solid black';
         });
 
@@ -928,38 +923,46 @@ buttons.forEach(button => {
 
         const data = response.data;
 
-        if (Array.isArray(data) && data.length > 0) {
-          // Build the table for the summary report
-          const table = document.createElement('table');
-          table.style.borderCollapse = 'collapse';
-          table.style.width = '100%';
+        if (typeof data === 'object' && Object.keys(data).length > 0) {
+  // Build the table for the summary report
+  const table = document.createElement('table');
+  table.style.borderCollapse = 'collapse';
+  table.style.width = '100%';
 
-          // Create the header row
-          const headerRow = table.insertRow();
-          for (const key in data[0]) {
-            const headerCell = headerRow.insertCell();
-            headerCell.textContent = key;
-            headerCell.style.border = '1px solid black';
-          }
+  // Create the header row
+  const headerRow = table.insertRow();
+  const typeHeaderCell = headerRow.insertCell();
+  typeHeaderCell.textContent = 'Type';
+  typeHeaderCell.style.border = '1px solid black';
+  const goodHeaderCell = headerRow.insertCell();
+  goodHeaderCell.textContent = 'SATISFIED';
+  goodHeaderCell.style.border = '1px solid black';
+  const notGoodHeaderCell = headerRow.insertCell();
+  notGoodHeaderCell.textContent = 'NOT SATISFIED';
+  notGoodHeaderCell.style.border = '1px solid black';
 
-          // Add a row for each result
-          data.forEach(result => {
-            const row = table.insertRow();
-            for (const key in result) {
-              const cell = row.insertCell();
-              cell.textContent = result[key];
-              cell.style.border = '1px solid black';
-            }
-          });
+  // Add rows for Male, Female, and Total
+  Object.keys(data['Good.']).forEach((key) => {
+    const row = table.insertRow();
+    const rowHeaderCell = row.insertCell();
+    rowHeaderCell.textContent = key;
+    rowHeaderCell.style.border = '1px solid black';
+    const goodCell = row.insertCell();
+    goodCell.textContent = data['Good.'][key]  // Add percentage sign
+    goodCell.style.border = '1px solid black';
+    const notGoodCell = row.insertCell();
+    notGoodCell.textContent = data['Not Good.'][key]  // Add percentage sign
+    notGoodCell.style.border = '1px solid black';
+  });
 
-          // Clear any previous results and add the new table
-          resultContainer.innerHTML = '';
-          resultContainer.appendChild(table);
+  // Clear any previous results and add the new table
+  resultContainer.innerHTML = '';
+  resultContainer.appendChild(table);
 
-          // Add an h1 tag above the table
-          const tableHeader = document.createElement('h1');
-          tableHeader.textContent = 'Satisfaction with Sitting MLA?';
-          resultContainer.insertBefore(tableHeader, table);
+  // Add an h1 tag above the table
+  const tableHeader = document.createElement('h1');
+  tableHeader.textContent = 'Satisfaction with Sitting MLA?';
+  resultContainer.insertBefore(tableHeader, table);
 
           // Call the Castsatisfactionmla endpoint to get the data for the stacked bar chart
           const castResponse = await axios.post('/Castsatisfactionmla', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
@@ -1122,8 +1125,8 @@ buttons.forEach(button => {
             const casteData = castData[caste];
             return {
               name: caste,
-              data: [Number(casteData.YSRCP.slice(0, -1)), Number(casteData.TDP.slice(0, -1)), Number(casteData.JSP.slice(0, -1)), Number(casteData.Others.slice(0, -1)),
-                , Number(casteData.BJP.slice(0, -1)), Number(casteData.INC.slice(0, -1)), Number(casteData['Not Decided'].slice(0, -1))]
+              data: [Number(casteData.YSRCP.slice(0, -1)), Number(casteData.TDP.slice(0, -1)), Number(casteData.JSP_BJP.slice(0, -1)), Number(casteData.Others.slice(0, -1)),
+                ]
             };
           });
 
@@ -1133,7 +1136,7 @@ if (!chartContainer) {
   chartContainer = document.createElement('div');
   chartContainer.id = 'chart-container';
   chartContainer.style.display = 'inline-block'; // change display property to inline-block
-  chartContainer.style.width = '60%';
+  chartContainer.style.width = '50%';
   chartContainer.style.height = '100%';
   resultContainer.appendChild(chartContainer);
 }
@@ -1143,7 +1146,7 @@ if (!chartContainer1) {
   chartContainer1 = document.createElement('div');
   chartContainer1.id = 'chart-container1';
   chartContainer1.style.display = 'inline-block'; // change display property to inline-block
-  chartContainer1.style.width = '40%';
+  chartContainer1.style.width = '50%';
   chartContainer1.style.height = '100%';
   resultContainer.appendChild(chartContainer1);
 }
@@ -1153,7 +1156,7 @@ if (!chartContainer1) {
           Highcharts.chart(chartContainer, {
             chart: {
               type: 'bar',
-              backgroundColor: 'transparent'
+              // backgroundColor: 'transparent'
             },
             title: {
               text: 'Prefferd Party By Caste'
@@ -1181,42 +1184,39 @@ if (!chartContainer1) {
                 }
               }
             },
-            series: [{
+            series: [
+          
+            // {
+            //   name: 'INC',
+            //   data: chartData.map(caste => Number(caste.data[3])),
+            //   color: 'rgb(5,99, 193)'
+            // },
+            // {
+            //   name: 'Not Decided',
+            //   data: chartData.map(caste => Number(caste.data[4])),
+            //   color: 'pink'
+            // },
+            {
+              name: 'Others',
+              data: chartData.map(caste => Number(caste.data[3])),
+              color: 'rgb(192,192, 192)'
+            }, {
+              name: 'JSP_BJP',
+              data: chartData.map(caste => Number(caste.data[2])),
+              color: 'rgb(250,20, 14)'
+            },{
               name: 'TDP',
               data: chartData.map(caste => Number(caste.data[1])),
               color: 'rgb(255, 192, 0)'
-            }, {
+            }, 
+            {
               name: 'YSRCP',
               data: chartData.map(caste => Number(caste.data[0])),
               color: 'rgb(1, 169, 91)'
-            }, {
-              name: 'JSP',
-              data: chartData.map(caste => Number(caste.data[2])),
-              color: 'rgb(250,20, 14)'
-            },
-            {
-              name: 'BJP',
-              data: chartData.map(caste => Number(caste.data[3])),
-              color: 'rgb(237,125, 49)'
-            },
-            {
-              name: 'INC',
-              data: chartData.map(caste => Number(caste.data[4])),
-              color: 'rgb(5,99, 193)'
-            },
-            {
-              name: 'Not Decided',
-              data: chartData.map(caste => Number(caste.data[5])),
-              color: 'pink'
-            },
-            {
-              name: 'Others',
-              data: chartData.map(caste => Number(caste.data[6])),
-              color: 'rgb(192,192, 192)'
             }]
           });
            // Calculate total count for result2
-        const result2TotalCount = castData2.reduce((total, d) => total + d['COUNT(*)'], 0);
+        const result2TotalCount = castData2.reduce((total, d) => total + d['totalFactor'], 0);
 
 // Create a pie chart for result2
 const result2PieData = castData2.map(d => {
@@ -1245,7 +1245,7 @@ const result2PieData = castData2.map(d => {
   }
   return {
     name: d['Party'],
-    y: (d['COUNT(*)'] / result2TotalCount) * 100,
+    y: (d['totalFactor'] / result2TotalCount) * 100,
     color: color
   };
 });
@@ -1253,7 +1253,9 @@ const result2PieData = castData2.map(d => {
 Highcharts.chart(chartContainer1, {
   chart: {
     type: 'pie',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    width: 450,
+    height: 600
   },
   title: {
     text: 'PREFERRED TOTAL PARTY'
@@ -1264,7 +1266,13 @@ Highcharts.chart(chartContainer1, {
       cursor: 'pointer',
       dataLabels: {
         enabled: true,
-        format: '{point.name}: {point.percentage:.1f} %',
+        format: '{point.name}: {point.percentage:.0f}%',
+        formatter: function() {
+          return this.point.name + ': ' + this.point.percentage.toFixed(0) + '%'; // Add percentage directly to the data label
+        }
+      },
+      tooltip: {
+        pointFormat: '{point.name}: <b>{point.percentage:.0f}%</b>',
       }
     }
   },
@@ -1291,8 +1299,7 @@ Highcharts.chart(chartContainer1, {
     // prefferd MLA CANDIDATE
     const PrefferMLAcandidate = document.querySelector('#PrefferMLAcandidate-btn');
     PrefferMLAcandidate.addEventListener('click', renderPrefferMLAcandidate);
-
-    async function renderPrefferMLAcandidate(e) {
+      async function renderPrefferMLAcandidate(e) {
       const selectedDistrict = districtDropdown.value;
       const selectedConstituency = constituencyDropdown.value;
       const selectedWeek = weekDropdown.value;
@@ -1333,60 +1340,67 @@ Highcharts.chart(chartContainer1, {
 
 
         if (castData && Object.keys(castData).length > 0) {
-
-          // Transform the data into an array of objects that Highcharts can use
-          const chartData = Object.keys(castData).map(caste => {
-            const casteData = castData[caste];
-            return {
-              name: caste,
-              y: Number(castData[caste].good_percentage.slice(0, -1))
-            };
-          });
-
-          // Create the chart container if it doesn't exist
-          let chartContainer = document.getElementById('chart-container');
-          if (!chartContainer) {
-            chartContainer = document.createElement('div');
-            chartContainer.id = 'chart-container';
-            resultContainer.appendChild(chartContainer);
-          }
-
-          // Use Highcharts to create the pie chart
-          Highcharts.chart(chartContainer, {
-  chart: {
-    type: 'pie',
-    options3d: {
-      enabled: true,
-      alpha: 45,
-      beta: 0
+  // create an array of objects to store data for the pie chart
+  const chartData = [];
+  castData.forEach((item) => {
+    let color;
+    if (item["MLA Preference"] === "Same MLA") {
+      color = 'rgb(1, 169, 91)';
+    } else if (item["MLA Preference"] === "Other MLA") {
+      color = 'rgb(0, 119, 112)';
+    } else if (item["MLA Preference"] === "Anyone") {
+      color = 'rgb(68, 114, 196)';
     }
-  },
-  title: {
-    text: 'Preferred MLA Candidate'
-  },
-  plotOptions: {
-    pie: {
-      allowPointSelect: true,
-      cursor: 'pointer',
-      dataLabels: {
-        enabled: true,
-        format: '<b>{point.name}</b>: {point.y:.1f} %'
-      },
-      depth: 45
-    }
-  },
-  series: [{
-    name: 'good%',
-    data: chartData
-  }],
-  colors: [
-    'rgb(1, 169, 91)', // Same MLA - Red
-    'rgb(0, 119, 112)', // Other MLA - Grey
-    'rgb(68, 114, 196)' // Anyone - Blue
-  ]
-});
+    chartData.push({
+      name: item["MLA Preference"],
+      y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
+      color: color // add color property
+    });
+  });
 
-        } else {
+  //  Create the chart container if it doesn't exist
+  let chartContainer = document.getElementById('chart-container');
+  if (!chartContainer) {
+    chartContainer = document.createElement('div');
+    chartContainer.id = 'chart-container';
+    resultContainer.appendChild(chartContainer);
+  }
+  Highcharts.chart(chartContainer, {
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie'
+    },
+    title: {
+      text: 'MLA Preference Chart'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.0f} %' // Update format to remove decimal
+        }
+      }
+    },
+    series: [{
+      name: 'Preference Percentage',
+      colorByPoint: true,
+      data: chartData
+    }],
+    colors: [
+      'rgb(1, 169, 91)', // Same MLA
+      'rgb(0, 119, 112)', // Other MLA
+      'rgb(68, 114, 196)' // Anyone
+    ]
+  });
+}
+ else {
           console.log('Data is not an object or is empty:', castData);
           resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
         }
@@ -1397,6 +1411,7 @@ Highcharts.chart(chartContainer1, {
     document.body.removeChild(loader);
   }
     }
+
 
 
     // By default cliiekd on summer button and view summary data  into table 
@@ -1765,7 +1780,9 @@ Highcharts.chart(chartContainer1, {
         // Render the TDP pie chart
         Highcharts.chart(chartContainerTDP, {
           chart: {
-            type: 'pie'
+            type: 'pie',
+            width: 650,
+            height: 300
           },
           title: {
             text: 'TDP Voters preference on alliance '
@@ -1798,7 +1815,9 @@ Highcharts.chart(chartContainer1, {
         // Render the JSP pie chart
         Highcharts.chart(chartContainerJSP, {
           chart: {
-            type: 'pie'
+            type: 'pie',
+            width: 650,
+            height: 300
           },
           title: {
             text: 'JSP Voters preference on alliance '
@@ -1839,7 +1858,9 @@ Highcharts.chart(chartContainer1, {
 
         Highcharts.chart('chart-container-jspfull', {
           chart: {
-            type: 'pie'
+            type: 'pie',
+            width: 650,
+            height: 300
           },
           title: {
             text: 'TDP FULL'
@@ -1861,7 +1882,9 @@ Highcharts.chart(chartContainer1, {
 
         Highcharts.chart('chart-container-tdpfull', {
           chart: {
-            type: 'pie'
+            type: 'pie',
+            width: 650,
+            height: 300
           },
           title: {
             text: 'JSP FULL'
@@ -1926,55 +1949,66 @@ Highcharts.chart(chartContainer1, {
         const castResponse = await axios.post('/PrefferYSRCPCoordinator', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
         const castData = castResponse.data;
 
-
         if (castData && Object.keys(castData).length > 0) {
+  // create an array of objects to store data for the pie chart
+  const chartData = [];
+  castData.forEach((item) => {
+    let color;
+    if (item["YSRCP Co-ordinator"] === "Same Co-ordinator") {
+      color = 'rgb(1, 169, 91)';
+    } else if (item["YSRCP Co-ordinator"] === "Anyone") {
+      color = 'rgb(0, 119, 112)';
+    } else if (item["YSRCP Co-ordinator"] === "Other Co-ordinator") {
+      color = 'rgb(68, 114, 196)';
+    }
+    chartData.push({
+      name: item["YSRCP Co-ordinator"],
+      y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
+      color: color // add color property
+    });
+  });
 
-          // Transform the data into an array of objects that Highcharts can use
-          const chartData = Object.keys(castData).map(caste => {
-            const casteData = castData[caste];
-            return {
-              name: caste,
-              y: Number(castData[caste].good_percentage.slice(0, -1))
-            };
-          });
-
-          // Create the chart container if it doesn't exist
-          let chartContainer = document.getElementById('chart-container');
-          if (!chartContainer) {
-            chartContainer = document.createElement('div');
-            chartContainer.id = 'chart-container';
-            resultContainer.appendChild(chartContainer);
-          }
-
-          // Use Highcharts to create the pie chart
-          Highcharts.chart(chartContainer, {
-            chart: {
-              type: 'pie',
-              options3d: {
-                enabled: true,
-                alpha: 45,
-                beta: 0
-              }
-            },
-            title: {
-              text: 'Prefferd YSRCP COORDINATOR'
-            },
-            plotOptions: {
-              pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                  enabled: true,
-                  format: '<b>{point.name}</b>: {point.y:.1f} %'
-                },
-                depth: 45
-              }
-            },
-            series: [{
-              name: 'good%',
-              data: chartData
-            }]
-          });
+  //  Create the chart container if it doesn't exist
+  let chartContainer = document.getElementById('chart-container');
+  if (!chartContainer) {
+    chartContainer = document.createElement('div');
+    chartContainer.id = 'chart-container';
+    resultContainer.appendChild(chartContainer);
+  }
+  Highcharts.chart(chartContainer, {
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie'
+    },
+    title: {
+      text: 'YSRCP Co-ordinator Chart'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.0f} %' // Update format to remove decimal
+        }
+      }
+    },
+    series: [{
+      name: 'Preference Percentage',
+      colorByPoint: true,
+      data: chartData
+    }],
+    colors: [
+      'rgb(1, 169, 91)', // Same MLA
+      'rgb(0, 119, 112)', // Other MLA
+      'rgb(68, 114, 196)' // Anyone
+    ]
+  });
         } else {
           console.log('Data is not an object or is empty:', castData);
           resultContainer.innerHTML = '<p>No data found. Please try again.</p>';

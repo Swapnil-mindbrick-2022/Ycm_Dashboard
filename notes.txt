@@ -1047,3 +1047,64 @@ form.addEventListener("submit", async (event) => {
     ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
     GROUP BY District;
     `;
+
+
+
+
+    async registerCandidate(req, res) {
+            const { name, college, email, mobile, rollno } = req.body;
+          
+            console.log(name, college, email, mobile, rollno);
+          
+            Candidates.findOne({ username: email })
+              .then((data) => {
+                if (data) {
+                  res.send('User already exists');
+                } else {
+                  const newUser = new Candidates({
+                    Name: name,
+                    College: college,
+                    username: email,
+                    Mobileno: mobile,
+                    Rollno: rollno,
+                    password: rollno,
+                  });
+          
+                  // Save the new user to the database
+                  newUser
+                    .save()
+                    .then((data) => {
+                      if (data) {
+                        // Send email to user with their username and password
+                        const transporter = nodemailer.createTransport({
+                          service: 'gmail',
+                          auth: {
+                            user: 'swapnil@etgresearch.in', // replace with your own Gmail address
+                            pass: 'Swapnil321@', // replace with your own Gmail password
+                          },
+                        });
+          
+                        const mailOptions = {
+                          from: 'swapnil@etgresearch.in', // replace with your own Gmail address
+                          to: email,
+                          subject: 'Registration successful',
+                          text: `Thank you for registering! Your username is ${email} and your password is ${rollno}.`,
+                        };
+          
+                        transporter.sendMail(mailOptions, (error, info) => {
+                          if (error) {
+                            console.log(error);
+                          } else {
+                            console.log('Email sent: ' + info.response);
+                          }
+                        });
+          
+                        // Redirect user to homepage
+                        return res.redirect('/');
+                      }
+                    })
+                    .catch((err) => res.send(err));
+                }
+              })
+              .catch((err) => res.send(err));
+          },

@@ -165,6 +165,9 @@ module.exports = (sequelize, Sequelize) => {
     Rev_Mandal:{
       type: Sequelize.STRING
 
+    },
+    sdate:{
+      type: Sequelize.STRING
     }
   }, {
     timestamps: false

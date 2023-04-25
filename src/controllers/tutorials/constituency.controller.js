@@ -83,6 +83,7 @@ const CM_Satisfaction = async (req, res) => {
   try {
     const result = await db.sequelize.query(
       `SELECT 
+        'Good' AS type,
         CONCAT(ROUND(SUM(CASE WHEN Gender = 'MALE' AND \`CM_Satisfaction\` = 'Good' THEN factor ELSE 0 END) / SUM(CASE WHEN Gender = 'MALE' THEN factor ELSE 0 END) * 100), '%') AS MALE,
         CONCAT(ROUND(SUM(CASE WHEN Gender = 'FEMALE' AND \`CM_Satisfaction\` = 'Good' THEN factor ELSE 0 END) / SUM(CASE WHEN Gender = 'FEMALE' THEN factor ELSE 0 END) * 100), '%') AS FEMALE,
         CONCAT(ROUND(SUM(CASE WHEN \`CM_Satisfaction\` = 'Good' THEN factor ELSE 0 END) / SUM(factor) * 100), '%') AS TOTAL
@@ -97,6 +98,7 @@ const CM_Satisfaction = async (req, res) => {
       UNION ALL
       
       SELECT
+        'Not Good' AS type,
         CONCAT(ROUND(SUM(CASE WHEN Gender = 'MALE' AND \`CM_Satisfaction\` = 'Not Good' THEN factor ELSE 0 END) / SUM(CASE WHEN Gender = 'MALE' THEN factor ELSE 0 END) * 100), '%') AS MALE,
         CONCAT(ROUND(SUM(CASE WHEN Gender = 'FEMALE' AND \`CM_Satisfaction\` = 'Not Good' THEN factor ELSE 0 END) / SUM(CASE WHEN Gender = 'FEMALE' THEN factor ELSE 0 END) * 100), '%') AS FEMALE,
         CONCAT(ROUND(SUM(CASE WHEN \`CM_Satisfaction\` = 'Not Good' THEN factor ELSE 0 END) / SUM(factor) * 100), '%') AS TOTAL
@@ -109,13 +111,27 @@ const CM_Satisfaction = async (req, res) => {
         ${Date ? `AND Date = '${Date}'` : ''}
     `, { type: sequelize.QueryTypes.SELECT });
 
-    // res.json([result]); // wrap result in an array
-    res.send(result)
+    const formattedResult = {
+      "Good": {
+        "MALE": result[0].MALE,
+        "FEMALE": result[0].FEMALE,
+        "TOTAL": result[0].TOTAL
+      },
+      "Not Good": {
+        "MALE": result[1].MALE,
+        "FEMALE": result[1].FEMALE,
+        "TOTAL": result[1].TOTAL
+      }
+    };
+
+    res.send(formattedResult);
+    console.log(formattedResult);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Something went wrong' });
   }
 }
+
 
 const TopFiveCast= async(req,res,next)=>{
   try {
@@ -127,11 +143,11 @@ const TopFiveCast= async(req,res,next)=>{
         CONCAT(
           ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND CM_Satisfaction = 'Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
           '%'
-        ) AS Good_Percentage,
+        ) AS SATISFIED,
         CONCAT(
           ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND CM_Satisfaction = 'Not Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
           '%'
-        ) AS Not_Good_Percentage
+        ) AS \`NOT SATISFIED\`
       FROM 
         fileddata,
         (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date LIMIT 5) AS Castes
@@ -144,7 +160,7 @@ const TopFiveCast= async(req,res,next)=>{
         AND Date = :Date
         AND fileddata.Caste = Castes.Caste
       GROUP BY fileddata.Caste
-      ORDER BY Good_Percentage DESC
+      ORDER BY SUM(Factor) ASC;
     `;
     const results = await db.sequelize.query(query, { 
       type: db.sequelize.QueryTypes.SELECT,
@@ -158,15 +174,15 @@ const TopFiveCast= async(req,res,next)=>{
     // Transform the result into a matrix with castes as rows and good/not good percentages as columns
     const matrix = {};
     results.forEach((result) => {
-      matrix[result.Caste] = [result.Good_Percentage, result.Not_Good_Percentage];
+      matrix[result.Caste] = [result.SATISFIED, result['NOT SATISFIED']];
     });
 
     // Build the JSON object
     const output = {};
     Object.keys(matrix).forEach((caste) => {
       output[caste] = {
-        good_percentage: matrix[caste][0],
-        not_good_percentage: matrix[caste][1]
+        SATISFIED: matrix[caste][0],
+        ['NOT SATISFIED']: matrix[caste][1]
       };
     });
 
@@ -188,26 +204,56 @@ const SummeryReport = async (req, res, next) => {
     }
 
     const query = `
-      SELECT 
-        fileddata.\`Rev_Mandal\` As MANDAL,
-        CONCAT(resultdata.\`2019_YSRCP\`) AS \`2019 YSRCP\`,
-        CONCAT(resultdata.\`2019_TDP\`) AS \`2019 TDP\`,
-        CONCAT(resultdata.\`2019_JSP\`) AS \`2019 JSP\`,
-        CONCAT(resultdata.\`2014_YSRCP\`) AS \`2014 YSRCP\`,
-        CONCAT(resultdata.\`2014_TDP\`) AS \`2014 TDP\`,
-        CONCAT(resultdata.\`2014_Others\`) AS \`2014 Others\`,
-        CONCAT(ROUND((SUM(CASE WHEN fileddata.Party = 'YSRCP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`YSRCP\`,
-        CONCAT(ROUND((SUM(CASE WHEN fileddata.Party = 'TDP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`TDP\`,
-        CONCAT(ROUND((SUM(CASE WHEN fileddata.Party = 'JSP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`JSP\`,
-        CONCAT(ROUND((SUM(CASE WHEN fileddata.Party NOT IN ('YSRCP', 'TDP', 'JSP') THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`Others\`
+    WITH \`mandal_avgs\` AS (
+      SELECT
+          fileddata.Rev_Mandal AS MANDAL,
+          CONCAT(FORMAT(AVG(resultdata.\`2019_YSRCP\`), 0), '%') AS '2019 YSRCP',
+          CONCAT(FORMAT(AVG(resultdata.\`2019_TDP\`), 0), '%') AS '2019 TDP',
+          CONCAT(FORMAT(AVG(resultdata.\`2019_JSP\`), 0), '%') AS '2019 JSP',
+          CONCAT(FORMAT(AVG(resultdata.\`2014_YSRCP\`), 0), '%') AS '2014 YSRCP',
+          CONCAT(FORMAT(AVG(resultdata.\`2014_TDP\`), 0), '%') AS '2014 TDP',
+          CONCAT(FORMAT(AVG(resultdata.\`2014_Others\`), 0), '%') AS '2014 Others',
+          CONCAT(FORMAT(SUM(CASE WHEN fileddata.Party = 'YSRCP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100, 0), '%') AS YSRCP,
+          CONCAT(FORMAT(SUM(CASE WHEN fileddata.Party = 'TDP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100, 0), '%') AS TDP,
+          CONCAT(ROUND((((SUM(CASE WHEN fileddata.Party = 'JSP' THEN fileddata.Factor ELSE 0 END) + SUM(CASE WHEN fileddata.Party = 'BJP' THEN fileddata.Factor ELSE 0 END)) / SUM(fileddata.Factor)) * 100)), '%') AS JSP_BJP,
+          CONCAT(ROUND(((SUM(CASE WHEN fileddata.Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor)) * 100)), '%') AS OTHER
+  
       FROM resultdata
       LEFT JOIN fileddata ON resultdata.\`Mandal Name\` = fileddata.\`Rev_Mandal\`
       WHERE fileddata.CM_Satisfaction IN ('Good', 'Not Good')
-        AND fileddata.District = :district
-        AND fileddata.R_Constituency = :constituency
-        AND fileddata.Date = :Date
-      GROUP BY resultdata.\`Mandal Name\`, resultdata.\`2019_YSRCP\`, resultdata.\`2019_TDP\`, resultdata.\`2019_JSP\`, resultdata.\`2014_YSRCP\`, resultdata.\`2014_TDP\`, resultdata.\`2014_Others\`
-      ORDER BY resultdata.\`Mandal Name\`;
+          AND fileddata.District = :district
+          AND fileddata.R_Constituency = :constituency
+          AND fileddata.Date = :Date
+          AND fileddata.Rev_Mandal IS NOT NULL -- Exclude the 'Total' row
+      GROUP BY fileddata.Rev_Mandal
+  )
+  SELECT 'Total' AS MANDAL,
+   CONCAT(FORMAT(AVG(\`2019 YSRCP\`), 0), '%') AS \`2019 YSRCP\`,
+   CONCAT(FORMAT(AVG(\`2019 TDP\`), 0), '%') AS \`2019 TDP\`,
+   CONCAT(FORMAT(AVG(\`2019 JSP\`), 0), '%') AS \`2019 JSP\`,
+   CONCAT(FORMAT(AVG(\`2014 YSRCP\`), 0), '%') AS \`2014 YSRCP\`,
+   CONCAT(FORMAT(AVG(\`2014 TDP\`), 0), '%') AS \`2014 TDP\`,
+   CONCAT(FORMAT(AVG(\`2014 Others\`), 0), '%') AS \`2014 Others\`,
+   CONCAT(FORMAT(AVG(YSRCP), 0), '%') AS YSRCP,
+   CONCAT(FORMAT(AVG(TDP), 0), '%') AS TDP,
+   CONCAT(FORMAT(AVG(JSP_BJP), 0), '%') AS JSP_BJP,
+   CONCAT(FORMAT(AVG(OTHER), 0), '%') AS OTHER
+  FROM \`mandal_avgs\`
+  UNION ALL
+  SELECT \`MANDAL\`,
+      \`2019 YSRCP\`,
+      \`2019 TDP\`,
+      \`2019 JSP\`,
+      \`2014 YSRCP\`,
+      \`2014 TDP\`,
+      \`2014 Others\`,
+      YSRCP,
+      TDP,
+      JSP_BJP,
+      OTHER
+  FROM \`mandal_avgs\`
+  ORDER BY \`MANDAL\`;
+
     `;
 
     const result = await db.sequelize.query(query, {
@@ -304,6 +350,7 @@ const Mlasatishfaction = async (req, res) => {
   try {
     const result = await db.sequelize.query(
       `SELECT 
+        'Good.' AS type,
         CONCAT(ROUND(SUM(CASE WHEN Gender = 'MALE' AND \`MLA Satisfaction\` = 'Good.' THEN factor ELSE 0 END) / SUM(CASE WHEN Gender = 'MALE' THEN factor ELSE 0 END) * 100), '%') AS MALE,
         CONCAT(ROUND(SUM(CASE WHEN Gender = 'FEMALE' AND \`MLA Satisfaction\` = 'Good.' THEN factor ELSE 0 END) / SUM(CASE WHEN Gender = 'FEMALE' THEN factor ELSE 0 END) * 100), '%') AS FEMALE,
         CONCAT(ROUND(SUM(CASE WHEN \`MLA Satisfaction\` = 'Good.' THEN factor ELSE 0 END) / SUM(factor) * 100), '%') AS TOTAL
@@ -318,9 +365,10 @@ const Mlasatishfaction = async (req, res) => {
       UNION ALL
       
       SELECT
-        CONCAT(ROUND(SUM(CASE WHEN Gender = 'MALE' AND \`MLA Satisfaction\` = 'Not Good.' THEN factor ELSE 0 END) / SUM(CASE WHEN Gender = 'MALE' THEN factor ELSE 0 END) * 100), '%') AS MALE,
-        CONCAT(ROUND(SUM(CASE WHEN Gender = 'FEMALE' AND \`MLA Satisfaction\` = 'Not Good.' THEN factor ELSE 0 END) / SUM(CASE WHEN Gender = 'FEMALE' THEN factor ELSE 0 END) * 100), '%') AS FEMALE,
-        CONCAT(ROUND(SUM(CASE WHEN \`MLA Satisfaction\` = 'Not Good.' THEN factor ELSE 0 END) / SUM(factor) * 100), '%') AS TOTAL
+        'Not Good.' AS type,
+        CONCAT(ROUND(SUM(CASE WHEN Gender = 'MALE' AND \`MLA Satisfaction\` = 'Not good.' THEN factor ELSE 0 END) / SUM(CASE WHEN Gender = 'MALE' THEN factor ELSE 0 END) * 100), '%') AS MALE,
+        CONCAT(ROUND(SUM(CASE WHEN Gender = 'FEMALE' AND \`MLA Satisfaction\` = 'Not good.' THEN factor ELSE 0 END) / SUM(CASE WHEN Gender = 'FEMALE' THEN factor ELSE 0 END) * 100), '%') AS FEMALE,
+        CONCAT(ROUND(SUM(CASE WHEN \`MLA Satisfaction\` = 'Not good.' THEN factor ELSE 0 END) / SUM(factor) * 100), '%') AS TOTAL
       FROM 
         fileddata
       WHERE 
@@ -330,8 +378,21 @@ const Mlasatishfaction = async (req, res) => {
         ${Date ? `AND Date = '${Date}'` : ''}
     `, { type: sequelize.QueryTypes.SELECT });
 
-    // res.json([result]); // wrap result in an array
-    res.send(result)
+    const formattedResult = {
+      "Good.": {
+        "MALE": result[0].MALE,
+        "FEMALE": result[0].FEMALE,
+        "TOTAL": result[0].TOTAL
+      },
+      "Not Good.": {
+        "MALE": result[1].MALE,
+        "FEMALE": result[1].FEMALE,
+        "TOTAL": result[1].TOTAL
+      }
+    };
+
+    res.send(formattedResult);
+    console.log(formattedResult);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Something went wrong' });
@@ -366,7 +427,7 @@ const Castsatisfactionmla= async(req,res,next)=>{
         AND Date = :Date
         AND fileddata.Caste = Castes.Caste
       GROUP BY fileddata.Caste
-      ORDER BY Good_Percentage DESC
+      ORDER BY SUM(Factor) DESC;
     `;
     const results = await db.sequelize.query(query, { 
       type: db.sequelize.QueryTypes.SELECT,
@@ -416,22 +477,12 @@ const PrefferdCaste= async(req,res,next)=>{
       '%'
     ) AS 'TDP',
     CONCAT(
-      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` = 'JSP' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+      ROUND(((SUM(CASE WHEN fileddata.Caste = Castes.Caste AND Party = 'JSP' THEN factor ELSE 0 END) + SUM(CASE WHEN fileddata.Caste = Castes.Caste AND Party = 'BJP' THEN factor ELSE 0 END)) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END)) * 100),
       '%'
-    ) AS 'JSP',
-    CONCAT(
-      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` = 'BJP' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
-      '%'
-    ) AS 'BJP',
-    CONCAT(
-      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` = 'INC' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
-      '%'
-    ) AS 'INC',
-    CONCAT(
-      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` = 'Not Decided' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
-      '%'
-    ) AS 'Not Decided',
-    CONCAT(ROUND((SUM(CASE WHEN fileddata.\`Party\` NOT IN ('YSRCP', 'TDP', 'JSP','BJP','INC','Not Decided') THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`Others\`
+    ) AS 'JSP_BJP',
+    
+   
+    CONCAT(ROUND((100 - (SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` IN ('YSRCP', 'TDP', 'JSP', 'BJP') THEN factor ELSE 0 END) / SUM(fileddata.Factor) * 100)), 0), '%') AS \`Others\`
     FROM 
     fileddata,
     (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS Castes
@@ -444,7 +495,9 @@ const PrefferdCaste= async(req,res,next)=>{
     AND Date = :Date
     AND fileddata.Caste = Castes.Caste
     GROUP BY fileddata.Caste
+    ORDER BY SUM(Factor) ASC;
     `;
+
     const results = await db.sequelize.query(query, { 
       type: db.sequelize.QueryTypes.SELECT,
       replacements: {
@@ -457,7 +510,7 @@ const PrefferdCaste= async(req,res,next)=>{
     // Transform the result into a matrix with castes as rows and good/not good percentages as columns
     const matrix = {};
     results.forEach((result) => {
-      matrix[result.Caste] = [result.YSRCP, result.TDP, result.JSP, result.Others,result.BJP, result.INC,result['Not Decided']];
+      matrix[result.Caste] = [result.YSRCP, result.TDP, result.JSP_BJP, result.Others];
     });
 
     // Build the JSON object
@@ -466,26 +519,26 @@ const PrefferdCaste= async(req,res,next)=>{
       output[caste] = {
         YSRCP: matrix[caste][0],
         TDP: matrix[caste][1],
-        JSP:matrix[caste][2],
-        BJP:matrix[caste][3],
-        INC:matrix[caste][4],
-        ['Not Decided']:matrix[caste][5],
-        Others:matrix[caste][6]
+        JSP_BJP:matrix[caste][2],
+        // BJP:matrix[caste][3],
+       
+        Others:matrix[caste][3]
       };
     });
 
     const query2 = `
     SELECT 
-    \`Party\`,
-    COUNT(*) 
-   
+      \`Party\`,
+      SUM(Factor) as totalFactor
     FROM fileddata 
-    WHERE fileddata.District = :District AND fileddata.R_Constituency = :R_Constituency AND fileddata.Date = :Date AND \`Party\` IS NOT NULL
-   
+    WHERE fileddata.District = :District 
+    AND fileddata.R_Constituency = :R_Constituency 
+    AND fileddata.Date = :Date 
+    AND \`Party\` IS NOT NULL
+    GROUP BY \`Party\`
+    ORDER BY SUM(Factor) ASC;;
+  `;
   
-  GROUP BY \`Party\`;
-  
-    `;
   
     const result1 = await db.sequelize.query(query2, {
       type: db.sequelize.QueryTypes.SELECT,
@@ -507,68 +560,102 @@ const PrefferdCaste= async(req,res,next)=>{
 } 
 
 // Prefferd MLA CANDIDATE question based on MLA satishfaction  FOR those where party belongs to YSRCP
-const PrefferMLAcandidate= async(req,res,next)=>{
+// const PrefferMLAcandidate= async(req,res,next)=>{
+//   try {
+//     const { district, constituency, Date } = req.body;
+
+//     const query = `
+//       SELECT 
+//       fileddata.\`MLA Preference\`,
+//         CONCAT(
+//           ROUND(SUM(CASE WHEN fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\` AND \`MLA Satisfaction\` = 'Good.' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\` THEN factor ELSE 0 END) * 100), 
+//           '%'
+//         ) AS Good_Percentage,
+//         CONCAT(
+//           ROUND(SUM(CASE WHEN fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\` AND \`MLA Satisfaction\` = 'Not Good.' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\` THEN factor ELSE 0 END) * 100), 
+//           '%'
+//         ) AS Not_Good_Percentage
+//       FROM 
+//         fileddata,
+//         (SELECT DISTINCT \`MLA Preference\` FROM fileddata WHERE \`MLA Preference\` IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS \`MLA Preference\`
+//       WHERE 
+//         fileddata.\`MLA Preference\` IS NOT NULL 
+//         AND \`MLA Satisfaction\` IS NOT NULL 
+//         AND factor IS NOT NULL 
+//         AND District = :district
+//         AND R_Constituency = :constituency
+//         AND Date = :Date
+//         AND Party = 'YSRCP'
+//         AND  fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\`
+// GROUP BY fileddata.\`MLA Preference\`
+//       ORDER BY Good_Percentage DESC
+//     `;
+
+
+    
+//     const results = await db.sequelize.query(query, { 
+//       type: db.sequelize.QueryTypes.SELECT,
+//       replacements: {
+//         district,
+//         constituency,
+//         Date
+//       }
+//     });
+
+//     // Transform the result into a matrix with castes as rows and good/not good percentages as columns
+//     const matrix = {};
+//     results.forEach((result) => {
+//       matrix[result["MLA Preference"]] = [result.Good_Percentage, result.Not_Good_Percentage];
+//     });
+//     // console.log(matrix);
+
+//     // Build the JSON object
+//     const output = {};
+//     Object.keys(matrix).forEach((caste) => {
+//       output[caste] = {
+//         good_percentage: matrix[caste][0],
+//         not_good_percentage: matrix[caste][1]
+//       };
+//     });
+
+//     res.json(output);
+//     console.log(output);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// } 
+
+
+
+
+const PrefferMLAcandidate = async (req, res, next) => {
   try {
     const { district, constituency, Date } = req.body;
 
     const query = `
       SELECT 
-      fileddata.\`MLA Preference\`,
-        CONCAT(
-          ROUND(SUM(CASE WHEN fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\` AND \`MLA Satisfaction\` = 'Good.' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\` THEN factor ELSE 0 END) * 100), 
-          '%'
-        ) AS Good_Percentage,
-        CONCAT(
-          ROUND(SUM(CASE WHEN fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\` AND \`MLA Satisfaction\` = 'Not Good.' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\` THEN factor ELSE 0 END) * 100), 
-          '%'
-        ) AS Not_Good_Percentage
-      FROM 
-        fileddata,
-        (SELECT DISTINCT \`MLA Preference\` FROM fileddata WHERE \`MLA Preference\` IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS \`MLA Preference\`
-      WHERE 
-        fileddata.\`MLA Preference\` IS NOT NULL 
-        AND \`MLA Satisfaction\` IS NOT NULL 
-        AND factor IS NOT NULL 
-        AND District = :district
-        AND R_Constituency = :constituency
-        AND Date = :Date
+        \`MLA Preference\`,
+        CONCAT(ROUND(SUM(Factor) / (SELECT SUM(Factor) FROM fileddata WHERE District = '${district}' AND R_Constituency = '${constituency}' AND Date = '${Date}' AND \`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone') AND Party = 'YSRCP') * 100, 2), '%') AS totalFactor_percentage
+      FROM fileddata 
+      WHERE District = '${district}'
+        AND R_Constituency = '${constituency}' 
+        AND Date = '${Date}' 
+        AND \`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone')
         AND Party = 'YSRCP'
-        AND  fileddata.\`MLA Preference\` = \`MLA Preference\`.\`MLA Preference\`
-GROUP BY fileddata.\`MLA Preference\`
-      ORDER BY Good_Percentage DESC
+      GROUP BY \`MLA Preference\`;
     `;
-    const results = await db.sequelize.query(query, { 
-      type: db.sequelize.QueryTypes.SELECT,
-      replacements: {
-        district,
-        constituency,
-        Date
-      }
-    });
 
-    // Transform the result into a matrix with castes as rows and good/not good percentages as columns
-    const matrix = {};
-    results.forEach((result) => {
-      matrix[result["MLA Preference"]] = [result.Good_Percentage, result.Not_Good_Percentage];
-    });
-    // console.log(matrix);
+    const result = await db.sequelize.query(query, { type: QueryTypes.SELECT });
+    res.send(result);
+    console.log(result)
 
-    // Build the JSON object
-    const output = {};
-    Object.keys(matrix).forEach((caste) => {
-      output[caste] = {
-        good_percentage: matrix[caste][0],
-        not_good_percentage: matrix[caste][1]
-      };
-    });
-
-    res.json(output);
-    console.log(output);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-} 
+}
+
 
 
 const PrefferdMLAByCaste = async(req,res,next)=>{
@@ -845,67 +932,37 @@ GROUP BY \`JSP Full\`;
 }
 //PrefferYSRCPCoordinator 
 
-const PrefferYSRCPCoordinator= async(req,res,next)=>{
+const PrefferYSRCPCoordinator = async (req, res, next) => {
   try {
     const { district, constituency, Date } = req.body;
 
     const query = `
       SELECT 
-      fileddata.\`YSRCP Co-ordinator\`,
+        f.\`YSRCP Co-ordinator\`,
         CONCAT(
-          ROUND(SUM(CASE WHEN fileddata.\`YSRCP Co-ordinator\` = \`YSRCP Co-ordinator\`.\`YSRCP Co-ordinator\` AND \`MLA Satisfaction\` = 'Good.' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.\`YSRCP Co-ordinator\` = \`YSRCP Co-ordinator\`.\`YSRCP Co-ordinator\` THEN factor ELSE 0 END) * 100), 
-          '%'
-        ) AS Good_Percentage,
-        CONCAT(
-          ROUND(SUM(CASE WHEN fileddata.\`YSRCP Co-ordinator\` = \`YSRCP Co-ordinator\`.\`YSRCP Co-ordinator\` AND \`MLA Satisfaction\` = 'Not Good.' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.\`YSRCP Co-ordinator\` = \`YSRCP Co-ordinator\`.\`YSRCP Co-ordinator\` THEN factor ELSE 0 END) * 100), 
-          '%'
-        ) AS Not_Good_Percentage
-      FROM 
-        fileddata,
-        (SELECT DISTINCT \`YSRCP Co-ordinator\` FROM fileddata WHERE \`YSRCP Co-ordinator\` IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS \`YSRCP Co-ordinator\`
-      WHERE 
-        fileddata.\`YSRCP Co-ordinator\` IS NOT NULL 
-        AND \`MLA Satisfaction\` IS NOT NULL 
-        AND factor IS NOT NULL 
-        AND District = :district
-        AND R_Constituency = :constituency
-        AND Date = :Date
-        AND  fileddata.\`YSRCP Co-ordinator\` = \`YSRCP Co-ordinator\`.\`YSRCP Co-ordinator\`
-GROUP BY fileddata.\`YSRCP Co-ordinator\`
-      ORDER BY Good_Percentage DESC
+          ROUND(SUM(f.Factor) / (SELECT SUM(f2.Factor) FROM fileddata f2 JOIN cordinates c2 ON f2.R_Constituency = c2.\`R.Constituency\` AND f2.District = c2.District AND f2.Party = 'YSRCP' WHERE c2.District = :district AND c2.\`R.Constituency\` = :constituency AND f2.\`YSRCP Co-ordinator\` IN ('Same Co-ordinator', 'Anyone', 'Other Co-ordinator') AND f2.\`Date\` = :Date) * 100, 2), '%') AS totalFactor_percentage
+      FROM fileddata f
+      JOIN cordinates c ON f.R_Constituency = c.\`R.Constituency\` AND f.District = c.District
+      WHERE c.District = :district AND c.\`R.Constituency\` = :constituency AND f.\`YSRCP Co-ordinator\` IN ('Same Co-ordinator', 'Anyone', 'Other Co-ordinator') AND f.Party = 'YSRCP' AND f.\`Date\` = :Date
+      GROUP BY f.\`YSRCP Co-ordinator\`;
     `;
-    const results = await db.sequelize.query(query, { 
+    const results = await db.sequelize.query(query, {
       type: db.sequelize.QueryTypes.SELECT,
       replacements: {
         district,
         constituency,
         Date
-      }
+      },
     });
 
-    // Transform the result into a matrix with castes as rows and good/not good percentages as columns
-    const matrix = {};
-    results.forEach((result) => {
-      matrix[result["YSRCP Co-ordinator"]] = [result.Good_Percentage, result.Not_Good_Percentage];
-    });
-    // console.log(matrix);
-
-    // Build the JSON object
-    const output = {};
-    Object.keys(matrix).forEach((caste) => {
-      output[caste] = {
-        good_percentage: matrix[caste][0],
-        not_good_percentage: matrix[caste][1]
-      };
-    });
-
-    res.json(output);
-    console.log(output);
+    res.json(results);
+    console.log(results);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-} 
+};
+
 
  
 module.exports = {

@@ -96,7 +96,8 @@ const uploadmuliplefiles = async (req, res, next) => {
               ['JSP Candidate(Alliance)']:res['JSP Candidate(Alliance)'] || null,
               ['Week']:res['Week'] || null,
               ['Schemes Termination']:res['Schemes Termination'] || null,
-              Rev_Mandal:res.Rev_Mandal ||rev["R Mandal"] || null
+              Rev_Mandal:res.Rev_Mandal ||res["R Mandal"] || null,
+              sdate:res.sdate,
               };
             });
     

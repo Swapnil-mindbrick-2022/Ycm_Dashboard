@@ -26,7 +26,7 @@ const DPC_data = async (req, res, next) => {
 
   // Build the query based on the selected option
   switch (selectedOption) {
-    case 'District':
+    
       case 'District':
         query = `
           SELECT
@@ -48,7 +48,7 @@ const DPC_data = async (req, res, next) => {
           ${District ? `AND t1.District = '${District}'` : ''}
           ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
           GROUP BY t1.District
-          ORDER BY SUM(Factor) DESC;
+          ORDER BY SUM(Factor) ASC;
         `;// Add the query for districts here
       break;
     case 'PARLIAMENT':
@@ -71,7 +71,7 @@ const DPC_data = async (req, res, next) => {
       ${District ? `AND t1.District = '${District}'` : ''}
       ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
       GROUP BY t1.PARLIAMENT
-      ORDER BY SUM(Factor) DESC;`; // Add the query for parliament here--------
+      ORDER BY SUM(Factor) ASC;`; // Add the query for parliament here--------
       break;
     case 'Caste':
         query = `SELECT
@@ -102,11 +102,15 @@ const DPC_data = async (req, res, next) => {
   }
 
   try {
-    const data = await db.sequelize.query(query, { type: db.sequelize.QueryTypes.SELECT });
+    const data = await db.sequelize.query(query, {
+      type: db.sequelize.QueryTypes.SELECT,
+      order: [[selectedOption, 'ASC']] // Replace 'column_name' with the name of the column you want to sort by
+    });
+    res.send(data);
     // res.render('overviewpage', { "data ":data});
     // res.send(data)
     console.log(data)
-    res.send(data)
+  
   } catch (error) {
     console.error(error);
     res.send("Error occurred while fetching data");
@@ -150,17 +154,141 @@ const getCaste = async(req,res,next)=>{
     );
 
     const Caste = results.map(result => result.Caste);
-    // console.log('CASTE---',Caste)
+    console.log('CASTE---',Caste.length)
     res.send(Caste);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+
+const TDPJSPAlliance = async (req, res, next) => {
+  const {selectedOption,Gender,Caste,age,District,PARLIAMENT} = req.body;
+  let query = '';
+
+
+  // Build the query based on the selected option
+  switch (selectedOption) {
+   
+      case 'District':
+        query = `
+          SELECT
+            t1.District,
+            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
+            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`Will Not Vote\`,
+            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
+           
+          FROM fileddata AS t1
+          JOIN (
+            SELECT District,R_Constituency, MAX(Week) AS Max_week
+            FROM fileddata
+            GROUP BY R_Constituency,District
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
+          WHERE \`TDP+JSP Alliance\` IS NOT NULL
+          ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+          ${Caste ? `AND t1.Caste = '${Caste}'` : ''}
+          ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+          ${District ? `AND t1.District = '${District}'` : ''}
+          ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+          GROUP BY t1.District
+          ORDER BY SUM(Factor) ASC;
+        `;// Add the query for districts here
+      break;
+    case 'PARLIAMENT':
+        query = `SELECT
+        t1.PARLIAMENT,
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
+            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`Will Not Vote\`,
+            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
+      FROM fileddata AS t1
+      JOIN (
+        SELECT District,R_Constituency, MAX(Week) AS Max_week
+        FROM fileddata
+        GROUP BY R_Constituency,District
+      ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
+      WHERE \`TDP+JSP Alliance\` IS NOT NULL
+      ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+      ${Caste ? `AND t1.Caste = '${Caste}'` : ''}
+      ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+      ${District ? `AND t1.District = '${District}'` : ''}
+      ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+      GROUP BY t1.PARLIAMENT
+      ORDER BY SUM(Factor) ASC;`; // Add the query for parliament here--------
+      break;
+    case 'Caste':
+        query = `SELECT
+        t1.Caste,
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
+            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`Will Not Vote\`,
+            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
+      FROM fileddata AS t1
+      JOIN (
+        SELECT District,R_Constituency, MAX(Week) AS Max_week
+        FROM fileddata
+        GROUP BY R_Constituency,District
+      ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
+      WHERE \`TDP+JSP Alliance\` IS NOT NULL
+      ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+      ${Caste ? `AND t1.Caste = '${Caste}'` : ''}
+      ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+      ${District ? `AND t1.District = '${District}'` : ''}
+      ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+      GROUP BY t1.Caste
+      ORDER BY SUM(Factor) ASC;`; // Add the query for caste here
+      // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
+      break;
+    default:
+      res.send('Invalid option');
+      return;
+  }
+
+  try {
+    const data = await db.sequelize.query(query, {
+      type: db.sequelize.QueryTypes.SELECT,
+      order: [[selectedOption, 'ASC']] // Replace 'column_name' with the name of the column you want to sort by
+    });
+    res.send(data);
+    // res.render('overviewpage', { "data ":data});
+    // res.send(data)
+    // console.log(data)
+  
+  } catch (error) {
+    console.error(error);
+    res.send("Error occurred while fetching data");
+  }
+}
+const getDistCaste = async(req,res,next)=>{
+  const selectedDistrict = req.query.District;
+  // const parliament = req.query.parliament;
+  
+  try {
+    let query = 'SELECT DISTINCT Caste FROM fileddata WHERE District = :district';
+    let replacements = { district: selectedDistrict };
+    
+   
+    
+    const results = await db.sequelize.query(query, {
+      replacements,
+      type: sequelize.QueryTypes.SELECT
+    });
+
+    const Caste = results.map(result => result.Caste);
+    console.log(Caste.length)
+    res.send(Caste);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+
 module.exports = {
     DPC_data,
     Parliament,
-    getCaste
+    getCaste,
+    TDPJSPAlliance,
+    getDistCaste
   };
   
 

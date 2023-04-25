@@ -20,6 +20,8 @@ let routes = (app) => {
   router.post('/DPC_Data',overviewController.DPC_data)
   router.get('/parliament',overviewController.Parliament)//axios call for parliament based on districts----
   router.get('/caste',overviewController.getCaste) //axios call for caste based on districts and parliament---
+  router.post('/TDPJSPAlliance',overviewController.TDPJSPAlliance)
+  router.get('/dist_caste',overviewController.getDistCaste)
 
   // router.get("/getalldata",userauth, excelController.getTutorials);
   // router.get("/download",excelController.download);

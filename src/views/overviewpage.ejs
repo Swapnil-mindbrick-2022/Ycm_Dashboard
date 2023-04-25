@@ -306,6 +306,9 @@
           </svg>
         </a>
       </button>
+
+      <button class="btn btn-warning" id="TDPJSPAlliance-btn">TDP+JSP Alliance </button>
+      
 	</nav>
 	<div id="parentele">
 		<div>
@@ -412,18 +415,18 @@ districtDropdown.addEventListener('change',async function(){
     option.textContent = val;
     getParliament.appendChild(option)
   })
-  // })
-  // getting caste Values based on district and parliament-----
-  // const getCaste = document.querySelector('#Caste')
-  // axios.get('/caste',{params:{District:getDistrict}}).then((res)=>{
-  //   const caste = res.data
-  //   caste.forEach(val =>{
-  //   const option = document.createElement('option');
-  //   option.value = val;
-  //   option.textContent = val;
-  //   getCaste.appendChild(option)
-  //   })
-  // })
+  await axios.get('/dist_caste',{params:{District:getDistrict}}).then((res)=>{
+    const caste = res.data
+    console.log(caste,'casteData')
+    getCaste.innerHTML = ''
+    getCaste.innerHTML =  '<option value="">Select Caste</option>'
+    caste.forEach(val =>{
+    const option = document.createElement('option');
+    option.value = val;
+    option.textContent = val;
+    getCaste.appendChild(option)
+    })
+  })
 })
 //getting caste values based on 
 getParliament.addEventListener('change',async function(){
@@ -549,15 +552,7 @@ async function getFilteredData(e){
   loader.style.width = "250px";
   loader.style.height = "250px";
   loader.style.animation = "spin 1s ease-in-out infinite";
-//   const text = document.createElement("span");
-// text.textContent = "Loading data";
-// text.style.position = "absolute";
-// text.style.top = "50%";
-// text.style.left = "50%";
-// text.style.transform = "translate(-50%, -50%)";
-// text.style.fontSize = "20px";
-// text.style.fontWeight = "bold";
-// loader.appendChild(text);
+
 
   document.body.appendChild(loader);
   const District = document.querySelector('#district').value
@@ -572,7 +567,7 @@ async function getFilteredData(e){
   let data = response1.data
   // console.log(data)
   try {
-    const mainele = document.getElementById("mainele");
+    const mainele = document.getElementById("mainele");             
       mainele.innerHTML = `
         <table id="datatable">
 			<thead>
@@ -631,5 +626,125 @@ async function getFilteredData(e){
   }
  
 }
+
+
+
+
+
+// // attach click event listener to button
+// // Client-side code
+// const button = document.getElementById('TDPJSPAlliance-btn');
+// button.addEventListener('click', () => {
+//   const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+//   axios.post('/TDPJSPAlliance', { selectedOption })
+//     .then(response => {
+//       const mainele = document.getElementById('mainele');
+//       mainele.innerHTML = response.data;
+//     })
+//     .catch(error => console.error(error));
+// });
+
+
+
+const TDPJSPAlliancebtn = document.querySelector('#TDPJSPAlliance-btn')
+TDPJSPAlliancebtn .addEventListener('click',TDPJSPAlliance)
+async function  TDPJSPAlliance(e){
+  e.preventDefault()
+// Add a loader to the page
+const loader = document.createElement("div");
+  loader.classList.add("loader");
+  loader.style.position = "fixed";
+  loader.style.top = "35%";
+  loader.style.left = "42%";
+  loader.style.transform = "translate(-50%, -50%)";
+  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+  loader.style.borderTopColor = "#3498db";
+  loader.style.borderRadius = "75%";
+  loader.style.width = "250px";
+  loader.style.height = "250px";
+  loader.style.animation = "spin 1s ease-in-out infinite";
+//   const text = document.createElement("span");
+// text.textContent = "Loading data";
+// text.style.position = "absolute";
+// text.style.top = "50%";
+// text.style.left = "50%";
+// text.style.transform = "translate(-50%, -50%)";
+// text.style.fontSize = "20px";
+// text.style.fontWeight = "bold";
+// loader.appendChild(text);
+
+  document.body.appendChild(loader);
+
+  
+    const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+    const response1 =  await  axios.post('/TDPJSPAlliance', {selectedOption:selectedOption});
+
+  let data = response1.data
+  // console.log(response1)
+  // console.log(data)
+  try {
+    const mainele = document.getElementById("mainele");
+    mainele.innerHTML = ''
+      mainele.innerHTML = `
+        <table id="datatable">
+			<thead>
+				<tr>
+					${Object.keys(data[0]).map((key, index) => `
+					<th>
+						${key}
+						${index === 0 ? `
+					` : ''}
+					</th>`).join("")}
+				</tr>
+				</thead>
+          <tbody>
+            ${data.map(row => `
+              <tr>
+                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+      // Initialize DataTable plugin with pagination and column filtering options
+      $(document).ready(function() {
+        const table = $('#datatable').DataTable({
+          "pagingType": "full_numbers",
+          "searching": true,
+          "ordering": true,
+          "order": [[ 0, "asc" ]],
+          "columnDefs": [
+            { "targets": '_all', "searchable": true },
+            { "targets": '_all', "sortable": true }
+          ]
+        });
+        $('.search-input').on('keyup', function () {
+          const columnIdx = $(this).parent().index();
+          const searchValue = $(this).val();
+          table.column(columnIdx).search(searchValue).draw();
+        });
+        $('.filter-dropdown').on('change', function () {
+          const columnIdx = $(this).parent().index();
+          const filterValue = $(this).val();
+          table.column(columnIdx).search(filterValue).draw();
+        });
+      });
+    
+  } catch (error) {
+    console.error(error);
+  }
+  finally {
+    // Remove the loader from the page
+    document.body.removeChild(loader);
+  }
+}
+
+
+
+
+
+
+
+
 </script>
 </html>
