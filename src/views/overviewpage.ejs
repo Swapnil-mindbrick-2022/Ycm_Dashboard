@@ -511,11 +511,11 @@ const loader = document.createElement("div");
           "pagingType": "full_numbers",
           "searching": true,
           "ordering": true,
-          "order": [[ 4, "DESC" ]],
-          "columnDefs": [
-            { "targets": '_all', "searchable": true },
-            { "targets": '_all', "sortable": true }
-          ]
+          "order": [[ 2, "DESC" ]],
+          // "columnDefs": [
+          //   { "targets": '_all', "searchable": true },
+          //   { "targets": '_all', "sortable": true }
+          // ]
         });
         $('.search-input').on('keyup', function () {
           const columnIdx = $(this).parent().index();

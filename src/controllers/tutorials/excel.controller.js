@@ -4,6 +4,8 @@ const CsvParser = require("json2csv").Parser;
 const db = require("../../models");
 const resultdata = db.resultdata
 const fileddata = db.fileddata
+const moment = require('moment');
+
 
 const _ = require('lodash');
 
@@ -45,12 +47,31 @@ const uploadmuliplefiles = async (req, res, next) => {
     
           for (let batch of batches) {
             const bulkData = batch.map((res) => {
+
+              let dateValue = res['Date'];
+              if (typeof dateValue === 'number') {
+                dateValue = new Date((dateValue - 25569) * 86400 * 1000);
+              }
+              if (dateValue instanceof Date && !isNaN(dateValue)) {
+                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                formattedDate = dateValue.toLocaleDateString('en-US', options);
+              }
+              let dateValue2 = res.sdate;
+              if (typeof dateValue2 === 'number') {
+                dateValue2 = new Date((dateValue2 - 25569) * 86400 * 1000);
+              }
+              if (dateValue2 instanceof Date && !isNaN(dateValue2)) {
+                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                formattedDate2 = dateValue2.toLocaleDateString('en-US', options);
+              }
               return {
               District: res["District"] || res['DISTRICT'] ||null,
               PARLIAMENT: res.PARLIAMENT  ||res['PARLIAMENT'] || null,
               ['New District']: res['New District'] || null,
               R_Constituency: res.R_Constituency || null,
-              Date: res["Date"] || null,
+              // Date: moment.utc(res['Date'], 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD') || moment.utc('1970-01-01', 'YYYY-MM-DD'),
+              Date: formattedDate || null,
+          
               ["Timestamp"]: res["Timestamp"] ||res['TIMESTAMP']|| null,
               ["Location"]: res["Location"] || null,
               ['Audio Url']: res['Audio Url']  || null,
@@ -97,7 +118,7 @@ const uploadmuliplefiles = async (req, res, next) => {
               ['Week']:res['Week'] || null,
               ['Schemes Termination']:res['Schemes Termination'] || null,
               Rev_Mandal:res.Rev_Mandal ||res["R Mandal"] || null,
-              sdate:res.sdate,
+              sdate:formattedDate2,
               };
             });
     

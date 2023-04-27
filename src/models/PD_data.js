@@ -26,6 +26,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     Date: {
       type: Sequelize.STRING
+      
     },
     ["Timestamp"]:{
       type: Sequelize.STRING

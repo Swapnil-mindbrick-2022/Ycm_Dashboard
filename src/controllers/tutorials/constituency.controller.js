@@ -635,18 +635,23 @@ const PrefferMLAcandidate = async (req, res, next) => {
 
     const query = `
       SELECT 
-        \`MLA Preference\`,
-        CONCAT(ROUND(SUM(Factor) / (SELECT SUM(Factor) FROM fileddata WHERE District = '${district}' AND R_Constituency = '${constituency}' AND Date = '${Date}' AND \`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone') AND Party = 'YSRCP') * 100, 2), '%') AS totalFactor_percentage
-      FROM fileddata 
-      WHERE District = '${district}'
-        AND R_Constituency = '${constituency}' 
-        AND Date = '${Date}' 
-        AND \`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone')
-        AND Party = 'YSRCP'
-      GROUP BY \`MLA Preference\`;
+        f.\`MLA Preference\`,
+        CONCAT(
+          ROUND(SUM(f.Factor) / (SELECT SUM(f2.Factor) FROM fileddata f2 JOIN cordinates c2 ON f2.R_Constituency = c2.\`R.Constituency\` AND f2.District = c2.District AND f2.Party = 'YSRCP' WHERE c2.District = :district AND c2.\`R.Constituency\` = :constituency AND f2.\`MLA Preference\` IN ('Same MLA', 'Anyone', ' Other MLA') AND f2.\`Date\` = :Date) * 100, 2), '%') AS totalFactor_percentage
+      FROM fileddata f
+      JOIN cordinates c ON f.R_Constituency = c.\`R.Constituency\` AND f.District = c.District
+      WHERE c.District = :district AND c.\`R.Constituency\` = :constituency AND f.\`MLA Preference\` IN ('Same MLA', 'Anyone', ' Other MLA') AND f.Party = 'YSRCP' AND f.\`Date\` = :Date
+      GROUP BY f.\`MLA Preference\`;
     `;
+    const result = await db.sequelize.query(query, {
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: {
+        district,
+        constituency,
+        Date
+      },
+    });
 
-    const result = await db.sequelize.query(query, { type: QueryTypes.SELECT });
     res.send(result);
     console.log(result)
 
