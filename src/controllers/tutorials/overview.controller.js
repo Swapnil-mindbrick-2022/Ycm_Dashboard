@@ -37,7 +37,7 @@ const DPC_data = async (req, res, next) => {
             CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
           FROM fileddata AS t1
           JOIN (
-            SELECT District,R_Constituency, MAX(Week) AS Max_week
+            SELECT District,R_Constituency, Min(Week) AS Max_week
             FROM fileddata
             GROUP BY R_Constituency,District
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
@@ -60,7 +60,7 @@ const DPC_data = async (req, res, next) => {
         CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
       FROM fileddata AS t1
       JOIN (
-        SELECT District,R_Constituency, MAX(Week) AS Max_week
+        SELECT District,R_Constituency, Min(Week) AS Max_week
         FROM fileddata
         GROUP BY R_Constituency,District
       ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
@@ -82,7 +82,7 @@ const DPC_data = async (req, res, next) => {
         CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
       FROM fileddata AS t1
       JOIN (
-        SELECT District,R_Constituency, MAX(Week) AS Max_week
+        SELECT District,R_Constituency, Min(Week) AS Max_week
         FROM fileddata
         GROUP BY R_Constituency,District
       ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
@@ -181,11 +181,12 @@ const TDPJSPAlliance = async (req, res, next) => {
            
           FROM fileddata AS t1
           JOIN (
-            SELECT District,R_Constituency, MAX(Week) AS Max_week
+            SELECT District,R_Constituency, Min(Week) AS Max_week
             FROM fileddata
             GROUP BY R_Constituency,District
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
           WHERE \`TDP+JSP Alliance\` IS NOT NULL
+          AND Party IN ('TDP', 'JSP')
           ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
           ${Caste ? `AND t1.Caste = '${Caste}'` : ''}
           ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
@@ -203,11 +204,12 @@ const TDPJSPAlliance = async (req, res, next) => {
             CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
       FROM fileddata AS t1
       JOIN (
-        SELECT District,R_Constituency, MAX(Week) AS Max_week
+        SELECT District,R_Constituency, Min(Week) AS Max_week
         FROM fileddata
         GROUP BY R_Constituency,District
       ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
       WHERE \`TDP+JSP Alliance\` IS NOT NULL
+      AND Party IN ('TDP', 'JSP')
       ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
       ${Caste ? `AND t1.Caste = '${Caste}'` : ''}
       ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
@@ -224,11 +226,12 @@ const TDPJSPAlliance = async (req, res, next) => {
             CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
       FROM fileddata AS t1
       JOIN (
-        SELECT District,R_Constituency, MAX(Week) AS Max_week
+        SELECT District,R_Constituency, Min(Week) AS Max_week
         FROM fileddata
         GROUP BY R_Constituency,District
       ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
       WHERE \`TDP+JSP Alliance\` IS NOT NULL
+      AND Party IN ('TDP', 'JSP')
       ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
       ${Caste ? `AND t1.Caste = '${Caste}'` : ''}
       ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
