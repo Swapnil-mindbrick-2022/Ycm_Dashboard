@@ -37,7 +37,7 @@ const DPC_data = async (req, res, next) => {
             CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
           FROM fileddata AS t1
           JOIN (
-            SELECT District,R_Constituency, Min(Week) AS Max_week
+            SELECT District,R_Constituency, Max(Week) AS Max_week
             FROM fileddata
             GROUP BY R_Constituency,District
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
@@ -60,7 +60,7 @@ const DPC_data = async (req, res, next) => {
         CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
       FROM fileddata AS t1
       JOIN (
-        SELECT District,R_Constituency, Min(Week) AS Max_week
+        SELECT District,R_Constituency, Max(Week) AS Max_week
         FROM fileddata
         GROUP BY R_Constituency,District
       ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
@@ -73,16 +73,16 @@ const DPC_data = async (req, res, next) => {
       GROUP BY t1.PARLIAMENT
       ORDER BY SUM(Factor) DESC;`; // Add the query for parliament here--------
       break;
-    case 'Caste':
+    case 'RCaste':
         query = `SELECT
-        t1.Caste,
+        t1.RCaste,
         CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
         CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS TDP,
         CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
         CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
       FROM fileddata AS t1
       JOIN (
-        SELECT District,R_Constituency, Min(Week) AS Max_week
+        SELECT District,R_Constituency, Max(Week) AS Max_week
         FROM fileddata
         GROUP BY R_Constituency,District
       ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
@@ -92,7 +92,7 @@ const DPC_data = async (req, res, next) => {
       ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
       ${District ? `AND t1.District = '${District}'` : ''}
       ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
-      GROUP BY t1.Caste
+      GROUP BY t1.RCaste
       ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
       // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
       break;
@@ -146,7 +146,7 @@ const getCaste = async(req,res,next)=>{
   
   try {
     const results = await db.sequelize.query(
-      'SELECT DISTINCT Caste FROM fileddata WHERE District = :district AND PARLIAMENT = :parliament',
+      'SELECT DISTINCT RCaste FROM fileddata WHERE District = :district AND PARLIAMENT = :parliament',
       {
         replacements: { district: selectedDistrict, parliament:parliament},
         type: sequelize.QueryTypes.SELECT
@@ -181,7 +181,7 @@ const TDPJSPAlliance = async (req, res, next) => {
            
           FROM fileddata AS t1
           JOIN (
-            SELECT District,R_Constituency, Min(Week) AS Max_week
+            SELECT District,R_Constituency, Max(Week) AS Max_week
             FROM fileddata
             GROUP BY R_Constituency,District
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
@@ -204,7 +204,7 @@ const TDPJSPAlliance = async (req, res, next) => {
             CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
       FROM fileddata AS t1
       JOIN (
-        SELECT District,R_Constituency, Min(Week) AS Max_week
+        SELECT District,R_Constituency, Max(Week) AS Max_week
         FROM fileddata
         GROUP BY R_Constituency,District
       ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
@@ -218,7 +218,7 @@ const TDPJSPAlliance = async (req, res, next) => {
       GROUP BY t1.PARLIAMENT
       ORDER BY SUM(Factor) ASC;`; // Add the query for parliament here--------
       break;
-    case 'Caste':
+    case 'RCaste':
         query = `SELECT
         t1.Caste,
         CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
@@ -226,7 +226,7 @@ const TDPJSPAlliance = async (req, res, next) => {
             CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
       FROM fileddata AS t1
       JOIN (
-        SELECT District,R_Constituency, Min(Week) AS Max_week
+        SELECT District,R_Constituency, Max(Week) AS Max_week
         FROM fileddata
         GROUP BY R_Constituency,District
       ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
@@ -237,7 +237,7 @@ const TDPJSPAlliance = async (req, res, next) => {
       ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
       ${District ? `AND t1.District = '${District}'` : ''}
       ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
-      GROUP BY t1.Caste
+      GROUP BY t1.RCaste
       ORDER BY SUM(Factor) ASC;`; // Add the query for caste here
       // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
       break;
@@ -266,7 +266,7 @@ const getDistCaste = async(req,res,next)=>{
   // const parliament = req.query.parliament;
   
   try {
-    let query = 'SELECT DISTINCT Caste FROM fileddata WHERE District = :district';
+    let query = 'SELECT DISTINCT RCaste FROM fileddata WHERE District = :district';
     let replacements = { district: selectedDistrict };
     
    
@@ -276,7 +276,7 @@ const getDistCaste = async(req,res,next)=>{
       type: sequelize.QueryTypes.SELECT
     });
 
-    const Caste = results.map(result => result.Caste);
+    const Caste = results.map(result => result.RCaste);
     console.log(Caste.length)
     res.send(Caste);
   } catch (error) {
