@@ -160,7 +160,7 @@ const TopFiveCast= async(req,res,next)=>{
         AND Date = :Date
         AND fileddata.Caste = Castes.Caste
       GROUP BY fileddata.Caste
-      ORDER BY SUM(Factor) ASC;
+      ORDER BY SUM(Factor) DESC;
     `;
     const results = await db.sequelize.query(query, { 
       type: db.sequelize.QueryTypes.SELECT,
@@ -227,32 +227,35 @@ const SummeryReport = async (req, res, next) => {
           AND fileddata.Rev_Mandal IS NOT NULL -- Exclude the 'Total' row
       GROUP BY fileddata.Rev_Mandal
   )
-  SELECT 'Total' AS MANDAL,
-   CONCAT(FORMAT(AVG(\`2019 YSRCP\`), 0), '%') AS \`2019 YSRCP\`,
-   CONCAT(FORMAT(AVG(\`2019 TDP\`), 0), '%') AS \`2019 TDP\`,
-   CONCAT(FORMAT(AVG(\`2019 JSP\`), 0), '%') AS \`2019 JSP\`,
-   CONCAT(FORMAT(AVG(\`2014 YSRCP\`), 0), '%') AS \`2014 YSRCP\`,
-   CONCAT(FORMAT(AVG(\`2014 TDP\`), 0), '%') AS \`2014 TDP\`,
-   CONCAT(FORMAT(AVG(\`2014 Others\`), 0), '%') AS \`2014 Others\`,
-   CONCAT(FORMAT(AVG(YSRCP), 0), '%') AS YSRCP,
-   CONCAT(FORMAT(AVG(TDP), 0), '%') AS TDP,
-   CONCAT(FORMAT(AVG(JSP_BJP), 0), '%') AS JSP_BJP,
-   CONCAT(FORMAT(AVG(OTHER), 0), '%') AS OTHER
-  FROM \`mandal_avgs\`
-  UNION ALL
-  SELECT \`MANDAL\`,
-      \`2019 YSRCP\`,
-      \`2019 TDP\`,
-      \`2019 JSP\`,
-      \`2014 YSRCP\`,
-      \`2014 TDP\`,
-      \`2014 Others\`,
-      YSRCP,
-      TDP,
-      JSP_BJP,
-      OTHER
-  FROM \`mandal_avgs\`
-  ORDER BY \`MANDAL\`;
+  
+  SELECT 
+  IF(COUNT(*) = 0, 'No data available.', 'Total') AS MANDAL,
+  CONCAT(FORMAT(AVG(\`2019 YSRCP\`), 0), '%') AS \`2019 YSRCP\`,
+  CONCAT(FORMAT(AVG(\`2019 TDP\`), 0), '%') AS \`2019 TDP\`,
+  CONCAT(FORMAT(AVG(\`2019 JSP\`), 0), '%') AS \`2019 JSP\`,
+  CONCAT(FORMAT(AVG(\`2014 YSRCP\`), 0), '%') AS \`2014 YSRCP\`,
+  CONCAT(FORMAT(AVG(\`2014 TDP\`), 0), '%') AS \`2014 TDP\`,
+  CONCAT(FORMAT(AVG(\`2014 Others\`), 0), '%') AS \`2014 Others\`,
+  CONCAT(FORMAT(AVG(YSRCP), 0), '%') AS YSRCP,
+  CONCAT(FORMAT(AVG(TDP), 0), '%') AS TDP,
+  CONCAT(FORMAT(AVG(JSP_BJP), 0), '%') AS JSP_BJP,
+  CONCAT(FORMAT(AVG(OTHER), 0), '%') AS OTHER
+FROM mandal_avgs
+UNION ALL
+SELECT 
+  \`MANDAL\`,
+  \`2019 YSRCP\`,
+  \`2019 TDP\`,
+  \`2019 JSP\`,
+  \`2014 YSRCP\`,
+  \`2014 TDP\`,
+ \`2014 Others\`,
+  YSRCP,
+  TDP,
+  JSP_BJP,
+  OTHER
+FROM mandal_avgs
+ORDER BY \`MANDAL\`;
 
     `;
 
