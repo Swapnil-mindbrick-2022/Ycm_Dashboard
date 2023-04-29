@@ -84,25 +84,26 @@ const DPC_data = async (req, res, next) => {
         SELECT R_Constituency, RCaste, Week, Factor, Party
         FROM fileddata
          WHERE Party IS NOT NULL
-          ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
-          ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
-          ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
-          ${District ? `AND t1.District = '${District}'` : ''}
-          ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+          ${Gender ? `AND Gender = '${Gender}'` : ''}
+          ${Caste ? `AND RCaste = '${Caste}'` : ''}
+          ${age ? `AND \`Age Group\` = '${age}'` : ''}
+          ${District ? `AND District = '${District}'` : ''}
+          ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
     ) AS t1
     JOIN (
         SELECT R_Constituency, MAX(Week) AS Max_date
         FROM fileddata
          WHERE Party IS NOT NULL
-          ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
-          ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
-          ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
-          ${District ? `AND t1.District = '${District}'` : ''}
-          ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+          ${Gender ? `AND Gender = '${Gender}'` : ''}
+          ${Caste ? `AND RCaste = '${Caste}'` : ''}
+          ${age ? `AND \`Age Group\` = '${age}'` : ''}
+          ${District ? `AND District = '${District}'` : ''}
+          ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
         GROUP BY R_Constituency
     ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
     GROUP BY t1.RCaste
-    ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
+    ORDER BY SUM(Factor) DESC;
+    `; // Add the query for caste here
       // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
       break;
     default:
