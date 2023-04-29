@@ -233,21 +233,31 @@ const TDPJSPAlliance = async (req, res, next) => {
         CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
             CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`Will Not Vote\`,
             CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
-      FROM fileddata AS t1
-      JOIN (
-        SELECT RCaste, Max(Week) AS Max_week
-        FROM fileddata
-        GROUP BY RCaste
-      ) AS t2 ON t1.RCaste = t2.RCaste AND t1.Week = t2.Max_week
-      WHERE \`TDP+JSP Alliance\` IS NOT NULL
-      AND Party IN ('TDP', 'JSP')
-      ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
-      ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
-      ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
-      ${District ? `AND t1.District = '${District}'` : ''}
-      ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
-      GROUP BY t1.RCaste
-      ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
+            FROM (
+              SELECT R_Constituency, RCaste, Week, Factor, \`TDP+JSP Alliance\`
+              FROM fileddata
+               WHERE \`TDP+JSP Alliance\` IS NOT NULL
+               AND Party IN ('TDP', 'JSP')
+                ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+                ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
+                ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+                ${District ? `AND t1.District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+          ) AS t1
+          JOIN (
+              SELECT R_Constituency, MAX(Week) AS Max_date
+              FROM fileddata
+               WHERE \`TDP+JSP Alliance\` IS NOT NULL
+               AND Party IN ('TDP', 'JSP')
+                ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+                ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
+                ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+                ${District ? `AND t1.District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+              GROUP BY R_Constituency
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
+          GROUP BY t1.RCaste
+          ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
       // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
       break;
     default:
