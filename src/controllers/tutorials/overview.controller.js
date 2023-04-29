@@ -80,20 +80,29 @@ const DPC_data = async (req, res, next) => {
         CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS TDP,
         CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
         CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
-      FROM fileddata AS t1
-      JOIN (
-        SELECT District,R_Constituency,RCaste, Max(Week) AS Max_date
+    FROM (
+        SELECT R_Constituency, RCaste, Week, Factor, Party
         FROM fileddata
-        Group by District,R_Constituency,RCaste 
-      ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
-      WHERE Party IS NOT NULL
-      ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
-      ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
-      ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
-      ${District ? `AND t1.District = '${District}'` : ''}
-      ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
-      GROUP BY t1.RCaste
-      ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
+         WHERE Party IS NOT NULL
+          ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+          ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
+          ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+          ${District ? `AND t1.District = '${District}'` : ''}
+          ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+    ) AS t1
+    JOIN (
+        SELECT R_Constituency, MAX(Week) AS Max_date
+        FROM fileddata
+         WHERE Party IS NOT NULL
+          ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+          ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
+          ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+          ${District ? `AND t1.District = '${District}'` : ''}
+          ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+        GROUP BY R_Constituency
+    ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
+    GROUP BY t1.RCaste
+    ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
       // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
       break;
     default:
