@@ -60,10 +60,10 @@ const DPC_data = async (req, res, next) => {
         CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
       FROM fileddata AS t1
       JOIN (
-        SELECT PARLIAMENT, Max(Week) AS Max_week
+        SELECT District,R_Constituency,PARLIAMENT, Max(Week) AS Max_week
         FROM fileddata
-        GROUP BY PARLIAMENT
-      ) AS t2 ON t1.PARLIAMENT = t2.PARLIAMENT AND t1.Week = t2.Max_week
+        GROUP BY District,R_Constituency,PARLIAMENT Order by Max_week DESC
+      ) AS t2 ON t1.R_Constituency = t2.R_Constituency  AND t1.Week = t2.Max_week
       WHERE Party IS NOT NULL
       ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
       ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
@@ -82,10 +82,10 @@ const DPC_data = async (req, res, next) => {
         CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
       FROM fileddata AS t1
       JOIN (
-        SELECT RCaste, Max(Week) AS Max_week
+        SELECT District,R_Constituency,RCaste, Max(Week) AS Max_date
         FROM fileddata
-        GROUP BY RCaste
-      ) AS t2 ON t1.RCaste = t2.RCaste AND t1.Week = t2.Max_week
+        Group by District,R_Constituency,RCaste 
+      ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
       WHERE Party IS NOT NULL
       ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
       ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
