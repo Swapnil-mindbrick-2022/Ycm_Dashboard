@@ -12,9 +12,16 @@
 
 	<!-- Add the datatables library CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.dataTables.min.css"/>
+
 
 <!-- Add the jQuery library -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js"></script>
+
 
 <!-- Add the datatables library JS -->
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
@@ -482,60 +489,63 @@ const loader = document.createElement("div");
   // console.log(response1)
   // console.log(data)
   try {
-    const mainele = document.getElementById("mainele");
-    mainele.innerHTML = ''
-      mainele.innerHTML = `
-        <table id="datatable">
-			<thead>
-				<tr>
-					${Object.keys(data[0]).map((key, index) => `
-					<th>
-						${key}
-						${index === 0 ? `
-					` : ''}
-					</th>`).join("")}
-				</tr>
-				</thead>
-          <tbody>
-            ${data.map(row => `
-              <tr>
-                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      `;
-      // Initialize DataTable plugin with pagination and column filtering options
-      $(document).ready(function() {
-        const table = $('#datatable').DataTable({
-          "pagingType": "full_numbers",
-          "searching": true,
-          "ordering": true,
-          "order": [[ 2, "DESC" ]],
-          // "columnDefs": [
-          //   { "targets": '_all', "searchable": true },
-          //   { "targets": '_all', "sortable": true }
-          // ]
-        });
-        $('.search-input').on('keyup', function () {
-          const columnIdx = $(this).parent().index();
-          const searchValue = $(this).val();
-          table.column(columnIdx).search(searchValue).draw();
-        });
-        $('.filter-dropdown').on('change', function () {
-          const columnIdx = $(this).parent().index();
-          const filterValue = $(this).val();
-          table.column(columnIdx).search(filterValue).draw();
-        });
+  const mainele = document.getElementById("mainele");
+  mainele.innerHTML = ''
+    mainele.innerHTML = `
+      <table id="datatable">
+        <thead>
+          <tr class="header-row">
+            ${Object.keys(data[0]).map((key, index) => `
+            <th>
+              ${key}
+              ${index === 0 ? `
+            ` : ''}
+            </th>`).join("")}
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+    // Initialize DataTable plugin with pagination and column filtering options
+    $(document).ready(function() {
+      const table = $('#datatable').DataTable({
+        "paging": false,
+        scrollY: '800px',
+        scrollCollapse: true,
+        "ordering": false,
+        "searching": true,
+        "columnDefs": [
+          { "targets": '_all', "searchable": true },
+          { "targets": '_all', "sortable": false }
+        ],
+        "fixedHeader": true,
+        "headerOffset": $(".header-row").height()
       });
-    
-  } catch (error) {
-    console.error(error);
-  }
-  finally {
-    // Remove the loader from the page
-    document.body.removeChild(loader);
-  }
+      $('.search-input').on('keyup', function () {
+        const columnIdx = $(this).parent().index();
+        const searchValue = $(this).val();
+        table.column(columnIdx).search(searchValue).draw();
+      });
+      $('.filter-dropdown').on('change', function () {
+        const columnIdx = $(this).parent().index();
+        const filterValue = $(this).val();
+        table.column(columnIdx).search(filterValue).draw();
+      });
+    });
+
+} catch (error) {
+  console.error(error);
+}
+finally {
+  // Remove the loader from the page
+  document.body.removeChild(loader);
+}
 }
 async function getFilteredData(e){
   e.preventDefault()
@@ -567,56 +577,55 @@ async function getFilteredData(e){
   let data = response1.data
   // console.log(data)
   try {
-    const mainele = document.getElementById("mainele");             
-      mainele.innerHTML = `
-        <table id="datatable">
-			<thead>
-				<tr>
-					${Object.keys(data[0]).map((key, index) => `
-					<th>
-						${key}
-						${index === 0 ? `
-						<select class="filter-dropdown">
-							<option value=""> ${key}</option>
-							${Array.from(new Set(data.map(row => row[key]))).map(value => `
-							<option value="${value}">${value}</option>
-							`).join("")}
-						</select>` : ''}
-					</th>`).join("")}
-				</tr>
-				</thead>
-          <tbody>
-            ${data.map(row => `
-              <tr>
-                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      `;
-      // Initialize DataTable plugin with pagination and column filtering options
-      $(document).ready(function() {
-        const table = $('#datatable').DataTable({
-          "pagingType": "full_numbers",
-          "searching": true,
-          "ordering": true,
-          "order": [[ 0, "asc" ]],
-          "columnDefs": [
-            { "targets": '_all', "searchable": true },
-            { "targets": '_all', "sortable": true }
-          ]
-        });
-        $('.search-input').on('keyup', function () {
-          const columnIdx = $(this).parent().index();
-          const searchValue = $(this).val();
-          table.column(columnIdx).search(searchValue).draw();
-        });
-        $('.filter-dropdown').on('change', function () {
-          const columnIdx = $(this).parent().index()
-          const filterValue = $(this).val()
-          table.column(columnIdx).search(filterValue).draw()
-        })
-      }) 
+    const mainele = document.getElementById("mainele");
+  mainele.innerHTML = ''
+    mainele.innerHTML = `
+      <table id="datatable">
+        <thead>
+          <tr class="header-row">
+            ${Object.keys(data[0]).map((key, index) => `
+            <th>
+              ${key}
+              ${index === 0 ? `
+            ` : ''}
+            </th>`).join("")}
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+    // Initialize DataTable plugin with pagination and column filtering options
+    $(document).ready(function() {
+      const table = $('#datatable').DataTable({
+        "paging": false,
+        scrollY: '800px',
+        scrollCollapse: true,
+        "ordering": false,
+        "searching": true,
+        "columnDefs": [
+          { "targets": '_all', "searchable": true },
+          { "targets": '_all', "sortable": false }
+        ],
+        "fixedHeader": true,
+        "headerOffset": $(".header-row").height()
+      });
+      $('.search-input').on('keyup', function () {
+        const columnIdx = $(this).parent().index();
+        const searchValue = $(this).val();
+        table.column(columnIdx).search(searchValue).draw();
+      });
+      $('.filter-dropdown').on('change', function () {
+        const columnIdx = $(this).parent().index();
+        const filterValue = $(this).val();
+        table.column(columnIdx).search(filterValue).draw();
+      });
+    });
   }catch(error){
     console.error(error);
   }
@@ -684,51 +693,54 @@ const loader = document.createElement("div");
   // console.log(data)
   try {
     const mainele = document.getElementById("mainele");
-    mainele.innerHTML = ''
-      mainele.innerHTML = `
-        <table id="datatable">
-			<thead>
-				<tr>
-					${Object.keys(data[0]).map((key, index) => `
-					<th>
-						${key}
-						${index === 0 ? `
-					` : ''}
-					</th>`).join("")}
-				</tr>
-				</thead>
-          <tbody>
-            ${data.map(row => `
-              <tr>
-                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      `;
-      // Initialize DataTable plugin with pagination and column filtering options
-      $(document).ready(function() {
-        const table = $('#datatable').DataTable({
-          "pagingType": "full_numbers",
-          "searching": true,
-          "ordering": true,
-          "order": [[ 0, "asc" ]],
-          "columnDefs": [
-            { "targets": '_all', "searchable": true },
-            { "targets": '_all', "sortable": true }
-          ]
-        });
-        $('.search-input').on('keyup', function () {
-          const columnIdx = $(this).parent().index();
-          const searchValue = $(this).val();
-          table.column(columnIdx).search(searchValue).draw();
-        });
-        $('.filter-dropdown').on('change', function () {
-          const columnIdx = $(this).parent().index();
-          const filterValue = $(this).val();
-          table.column(columnIdx).search(filterValue).draw();
-        });
+  mainele.innerHTML = ''
+    mainele.innerHTML = `
+      <table id="datatable">
+        <thead>
+          <tr class="header-row">
+            ${Object.keys(data[0]).map((key, index) => `
+            <th>
+              ${key}
+              ${index === 0 ? `
+            ` : ''}
+            </th>`).join("")}
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+    // Initialize DataTable plugin with pagination and column filtering options
+    $(document).ready(function() {
+      const table = $('#datatable').DataTable({
+        "paging": false,
+        scrollY: '800px',
+        scrollCollapse: true,
+        "ordering": false,
+        "searching": true,
+        "columnDefs": [
+          { "targets": '_all', "searchable": true },
+          { "targets": '_all', "sortable": false }
+        ],
+        "fixedHeader": true,
+        "headerOffset": $(".header-row").height()
       });
+      $('.search-input').on('keyup', function () {
+        const columnIdx = $(this).parent().index();
+        const searchValue = $(this).val();
+        table.column(columnIdx).search(searchValue).draw();
+      });
+      $('.filter-dropdown').on('change', function () {
+        const columnIdx = $(this).parent().index();
+        const filterValue = $(this).val();
+        table.column(columnIdx).search(filterValue).draw();
+      });
+    });
     
   } catch (error) {
     console.error(error);

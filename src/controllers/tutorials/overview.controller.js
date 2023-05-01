@@ -269,7 +269,7 @@ const TDPJSPAlliance = async (req, res, next) => {
   try {
     const data = await db.sequelize.query(query, {
       type: db.sequelize.QueryTypes.SELECT,
-      order: [[selectedOption, 'ASC']] // Replace 'column_name' with the name of the column you want to sort by
+      order: [[selectedOption, 'DESC']] // Replace 'column_name' with the name of the column you want to sort by
     });
     res.send(data);
     // res.render('overviewpage', { "data ":data});
