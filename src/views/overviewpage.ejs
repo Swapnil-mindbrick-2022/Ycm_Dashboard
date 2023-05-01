@@ -314,7 +314,7 @@
         </a>
       </button>
 
-      <button class="btn btn-warning" id="TDPJSPAlliance-btn">TDP+JSP Alliance </button>
+     <button class="btn btn-warning" name='TDPJSPAlliance' id="TDPJSPAlliance-btn">TDP+JSP Alliance</button> <!-- for '/TDPJSPAlliance' route -->
       
 	</nav>
 	<div id="parentele">
@@ -333,7 +333,8 @@
 				<li><input type="radio" name="selectedOption" value="PARLIAMENT">PARLIAMENT</li>
 				<li><input type="radio" name="selectedOption" value="RCaste">CASTE</li>
 			  </ul>
-			  <button id="submit" name="submit" class="btn btn-primary">Submit</button>
+			  <button id="submit" name="DPC" class="btn btn-primary">Submit</button> <!-- for '/DPC' route -->
+
 			<!-- </form> -->
 		  </nav>
       <nav class="right-nav">
@@ -524,8 +525,8 @@ const loader = document.createElement("div");
           { "targets": '_all', "searchable": true },
           { "targets": '_all', "sortable": false }
         ],
-        "fixedHeader": true,
-        "headerOffset": $(".header-row").height()
+        // "fixedHeader": true,
+        // "headerOffset": $(".header-row").height()
       });
       $('.search-input').on('keyup', function () {
         const columnIdx = $(this).parent().index();
@@ -572,6 +573,8 @@ async function getFilteredData(e){
   const age =document.querySelector('#age').value
   const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;  
   console.log(Caste)
+
+  
   const response1 = await  axios.post('/DPC_Data', {selectedOption:selectedOption,Gender:Gender,Caste:Caste,age:age,
     District:District,PARLIAMENT:PARLIAMENT});
   let data = response1.data
@@ -612,8 +615,8 @@ async function getFilteredData(e){
           { "targets": '_all', "searchable": true },
           { "targets": '_all', "sortable": false }
         ],
-        "fixedHeader": true,
-        "headerOffset": $(".header-row").height()
+        // "fixedHeader": true,
+        // "headerOffset": $(".header-row").height()
       });
       $('.search-input').on('keyup', function () {
         const columnIdx = $(this).parent().index();
@@ -727,8 +730,8 @@ const loader = document.createElement("div");
           { "targets": '_all', "searchable": true },
           { "targets": '_all', "sortable": false }
         ],
-        "fixedHeader": true,
-        "headerOffset": $(".header-row").height()
+        // "fixedHeader": true,
+        // "headerOffset": $(".header-row").height()
       });
       $('.search-input').on('keyup', function () {
         const columnIdx = $(this).parent().index();
