@@ -235,7 +235,7 @@ const TDPJSPAlliance = async (req, res, next) => {
                 ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
               GROUP BY R_Constituency
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
-          GROUP BY t1.RCaste
+          GROUP BY t1.PARLIAMENT
           ORDER BY SUM(Factor) DESC;`; // Add the query for parliament here--------
       break;
     case 'RCaste':
