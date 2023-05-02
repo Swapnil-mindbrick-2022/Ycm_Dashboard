@@ -491,7 +491,7 @@
     <button class="btn btn-warning" id="prefferedparty-btn">Prefferd Party</button>
     <button class="btn btn-warning" id="PrefferMLAcandidate-btn">PREFERRED MLA CANDIDATE</button>
     <button class="btn btn-warning" id="PrefferdMLAByCaste-btn">PREFERRED MLA BY CASTE</button>
-    <button class="btn btn-warning" id="PrefferdCMByCaste-btn">PREFERRED CM BY CASTE</button>
+    <button class="btn btn-warning" id="PrefferdCMByCaste-btn">CM SATISFACTION BY CASTE</button>
     <button class="btn btn-warning" id="TDPJSPAlliance-btn">TDP JSP ALLIANCE</button>
     <button class="btn btn-warning" id="PrefferYSRCPCoordinator-btn">PREFERRED YSRCP-COORDINATOR</button>
   </nav>
@@ -1662,11 +1662,11 @@ if (!chartContainer1) {
             series: [{
               name: 'Good',
               data: chartData.map(caste => Number(caste.data[1])),
-              color: 'red'
+              color: 'green'
             }, {
               name: 'Not Good',
               data: chartData.map(caste => Number(caste.data[0])),
-              color: 'green'
+              color: 'red'
             }]
           });
           // Calculate total count for result2
@@ -1677,10 +1677,10 @@ if (!chartContainer1) {
           let color;
           switch (d['CM_Satisfaction']) {
             case 'Good':
-              color = 'red';
+              color = 'green';
               break;
             case 'Not Good':
-              color = 'green';
+              color = 'red';
             
           }
           return {
@@ -1698,7 +1698,7 @@ if (!chartContainer1) {
             height: 600
           },
           title: {
-            text: 'PREFERRED CM Total%'
+            text: 'CM SATISFACTION Total%'
           },
           plotOptions: {
             pie: {
