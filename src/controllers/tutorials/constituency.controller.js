@@ -154,7 +154,7 @@ const TopFiveCast= async(req,res,next)=>{
       WHERE 
         fileddata.RCaste IS NOT NULL 
         AND CM_Satisfaction IS NOT NULL 
-        AND factor IS NOT NULL 
+        
         AND District = :district
         AND R_Constituency = :constituency
         AND Date = :Date
