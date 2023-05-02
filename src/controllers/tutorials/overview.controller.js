@@ -217,22 +217,22 @@ const TDPJSPAlliance = async (req, res, next) => {
               FROM fileddata
                WHERE \`TDP+JSP Alliance\` IS NOT NULL
                AND Party IN ('TDP', 'JSP')
-                ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
-                ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
-                ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
-                ${District ? `AND t1.District = '${District}'` : ''}
-                ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
           ) AS t1
           JOIN (
               SELECT R_Constituency, MAX(Week) AS Max_date
               FROM fileddata
                WHERE \`TDP+JSP Alliance\` IS NOT NULL
                AND Party IN ('TDP', 'JSP')
-                ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
-                ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
-                ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
-                ${District ? `AND t1.District = '${District}'` : ''}
-                ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
               GROUP BY R_Constituency
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
           GROUP BY t1.PARLIAMENT
@@ -249,22 +249,22 @@ const TDPJSPAlliance = async (req, res, next) => {
               FROM fileddata
                WHERE \`TDP+JSP Alliance\` IS NOT NULL
                AND Party IN ('TDP', 'JSP')
-                ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
-                ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
-                ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
-                ${District ? `AND t1.District = '${District}'` : ''}
-                ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
           ) AS t1
           JOIN (
               SELECT R_Constituency, MAX(Week) AS Max_date
               FROM fileddata
                WHERE \`TDP+JSP Alliance\` IS NOT NULL
                AND Party IN ('TDP', 'JSP')
-                ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
-                ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
-                ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
-                ${District ? `AND t1.District = '${District}'` : ''}
-                ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
               GROUP BY R_Constituency
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
           GROUP BY t1.RCaste
