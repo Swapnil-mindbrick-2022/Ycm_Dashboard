@@ -1651,14 +1651,15 @@ if (!chartContainer1) {
                 }
               }
             },
-            series: [{
-              name: 'Good',
-              data: chartData.map(caste => Number(caste.data[1])),
-              color: 'green'
-            }, {
+            series: [ {
               name: 'Not Good',
               data: chartData.map(caste => Number(caste.data[0])),
               color: 'red'
+            },
+            {
+              name: 'Good',
+              data: chartData.map(caste => Number(caste.data[1])),
+              color: 'green'
             }]
           });
           // Calculate total count for result2

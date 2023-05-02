@@ -139,27 +139,27 @@ const TopFiveCast= async(req,res,next)=>{
 
     const query = `
       SELECT 
-        fileddata.Caste,
+        fileddata.RCaste,
         CONCAT(
-          ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND CM_Satisfaction = 'Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+          ROUND(SUM(CASE WHEN fileddata.RCaste = Castes.RCaste AND CM_Satisfaction = 'Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.RCaste = Castes.RCaste THEN factor ELSE 0 END) * 100), 
           '%'
         ) AS SATISFIED,
         CONCAT(
-          ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND CM_Satisfaction = 'Not Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+          ROUND(SUM(CASE WHEN fileddata.RCaste = Castes.RCaste AND CM_Satisfaction = 'Not Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.RCaste = Castes.RCaste THEN factor ELSE 0 END) * 100), 
           '%'
         ) AS \`NOT SATISFIED\`
       FROM 
         fileddata,
-        (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date LIMIT 5) AS Castes
+        (SELECT DISTINCT RCaste FROM fileddata WHERE RCaste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date LIMIT 5) AS Castes
       WHERE 
-        fileddata.Caste IS NOT NULL 
+        fileddata.RCaste IS NOT NULL 
         AND CM_Satisfaction IS NOT NULL 
         AND factor IS NOT NULL 
         AND District = :district
         AND R_Constituency = :constituency
         AND Date = :Date
-        AND fileddata.Caste = Castes.Caste
-      GROUP BY fileddata.Caste
+        AND fileddata.RCaste = Castes.RCaste
+      GROUP BY fileddata.RCaste
       ORDER BY SUM(Factor) DESC;
     `;
     const results = await db.sequelize.query(query, { 
@@ -174,7 +174,7 @@ const TopFiveCast= async(req,res,next)=>{
     // Transform the result into a matrix with castes as rows and good/not good percentages as columns
     const matrix = {};
     results.forEach((result) => {
-      matrix[result.Caste] = [result.SATISFIED, result['NOT SATISFIED']];
+      matrix[result.RCaste] = [result.SATISFIED, result['NOT SATISFIED']];
     });
 
     // Build the JSON object
@@ -751,29 +751,30 @@ const PrefferdCMByCaste =async (req,res,next)=>{
 
     const query = `
     SELECT 
-    fileddata.Caste,
+    fileddata.RCaste,
     CONCAT(
-      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`CM_Satisfaction\` = 'Not Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+      ROUND(SUM(CASE WHEN fileddata.RCaste = Castes.RCaste AND \`CM_Satisfaction\` = 'Not Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.RCaste = Castes.RCaste THEN factor ELSE 0 END) * 100), 
       '%'
     ) AS 'NotGood',
     CONCAT(
-      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`CM_Satisfaction\` = 'Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+      ROUND(SUM(CASE WHEN fileddata.RCaste = Castes.RCaste AND \`CM_Satisfaction\` = 'Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.RCaste = Castes.RCaste THEN factor ELSE 0 END) * 100), 
       '%'
     ) AS 'Good',
     CONCAT(ROUND((SUM(CASE WHEN fileddata.\`CM_Satisfaction\` NOT IN ('Not Good', 'Good') 
     THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`Others\`
     FROM 
     fileddata,
-    (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS Castes
+    (SELECT DISTINCT RCaste FROM fileddata WHERE RCaste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS Castes
     WHERE 
-    fileddata.Caste IS NOT NULL 
+    fileddata.RCaste IS NOT NULL 
     AND \`CM_Satisfaction\` IS NOT NULL 
     AND factor IS NOT NULL 
     AND District = :district
     AND R_Constituency = :constituency
     AND Date = :Date
-    AND fileddata.Caste = Castes.Caste
-    GROUP BY fileddata.Caste
+    AND fileddata.RCaste = Castes.RCaste
+    GROUP BY fileddata.RCaste
+    ORDER BY SUM(Factor) DESC;;
     `;
     
     const query2 = `
@@ -802,7 +803,7 @@ const PrefferdCMByCaste =async (req,res,next)=>{
     // Transform the result into a matrix with castes as rows and good/not good percentages as columns
     const matrix = {};
     results.forEach((result) => {
-      matrix[result.Caste] = [result.Good, result.NotGood];
+      matrix[result.RCaste] = [result.Good, result.NotGood];
     });
 
     // Build the JSON object
