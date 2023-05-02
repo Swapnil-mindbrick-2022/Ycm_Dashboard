@@ -137,31 +137,45 @@ const TopFiveCast= async(req,res,next)=>{
   try {
     const { district, constituency, Date } = req.body;
 
-    const query = `
-      SELECT 
-        fileddata.RCaste,
-        CONCAT(
-          ROUND(SUM(CASE WHEN fileddata.RCaste = Castes.RCaste AND CM_Satisfaction = 'Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.RCaste = Castes.RCaste THEN factor ELSE 0 END) * 100), 
-          '%'
-        ) AS SATISFIED,
-        CONCAT(
-          ROUND(SUM(CASE WHEN fileddata.RCaste = Castes.RCaste AND CM_Satisfaction = 'Not Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.RCaste = Castes.RCaste THEN factor ELSE 0 END) * 100), 
-          '%'
-        ) AS \`NOT SATISFIED\`
-      FROM 
-        fileddata,
-        (SELECT DISTINCT RCaste FROM fileddata WHERE RCaste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date LIMIT 5) AS Castes
-      WHERE 
-        fileddata.RCaste IS NOT NULL 
-        AND CM_Satisfaction IS NOT NULL 
+    // const query = `
+    //   SELECT 
+    //     fileddata.RCaste,
+    //     CONCAT(
+    //       ROUND(SUM(CASE WHEN fileddata.RCaste = Castes.RCaste AND CM_Satisfaction = 'Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.RCaste = Castes.RCaste THEN factor ELSE 0 END) * 100), 
+    //       '%'
+    //     ) AS SATISFIED,
+    //     CONCAT(
+    //       ROUND(SUM(CASE WHEN fileddata.RCaste = Castes.RCaste AND CM_Satisfaction = 'Not Good' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.RCaste = Castes.RCaste THEN factor ELSE 0 END) * 100), 
+    //       '%'
+    //     ) AS \`NOT SATISFIED\`
+    //   FROM 
+    //     fileddata,
+    //     (SELECT DISTINCT RCaste FROM fileddata WHERE RCaste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date LIMIT 5) AS Castes
+    //   WHERE 
+    //     fileddata.RCaste IS NOT NULL 
+    //     AND CM_Satisfaction IS NOT NULL 
         
-        AND District = :district
-        AND R_Constituency = :constituency
-        AND Date = :Date
-        AND fileddata.RCaste = Castes.RCaste
-      GROUP BY fileddata.RCaste
-      ORDER BY SUM(Factor) DESC;
-    `;
+    //     AND District = :district
+    //     AND R_Constituency = :constituency
+    //     AND Date = :Date
+    //     AND fileddata.RCaste = Castes.RCaste
+    //   GROUP BY fileddata.RCaste
+    //   ORDER BY SUM(Factor) DESC;
+    // `;
+
+    const query=`
+    SELECT RCaste,
+      CONCAT(FORMAT(SUM(CASE WHEN CM_Satisfaction='Good' THEN Factor ELSE 0 END)/SUM(Factor)*100, 0), '%') AS SATISFIED,
+      CONCAT(FORMAT(SUM(CASE WHEN CM_Satisfaction='Not Good' THEN Factor ELSE 0 END)/SUM(Factor)*100, 0), '%') AS 'NOT SATISFIED'
+      FROM fileddata
+      WHERE District = :district
+      AND R_Constituency = :constituency
+      AND Date = :Date
+      GROUP BY RCaste
+      ORDER BY Sum(Factor) DESC
+      LIMIT 5;
+    
+    `
     const results = await db.sequelize.query(query, { 
       type: db.sequelize.QueryTypes.SELECT,
       replacements: {
