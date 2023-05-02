@@ -29,26 +29,35 @@ const DPC_data = async (req, res, next) => {
     
       case 'District':
         query = `
-          SELECT
-            t1.District,
-            CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
-            CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS TDP,
-            CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
-            CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
-          FROM fileddata AS t1
-          JOIN (
-            SELECT District,R_Constituency, Max(Week) AS Max_week
-            FROM fileddata
-            GROUP BY R_Constituency,District
-          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
-          WHERE Party IS NOT NULL
-          ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
-          ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
-          ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
-          ${District ? `AND t1.District = '${District}'` : ''}
-          ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
-          GROUP BY t1.District
-          ORDER BY SUM(Factor) DESC;
+        SELECT
+        t1.District,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100),1), '%') AS YSRCP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100),1), '%') AS TDP,
+        CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100),1), '%') AS JSP_BJP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100),1), '%') AS OTHER
+    FROM (
+        SELECT R_Constituency, District, Week, Factor, Party
+        FROM fileddata
+         WHERE Party IS NOT NULL
+          ${Gender ? `AND Gender = '${Gender}'` : ''}
+          ${Caste ? `AND RCaste = '${Caste}'` : ''}
+          ${age ? `AND \`Age Group\` = '${age}'` : ''}
+          ${District ? `AND District = '${District}'` : ''}
+          ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+    ) AS t1
+    JOIN (
+        SELECT R_Constituency, MAX(Week) AS Max_date
+        FROM fileddata
+         WHERE Party IS NOT NULL
+          ${Gender ? `AND Gender = '${Gender}'` : ''}
+          ${Caste ? `AND RCaste = '${Caste}'` : ''}
+          ${age ? `AND \`Age Group\` = '${age}'` : ''}
+          ${District ? `AND District = '${District}'` : ''}
+          ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+        GROUP BY R_Constituency
+    ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
+    GROUP BY t1.District
+    ORDER BY SUM(Factor) DESC;
         `;// Add the query for districts here
       break;
     case 'PARLIAMENT':
@@ -203,7 +212,7 @@ const TDPJSPAlliance = async (req, res, next) => {
           ${District ? `AND t1.District = '${District}'` : ''}
           ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
           GROUP BY t1.District
-          ORDER BY SUM(Factor) DESC;
+          ORDER BY t1.District ASC;
         `;// Add the query for districts here
       break;
     case 'PARLIAMENT':
