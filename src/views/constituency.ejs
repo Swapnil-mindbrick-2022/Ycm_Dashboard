@@ -1594,8 +1594,10 @@ Highcharts.chart(chartContainer1, {
       try {
         // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
         const castResponse = await axios.post('/PrefferdCMByCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castData = castResponse.data;
-        console.log(castData)
+        const castDataa = castResponse.data;
+        const castData= castDataa.output 
+        const castData2=  castDataa.result1
+        console.log(castData2)  
 
         if (castData && Object.keys(castData).length > 0) {
 
@@ -1610,11 +1612,24 @@ Highcharts.chart(chartContainer1, {
 
           // Create the chart container if it doesn't exist
           let chartContainer = document.getElementById('chart-container');
-          if (!chartContainer) {
-            chartContainer = document.createElement('div');
-            chartContainer.id = 'chart-container';
-            resultContainer.appendChild(chartContainer);
-          }
+if (!chartContainer) {
+  chartContainer = document.createElement('div');
+  chartContainer.id = 'chart-container';
+  chartContainer.style.display = 'inline-block'; // change display property to inline-block
+  chartContainer.style.width = '50%';
+  chartContainer.style.height = '100%';
+  resultContainer.appendChild(chartContainer);
+}
+
+let chartContainer1 = document.getElementById('chart-container1');
+if (!chartContainer1) {
+  chartContainer1 = document.createElement('div');
+  chartContainer1.id = 'chart-container1';
+  chartContainer1.style.display = 'inline-block'; // change display property to inline-block
+  chartContainer1.style.width = '50%';
+  chartContainer1.style.height = '100%';
+  resultContainer.appendChild(chartContainer1);
+}
 
           // Use Highcharts to create the stacked bar chart
           Highcharts.chart(chartContainer, {
@@ -1654,6 +1669,57 @@ Highcharts.chart(chartContainer1, {
               color: 'green'
             }]
           });
+          // Calculate total count for result2
+        const result2TotalCount = castData2.reduce((total, d) => total + d['totalFactor'], 0);
+
+        // Create a pie chart for result2
+        const result2PieData = castData2.map(d => {
+          let color;
+          switch (d['CM_Satisfaction']) {
+            case 'Good':
+              color = 'red';
+              break;
+            case 'Not Good':
+              color = 'green';
+            
+          }
+          return {
+            name: d['CM_Satisfaction'],
+            y: (d['totalFactor'] / result2TotalCount) * 100,
+            color: color
+          };
+        });
+
+        Highcharts.chart(chartContainer1, {
+          chart: {
+            type: 'pie',
+            backgroundColor: 'transparent',
+            width: 450,
+            height: 600
+          },
+          title: {
+            text: 'PREFERRED CM Total%'
+          },
+          plotOptions: {
+            pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                enabled: true,
+                format: '{point.name}: {point.percentage:.0f}%',
+                formatter: function() {
+                  return this.point.name + ': ' + this.point.percentage.toFixed(0) + '%'; // Add percentage directly to the data label
+                }
+              },
+              tooltip: {
+                pointFormat: '{point.name}: <b>{point.percentage:.0f}%</b>',
+              }
+            }
+          },
+          series: [{
+            data: result2PieData
+          }]
+        });
         } else {
           console.log('Data is not an object or is empty:', castData);
           resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
@@ -1896,6 +1962,7 @@ Highcharts.chart(chartContainer1, {
 
       } catch (error) {
         console.error(error);
+        resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
       }
       finally {
     // Remove the loader from the page

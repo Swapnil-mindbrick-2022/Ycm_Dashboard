@@ -220,8 +220,8 @@ const SummeryReport = async (req, res, next) => {
   
       FROM resultdata
       LEFT JOIN fileddata ON resultdata.\`Mandal Name\` = fileddata.\`Rev_Mandal\`
-      WHERE fileddata.CM_Satisfaction IN ('Good', 'Not Good')
-          AND fileddata.District = :district
+      
+      WHERE fileddata.District = :district
           AND fileddata.R_Constituency = :constituency
           AND fileddata.Date = :Date
           AND fileddata.Rev_Mandal IS NOT NULL -- Exclude the 'Total' row
@@ -775,6 +775,20 @@ const PrefferdCMByCaste =async (req,res,next)=>{
     AND fileddata.Caste = Castes.Caste
     GROUP BY fileddata.Caste
     `;
+    
+    const query2 = `
+    SELECT 
+      \`CM_Satisfaction\`,
+      SUM(Factor) as totalFactor
+    FROM fileddata 
+    WHERE fileddata.District = :District 
+    AND fileddata.R_Constituency = :R_Constituency 
+    AND fileddata.Date = :Date 
+    AND \`CM_Satisfaction\` IS NOT NULL
+    GROUP BY \`CM_Satisfaction\`
+    ORDER BY SUM(Factor) ASC;;
+  `;
+
     const results = await db.sequelize.query(query, { 
       type: db.sequelize.QueryTypes.SELECT,
       replacements: {
@@ -783,6 +797,7 @@ const PrefferdCMByCaste =async (req,res,next)=>{
         Date
       }
     });
+
 
     // Transform the result into a matrix with castes as rows and good/not good percentages as columns
     const matrix = {};
@@ -799,9 +814,17 @@ const PrefferdCMByCaste =async (req,res,next)=>{
         // Others:matrix[caste][3]
       };
     });
+    const result1 = await db.sequelize.query(query2, {
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: {
+        District: district,
+        R_Constituency: constituency,
+        Date: Date
+      }
+    });
 
-    res.json(output);
-    console.log(output);
+    res.status(200).json({ output, result1 });
+    console.log(output,result1);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
