@@ -43,7 +43,7 @@ const districtAndParliaments = async (req, res, next) => {
 
     const resultPromise = db.fileddata.findAll({
       attributes: [
-        'Caste',
+        'RCaste',
         ...districts.map(district => [
           Sequelize.literal(`COALESCE(CONCAT(ROUND(SUM(CASE WHEN ${districtOrParliament} = '${district}' AND Party = '${selectedParty}' THEN factor ELSE 0 END)/SUM(CASE WHEN ${districtOrParliament} = '${district}' THEN factor ELSE 0 END)*100, 2), '%'), 0)`),
           district
@@ -53,11 +53,13 @@ const districtAndParliaments = async (req, res, next) => {
         Caste: {
           [Op.not]: null
         }
+        
       },
-      group: ['Caste'],
+      group: ['RCaste'],
       order: [
         // ['Caste', 'ASC']
         [Sequelize.literal('SUM(factor)'), 'DESC'],
+        // [Sequelize.literal('MAX(Week)'), 'DESC'],
       ],
       raw: true
     });
@@ -65,7 +67,7 @@ const districtAndParliaments = async (req, res, next) => {
     const result = await resultPromise;
 
     const output = result.map(item => {
-      const newObj = { Caste: item.Caste };
+      const newObj = { RCaste: item.RCaste };
       districts.forEach(district => {
         newObj[`${district} - ${selectedParty}`] = `${item[district]}`;
       });

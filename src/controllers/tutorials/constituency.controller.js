@@ -19,7 +19,26 @@ const fs = require("fs");
 const DISTRICT = async(req,res,next)=>{
     try {
         const results = await db.sequelize.query(
-          'SELECT DISTINCT District FROM fileddata'
+          `
+    SELECT DISTINCT District 
+    FROM fileddata 
+    ORDER BY 
+      CASE 
+        WHEN District = 'SRIKAKULAM' THEN 1 
+        WHEN District = 'VIZIANAGARAM' THEN 2 
+        WHEN District = 'VISAKHAPATNAM' THEN 3
+        WHEN District = 'EAST GODAVARI' THEN 4 
+        WHEN District = 'WEST GODAVARI' THEN 5
+        WHEN District = 'KRISHNA' THEN 6 
+        WHEN District = 'GUNTUR' THEN 7
+        WHEN District = 'PRAKASAM' THEN 8 
+        WHEN District = 'NELLORE' THEN 9
+        WHEN District = 'KADAPA' THEN 10 
+        WHEN District = 'KURNOOL' THEN 11
+        WHEN District = 'CHITTOOR' THEN 12
+        ELSE 13 
+      END;
+`
         );
     
         const districts = results[0].map(result => result.District);

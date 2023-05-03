@@ -57,7 +57,22 @@ const DPC_data = async (req, res, next) => {
         GROUP BY R_Constituency
     ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
     GROUP BY t1.District
-    ORDER BY SUM(Factor) DESC;
+    ORDER BY 
+      CASE 
+        WHEN District = 'SRIKAKULAM' THEN 1 
+        WHEN District = 'VIZIANAGARAM' THEN 2 
+        WHEN District = 'VISAKHAPATNAM' THEN 3
+        WHEN District = 'EAST GODAVARI' THEN 4 
+        WHEN District = 'WEST GODAVARI' THEN 5
+        WHEN District = 'KRISHNA' THEN 6 
+        WHEN District = 'GUNTUR' THEN 7
+        WHEN District = 'PRAKASAM' THEN 8 
+        WHEN District = 'NELLORE' THEN 9
+        WHEN District = 'KADAPA' THEN 10 
+        WHEN District = 'KURNOOL' THEN 11
+        WHEN District = 'CHITTOOR' THEN 12
+        ELSE 13 
+      END;
         `;// Add the query for districts here
       break;
     case 'PARLIAMENT':
@@ -212,7 +227,22 @@ const TDPJSPAlliance = async (req, res, next) => {
           ${District ? `AND t1.District = '${District}'` : ''}
           ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
           GROUP BY t1.District
-          ORDER BY t1.District ASC;
+          ORDER BY 
+      CASE 
+        WHEN t1.District = 'SRIKAKULAM' THEN 1 
+        WHEN t1.District = 'VIZIANAGARAM' THEN 2 
+        WHEN t1.District = 'VISAKHAPATNAM' THEN 3
+        WHEN t1.District = 'EAST GODAVARI' THEN 4 
+        WHEN t1.District = 'WEST GODAVARI' THEN 5
+        WHEN t1.District = 'KRISHNA' THEN 6 
+        WHEN t1.District = 'GUNTUR' THEN 7
+        WHEN t1.District = 'PRAKASAM' THEN 8 
+        WHEN t1.District = 'NELLORE' THEN 9
+        WHEN t1.District = 'KADAPA' THEN 10 
+        WHEN t1.District = 'KURNOOL' THEN 11
+        WHEN t1.District = 'CHITTOOR' THEN 12
+        ELSE 13 
+      END;
         `;// Add the query for districts here
       break;
     case 'PARLIAMENT':
