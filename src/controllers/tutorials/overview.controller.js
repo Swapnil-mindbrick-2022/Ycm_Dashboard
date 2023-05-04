@@ -39,6 +39,7 @@ const DPC_data = async (req, res, next) => {
         SELECT R_Constituency, District, Week, Factor, Party
         FROM fileddata
          WHERE Party IS NOT NULL
+         And SET_F='Consider'
           ${Gender ? `AND Gender = '${Gender}'` : ''}
           ${Caste ? `AND RCaste = '${Caste}'` : ''}
           ${age ? `AND \`Age Group\` = '${age}'` : ''}
@@ -49,6 +50,7 @@ const DPC_data = async (req, res, next) => {
         SELECT R_Constituency, MAX(Week) AS Max_date
         FROM fileddata
          WHERE Party IS NOT NULL
+         And SET_F='Consider'
           ${Gender ? `AND Gender = '${Gender}'` : ''}
           ${Caste ? `AND RCaste = '${Caste}'` : ''}
           ${age ? `AND \`Age Group\` = '${age}'` : ''}
@@ -89,6 +91,7 @@ const DPC_data = async (req, res, next) => {
         GROUP BY District,R_Constituency,PARLIAMENT Order by Max_week DESC
       ) AS t2 ON t1.R_Constituency = t2.R_Constituency  AND t1.Week = t2.Max_week
       WHERE Party IS NOT NULL
+      And SET_F='Consider'
       ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
       ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
       ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
@@ -108,6 +111,7 @@ const DPC_data = async (req, res, next) => {
         SELECT R_Constituency, RCaste, Week, Factor, Party
         FROM fileddata
          WHERE Party IS NOT NULL
+         And SET_F='Consider'
           ${Gender ? `AND Gender = '${Gender}'` : ''}
           ${Caste ? `AND RCaste = '${Caste}'` : ''}
           ${age ? `AND \`Age Group\` = '${age}'` : ''}
@@ -118,6 +122,7 @@ const DPC_data = async (req, res, next) => {
         SELECT R_Constituency, MAX(Week) AS Max_date
         FROM fileddata
          WHERE Party IS NOT NULL
+         And SET_F='Consider'
           ${Gender ? `AND Gender = '${Gender}'` : ''}
           ${Caste ? `AND RCaste = '${Caste}'` : ''}
           ${age ? `AND \`Age Group\` = '${age}'` : ''}
@@ -209,9 +214,16 @@ const TDPJSPAlliance = async (req, res, next) => {
         query = `
           SELECT
             t1.District,
-            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
-            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`Will Not Vote\`,
-            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
+            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS YSRCP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS Will_Not_Vote,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS 'TDP+JSP',
+    
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_YSRCP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_Will_Not_Vote,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS 'TDP_TDP+JSP',
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_YSRCP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_Will_Not_Vote,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS 'JSP_TDP+JSP'
            
           FROM fileddata AS t1
           JOIN (
@@ -220,7 +232,7 @@ const TDPJSPAlliance = async (req, res, next) => {
             GROUP BY R_Constituency,District
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
           WHERE \`TDP+JSP Alliance\` IS NOT NULL
-          AND Party IN ('TDP', 'JSP')
+          And SET_F='Consider'
           ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
           ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
           ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
@@ -248,14 +260,21 @@ const TDPJSPAlliance = async (req, res, next) => {
     case 'PARLIAMENT':
         query = `SELECT
         t1.PARLIAMENT,
-        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
-            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`Will Not Vote\`,
-            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS YSRCP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS Will_Not_Vote,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_JSP,
+    
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_YSRCP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_Will_Not_Vote,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_TDP_JSP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_YSRCP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_Will_Not_Vote,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_TDP_JSP
             FROM (
-              SELECT R_Constituency, PARLIAMENT, Week, Factor, \`TDP+JSP Alliance\`
+              SELECT R_Constituency, PARLIAMENT, Week, Factor, \`TDP+JSP Alliance\`,Party
               FROM fileddata
                WHERE \`TDP+JSP Alliance\` IS NOT NULL
-               AND Party IN ('TDP', 'JSP')
+               And SET_F='Consider'
                 ${Gender ? `AND Gender = '${Gender}'` : ''}
                 ${Caste ? `AND RCaste = '${Caste}'` : ''}
                 ${age ? `AND \`Age Group\` = '${age}'` : ''}
@@ -266,7 +285,7 @@ const TDPJSPAlliance = async (req, res, next) => {
               SELECT R_Constituency, MAX(Week) AS Max_date
               FROM fileddata
                WHERE \`TDP+JSP Alliance\` IS NOT NULL
-               AND Party IN ('TDP', 'JSP')
+               And SET_F='Consider'
                 ${Gender ? `AND Gender = '${Gender}'` : ''}
                 ${Caste ? `AND RCaste = '${Caste}'` : ''}
                 ${age ? `AND \`Age Group\` = '${age}'` : ''}
@@ -280,14 +299,21 @@ const TDPJSPAlliance = async (req, res, next) => {
     case 'RCaste':
         query = `SELECT
         t1.RCaste,
-        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
-            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`Will Not Vote\`,
-            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`TDP+JSP\`
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS YSRCP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS Will_Not_Vote,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_JSP,
+    
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_YSRCP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_Will_Not_Vote,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_TDP_JSP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_YSRCP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_Will_Not_Vote,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_TDP_JSP
             FROM (
-              SELECT R_Constituency, RCaste, Week, Factor, \`TDP+JSP Alliance\`
+              SELECT R_Constituency, RCaste, Week, Factor, \`TDP+JSP Alliance\`,Party
               FROM fileddata
                WHERE \`TDP+JSP Alliance\` IS NOT NULL
-               AND Party IN ('TDP', 'JSP')
+               And SET_F='Consider'
                 ${Gender ? `AND Gender = '${Gender}'` : ''}
                 ${Caste ? `AND RCaste = '${Caste}'` : ''}
                 ${age ? `AND \`Age Group\` = '${age}'` : ''}
@@ -298,7 +324,8 @@ const TDPJSPAlliance = async (req, res, next) => {
               SELECT R_Constituency, MAX(Week) AS Max_date
               FROM fileddata
                WHERE \`TDP+JSP Alliance\` IS NOT NULL
-               AND Party IN ('TDP', 'JSP')
+               And SET_F='Consider'
+               
                 ${Gender ? `AND Gender = '${Gender}'` : ''}
                 ${Caste ? `AND RCaste = '${Caste}'` : ''}
                 ${age ? `AND \`Age Group\` = '${age}'` : ''}

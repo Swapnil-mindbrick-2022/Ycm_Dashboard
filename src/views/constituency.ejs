@@ -1921,6 +1921,16 @@ Highcharts.chart(chartContainer1, {
           title: {
             text: 'TDP FULL'
           },
+          plotOptions: {
+            pie: {
+              // innerSize: '50%',
+              // distance: -30,
+              dataLabels: {
+                enabled: true,
+                format: '{point.name}: {point.percentage:.1f}%'
+              }
+            }
+          },
           series: [{
             data: result2PieData
           }]
@@ -1944,6 +1954,16 @@ Highcharts.chart(chartContainer1, {
           },
           title: {
             text: 'JSP FULL'
+          },
+          plotOptions: {
+            pie: {
+              // innerSize: '50%',
+              // distance: -30,
+              dataLabels: {
+                enabled: true,
+                format: '{point.name}: {point.percentage:.1f}%'
+              }
+            }
           },
           series: [{
             data: result3PieData
@@ -2068,8 +2088,8 @@ Highcharts.chart(chartContainer1, {
   });
         } else {
           // console.log('Data is not an object or is empty:', castData);
-          // resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
-          renderPrefferMLAcandidate()
+          resultContainer.innerHTML = '<p> No YSRCP coordinator for This Constituency .</p>';
+          // renderPrefferMLAcandidate()
         }
       } catch (error) {
         console.error(error);

@@ -531,7 +531,7 @@ const PrefferdCaste= async(req,res,next)=>{
     AND Date = :Date
     AND fileddata.Caste = Castes.Caste
     GROUP BY fileddata.Caste
-    ORDER BY SUM(Factor) ASC;
+    ORDER BY SUM(Factor) DESC;
     `;
 
     const results = await db.sequelize.query(query, { 
@@ -823,7 +823,7 @@ const PrefferdCMByCaste =async (req,res,next)=>{
     AND fileddata.Date = :Date 
     AND \`CM_Satisfaction\` IS NOT NULL
     GROUP BY \`CM_Satisfaction\`
-    ORDER BY SUM(Factor) ASC;;
+    ORDER BY SUM(Factor) ASC;
   `;
 
     const results = await db.sequelize.query(query, { 

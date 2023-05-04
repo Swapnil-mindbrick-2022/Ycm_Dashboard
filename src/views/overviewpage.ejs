@@ -396,6 +396,7 @@
           </select>
         </section>
         <button id="left-nav-btn" class="btn btn-primary" style="padding: 5px; margin: 5px;">Submit</button>
+        <button id="left-nav-btn2" class="btn btn-danger" style="padding: 5px; margin: 5px; background-color: #00d904; display:none">Submit</button>
       </nav>
 		</div>
 		<div id="mainele"></div>	
@@ -569,6 +570,7 @@ finally {
   document.body.removeChild(loader);
 }
 }
+
 async function getFilteredData(e){
   e.preventDefault()
   // Add a loader to the page
@@ -664,6 +666,11 @@ async function getFilteredData(e){
 
 
 
+
+
+
+
+
 // // attach click event listener to button
 // // Client-side code
 // const button = document.getElementById('TDPJSPAlliance-btn');
@@ -682,6 +689,9 @@ async function getFilteredData(e){
 const TDPJSPAlliancebtn = document.querySelector('#TDPJSPAlliance-btn')
 TDPJSPAlliancebtn .addEventListener('click',TDPJSPAlliance)
 async function  TDPJSPAlliance(e){
+  document.getElementById('left-nav-btn').style.display = 'none'
+  document.getElementById('left-nav-btn2').style.display = 'block'
+
   e.preventDefault()
 // Add a loader to the page
 const loader = document.createElement("div");
@@ -713,7 +723,108 @@ const loader = document.createElement("div");
     const response1 =  await  axios.post('/TDPJSPAlliance', {selectedOption:selectedOption});
 
   let data = response1.data
+  
+  // const data=dataa.data.find(d=>d.Party ==='TDP')
+  
+  
+
   // console.log(response1)
+  // console.log(data)
+  try {
+    const mainele = document.getElementById("mainele");
+  mainele.innerHTML = ''
+    mainele.innerHTML = `
+      <table id="datatable">
+        <thead>
+          <tr class="header-row">
+            ${Object.keys(data[0]).map((key, index) => `
+            <th>
+              ${key}
+              ${index === 0 ? `
+            ` : ''}
+            </th>`).join("")}
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+    // Initialize DataTable plugin with pagination and column filtering options
+    $(document).ready(function() {
+      const table = $('#datatable').DataTable({
+        "paging": false,
+        scrollY: '800px',
+        scrollX: true,
+        scrollCollapse: true,
+        "ordering": false,
+        "searching": true,
+        "columnDefs": [
+          { "targets": '_all', "searchable": true },
+          { "targets": '_all', "sortable": false }
+        ],
+        // "fixedHeader": true,
+        // "headerOffset": $(".header-row").height()
+      });
+      $('.search-input').on('keyup', function () {
+        const columnIdx = $(this).parent().index();
+        const searchValue = $(this).val();
+        table.column(columnIdx).search(searchValue).draw();
+      });
+      $('.filter-dropdown').on('change', function () {
+        const columnIdx = $(this).parent().index();
+        const filterValue = $(this).val();
+        table.column(columnIdx).search(filterValue).draw();
+      });
+    });
+    
+  } catch (error) {
+    console.error(error);
+  }
+  finally {
+    // Remove the loader from the page
+    document.body.removeChild(loader);
+  }
+}
+
+
+//filter data fir TDPJSPALLIANCE
+document.getElementById('left-nav-btn2').addEventListener('click',getFilteredData2)
+
+async function getFilteredData2(e){
+  e.preventDefault()
+  // Add a loader to the page
+  const loader = document.createElement("div");
+  loader.classList.add("loader");
+  loader.style.position = "fixed";
+  loader.style.top = "35%";
+  loader.style.left = "42%";
+  loader.style.transform = "translate(-50%, -50%)";
+  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+  loader.style.borderTopColor = "#3498db";
+  loader.style.borderRadius = "75%";
+  loader.style.width = "250px";
+  loader.style.height = "250px";
+  loader.style.animation = "spin 1s ease-in-out infinite";
+
+
+  document.body.appendChild(loader);
+  const District = document.querySelector('#district').value
+  const PARLIAMENT = document.querySelector('#parliament').value
+  const Caste = document.querySelector('#Caste').value
+  const Gender = document.querySelector('#Gender').value
+  const age =document.querySelector('#age').value
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;  
+  console.log(Caste)
+
+  
+  const response1 = await  axios.post('/TDPJSPAlliance', {selectedOption:selectedOption,Gender:Gender,Caste:Caste,age:age,
+    District:District,PARLIAMENT:PARLIAMENT});
+  let data = response1.data
   // console.log(data)
   try {
     const mainele = document.getElementById("mainele");
@@ -765,18 +876,15 @@ const loader = document.createElement("div");
         table.column(columnIdx).search(filterValue).draw();
       });
     });
-    
-  } catch (error) {
+  }catch(error){
     console.error(error);
   }
   finally {
     // Remove the loader from the page
     document.body.removeChild(loader);
   }
+ 
 }
-
-
-
 
 
 
