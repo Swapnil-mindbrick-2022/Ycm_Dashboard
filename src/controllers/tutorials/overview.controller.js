@@ -214,7 +214,7 @@ const TDPJSPAlliance = async (req, res, next) => {
         query = `
           SELECT
             t1.District,
-            CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS YSRCP,
+    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS YSRCP,
     CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS Will_Not_Vote,
     CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS 'TDP+JSP',
     
@@ -382,12 +382,308 @@ const getDistCaste = async(req,res,next)=>{
 }
 
 
+
+// for TDP FULL 
+const TDPFull= async (req, res, next) => {
+  const {selectedOption,Gender,Caste,age,District,PARLIAMENT} = req.body;
+  let query = '';
+
+
+  // Build the query based on the selected option
+  switch (selectedOption) {
+   
+      case 'District':
+        query = `
+          SELECT
+            t1.District,
+            CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\`='TDP+JSP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'TDP+JSP',
+ CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'YSRCP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'YSRCP',
+ CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'BJP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'BJP',
+ CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'INC' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'INC',
+ CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'Will not Vote' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Will not Vote',
+ CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'Not Decided' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Not Decided YSRCP'
+           
+          FROM fileddata AS t1
+          JOIN (
+            SELECT District,R_Constituency, Max(Week) AS Max_week
+            FROM fileddata
+            GROUP BY R_Constituency,District
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
+          WHERE \`TDP Full\` IS NOT NULL
+          And SET_F='Consider'
+          ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+          ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
+          ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+          ${District ? `AND t1.District = '${District}'` : ''}
+          ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+          GROUP BY t1.District
+          ORDER BY 
+      CASE 
+        WHEN t1.District = 'SRIKAKULAM' THEN 1 
+        WHEN t1.District = 'VIZIANAGARAM' THEN 2 
+        WHEN t1.District = 'VISAKHAPATNAM' THEN 3
+        WHEN t1.District = 'EAST GODAVARI' THEN 4 
+        WHEN t1.District = 'WEST GODAVARI' THEN 5
+        WHEN t1.District = 'KRISHNA' THEN 6 
+        WHEN t1.District = 'GUNTUR' THEN 7
+        WHEN t1.District = 'PRAKASAM' THEN 8 
+        WHEN t1.District = 'NELLORE' THEN 9
+        WHEN t1.District = 'KADAPA' THEN 10 
+        WHEN t1.District = 'KURNOOL' THEN 11
+        WHEN t1.District = 'CHITTOOR' THEN 12
+        ELSE 13 
+      END;
+        `;// Add the query for districts here
+      break;
+    case 'PARLIAMENT':
+        query = `SELECT
+        t1.PARLIAMENT,
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\`='TDP+JSP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'TDP+JSP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'YSRCP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'YSRCP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'BJP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'BJP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'INC' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'INC',
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'Will not Vote' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Will not Vote',
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'Not Decided' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Not Decided YSRCP'
+            FROM (
+              SELECT R_Constituency, PARLIAMENT, Week, Factor, \`TDP Full\`,Party
+              FROM fileddata
+               WHERE \`TDP Full\` IS NOT NULL
+               And SET_F='Consider'
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+          ) AS t1
+          JOIN (
+              SELECT R_Constituency, MAX(Week) AS Max_date
+              FROM fileddata
+               WHERE \`TDP Full\` IS NOT NULL
+               And SET_F='Consider'
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+              GROUP BY R_Constituency
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
+          GROUP BY t1.PARLIAMENT
+          ORDER BY PARLIAMENT ASC;`; // Add the query for parliament here--------
+      break;
+    case 'RCaste':
+        query = `SELECT
+        t1.RCaste,
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\`='TDP+JSP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'TDP+JSP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'YSRCP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'YSRCP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'BJP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'BJP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'INC' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'INC',
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'Will not Vote' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Will not Vote',
+        CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'Not Decided' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Not Decided YSRCP'
+            FROM (
+              SELECT R_Constituency, RCaste, Week, Factor, \`TDP Full\`,Party
+              FROM fileddata
+               WHERE \`TDP Full\` IS NOT NULL
+               And SET_F='Consider'
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+          ) AS t1
+          JOIN (
+              SELECT R_Constituency, MAX(Week) AS Max_date
+              FROM fileddata
+               WHERE \`TDP Full\` IS NOT NULL
+               And SET_F='Consider'
+               
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+              GROUP BY R_Constituency
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
+          GROUP BY t1.RCaste
+          ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
+      // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
+      break;
+    default:
+      res.send('Invalid option');
+      return;
+  }
+
+  try {
+    const data = await db.sequelize.query(query, {
+      type: db.sequelize.QueryTypes.SELECT,
+      order: [[selectedOption, 'DESC']] // Replace 'column_name' with the name of the column you want to sort by
+    });
+    res.send(data);
+    // res.render('overviewpage', { "data ":data});
+    // res.send(data)
+    // console.log(data)
+  
+  } catch (error) {
+    console.error(error);
+    res.send("Error occurred while fetching data");
+  }
+}
+
+
+const JSPFull= async (req, res, next) => {
+  const {selectedOption,Gender,Caste,age,District,PARLIAMENT} = req.body;
+  let query = '';
+
+
+  // Build the query based on the selected option
+  switch (selectedOption) {
+   
+      case 'District':
+        query = `
+          SELECT
+            t1.District,
+ CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\`='TDP+JSP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'TDP+JSP',
+ CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'YSRCP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'YSRCP',
+ CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'BJP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'BJP',
+ CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'INC' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'INC',
+ CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'Will not Vote' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Will not Vote',
+ CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'Not Decided' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Not Decided YSRCP'
+           
+          FROM fileddata AS t1
+          JOIN (
+            SELECT District,R_Constituency, Max(Week) AS Max_week
+            FROM fileddata
+            GROUP BY R_Constituency,District
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
+          WHERE \`JSP Full\` IS NOT NULL
+          And SET_F='Consider'
+          ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
+          ${Caste ? `AND t1.RCaste = '${Caste}'` : ''}
+          ${age ? `AND t1.\`Age Group\` = '${age}'` : ''}
+          ${District ? `AND t1.District = '${District}'` : ''}
+          ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
+          GROUP BY t1.District
+          ORDER BY 
+      CASE 
+        WHEN t1.District = 'SRIKAKULAM' THEN 1 
+        WHEN t1.District = 'VIZIANAGARAM' THEN 2 
+        WHEN t1.District = 'VISAKHAPATNAM' THEN 3
+        WHEN t1.District = 'EAST GODAVARI' THEN 4 
+        WHEN t1.District = 'WEST GODAVARI' THEN 5
+        WHEN t1.District = 'KRISHNA' THEN 6 
+        WHEN t1.District = 'GUNTUR' THEN 7
+        WHEN t1.District = 'PRAKASAM' THEN 8 
+        WHEN t1.District = 'NELLORE' THEN 9
+        WHEN t1.District = 'KADAPA' THEN 10 
+        WHEN t1.District = 'KURNOOL' THEN 11
+        WHEN t1.District = 'CHITTOOR' THEN 12
+        ELSE 13 
+      END;
+        `;// Add the query for districts here
+      break;
+    case 'PARLIAMENT':
+        query = `SELECT
+        t1.PARLIAMENT,
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\`='TDP+JSP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'TDP+JSP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'YSRCP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'YSRCP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'BJP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'BJP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'INC' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'INC',
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'Will not Vote' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Will not Vote',
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'Not Decided' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Not Decided YSRCP'
+            FROM (
+              SELECT R_Constituency, PARLIAMENT, Week, Factor, \`JSP Full\`,Party
+              FROM fileddata
+               WHERE \`JSP Full\` IS NOT NULL
+               And SET_F='Consider'
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+          ) AS t1
+          JOIN (
+              SELECT R_Constituency, MAX(Week) AS Max_date
+              FROM fileddata
+               WHERE \`JSP Full\` IS NOT NULL
+               And SET_F='Consider'
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+              GROUP BY R_Constituency
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
+          GROUP BY t1.PARLIAMENT
+          ORDER BY PARLIAMENT ASC;`; // Add the query for parliament here--------
+      break;
+    case 'RCaste':
+        query = `SELECT
+        t1.RCaste,
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\`='TDP+JSP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'TDP+JSP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'YSRCP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'YSRCP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'BJP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'BJP',
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'INC' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'INC',
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'Will not Vote' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Will not Vote',
+        CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'Not Decided' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Not Decided YSRCP'
+            FROM (
+              SELECT R_Constituency, RCaste, Week, Factor, \`JSP Full\`,Party
+              FROM fileddata
+               WHERE \`JSP Full\` IS NOT NULL
+               And SET_F='Consider'
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+          ) AS t1
+          JOIN (
+              SELECT R_Constituency, MAX(Week) AS Max_date
+              FROM fileddata
+               WHERE \`JSP Full\` IS NOT NULL
+               And SET_F='Consider'
+               
+                ${Gender ? `AND Gender = '${Gender}'` : ''}
+                ${Caste ? `AND RCaste = '${Caste}'` : ''}
+                ${age ? `AND \`Age Group\` = '${age}'` : ''}
+                ${District ? `AND District = '${District}'` : ''}
+                ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
+              GROUP BY R_Constituency
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
+          GROUP BY t1.RCaste
+          ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
+      // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
+      break;
+    default:
+      res.send('Invalid option');
+      return;
+  }
+
+  try {
+    const data = await db.sequelize.query(query, {
+      type: db.sequelize.QueryTypes.SELECT,
+      order: [[selectedOption, 'DESC']] // Replace 'column_name' with the name of the column you want to sort by
+    });
+    res.send(data);
+    // res.render('overviewpage', { "data ":data});
+    // res.send(data)
+    // console.log(data)
+  
+  } catch (error) {
+    console.error(error);
+    res.send("Error occurred while fetching data");
+  }
+}
+
+
+// For JSP FULL 
+
 module.exports = {
     DPC_data,
     Parliament,
     getCaste,
     TDPJSPAlliance,
-    getDistCaste
+    getDistCaste,
+    TDPFull,
+    JSPFull
   };
   
 

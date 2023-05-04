@@ -1552,3 +1552,11 @@ module.exports = {
     TDPJSPAlliance,
     getDistCaste
   };
+
+
+
+
+   CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' AND t1.SET_F = 'Consider' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.SET_F = 'Consider' THEN Factor ELSE 0 END)) * 100),1), '%') AS YSRCP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' AND t1.SET_F = 'Consider' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.SET_F = 'Consider' THEN Factor ELSE 0 END)) * 100),1), '%') AS TDP,
+        CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' AND t1.SET_F = 'Consider' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' AND t1.SET_F = 'Consider' THEN Factor ELSE 0 END)) / SUM(CASE WHEN t1.SET_F = 'Consider' THEN Factor ELSE 0 END)) * 100),1), '%') AS JSP_BJP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') AND t1.SET_F = 'Consider' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.SET_F = 'Consider' THEN Factor ELSE 0 END)) * 100),1), '%') AS OTHER
