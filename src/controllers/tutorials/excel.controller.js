@@ -118,7 +118,8 @@ const uploadmuliplefiles = async (req, res, next) => {
               ['Week']:res['Week'] || null,
               ['Schemes Termination']:res['Schemes Termination'] || null,
               Rev_Mandal:res.Rev_Mandal ||res["R Mandal"] || null,
-              sdate:formattedDate2,
+              sdate:formattedDate2|| null,
+              ['C&S']:res['C&S'] || null
               };
             });
     

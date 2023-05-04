@@ -169,6 +169,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     sdate:{
       type: Sequelize.STRING
+    },
+    ['C&S']:{
+      type: Sequelize.STRING
     }
   }, {
     timestamps: false
