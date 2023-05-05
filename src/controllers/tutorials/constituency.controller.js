@@ -1063,15 +1063,15 @@ const PrefferYSRCPCoordinatorCandidate = async (req, res, next) => {
     const { district, constituency, Date } = req.body;
 
     const query = `
-    SELECT 
-        f.\`YSRCP Co-ordinator\`,
+      SELECT 
+        f.\`YSRCP-Best Candidate\`,
         CONCAT(
-          ROUND(SUM(f.Factor) / (SELECT SUM(f2.Factor) FROM fileddata f2 JOIN candidatedata c2 ON f2.R_Constituency = c2.\`CONSTITUENCY\` AND f2.District = c2.DISTRICT AND f2.Party = 'YSRCP' WHERE c2.DISTRICT = :district AND c2.\`CONSTITUENCY\` = :constituency AND f2.\`YSRCP Co-ordinator\` IN ('Same Co-ordinator', 'Anyone', 'Other Co-ordinator') AND f2.\`Date\` = :Date) * 100, 2), '%') AS totalFactor_percentage
+          ROUND(SUM(f.Factor) / (SELECT SUM(f2.Factor) FROM fileddata f2 JOIN candidatedata c2 ON f2.R_Constituency = c2.\`R.Constituency\` AND f2.District = c2.District WHERE c2.District = :district AND c2.\`R.Constituency\` = :constituency) * 100, 2), '%') AS totalFactor_percentage
       FROM fileddata f
-      JOIN candidatedata c ON f.R_Constituency = c.\`CONSTITUENCY\` AND f.District = c.DISTRICT
-      WHERE c.DISTRICT = :district AND c.\`CONSTITUENCY\` = :constituency AND f.\`YSRCP Co-ordinator\` IN ('Same Co-ordinator', 'Anyone', 'Other Co-ordinator') AND f.Party = 'YSRCP' AND f.\`Date\` = :Date
-      GROUP BY f.\`YSRCP Co-ordinator\`;
-    `;
+      JOIN candidatedata c ON f.R_Constituency = c.\`R.Constituency\` AND f.District = c.District
+      WHERE c.District = :district AND c.\`R.Constituency\` = :constituency  AND f.\`Date\` = :Date
+      GROUP BY f.\`YSRCP-Best Candidate\`;`;
+
     const results = await db.sequelize.query(query, {
       type: db.sequelize.QueryTypes.SELECT,
       replacements: {
@@ -1086,8 +1086,9 @@ const PrefferYSRCPCoordinatorCandidate = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
-  }
+  } 
 };
+
 
 
  

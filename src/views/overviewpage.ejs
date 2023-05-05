@@ -332,7 +332,9 @@
         </a>
       </button>
 
-     <button class="btn btn-warning" name='TDPJSPAlliance' id="TDPJSPAlliance-btn">TDP+JSP Alliance</button> <!-- for '/TDPJSPAlliance' route -->
+      <button class="btn btn-warning" name='TDPFull' id="TDPFull">TDPFull</button>
+      <button class="btn btn-warning" name='JSPFull' id="JSPFull">JSPFull</button>
+      <button class="btn btn-warning" name='TDPJSPAlliance' id="TDPJSPAlliance-btn">TDP+JSP Alliance</button> <!-- for '/TDPJSPAlliance' route -->
       
 	</nav>
 	<div id="parentele">
@@ -397,6 +399,8 @@
         </section>
         <button id="left-nav-btn" class="btn btn-primary" style="padding: 5px; margin: 5px;">Submit</button>
         <button id="left-nav-btn2" class="btn btn-danger" style="padding: 5px; margin: 5px; background-color: #00d904; display:none">Submit</button>
+        <button id="tdpBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; background-color: red; display:none">Submit</button>
+        <button id="jspBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; background-color:yellow; display:none">Submit</button>
       </nav>
 		</div>
 		<div id="mainele"></div>	
@@ -404,8 +408,9 @@
 </body>
 <script>
 
-  // get all buttons and add click event listener to each one
-  const buttons = document.querySelectorAll('.btn');
+
+// get all buttons and add click event listener to each one
+const buttons = document.querySelectorAll('.btn');
 buttons.forEach(button => {
   button.addEventListener('click', function() {
     // remove 'active' class from all buttons
@@ -456,7 +461,7 @@ districtDropdown.addEventListener('change',async function(){
   })
   await axios.get('/dist_caste',{params:{District:getDistrict}}).then((res)=>{
     const caste = res.data
-    console.log(caste,'casteData')
+    // console.log(caste,'casteData')
     getCaste.innerHTML = ''
     getCaste.innerHTML =  '<option value="">Select Caste</option>'
     caste.forEach(val =>{
@@ -503,14 +508,9 @@ const loader = document.createElement("div");
   loader.style.animation = "spin 1s ease-in-out infinite";
 
   document.body.appendChild(loader);
-
-  
     const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/DPC_Data', {selectedOption:selectedOption});
-
   let data = response1.data
-  // console.log(response1)
-  // console.log(data)
   try {
   const mainele = document.getElementById("mainele");
   mainele.innerHTML = ''
@@ -663,34 +663,13 @@ async function getFilteredData(e){
 }
 
 
-
-
-
-
-
-
-
-
-// // attach click event listener to button
-// // Client-side code
-// const button = document.getElementById('TDPJSPAlliance-btn');
-// button.addEventListener('click', () => {
-//   const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
-//   axios.post('/TDPJSPAlliance', { selectedOption })
-//     .then(response => {
-//       const mainele = document.getElementById('mainele');
-//       mainele.innerHTML = response.data;
-//     })
-//     .catch(error => console.error(error));
-// });
-
-
-
 const TDPJSPAlliancebtn = document.querySelector('#TDPJSPAlliance-btn')
 TDPJSPAlliancebtn .addEventListener('click',TDPJSPAlliance)
 async function  TDPJSPAlliance(e){
-  document.getElementById('left-nav-btn').style.display = 'none'
-  document.getElementById('left-nav-btn2').style.display = 'block'
+    document.getElementById('left-nav-btn').style.display = 'none'
+    document.getElementById('left-nav-btn2').style.display = 'block'
+    document.getElementById('jspBtn').style.display = 'none'
+    document.getElementById('tdpBtn').style.display = 'none'
 
   e.preventDefault()
 // Add a loader to the page
@@ -706,15 +685,6 @@ const loader = document.createElement("div");
   loader.style.width = "250px";
   loader.style.height = "250px";
   loader.style.animation = "spin 1s ease-in-out infinite";
-//   const text = document.createElement("span");
-// text.textContent = "Loading data";
-// text.style.position = "absolute";
-// text.style.top = "50%";
-// text.style.left = "50%";
-// text.style.transform = "translate(-50%, -50%)";
-// text.style.fontSize = "20px";
-// text.style.fontWeight = "bold";
-// loader.appendChild(text);
 
   document.body.appendChild(loader);
 
@@ -724,11 +694,107 @@ const loader = document.createElement("div");
 
   let data = response1.data
   
-  // const data=dataa.data.find(d=>d.Party ==='TDP')
-  
-  
+  try {
+    const mainele = document.getElementById("mainele");
+    mainele.innerHTML = `
+        <table id="datatable">
+          <thead>
+            <tr class="header-row">
+              <th></th>
+              <th colspan="3">OVERALL</th>
+              <th colspan="3">TDP</th>
+              <th colspan="3">JSP</th>
+            </tr>
+            <tr class="header-row">
+              ${Object.keys(data[0]).map((key, index) => `
+                <th>
+                  ${key}
+                  ${index === 0 ? `
+                ` : ''}
+                </th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${data.map(row => `
+              <tr>
+                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+      // Initialize DataTable plugin with pagination and column filtering options
+      $(document).ready(function() {
+        const table = $('#datatable').DataTable({
+          "paging": false,
+          scrollY: '800px',
+          scrollX: true,
+          scrollCollapse: true,
+          "ordering": false,
+          "searching": true,
+          "columnDefs": [
+            { "targets": '_all', "searchable": true },
+            { "targets": '_all', "sortable": false }
+          ],
+          // "fixedHeader": true,
+          // "headerOffset": $(".header-row").height()
+        });
+        $('.search-input').on('keyup', function () {
+          const columnIdx = $(this).parent().index();
+          const searchValue = $(this).val();
+          table.column(columnIdx).search(searchValue).draw();
+        });
+        $('.filter-dropdown').on('change', function () {
+          const columnIdx = $(this).parent().index();
+          const filterValue = $(this).val();
+          table.column(columnIdx).search(filterValue).draw();
+        });
+      });  
+    
+  } catch (error) {
+    console.error(error);
+  }
+  finally {
+    // Remove the loader from the page
+    document.body.removeChild(loader);
+  }
+}
 
-  // console.log(response1)
+
+//filter data fir TDPJSPALLIANCE
+document.getElementById('left-nav-btn2').addEventListener('click',getFilteredData2)
+
+async function getFilteredData2(e){
+    console.log('btn is clicked....')
+  e.preventDefault()
+  // Add a loader to the page
+  const loader = document.createElement("div");
+  loader.classList.add("loader");
+  loader.style.position = "fixed";
+  loader.style.top = "35%";
+  loader.style.left = "42%";
+  loader.style.transform = "translate(-50%, -50%)";
+  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+  loader.style.borderTopColor = "#3498db";
+  loader.style.borderRadius = "75%";
+  loader.style.width = "250px";
+  loader.style.height = "250px";
+  loader.style.animation = "spin 1s ease-in-out infinite";
+
+
+  document.body.appendChild(loader);
+  const District = document.querySelector('#district').value
+  const PARLIAMENT = document.querySelector('#parliament').value
+  const Caste = document.querySelector('#Caste').value
+  const Gender = document.querySelector('#Gender').value
+  const age =document.querySelector('#age').value
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;  
+  console.log(Caste)
+
+  
+  const response1 = await  axios.post('/TDPJSPAlliance', {selectedOption:selectedOption,Gender:Gender,Caste:Caste,age:age,
+    District:District,PARLIAMENT:PARLIAMENT});
+  let data = response1.data
   // console.log(data)
   try {
     const mainele = document.getElementById("mainele");
@@ -786,8 +852,7 @@ const loader = document.createElement("div");
         table.column(columnIdx).search(filterValue).draw();
       });
     });  
-    
-  } catch (error) {
+  }catch(error){
     console.error(error);
   }
   finally {
@@ -795,14 +860,14 @@ const loader = document.createElement("div");
     document.body.removeChild(loader);
   }
 }
-
-
-//filter data fir TDPJSPALLIANCE
-document.getElementById('left-nav-btn2').addEventListener('click',getFilteredData2)
-
-async function getFilteredData2(e){
-  e.preventDefault()
-  // Add a loader to the page
+//tdp fullData---
+document.getElementById('TDPFull').addEventListener('click',TDPFull)
+async function TDPFull(e){ 
+    document.getElementById('left-nav-btn').style.display = 'none'
+    document.getElementById('left-nav-btn2').style.display = 'none'
+    document.getElementById('jspBtn').style.display = 'none'
+    document.getElementById('tdpBtn').style.display = 'block'
+    e.preventDefault()
   const loader = document.createElement("div");
   loader.classList.add("loader");
   loader.style.position = "fixed";
@@ -816,21 +881,14 @@ async function getFilteredData2(e){
   loader.style.height = "250px";
   loader.style.animation = "spin 1s ease-in-out infinite";
 
-
   document.body.appendChild(loader);
-  const District = document.querySelector('#district').value
-  const PARLIAMENT = document.querySelector('#parliament').value
-  const Caste = document.querySelector('#Caste').value
-  const Gender = document.querySelector('#Gender').value
-  const age =document.querySelector('#age').value
-  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;  
-  console.log(Caste)
 
   
-  const response1 = await  axios.post('/TDPJSPAlliance', {selectedOption:selectedOption,Gender:Gender,Caste:Caste,age:age,
-    District:District,PARLIAMENT:PARLIAMENT});
+    const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+    const response1 =  await  axios.post('/tdpfull', {selectedOption:selectedOption});
+
   let data = response1.data
-  // console.log(data)
+  
   try {
     const mainele = document.getElementById("mainele");
   mainele.innerHTML = ''
@@ -860,6 +918,7 @@ async function getFilteredData2(e){
       const table = $('#datatable').DataTable({
         "paging": false,
         scrollY: '800px',
+        scrollX: true,
         scrollCollapse: true,
         "ordering": false,
         "searching": true,
@@ -881,15 +940,304 @@ async function getFilteredData2(e){
         table.column(columnIdx).search(filterValue).draw();
       });
     });
-  }catch(error){
+    
+  } catch (error) {
     console.error(error);
   }
   finally {
     // Remove the loader from the page
     document.body.removeChild(loader);
   }
- 
+
+
 }
+//filtering tdpfull----
+const tdpBtn = document.getElementById('tdpBtn')
+tdpBtn.addEventListener('click',getFilterTDP)
+async function getFilterTDP(e){
+    console.log('btn clicked...')
+    e.preventDefault()
+    // Add a loader to the page
+    const loader = document.createElement("div");
+    loader.classList.add("loader");
+    loader.style.position = "fixed";
+    loader.style.top = "35%";
+    loader.style.left = "42%";
+    loader.style.transform = "translate(-50%, -50%)";
+    loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+    loader.style.borderTopColor = "#3498db";
+    loader.style.borderRadius = "75%";
+    loader.style.width = "250px";
+    loader.style.height = "250px";
+    loader.style.animation = "spin 1s ease-in-out infinite";
+  
+  
+    document.body.appendChild(loader);
+    const District = document.querySelector('#district').value
+    const PARLIAMENT = document.querySelector('#parliament').value
+    const Caste = document.querySelector('#Caste').value
+    const Gender = document.querySelector('#Gender').value
+    const age =document.querySelector('#age').value
+    const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;  
+    console.log(Caste)
+  
+    
+    const response1 = await  axios.post('/tdpfull', {selectedOption:selectedOption,Gender:Gender,Caste:Caste,age:age,
+      District:District,PARLIAMENT:PARLIAMENT});
+    let data = response1.data
+    // console.log(data)
+    try {
+      const mainele = document.getElementById("mainele");
+    mainele.innerHTML = ''
+      mainele.innerHTML = `
+        <table id="datatable">
+          <thead>
+            <tr class="header-row">
+              ${Object.keys(data[0]).map((key, index) => `
+              <th>
+                ${key}
+                ${index === 0 ? `
+              ` : ''}
+              </th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${data.map(row => `
+              <tr>
+                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+      // Initialize DataTable plugin with pagination and column filtering options
+      $(document).ready(function() {
+        const table = $('#datatable').DataTable({
+          "paging": false,
+          scrollY: '800px',
+          scrollCollapse: true,
+          "ordering": false,
+          "searching": true,
+          "columnDefs": [
+            { "targets": '_all', "searchable": true },
+            { "targets": '_all', "sortable": false }
+          ],
+          // "fixedHeader": true,
+          // "headerOffset": $(".header-row").height()
+        });
+        $('.search-input').on('keyup', function () {
+          const columnIdx = $(this).parent().index();
+          const searchValue = $(this).val();
+          table.column(columnIdx).search(searchValue).draw();
+        });
+        $('.filter-dropdown').on('change', function () {
+          const columnIdx = $(this).parent().index();
+          const filterValue = $(this).val();
+          table.column(columnIdx).search(filterValue).draw();
+        });
+      });
+    }catch(error){
+      console.error(error);
+    }
+    finally {
+      // Remove the loader from the page
+      document.body.removeChild(loader);
+    }
+  }
+
+
+
+
+
+//jsp full data---
+document.getElementById('JSPFull').addEventListener('click',JSPFull)
+async function JSPFull(e){ 
+    document.getElementById('left-nav-btn').style.display = 'none'
+    document.getElementById('left-nav-btn2').style.display = 'none'
+    document.getElementById('jspBtn').style.display = 'block'
+    document.getElementById('tdpBtn').style.display = 'none'
+    e.preventDefault()
+  const loader = document.createElement("div");
+  loader.classList.add("loader");
+  loader.style.position = "fixed";
+  loader.style.top = "35%";
+  loader.style.left = "42%";
+  loader.style.transform = "translate(-50%, -50%)";
+  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+  loader.style.borderTopColor = "#3498db";
+  loader.style.borderRadius = "75%";
+  loader.style.width = "250px";
+  loader.style.height = "250px";
+  loader.style.animation = "spin 1s ease-in-out infinite";
+
+  document.body.appendChild(loader);
+
+  
+    const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+    const response1 =  await  axios.post('/jspfull', {selectedOption:selectedOption});
+
+  let data = response1.data
+  
+  try {
+    const mainele = document.getElementById("mainele");
+  mainele.innerHTML = ''
+    mainele.innerHTML = `
+      <table id="datatable">
+        <thead>
+          <tr class="header-row">
+            ${Object.keys(data[0]).map((key, index) => `
+            <th>
+              ${key}
+              ${index === 0 ? `
+            ` : ''}
+            </th>`).join("")}
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+    // Initialize DataTable plugin with pagination and column filtering options
+    $(document).ready(function() {
+      const table = $('#datatable').DataTable({
+        "paging": false,
+        scrollY: '800px',
+        scrollX: true,
+        scrollCollapse: true,
+        "ordering": false,
+        "searching": true,
+        "columnDefs": [
+          { "targets": '_all', "searchable": true },
+          { "targets": '_all', "sortable": false }
+        ],
+        // "fixedHeader": true,
+        // "headerOffset": $(".header-row").height()
+      });
+      $('.search-input').on('keyup', function () {
+        const columnIdx = $(this).parent().index();
+        const searchValue = $(this).val();
+        table.column(columnIdx).search(searchValue).draw();
+      });
+      $('.filter-dropdown').on('change', function () {
+        const columnIdx = $(this).parent().index();
+        const filterValue = $(this).val();
+        table.column(columnIdx).search(filterValue).draw();
+      });
+    });
+    
+  } catch (error) {
+    console.error(error);
+  }
+  finally {
+    // Remove the loader from the page
+    document.body.removeChild(loader);
+  }
+
+
+}
+//filtering jspFull--
+const jspBtn = document.getElementById('jspBtn')
+console.log(jspBtn)
+jspBtn.addEventListener('click',getFilterJSP)
+async function getFilterJSP(e){
+    console.log('btn clicked...')
+    e.preventDefault()
+    // Add a loader to the page
+    const loader = document.createElement("div");
+    loader.classList.add("loader");
+    loader.style.position = "fixed";
+    loader.style.top = "35%";
+    loader.style.left = "42%";
+    loader.style.transform = "translate(-50%, -50%)";
+    loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+    loader.style.borderTopColor = "#3498db";
+    loader.style.borderRadius = "75%";
+    loader.style.width = "250px";
+    loader.style.height = "250px";
+    loader.style.animation = "spin 1s ease-in-out infinite";
+  
+  
+    document.body.appendChild(loader);
+    const District = document.querySelector('#district').value
+    const PARLIAMENT = document.querySelector('#parliament').value
+    const Caste = document.querySelector('#Caste').value
+    const Gender = document.querySelector('#Gender').value
+    const age =document.querySelector('#age').value
+    const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;  
+    console.log(Caste)
+  
+    
+    const response1 = await  axios.post('/jspfull', {selectedOption:selectedOption,Gender:Gender,Caste:Caste,age:age,
+      District:District,PARLIAMENT:PARLIAMENT});
+    let data = response1.data
+    // console.log(data)
+    try {
+      const mainele = document.getElementById("mainele");
+    mainele.innerHTML = ''
+      mainele.innerHTML = `
+        <table id="datatable">
+          <thead>
+            <tr class="header-row">
+              ${Object.keys(data[0]).map((key, index) => `
+              <th>
+                ${key}
+                ${index === 0 ? `
+              ` : ''}
+              </th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${data.map(row => `
+              <tr>
+                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+      // Initialize DataTable plugin with pagination and column filtering options
+      $(document).ready(function() {
+        const table = $('#datatable').DataTable({
+          "paging": false,
+          scrollY: '800px',
+          scrollCollapse: true,
+          "ordering": false,
+          "searching": true,
+          "columnDefs": [
+            { "targets": '_all', "searchable": true },
+            { "targets": '_all', "sortable": false }
+          ],
+          // "fixedHeader": true,
+          // "headerOffset": $(".header-row").height()
+        });
+        $('.search-input').on('keyup', function () {
+          const columnIdx = $(this).parent().index();
+          const searchValue = $(this).val();
+          table.column(columnIdx).search(searchValue).draw();
+        });
+        $('.filter-dropdown').on('change', function () {
+          const columnIdx = $(this).parent().index();
+          const filterValue = $(this).val();
+          table.column(columnIdx).search(filterValue).draw();
+        });
+      });
+    }catch(error){
+      console.error(error);
+    }
+    finally {
+      // Remove the loader from the page
+      document.body.removeChild(loader);
+    }
+  }
+
+
+
+
 
 
 

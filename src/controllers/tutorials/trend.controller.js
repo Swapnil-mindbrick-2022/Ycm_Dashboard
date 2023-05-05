@@ -22,7 +22,10 @@ const DISTRICT_PARLIMENT = async (req, res, next) => {
         districtOrParliament = 'District';
       } else if (selectedOption.toUpperCase() === 'PARLIAMENT') {
         districtOrParliament = 'Parliament';
-      } else {
+      }else if (selectedOption.toUpperCase() === 'RCASTE') {
+        districtOrParliament = 'RCaste';
+      }  
+      else {
         res.status(400).send('Invalid selectedOption');
         return;
       }
@@ -96,6 +99,45 @@ const DISTRICT_PARLIMENT = async (req, res, next) => {
     }
   };
   
+
+  const TrendReport2 = async (req, res, next) => {
+    try {
+      const { selectedOption, DisParllimnet } = req.body;
+  
+      let whereClause = '';
+      if (selectedOption === 'District') {
+        whereClause += `fileddata.District = '${DisParllimnet}' `;
+      } else if (selectedOption === 'PARLIAMENT') {
+        whereClause += `fileddata.PARLIAMENT = '${DisParllimnet}' `;
+      } else if (selectedOption === 'RCaste') {
+        whereClause += `fileddata.RCaste = '${DisParllimnet}' `;
+      }
+  
+      const query = `SELECT 
+      DATE_FORMAT(STR_TO_DATE(Date, '%m/%d/%Y'), '%b/%Y') AS Month,
+  
+        CONCAT(ROUND(((SUM(CASE WHEN CM_Satisfaction = 'Good' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS SATISFIED,
+        CONCAT(ROUND(((SUM(CASE WHEN CM_Satisfaction = 'Not Good' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`NOT SATISFIED\`,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS TDP,
+        CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
+        FROM fileddata
+        WHERE ${whereClause} AND Date IS NOT NULL 
+        GROUP BY Month
+        ORDER BY STR_TO_DATE(Month, '%b/%Y') 
+         ;`;
+  
+      const results = await db.sequelize.query(query);
+      res.json(results[0]);
+      console.log(results);
+  
+    } catch (error) {
+      next(error);
+    }
+  };
+  
+  
   
   
 
@@ -103,5 +145,6 @@ const DISTRICT_PARLIMENT = async (req, res, next) => {
 module.exports={
     DISTRICT_PARLIMENT,
     TrendReport,
+    TrendReport2
 
 }

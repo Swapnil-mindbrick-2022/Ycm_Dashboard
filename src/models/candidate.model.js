@@ -9,11 +9,11 @@ module.exports = (sequelize, Sequelize) => {
       allowNull:false,
       primaryKey:true
     },
-    DISTRICT: {
+    District: {
       type: Sequelize.STRING
     },
 
-    CONSTITUENCY:{
+    ['R.Constituency']:{
       type: Sequelize.STRING,
    // ignoreDuplicates:true
     },

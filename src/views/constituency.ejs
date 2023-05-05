@@ -2150,18 +2150,11 @@ Highcharts.chart(chartContainer1, {
   // create an array of objects to store data for the pie chart
   const chartData = [];
   castData.forEach((item) => {
-    let color;
-    if (item["YSRCP Co-ordinator"] === "Same Co-ordinator") {
-      color = 'rgb(1, 169, 91)';
-    } else if (item["YSRCP Co-ordinator"] === "Anyone") {
-      color = 'rgb(0, 119, 112)';
-    } else if (item["YSRCP Co-ordinator"] === "Other Co-ordinator") {
-      color = 'rgb(68, 114, 196)';
-    }
+    
     chartData.push({
-      name: item["YSRCP Co-ordinator"],
+      name: item['YSRCP-Best Candidate'],
       y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
-      color: color // add color property
+      
     });
   });
 
@@ -2180,7 +2173,7 @@ Highcharts.chart(chartContainer1, {
       type: 'pie'
     },
     title: {
-      text: 'YSRCP Co-ordinator Chart'
+      text: ' YSRCP-Best Candidate Chart'
     },
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
@@ -2200,11 +2193,11 @@ Highcharts.chart(chartContainer1, {
       colorByPoint: true,
       data: chartData
     }],
-    colors: [
-      'rgb(1, 169, 91)', // Same MLA
-      'rgb(0, 119, 112)', // Other MLA
-      'rgb(68, 114, 196)' // Anyone
-    ]
+    // colors: [
+    //   'rgb(1, 169, 91)', // Same MLA
+    //   'rgb(0, 119, 112)', // Other MLA
+    //   'rgb(68, 114, 196)' // Anyone
+    // ]
   });
         } else {
           // console.log('Data is not an object or is empty:', castData);

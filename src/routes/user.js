@@ -22,6 +22,8 @@ let routes = (app) => {
   router.get('/caste',overviewController.getCaste) //axios call for caste based on districts and parliament---
   router.post('/TDPJSPAlliance',overviewController.TDPJSPAlliance)
   router.get('/dist_caste',overviewController.getDistCaste)
+  router.post('/tdpfull',overviewController.TDPFull) //for TDP fullData
+  router.post('/jspfull',overviewController.JSPFull) //for JSP FULL DATA--
 
   // router.get("/getalldata",userauth, excelController.getTutorials);
   // router.get("/download",excelController.download);
@@ -47,6 +49,7 @@ let routes = (app) => {
   router.get('/districtAndParliaments',communityController.districtAndParliaments)
   router.get('/distrctParliment',trendController.DISTRICT_PARLIMENT)
   router.post('/TrendReport',trendController.TrendReport)
+  router.post('/TrendReport2',trendController.TrendReport2)
  
 
 
@@ -69,6 +72,10 @@ router.get('/community',(req,res)=>{
 })
 router.get('/trend',(req,res)=>{
   res.render('Trend')
+})
+
+router.get('/trendysrcp',(req,res)=>{
+  res.render('trendysrcp')
 })
   // router.get('/register',userController.registerpage)
   
