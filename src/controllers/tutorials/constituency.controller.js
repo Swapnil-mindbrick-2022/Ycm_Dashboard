@@ -307,12 +307,12 @@ SELECT
     CONCAT(ROUND((SUM(CASE WHEN fileddata.Party = 'JSP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`JSP\`,
     CONCAT(ROUND((SUM(CASE WHEN fileddata.Party NOT IN ('YSRCP', 'TDP', 'JSP') THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`Others\`
 FROM resultdata
-LEFT JOIN fileddata ON resultdata.\`Mandal Name\` = fileddata.\`Rev_Mandal\`
+ JOIN fileddata ON resultdata.\`Mandal Name\` = fileddata.\`Rev_Mandal\`
 
  WHERE fileddata.District = :district
     AND fileddata.R_Constituency = :constituency
     AND fileddata.Date = :Date
-    And fileddata.SET_F='Consider'
+    
 GROUP BY fileddata.\`Rev_Mandal\` WITH ROLLUP
 ORDER BY fileddata.\`Rev_Mandal\` IS NULL;
 
