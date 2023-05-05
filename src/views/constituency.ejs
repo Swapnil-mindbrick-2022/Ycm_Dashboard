@@ -490,10 +490,11 @@
     <button class="btn btn-warning" id="mlaSatisfaction-btn">MLA Satisfaction</button>
     <button class="btn btn-warning" id="prefferedparty-btn">Prefferd Party</button>
     <button class="btn btn-warning" id="PrefferMLAcandidate-btn">PREFERRED MLA CANDIDATE</button>
-    <button class="btn btn-warning" id="PrefferdMLAByCaste-btn">PREFERRED MLA BY CASTE</button>
+    <!-- <button class="btn btn-warning" id="PrefferdMLAByCaste-btn">PREFERRED MLA BY CASTE</button> -->
     <button class="btn btn-warning" id="PrefferdCMByCaste-btn">CM SATISFACTION BY CASTE</button>
     <button class="btn btn-warning" id="TDPJSPAlliance-btn">TDP JSP ALLIANCE</button>
     <button class="btn btn-warning" id="PrefferYSRCPCoordinator-btn">PREFERRED YSRCP-COORDINATOR</button>
+    <button class="btn btn-warning" id="PrefferYSRCPCoordinatorcandidate-btn">PREFERRED YSRCP-COORDINATOR-CANDIDATE</button>
   </nav>
   <div id="parentele">
     <div>
@@ -1427,136 +1428,136 @@ Highcharts.chart(chartContainer1, {
 
 
 
-    const PrefferdMLAByCaste = document.querySelector('#PrefferdMLAByCaste-btn');
-    PrefferdMLAByCaste.addEventListener('click', renderPrefferdMLAByCaste);
+  //   const PrefferdMLAByCaste = document.querySelector('#PrefferdMLAByCaste-btn');
+  //   PrefferdMLAByCaste.addEventListener('click', renderPrefferdMLAByCaste);
 
-    async function renderPrefferdMLAByCaste(e) {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = constituencyDropdown.value;
-      const selectedWeek = weekDropdown.value;
-      resultContainer.innerHTML = '';
-      if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-        resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-        return;
-      }
-      e.preventDefault()
-      // Add a loader to the page
-      const loader = document.createElement("div");
-      loader.classList.add("loader");
-      loader.style.position = "fixed";
-      loader.style.top = "35%";
-      loader.style.left = "55%";
-      loader.style.transform = "translate(-50%, -50%)";
-      loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-      loader.style.borderTopColor = "#3498db";
-      loader.style.borderRadius = "75%";
-      loader.style.width = "250px";
-      loader.style.height = "250px";
-      loader.style.animation = "spin 1s ease-in-out infinite";
-      //   const text = document.createElement("span");
-      // text.textContent = "Loading data";
-      // text.style.position = "absolute";
-      // text.style.top = "50%";
-      // text.style.left = "50%";
-      // text.style.transform = "translate(-50%, -50%)";
-      // text.style.fontSize = "20px";
-      // text.style.fontWeight = "bold";
-      // loader.appendChild(text);
+  //   async function renderPrefferdMLAByCaste(e) {
+  //     const selectedDistrict = districtDropdown.value;
+  //     const selectedConstituency = constituencyDropdown.value;
+  //     const selectedWeek = weekDropdown.value;
+  //     resultContainer.innerHTML = '';
+  //     if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+  //       resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
+  //       return;
+  //     }
+  //     e.preventDefault()
+  //     // Add a loader to the page
+  //     const loader = document.createElement("div");
+  //     loader.classList.add("loader");
+  //     loader.style.position = "fixed";
+  //     loader.style.top = "35%";
+  //     loader.style.left = "55%";
+  //     loader.style.transform = "translate(-50%, -50%)";
+  //     loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+  //     loader.style.borderTopColor = "#3498db";
+  //     loader.style.borderRadius = "75%";
+  //     loader.style.width = "250px";
+  //     loader.style.height = "250px";
+  //     loader.style.animation = "spin 1s ease-in-out infinite";
+  //     //   const text = document.createElement("span");
+  //     // text.textContent = "Loading data";
+  //     // text.style.position = "absolute";
+  //     // text.style.top = "50%";
+  //     // text.style.left = "50%";
+  //     // text.style.transform = "translate(-50%, -50%)";
+  //     // text.style.fontSize = "20px";
+  //     // text.style.fontWeight = "bold";
+  //     // loader.appendChild(text);
 
-      document.body.appendChild(loader);
-      try {
-        // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
-        const castResponse = await axios.post('/PrefferdMLAByCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castData = castResponse.data;
-        console.log(castData);
+  //     document.body.appendChild(loader);
+  //     try {
+  //       // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
+  //       const castResponse = await axios.post('/PrefferdMLAByCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
+  //       const castData = castResponse.data;
+  //       console.log(castData);
 
-        if (castData && Object.keys(castData).length > 0) {
+  //       if (castData && Object.keys(castData).length > 0) {
 
-          // Transform the data into an array of objects that Highcharts can use
-          const chartData = Object.keys(castData).map(caste => {
-            const casteData = castData[caste];
-            return {
-              name: caste,
-              data: [
+  //         // Transform the data into an array of objects that Highcharts can use
+  //         const chartData = Object.keys(castData).map(caste => {
+  //           const casteData = castData[caste];
+  //           return {
+  //             name: caste,
+  //             data: [
 
-                Number(casteData.SameMLA?.slice(0, -1) ?? 0),
-                Number(casteData.OtherMLA?.slice(0, -1) ?? 0),
-                Number(casteData.Anyone?.slice(0, -1) ?? 0),
-                Number(casteData.Invaid?.slice(0, -1) ?? 0),
+  //               Number(casteData.SameMLA?.slice(0, -1) ?? 0),
+  //               Number(casteData.OtherMLA?.slice(0, -1) ?? 0),
+  //               Number(casteData.Anyone?.slice(0, -1) ?? 0),
+  //               Number(casteData.Invaid?.slice(0, -1) ?? 0),
 
 
 
-              ]
-            };
-          });
+  //             ]
+  //           };
+  //         });
 
-          // Create the chart container if it doesn't exist
-          let chartContainer = document.getElementById('chart-container');
-          if (!chartContainer) {
-            chartContainer = document.createElement('div');
-            chartContainer.id = 'chart-container';
-            resultContainer.appendChild(chartContainer);
-          }
+  //         // Create the chart container if it doesn't exist
+  //         let chartContainer = document.getElementById('chart-container');
+  //         if (!chartContainer) {
+  //           chartContainer = document.createElement('div');
+  //           chartContainer.id = 'chart-container';
+  //           resultContainer.appendChild(chartContainer);
+  //         }
 
-          // Use Highcharts to create the stacked bar chart
-          Highcharts.chart(chartContainer, {
-            chart: {
-              type: 'bar'
-            },
-            title: {
-              text: 'Prefferd Party By Caste'
-            },
-            xAxis: {
-              categories: chartData.map(caste => caste.name)
-            },
-            yAxis: {
-              title: {
-                text: '%'
-              }
-            },
-            legend: {
-              reversed: true
-            },
-            plotOptions: {
-              series: {
-                stacking: 'normal',
-                dataLabels: {
-                  enabled: true,
-                  format: '{y}%'
-                }
-              }
-            },
-            series: [{
-              name: 'SameMLA',
-              data: chartData.map(caste => Number(caste.data[0])),
-              color: 'rgb(1, 169, 91)'
+  //         // Use Highcharts to create the stacked bar chart
+  //         Highcharts.chart(chartContainer, {
+  //           chart: {
+  //             type: 'bar'
+  //           },
+  //           title: {
+  //             text: 'Prefferd Party By Caste'
+  //           },
+  //           xAxis: {
+  //             categories: chartData.map(caste => caste.name)
+  //           },
+  //           yAxis: {
+  //             title: {
+  //               text: '%'
+  //             }
+  //           },
+  //           legend: {
+  //             reversed: true
+  //           },
+  //           plotOptions: {
+  //             series: {
+  //               stacking: 'normal',
+  //               dataLabels: {
+  //                 enabled: true,
+  //                 format: '{y}%'
+  //               }
+  //             }
+  //           },
+  //           series: [{
+  //             name: 'SameMLA',
+  //             data: chartData.map(caste => Number(caste.data[0])),
+  //             color: 'rgb(1, 169, 91)'
 
-            }, {
-              name: 'OtherMLA',
-              data: chartData.map(caste => Number(caste.data[1])),
-              color: 'rgb(0, 119, 112)'
-            }, {
-              name: 'Anyone',
-              data: chartData.map(caste => Number(caste.data[2])),
-              color: 'rgb(68, 114, 196)'
-            }, {
-              name: 'Invalid',
-              data: chartData.map(caste => Number(caste.data[3])),
-              color: 'blue'
-            }
-            ]
-          });
-        } else {
-          console.log('Data is not an object or is empty:', castData);
-          resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
-        }
-      } catch (error) {
-        console.error(error);
-      }finally {
-    // Remove the loader from the page
-    document.body.removeChild(loader);
-  }
-    }
+  //           }, {
+  //             name: 'OtherMLA',
+  //             data: chartData.map(caste => Number(caste.data[1])),
+  //             color: 'rgb(0, 119, 112)'
+  //           }, {
+  //             name: 'Anyone',
+  //             data: chartData.map(caste => Number(caste.data[2])),
+  //             color: 'rgb(68, 114, 196)'
+  //           }, {
+  //             name: 'Invalid',
+  //             data: chartData.map(caste => Number(caste.data[3])),
+  //             color: 'blue'
+  //           }
+  //           ]
+  //         });
+  //       } else {
+  //         console.log('Data is not an object or is empty:', castData);
+  //         resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }finally {
+  //   // Remove the loader from the page
+  //   document.body.removeChild(loader);
+  // }
+  //   }
 
     // Prefferd CM by Caste 
     const PrefferdCMByCaste = document.querySelector('#PrefferdCMByCaste-btn');
@@ -2100,6 +2101,127 @@ Highcharts.chart(chartContainer1, {
   }
     }
 
+
+    // prefferd YSRCP COORDINATOR  CANDIDATE
+    const PrefferYSRCPCoordinatorcandidate = document.querySelector('#PrefferYSRCPCoordinatorcandidate-btn');
+    PrefferYSRCPCoordinatorcandidate.addEventListener('click', renderPrefferYSRCPCoordinatorcandidate);
+
+    async function renderPrefferYSRCPCoordinatorcandidate(e) {
+      const selectedDistrict = districtDropdown.value;
+      const selectedConstituency = constituencyDropdown.value;
+      const selectedWeek = weekDropdown.value;
+      resultContainer.innerHTML = '';
+      if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+        resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
+        return;
+      }
+      e.preventDefault()
+      // Add a loader to the page
+      const loader = document.createElement("div");
+      loader.classList.add("loader");
+      loader.style.position = "fixed";
+      loader.style.top = "35%";
+      loader.style.left = "55%";
+      loader.style.transform = "translate(-50%, -50%)";
+      loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+      loader.style.borderTopColor = "#3498db";
+      loader.style.borderRadius = "75%";
+      loader.style.width = "250px";
+      loader.style.height = "250px";
+      loader.style.animation = "spin 1s ease-in-out infinite";
+      //   const text = document.createElement("span");
+      // text.textContent = "Loading data";
+      // text.style.position = "absolute";
+      // text.style.top = "50%";
+      // text.style.left = "50%";
+      // text.style.transform = "translate(-50%, -50%)";
+      // text.style.fontSize = "20px";
+      // text.style.fontWeight = "bold";
+      // loader.appendChild(text);
+
+      document.body.appendChild(loader);
+
+      try {
+        // Call the PrefferdCaste endpoint to get the data for the pie chart
+        const castResponse = await axios.post('/PrefferYSRCPCoordinatorcandidate', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
+        const castData = castResponse.data;
+
+        if (castData && Object.keys(castData).length > 0) {
+  // create an array of objects to store data for the pie chart
+  const chartData = [];
+  castData.forEach((item) => {
+    let color;
+    if (item["YSRCP Co-ordinator"] === "Same Co-ordinator") {
+      color = 'rgb(1, 169, 91)';
+    } else if (item["YSRCP Co-ordinator"] === "Anyone") {
+      color = 'rgb(0, 119, 112)';
+    } else if (item["YSRCP Co-ordinator"] === "Other Co-ordinator") {
+      color = 'rgb(68, 114, 196)';
+    }
+    chartData.push({
+      name: item["YSRCP Co-ordinator"],
+      y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
+      color: color // add color property
+    });
+  });
+
+  //  Create the chart container if it doesn't exist
+  let chartContainer = document.getElementById('chart-container');
+  if (!chartContainer) {
+    chartContainer = document.createElement('div');
+    chartContainer.id = 'chart-container';
+    resultContainer.appendChild(chartContainer);
+  }
+  Highcharts.chart(chartContainer, {
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie'
+    },
+    title: {
+      text: 'YSRCP Co-ordinator Chart'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.0f} %' // Update format to remove decimal
+        }
+      }
+    },
+    series: [{
+      name: 'Preference Percentage',
+      colorByPoint: true,
+      data: chartData
+    }],
+    colors: [
+      'rgb(1, 169, 91)', // Same MLA
+      'rgb(0, 119, 112)', // Other MLA
+      'rgb(68, 114, 196)' // Anyone
+    ]
+  });
+        } else {
+          // console.log('Data is not an object or is empty:', castData);
+          resultContainer.innerHTML = '<p> re we are searching for better candidate for upcoming .</p>';
+          // renderPrefferMLAcandidate()
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      finally {
+    // Remove the loader from the page
+    document.body.removeChild(loader);
+  }
+    }
+
+
+    
 
 
   </script>

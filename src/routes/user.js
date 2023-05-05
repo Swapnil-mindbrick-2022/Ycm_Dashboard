@@ -42,6 +42,7 @@ let routes = (app) => {
   router.post('/PrefferdCMByCaste',constituencyController.PrefferdCMByCaste)
   router.post('/TDP_JSP_Alliance',constituencyController.TDP_JSP_Alliance)
   router.post('/PrefferYSRCPCoordinator',constituencyController.PrefferYSRCPCoordinator)
+  router.post('/PrefferYSRCPCoordinatorcandidate',constituencyController.PrefferYSRCPCoordinatorCandidate)
   
   router.get('/districtAndParliaments',communityController.districtAndParliaments)
   router.get('/distrctParliment',trendController.DISTRICT_PARLIMENT)

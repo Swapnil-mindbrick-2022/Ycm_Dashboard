@@ -34,6 +34,7 @@ db.resultdata= require('./result.model.js')(sequelize,Sequelize)
 db.uploadhistory=require("./uploadhistory.model.js")(sequelize, Sequelize)
 db.Trenddata=require('./trend.model.js')(sequelize, Sequelize)
 db.cordinates=require('./coordinate')(sequelize, Sequelize)
+db.Candidate=require('./candidate.model')(sequelize, Sequelize)
 
 
 db.sequelize.sync({ force: false })
