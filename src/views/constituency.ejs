@@ -1905,12 +1905,12 @@ Highcharts.chart(chartContainer1, {
         });
 
         // Calculate total count for result2
-        const result2TotalCount = result2Data.reduce((total, d) => total + d['COUNT(*)'], 0);
+        const result2TotalCount = result2Data.reduce((total, d) => total + d['totalFactor'], 0);
 
         // Create a pie chart for result2
         const result2PieData = result2Data.map(d => ({
           name: d['TDP Full'],
-          y: (d['COUNT(*)'] / result2TotalCount) * 100
+          y: (d['totalFactor'] / result2TotalCount) * 100
         }));
 
         Highcharts.chart('chart-container-jspfull', {
@@ -1939,12 +1939,12 @@ Highcharts.chart(chartContainer1, {
 
 
         // Calculate total count for result3
-        const result3TotalCount = result3Data.reduce((total, d) => total + d['COUNT(*)'], 0);
+        const result3TotalCount = result3Data.reduce((total, d) => total + d['totalFactor'], 0);
 
         // Create a pie chart for result3
         const result3PieData = result3Data.map(d => ({
           name: d['JSP Full'],
-          y: (d['COUNT(*)'] / result3TotalCount) * 100
+          y: (d['totalFactor'] / result3TotalCount) * 100
         }));
 
         Highcharts.chart('chart-container-tdpfull', {

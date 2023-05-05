@@ -398,12 +398,13 @@ const TDPFull= async (req, res, next) => {
         query = `
           SELECT
             t1.District,
+            CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'YSRCP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'YSRCP',
             CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\`='TDP+JSP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'TDP+JSP',
- CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'YSRCP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'YSRCP',
- CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'BJP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'BJP',
- CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'INC' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'INC',
- CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'Will not Vote' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Will not Vote',
- CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'Not Decided' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Not Decided YSRCP'
+            
+            CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'BJP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'BJP',
+            CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'INC' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'INC',
+            CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'Will not Vote' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Will not Vote',
+            CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'Not Decided' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'Not Decided YSRCP'
            
           FROM fileddata AS t1
           JOIN (

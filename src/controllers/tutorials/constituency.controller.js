@@ -379,75 +379,6 @@ GROUP BY
 
 
 
-// const SummeryReport = async (req, res, next) => {
-//   try {
-//     const { district, constituency, week } = req.body;
-  
-//     const result = await resultdata.findAll({
-//       attributes: [
-//         sequelize.col('Mandal Name'),
-//         [sequelize.fn('CONCAT', sequelize.col('2019_YSRCP')), '2019 YSRCP'],
-//         [sequelize.fn('CONCAT', sequelize.col('2019_TDP')), '2019 TDP'],
-//         [sequelize.fn('CONCAT', sequelize.col('2019_JSP')), '2019 JSP'],
-//         [sequelize.fn('CONCAT', sequelize.col('2014_YSRCP')), '2014 YSRCP'],
-//         [sequelize.fn('CONCAT', sequelize.col('2014_TDP')), '2014 TDP'],
-//         [sequelize.fn('CONCAT', sequelize.col('2014_Others')), '2014 Others'],
-//         [
-//           sequelize.literal(
-//             'ROUND((SUM(CASE WHEN fileddata.Party = \'YSRCP\' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2) || \'%\''
-//           ),
-//           'YSRCP'
-//         ],
-//         [
-//           sequelize.literal(
-//             'ROUND((SUM(CASE WHEN fileddata.Party = \'TDP\' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2) || \'%\''
-//           ),
-//           'TDP'
-//         ],
-//         [
-//           sequelize.literal(
-//             'ROUND((SUM(CASE WHEN fileddata.Party = \'JSP\' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2) || \'%\''
-//           ),
-//           'JSP'
-//         ],
-//         [
-//           sequelize.literal(
-//             'ROUND((SUM(CASE WHEN fileddata.Party NOT IN (\'YSRCP\', \'TDP\', \'JSP\') THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2) || \'%\''
-//           ),
-//           'Others'
-//         ],
-//       ],
-//       include: {
-//         model: fileddata,
-//         where: {
-//           CM_Satisfaction: {
-//             [Op.in]: ['Good', 'Not Good'],
-//           },
-//           District: district,
-//           R_Constituency: constituency,
-//           Week: week,
-//         },
-//         raw: true,
-//       },
-//       group: [
-//         'Mandal Name',
-//         '2019_YSRCP',
-//         '2019_TDP',
-//         '2019_JSP',
-//         '2014_YSRCP',
-//         '2014_TDP',
-//         '2014_Others',
-//       ],
-//       order: [['Mandal Name', 'ASC']],
-//     });
-  
-//     res.json(result);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Server error' });
-//   }
-  
-// };
 
 const Mlasatishfaction = async (req, res) => {
   const { district, constituency, Date } = req.body;
@@ -641,7 +572,7 @@ const PrefferdCaste= async(req,res,next)=>{
     AND fileddata.Date = :Date 
     AND \`Party\` IS NOT NULL
     GROUP BY \`Party\`
-    ORDER BY SUM(Factor) ASC;;
+    ORDER BY SUM(Factor) ASC;
   `;
   
   
@@ -1020,13 +951,15 @@ const TDP_JSP_Alliance = async (req, res, next) => {
     });
     const query2 = `
     SELECT 
-        \`TDP Full\`,
-        COUNT(*) 
- 
-        FROM fileddata 
-        WHERE fileddata.District = :District AND fileddata.R_Constituency = :R_Constituency AND fileddata.Date = :Date AND \`TDP Full\` IS NOT NULL
-       
-    GROUP BY \`TDP Full\`;
+    \`TDP Full\`,
+    SUM(Factor) as totalFactor
+  FROM fileddata 
+  WHERE fileddata.District = :District 
+  AND fileddata.R_Constituency = :R_Constituency 
+  AND fileddata.Date = :Date 
+  AND \`TDP Full\` IS NOT NULL
+  GROUP BY \`TDP Full\`
+  ORDER BY SUM(Factor) ASC;
 `;
 
   const result2 = await db.sequelize.query(query2, {
@@ -1041,13 +974,14 @@ const TDP_JSP_Alliance = async (req, res, next) => {
   const query3 = `
   SELECT 
   \`JSP Full\`,
-  COUNT(*) 
- 
-  FROM fileddata 
-  WHERE fileddata.District = :District AND fileddata.R_Constituency = :R_Constituency AND fileddata.Date = :Date AND \`JSP Full\` IS NOT NULL
- 
-
-GROUP BY \`JSP Full\`;
+  SUM(Factor) as totalFactor
+FROM fileddata 
+WHERE fileddata.District = :District 
+AND fileddata.R_Constituency = :R_Constituency 
+AND fileddata.Date = :Date 
+AND \`JSP Full\` IS NOT NULL
+GROUP BY \`JSP Full\`
+ORDER BY SUM(Factor) ASC;
 
   `;
 
