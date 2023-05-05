@@ -1047,7 +1047,7 @@ const PrefferYSRCPCoordinatorCandidate = async (req, res, next) => {
           ROUND(SUM(f.Factor) / (SELECT SUM(f2.Factor) FROM fileddata f2 JOIN candidatedata c2 ON f2.R_Constituency = c2.\`R.Constituency\` AND f2.District = c2.District WHERE c2.District = :district AND c2.\`R.Constituency\` = :constituency) * 100, 2), '%') AS totalFactor_percentage
       FROM fileddata f
       JOIN candidatedata c ON f.R_Constituency = c.\`R.Constituency\` AND f.District = c.District
-      WHERE c.District = :district AND c.\`R.Constituency\` = :constituency  AND f.\`Date\` = :Date
+      WHERE c.District = :district AND c.\`R.Constituency\` = :constituency AND f.Party = 'YSRCP'  AND f.\`Date\` = :Date
       GROUP BY f.\`YSRCP-Best Candidate\`;`;
 
     const results = await db.sequelize.query(query, {
