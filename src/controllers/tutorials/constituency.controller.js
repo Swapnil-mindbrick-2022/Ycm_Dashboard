@@ -293,6 +293,31 @@ const SummeryReport = async (req, res, next) => {
 //     `;
 
 
+// const query = `
+// SELECT 
+//     COALESCE(fileddata.\`Rev_Mandal\`, 'Total') As MANDAL,
+//     CONCAT(FORMAT(AVG(resultdata.\`2019_YSRCP\`), 0), '%') AS '2019 YSRCP',
+//     CONCAT(FORMAT(AVG(resultdata.\`2019_TDP\`), 0), '%') AS '2019 TDP',
+//     CONCAT(FORMAT(AVG(resultdata.\`2019_JSP\`), 0), '%') AS '2019 JSP',
+//     CONCAT(FORMAT(AVG(resultdata.\`2014_YSRCP\`), 0), '%') AS '2014 YSRCP',
+//     CONCAT(FORMAT(AVG(resultdata.\`2014_TDP\`), 0), '%') AS '2014 TDP',
+//     CONCAT(FORMAT(AVG(resultdata.\`2014_Others\`), 0), '%') AS '2014 Others',
+//     CONCAT(ROUND((SUM(CASE WHEN fileddata.Party = 'YSRCP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`YSRCP\`,
+//     CONCAT(ROUND((SUM(CASE WHEN fileddata.Party = 'TDP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`TDP\`,
+//     CONCAT(ROUND((SUM(CASE WHEN fileddata.Party = 'JSP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`JSP\`,
+//     CONCAT(ROUND((SUM(CASE WHEN fileddata.Party NOT IN ('YSRCP', 'TDP', 'JSP') THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`Others\`
+// FROM resultdata
+//  JOIN fileddata ON resultdata.\`Mandal Name\` = fileddata.\`Rev_Mandal\`
+
+//  WHERE fileddata.District = :district
+//     AND fileddata.R_Constituency = :constituency
+//     AND fileddata.Date = :Date
+    
+// GROUP BY fileddata.\`Rev_Mandal\` WITH ROLLUP
+// ORDER BY fileddata.\`Rev_Mandal\` IS NULL;
+
+// `
+
 const query = `
 SELECT 
     COALESCE(fileddata.\`Rev_Mandal\`, 'Total') As MANDAL,
@@ -308,14 +333,33 @@ SELECT
     CONCAT(ROUND((SUM(CASE WHEN fileddata.Party NOT IN ('YSRCP', 'TDP', 'JSP') THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100), 2), '%') AS \`Others\`
 FROM resultdata
  JOIN fileddata ON resultdata.\`Mandal Name\` = fileddata.\`Rev_Mandal\`
-
  WHERE fileddata.District = :district
-    AND fileddata.R_Constituency = :constituency
-    AND fileddata.Date = :Date
-    
-GROUP BY fileddata.\`Rev_Mandal\` WITH ROLLUP
-ORDER BY fileddata.\`Rev_Mandal\` IS NULL;
-
+        AND fileddata.R_Constituency = :constituency
+        AND fileddata.Date = :Date
+GROUP BY COALESCE(fileddata.\`Rev_Mandal\`, 'Total')
+HAVING MANDAL IS NOT NULL
+UNION ALL
+SELECT 
+    s.Mandal,
+    CONCAT(FORMAT(AVG(s.\`2019_YSRCP\`), 0), '%') AS '2019 YSRCP',
+    CONCAT(FORMAT(AVG(s.\`2019_TDP\`), 0), '%') AS '2019 TDP',
+    CONCAT(FORMAT(AVG(s.\`2019_JSP\`), 0), '%') AS '2019 JSP',
+    CONCAT(FORMAT(AVG(s.\`2014_YSRCP\`), 0), '%') AS '2014 YSRCP',
+    CONCAT(FORMAT(AVG(s.\`2014_TDP\`), 0), '%') AS '2014 TDP',
+    CONCAT(FORMAT(AVG(s.\`2014_Others\`), 0), '%') AS '2014 Others',
+    CONCAT(FORMAT(SUM(CASE WHEN f.Party = 'YSRCP' THEN f.Factor ELSE 0 END) / SUM(f.Factor) * 100, 0), '%') AS YSRCP,
+    CONCAT(FORMAT(SUM(CASE WHEN f.Party = 'TDP' THEN f.Factor ELSE 0 END) / SUM(f.Factor) * 100, 0), '%') AS TDP,
+    CONCAT(ROUND((((SUM(CASE WHEN f.Party = 'JSP' THEN f.Factor ELSE 0 END) + SUM(CASE WHEN f.Party = 'BJP' THEN f.Factor ELSE 0 END)) / SUM(f.Factor)) * 100)), '%') AS JSP_BJP,
+    CONCAT(ROUND(((SUM(CASE WHEN f.Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN f.Factor ELSE 0 END) / SUM(f.Factor)) * 100)), '%') AS OTHER
+FROM 
+    summery s
+    JOIN fileddata f ON s.R_Constituency = f.R_Constituency AND s.Mandal = 'Total'
+WHERE 
+    s.District = :district
+    AND s.R_Constituency = :constituency
+    AND f.Date = :Date
+GROUP BY 
+    s.Mandal;
 `
     const result = await db.sequelize.query(query, {
       replacements: { district, constituency, Date },
