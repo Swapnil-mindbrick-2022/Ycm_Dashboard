@@ -1560,3 +1560,89 @@ module.exports = {
         CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' AND t1.SET_F = 'Consider' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.SET_F = 'Consider' THEN Factor ELSE 0 END)) * 100),1), '%') AS TDP,
         CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' AND t1.SET_F = 'Consider' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' AND t1.SET_F = 'Consider' THEN Factor ELSE 0 END)) / SUM(CASE WHEN t1.SET_F = 'Consider' THEN Factor ELSE 0 END)) * 100),1), '%') AS JSP_BJP,
         CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') AND t1.SET_F = 'Consider' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.SET_F = 'Consider' THEN Factor ELSE 0 END)) * 100),1), '%') AS OTHER
+
+
+
+
+
+
+const SummeryReport = async (req, res, next) => {
+  try {
+    const { district, constituency, Date } = req.body;
+
+    if (!district || !constituency || !Date) {
+      return res.status(400).json({ error: 'Missing district, constituency, or Date field in request body' });
+    }
+
+    const query = `
+    WITH \`mandal_avgs\` AS (
+      SELECT
+          fileddata.Rev_Mandal AS MANDAL,
+          CONCAT(FORMAT(AVG(resultdata.\`2019_YSRCP\`), 0), '%') AS '2019 YSRCP',
+          CONCAT(FORMAT(AVG(resultdata.\`2019_TDP\`), 0), '%') AS '2019 TDP',
+          CONCAT(FORMAT(AVG(resultdata.\`2019_JSP\`), 0), '%') AS '2019 JSP',
+          CONCAT(FORMAT(AVG(resultdata.\`2014_YSRCP\`), 0), '%') AS '2014 YSRCP',
+          CONCAT(FORMAT(AVG(resultdata.\`2014_TDP\`), 0), '%') AS '2014 TDP',
+          CONCAT(FORMAT(AVG(resultdata.\`2014_Others\`), 0), '%') AS '2014 Others',
+          CONCAT(FORMAT(SUM(CASE WHEN fileddata.Party = 'YSRCP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100, 0), '%') AS YSRCP,
+          CONCAT(FORMAT(SUM(CASE WHEN fileddata.Party = 'TDP' THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor) * 100, 0), '%') AS TDP,
+          CONCAT(ROUND((((SUM(CASE WHEN fileddata.Party = 'JSP' THEN fileddata.Factor ELSE 0 END) + SUM(CASE WHEN fileddata.Party = 'BJP' THEN fileddata.Factor ELSE 0 END)) / SUM(fileddata.Factor)) * 100)), '%') AS JSP_BJP,
+          CONCAT(ROUND(((SUM(CASE WHEN fileddata.Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN fileddata.Factor ELSE 0 END) / SUM(fileddata.Factor)) * 100)), '%') AS OTHER
+  
+      FROM resultdata
+      LEFT JOIN fileddata ON resultdata.\`Mandal Name\` = fileddata.\`Rev_Mandal\`
+      
+      WHERE fileddata.District = :district
+          AND fileddata.R_Constituency = :constituency
+          AND fileddata.Date = :Date
+          AND fileddata.Rev_Mandal IS NOT NULL -- Exclude the 'Total' row
+      GROUP BY fileddata.Rev_Mandal
+  )
+  
+  SELECT 
+  IF(COUNT(*) = 0, 'No data available.', 'Total') AS MANDAL,
+  CONCAT(FORMAT(AVG(\`2019 YSRCP\`), 0), '%') AS \`2019 YSRCP\`,
+  CONCAT(FORMAT(AVG(\`2019 TDP\`), 0), '%') AS \`2019 TDP\`,
+  CONCAT(FORMAT(AVG(\`2019 JSP\`), 0), '%') AS \`2019 JSP\`,
+  CONCAT(FORMAT(AVG(\`2014 YSRCP\`), 0), '%') AS \`2014 YSRCP\`,
+  CONCAT(FORMAT(AVG(\`2014 TDP\`), 0), '%') AS \`2014 TDP\`,
+  CONCAT(FORMAT(AVG(\`2014 Others\`), 0), '%') AS \`2014 Others\`,
+  CONCAT(FORMAT(AVG(YSRCP), 0), '%') AS YSRCP,
+  CONCAT(FORMAT(AVG(TDP), 0), '%') AS TDP,
+  CONCAT(FORMAT(AVG(JSP_BJP), 0), '%') AS JSP_BJP,
+  CONCAT(FORMAT(AVG(OTHER), 0), '%') AS OTHER
+FROM mandal_avgs
+UNION ALL
+SELECT 
+  \`MANDAL\`,
+  \`2019 YSRCP\`,
+  \`2019 TDP\`,
+  \`2019 JSP\`,
+  \`2014 YSRCP\`,
+  \`2014 TDP\`,
+ \`2014 Others\`,
+  YSRCP,
+  TDP,
+  JSP_BJP,
+  OTHER
+FROM mandal_avgs
+ORDER BY \`MANDAL\`;
+
+    `;
+
+    const result = await db.sequelize.query(query, {
+      replacements: { district, constituency, Date },
+      type: sequelize.QueryTypes.SELECT,
+    });
+
+    if (!result) {
+      return res.status(500).json({ error: 'Failed to retrieve data from the database' });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while processing the request' });
+  }
+};
+

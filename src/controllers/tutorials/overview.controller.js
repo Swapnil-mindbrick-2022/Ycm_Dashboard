@@ -299,18 +299,20 @@ const TDPJSPAlliance = async (req, res, next) => {
     case 'RCaste':
         query = `SELECT
         t1.RCaste,
-    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS YSRCP,
-    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS Will_Not_Vote,
-    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_JSP,
-    
-    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_YSRCP,
-    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_Will_Not_Vote,
-    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100)), '%') AS TDP_TDP_JSP,
-    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_YSRCP,
-    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_Will_Not_Vote,
-    CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100)), '%') AS JSP_TDP_JSP
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100), 1), '%') AS YSRCP,
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100), 1), '%') AS Will_Not_Vote,
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100), 1), '%') AS TDP_JSP,
+            
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100), 1), '%') AS TDP_YSRCP,
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100), 1), '%') AS TDP_Will_Not_Vote,
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party = 'TDP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'TDP' THEN Factor ELSE 0 END)) * 100), 1), '%') AS TDP_TDP_JSP,
+            
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100), 1), '%') AS JSP_YSRCP,
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100), 1), '%') AS JSP_Will_Not_Vote,
+        CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party = 'JSP' THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party = 'JSP' THEN Factor ELSE 0 END)) * 100), 1), '%') AS JSP_TDP_JSP
+        
             FROM (
-              SELECT R_Constituency, RCaste, Week, Factor, \`TDP+JSP Alliance\`,Party
+              SELECT R_Constituency, RCaste, Week, Factor, \`TDP+JSP Alliance\`,Party,SET_F
               FROM fileddata
                WHERE \`TDP+JSP Alliance\` IS NOT NULL
                And SET_F='Consider'
