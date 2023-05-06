@@ -52,8 +52,8 @@ const districtAndParliaments = async (req, res, next) => {
       where: {
         Caste: {
           [Op.not]: null
-        }
-        
+        },
+        SET_F: 'Consider' // add this condition
       },
       group: ['RCaste'],
       order: [
