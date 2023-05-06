@@ -86,7 +86,7 @@ const DISTRICT_PARLIMENT = async (req, res, next) => {
           ${partyColumns}
         FROM Trenddata
         LEFT JOIN fileddata ON Trenddata.\`CONSTITUENCY\` = fileddata.\`R_Constituency\`
-        WHERE ${whereClause}
+        WHERE ${whereClause} And SET_F='Consider'
         GROUP BY fileddata.\`R_Constituency\`, Trenddata.\`2019_YSRCP\`, Trenddata.\`2019_TDP\`, Trenddata.\`2019_JSP\`, Trenddata.\`2019_OTHERS\`
       `;
   
@@ -123,7 +123,7 @@ const DISTRICT_PARLIMENT = async (req, res, next) => {
         CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
         CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
         FROM fileddata
-        WHERE ${whereClause} AND Date IS NOT NULL 
+        WHERE ${whereClause} AND Date IS NOT NULL And SET_F='Consider'
         GROUP BY Month
         ORDER BY STR_TO_DATE(Month, '%b/%Y') 
          ;`;
