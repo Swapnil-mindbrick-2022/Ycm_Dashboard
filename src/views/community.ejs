@@ -327,9 +327,23 @@ td {
     transform: rotate(360deg);
   }
 }
+#datatable thead td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 0;
+  background-color: white;
+}
+
 #datatable tbody td:first-child {
   position: sticky;
   left: 0;
+  z-index: 0;
+  background-color: white;
+}
+
+#datatable tbody th {
+  position: sticky;
+  top: 0;
   z-index: 1;
   background-color: white;
 }
@@ -339,8 +353,8 @@ td {
   left: 0;
   z-index: 2;
   background-color: white;
-}
- */
+} */
+
 
 
 
@@ -502,28 +516,26 @@ loader.appendChild(text);
         scrollY: '400px',
         scrollX: true,
         scrollCollapse: true,
-     
-        "ordering": false,
-        "searching": true,
-        "columnDefs": [
-          { "targets": '_all', "searchable": true },
-          { "targets": '_all', "sortable": false }
-        ],
-      
+        ordering: false,
+        searching: true,
+        columnDefs: [
+          { targets: '_all', searchable: true },
+          { targets: '_all', sortable: false }
+        ]
       });
-      $('#datatable thead th:first-child').css('position', 'sticky').css('left', '0');
 
-      $('.search-input').on('keyup', function () {
+      $('.search-input').on('keyup', function() {
         const columnIdx = $(this).parent().index();
         const searchValue = $(this).val();
         table.column(columnIdx).search(searchValue).draw();
       });
-      $('.filter-dropdown').on('change', function () {
+
+      $('.filter-dropdown').on('change', function() {
         const columnIdx = $(this).parent().index();
         const filterValue = $(this).val();
         table.column(columnIdx).search(filterValue).draw();
       });
-      });
+    });
     } else {
       console.error('No data found');
     }

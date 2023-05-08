@@ -408,10 +408,10 @@ const TDPFull= async (req, res, next) => {
            
           FROM fileddata AS t1
           JOIN (
-            SELECT District,R_Constituency, Max(Week) AS Max_week
+            SELECT R_Constituency
             FROM fileddata
-            GROUP BY R_Constituency,District
-          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
+            GROUP BY R_Constituency
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency 
           WHERE \`TDP Full\` IS NOT NULL
           And SET_F='Consider'
           ${Gender ? `AND t1.Gender = '${Gender}'` : ''}
@@ -553,10 +553,10 @@ const JSPFull= async (req, res, next) => {
            
           FROM fileddata AS t1
           JOIN (
-            SELECT District,R_Constituency, Max(Week) AS Max_week
+            SELECT R_Constituency
             FROM fileddata
             GROUP BY R_Constituency,District
-          ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_week
+          ) AS t2 ON t1.R_Constituency = t2.R_Constituency 
           WHERE \`JSP Full\` IS NOT NULL
           And SET_F='Consider'
           ${Gender ? `AND t1.Gender = '${Gender}'` : ''}

@@ -342,7 +342,7 @@ td {
 			<h1>TREND</h1>
 		  </div>
 	</header>
-	<nav style="margin-left: 70rem;" class="top-nav ">
+	<nav style="margin-left: 10rem;" class="top-nav ">
 			<button>
 				<a href="/homepage">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
@@ -365,6 +365,10 @@ td {
           </svg>
         </a>
       </button>
+      <button id="trend1" class="btn btn-primary">CM QUESTION</button>
+      <button id="trend2" class="btn btn-primary">Party</button>
+      <button id="trend3" class="btn btn-primary">AGE</button>
+      <button id="trend4" class="btn btn-primary">OCCUPATION</button>
 	</nav>
 	<div id="parentele">
 		<div>
@@ -393,7 +397,7 @@ td {
 
               
               
-                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                <!-- <button type="submit" name="submit" class="btn btn-primary">Submit</button> -->
                 
               </form>
             </nav>
@@ -450,10 +454,13 @@ radioInputs.forEach((radioInput) => {
   });
 });
 
+const trendButton = document.getElementById('trend1');
+const trendButton2 = document.getElementById('trend2');
+const trendButton3 = document.getElementById('trend3');
+const trendButton4 = document.getElementById('trend4');
+// const form = document.getElementById('form');
 
-const form = document.getElementById('form');
-
-form.addEventListener('submit', async (event) => {
+trendButton.addEventListener('click', async (event) => {
   event.preventDefault();
    // Show the loader
   // Add a loader to the page
@@ -585,12 +592,420 @@ loader.appendChild(text);
 });
 
 
+// Fir CM question 
+trendButton2.addEventListener('click', async (event) => {
+  event.preventDefault();
+   // Show the loader
+  // Add a loader to the page
+  const loader = document.createElement("div");
+  loader.classList.add("loader");
+  loader.style.position = "fixed";
+  loader.style.top = "50%";
+  loader.style.left = "60%";
+  loader.style.transform = "translate(-50%, -50%)";
+  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+  loader.style.borderTopColor = "#3498db";
+  loader.style.borderRadius = "75%";
+  loader.style.width = "250px";
+  loader.style.height = "250px";
+  loader.style.animation = "spin 1s ease-in-out infinite";
+  const text = document.createElement("span");
+text.textContent = "Loading data";
+text.style.position = "absolute";
+text.style.top = "50%";
+text.style.left = "50%";
+text.style.transform = "translate(-50%, -50%)";
+text.style.fontSize = "20px";
+text.style.fontWeight = "bold";
+loader.appendChild(text);
+
+  document.body.appendChild(loader);
 
 
+    try {
+        const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
+
+        const response = await fetch('/TrendReport', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ selectedOption, DisParllimnet })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        Highcharts.chart('mainele', {
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'Trend Report'
+            },
+            xAxis: {
+                categories: data.map(item => item['R_Constituency']),
+                title: {
+                    text: 'Constituency'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Party Percentage'
+                }
+            },
+            tooltip: {
+        valueSuffix: '%',
+        stickOnContact: true
+    },
+
+    plotOptions: {
+        series: {
+            point: {
+                events: {
+                    click: function () {
+                        window.location.href = this.series.options.website;
+                    }
+                }
+            },
+            cursor: 'pointer'
+        }
+    },
 
 
+            series: [{
+                name: '2019 YSRCP',
+                data: data.map(item => parseFloat(item['2019 YSRCP'].slice(0, -1)))
+            }, {
+                name: '2019 TDP',
+                data: data.map(item => parseFloat(item['2019 TDP'].slice(0, -1)))
+            }, {
+                name: '2019 JSP',
+                data: data.map(item => parseFloat(item['2019 JSP'].slice(0, -1)))
+            }, {
+                name: '2019_OTHERS',
+                data: data.map(item => parseFloat(item['2019_OTHERS'].slice(0, -1)))
+            }
+                , {
+                    name: 'TDP',
+                    data: data.map(item => parseFloat(item['TDP'].toString().slice(0, -1))),
+                    color: 'rgb(255, 192, 0)'
+                }, {
+                    name: 'JSP',
+                    data: data.map(item => parseFloat(item['JSP'].toString().slice(0, -1))),
+                    olor: 'rgb(250, 20, 14)'
+                }, {
+                    name: 'YSRCP',
+                    data: data.map(item => parseFloat(item['YSRCP'].toString().slice(0, -1))),
+                    color: 'rgb(1, 169, 91)'
+                }, {
+                    name: 'Not Decided',
+                    data: data.map(item => parseFloat(item['Not Decided'].toString().slice(0, -1))),
+                    color: 'rgb(192, 192, 192)'
+                }, {
+                    name: 'BJP',
+                    data: data.map(item => parseFloat(item['BJP'].toString().slice(0, -1)))
+                },  {
+                    name: 'INC',
+                    data: data.map(item => parseFloat(item['INC'].toString().slice(0, -1)))
+                }, ]
+                ,    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 550
+            },
+            chartOptions: {
+                chart: {
+                    spacingLeft: 3,
+                    spacingRight: 3
+                },
+                legend: {
+                    itemWidth: 150
+                },
+                xAxis: {
+                  categories: data.map(item => item['R_Constituency']),
+                    title: 'Consticuency '
+                },
+                yAxis: {
+                    visible: false
+                }
+            }
+        }]
+    }
+        });
+
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+    finally {
+    // Remove the loader from the page
+    document.body.removeChild(loader);
+  }
+});
+
+// For Age Group 
+
+trendButton3.addEventListener('click', async (event) => {
+  event.preventDefault();
+   // Show the loader
+  // Add a loader to the page
+  const loader = document.createElement("div");
+  loader.classList.add("loader");
+  loader.style.position = "fixed";
+  loader.style.top = "50%";
+  loader.style.left = "60%";
+  loader.style.transform = "translate(-50%, -50%)";
+  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+  loader.style.borderTopColor = "#3498db";
+  loader.style.borderRadius = "75%";
+  loader.style.width = "250px";
+  loader.style.height = "250px";
+  loader.style.animation = "spin 1s ease-in-out infinite";
+  const text = document.createElement("span");
+text.textContent = "Loading data";
+text.style.position = "absolute";
+text.style.top = "50%";
+text.style.left = "50%";
+text.style.transform = "translate(-50%, -50%)";
+text.style.fontSize = "20px";
+text.style.fontWeight = "bold";
+loader.appendChild(text);
+
+  document.body.appendChild(loader);
 
 
+    try {
+        const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
+
+        const response = await fetch('/TrendReport3', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ selectedOption, DisParllimnet })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data)
+
+        Highcharts.chart('mainele', {
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'Trend Report'
+            },
+            xAxis: {
+                categories: data.map(item => item['Age Group']),
+                title: {
+                    text: 'Age-Group'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Party Percentage'
+                }
+            },
+            tooltip: {
+        valueSuffix: '%',
+        stickOnContact: true
+    },
+
+    plotOptions: {
+        series: {
+            point: {
+                events: {
+                    click: function () {
+                        window.location.href = this.series.options.website;
+                    }
+                }
+            },
+            cursor: 'pointer'
+        }
+    },
+
+
+            series: [{
+                name: 'SATISFIED',
+                data: data.map(item => parseFloat(item['SATISFIED'].toString().slice(0, -1))),
+                    color: 'rgb(255, 192, 0)'
+            }, {
+                name: 'YSRCP',
+                data: data.map(item => parseFloat(item['YSRCP'].toString().slice(0, -1))),
+                color: 'rgb(1, 169, 91)'
+            },  ]
+                ,    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 550
+            },
+            chartOptions: {
+                chart: {
+                    spacingLeft: 3,
+                    spacingRight: 3
+                },
+                legend: {
+                    itemWidth: 150
+                },
+                xAxis: {
+                  categories: data.map(item => item['Age Group']),
+                    title: 'Age-Group '
+                },
+                yAxis: {
+                    visible: false
+                }
+            }
+        }]
+    }
+        });
+
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+    finally {
+    // Remove the loader from the page
+    document.body.removeChild(loader);
+  }
+});
+
+
+// for Occupations 
+trendButton4.addEventListener('click', async (event) => {
+  event.preventDefault();
+   // Show the loader
+  // Add a loader to the page
+  const loader = document.createElement("div");
+  loader.classList.add("loader");
+  loader.style.position = "fixed";
+  loader.style.top = "50%";
+  loader.style.left = "60%";
+  loader.style.transform = "translate(-50%, -50%)";
+  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+  loader.style.borderTopColor = "#3498db";
+  loader.style.borderRadius = "75%";
+  loader.style.width = "250px";
+  loader.style.height = "250px";
+  loader.style.animation = "spin 1s ease-in-out infinite";
+  const text = document.createElement("span");
+text.textContent = "Loading data";
+text.style.position = "absolute";
+text.style.top = "50%";
+text.style.left = "50%";
+text.style.transform = "translate(-50%, -50%)";
+text.style.fontSize = "20px";
+text.style.fontWeight = "bold";
+loader.appendChild(text);
+
+  document.body.appendChild(loader);
+
+
+    try {
+        const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
+
+        const response = await fetch('/TrendReport4', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ selectedOption, DisParllimnet })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data)
+
+        Highcharts.chart('mainele', {
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'Trend Report'
+            },
+            xAxis: {
+                categories: data.map(item => item['Occupation']),
+                title: {
+                    text: 'Occupations'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Party Percentage'
+                }
+            },
+            tooltip: {
+        valueSuffix: '%',
+        stickOnContact: true
+    },
+
+    plotOptions: {
+        series: {
+            point: {
+                events: {
+                    click: function () {
+                        window.location.href = this.series.options.website;
+                    }
+                }
+            },
+            cursor: 'pointer'
+        }
+    },
+
+
+            series: [{
+                name: 'SATISFIED',
+                data: data.map(item => parseFloat(item['SATISFIED'].toString().slice(0, -1))),
+                    color: 'rgb(255, 192, 0)'
+            }, {
+                name: 'YSRCP',
+                data: data.map(item => parseFloat(item['YSRCP'].toString().slice(0, -1))),
+                color: 'rgb(1, 169, 91)'
+            },  ]
+                ,    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 550
+            },
+            chartOptions: {
+                chart: {
+                    spacingLeft: 3,
+                    spacingRight: 3
+                },
+                legend: {
+                    itemWidth: 150
+                },
+                xAxis: {
+                  categories: data.map(item => item['Occupation']),
+                    title: 'Occupation'
+                },
+                yAxis: {
+                    visible: false
+                }
+            }
+        }]
+    }
+        });
+
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+    finally {
+    // Remove the loader from the page
+    document.body.removeChild(loader);
+  }
+});
 
 
 </script>

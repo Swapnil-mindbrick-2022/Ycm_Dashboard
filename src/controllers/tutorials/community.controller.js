@@ -34,9 +34,29 @@ const districtAndParliaments = async (req, res, next) => {
 
   const districtsPromise = db.fileddata.findAll({
     attributes: [[Sequelize.literal(`DISTINCT(${districtOrParliament})`), 'district']],
-    order: [[Sequelize.col('district'), 'ASC']],
+    order: [
+      [
+        Sequelize.literal(`CASE 
+          WHEN district = 'SRIKAKULAM' THEN 1 
+          WHEN district = 'VIZIANAGARAM' THEN 2 
+          WHEN district = 'VISAKHAPATNAM' THEN 3
+          WHEN district = 'EAST GODAVARI' THEN 4 
+          WHEN district = 'WEST GODAVARI' THEN 5
+          WHEN district = 'KRISHNA' THEN 6 
+          WHEN district = 'GUNTUR' THEN 7
+          WHEN district = 'PRAKASAM' THEN 8 
+          WHEN district = 'NELLORE' THEN 9
+          WHEN district = 'KADAPA' THEN 10 
+          WHEN district = 'KURNOOL' THEN 11
+          WHEN district = 'CHITTOOR' THEN 12
+          ELSE 13 
+        END`),
+        'ASC'
+      ]
+    ],
     raw: true
   }).then(rows => rows.map(row => row.district));
+  
 
   try {
     const districts = await districtsPromise; // Move the declaration of 'districts' here

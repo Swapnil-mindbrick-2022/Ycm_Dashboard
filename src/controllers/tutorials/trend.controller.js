@@ -57,7 +57,9 @@ const DISTRICT_PARLIMENT = async (req, res, next) => {
         whereClause += `fileddata.District = '${DisParllimnet}' `;
       } else if (selectedOption === 'PARLIAMENT') {
         whereClause += `fileddata.PARLIAMENT = '${DisParllimnet}' `;
-      }
+      }else if (selectedOption === 'RCaste') {
+        whereClause += `fileddata.RCaste = '${DisParllimnet}' `;
+      };
   
       const constituenciesQuery = `
         SELECT DISTINCT CONSTITUENCY FROM Trenddata
@@ -99,7 +101,7 @@ const DISTRICT_PARLIMENT = async (req, res, next) => {
     }
   };
   
-
+// For CM Question 
   const TrendReport2 = async (req, res, next) => {
     try {
       const { selectedOption, DisParllimnet } = req.body;
@@ -137,14 +139,90 @@ const DISTRICT_PARLIMENT = async (req, res, next) => {
     }
   };
   
-  
-  
-  
 
+  const TrendReport3 = async (req, res, next) => {
+    try {
+      const { selectedOption, DisParllimnet } = req.body;
+  
+      let whereClause = '';
+      if (selectedOption === 'District') {
+        whereClause += `fileddata.District = '${DisParllimnet}' `;
+      } else if (selectedOption === 'PARLIAMENT') {
+        whereClause += `fileddata.PARLIAMENT = '${DisParllimnet}' `;
+      } else if (selectedOption === 'RCaste') {
+        whereClause += `fileddata.RCaste = '${DisParllimnet}' `;
+      }
+  
+      const query = `SELECT 
+    \`Age Group\`,
+  
+        CONCAT(ROUND(((SUM(CASE WHEN CM_Satisfaction = 'Good' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS SATISFIED,
+        CONCAT(ROUND(((SUM(CASE WHEN CM_Satisfaction = 'Not Good' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`NOT SATISFIED\`,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS TDP,
+        CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
+        FROM fileddata
+        WHERE ${whereClause} AND \`Age Group\` IS NOT NULL And SET_F='Consider'
+        GROUP BY \`Age Group\`
+        ORDER BY \`Age Group\` 
+         ;`;
+  
+      const results = await db.sequelize.query(query);
+      res.json(results[0]);
+      console.log(results);
+  
+    } catch (error) {
+      next(error);
+    }
+  };
+  
+  
+  // for occuPations
+
+ const TrendReport4 = async (req, res, next) => {
+    try {
+      const { selectedOption, DisParllimnet } = req.body;
+  
+      let whereClause = '';
+      if (selectedOption === 'District') {
+        whereClause += `fileddata.District = '${DisParllimnet}' `;
+      } else if (selectedOption === 'PARLIAMENT') {
+        whereClause += `fileddata.PARLIAMENT = '${DisParllimnet}' `;
+      } else if (selectedOption === 'RCaste') {
+        whereClause += `fileddata.RCaste = '${DisParllimnet}' `;
+      }
+  
+      const query = `SELECT 
+    \`Occupation\`,
+  
+        CONCAT(ROUND(((SUM(CASE WHEN CM_Satisfaction = 'Good' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS SATISFIED,
+        CONCAT(ROUND(((SUM(CASE WHEN CM_Satisfaction = 'Not Good' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS \`NOT SATISFIED\`,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS TDP,
+        CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
+        CONCAT(ROUND(((SUM(CASE WHEN Party NOT IN ('TDP', 'YSRCP', 'JSP', 'BJP') THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS OTHER
+        FROM fileddata
+        WHERE ${whereClause} AND \`Occupation\` IS NOT NULL And SET_F='Consider'
+        GROUP BY \`Occupation\`
+        ORDER BY \`Occupation\` 
+         ;`;
+  
+      const results = await db.sequelize.query(query);
+      res.json(results[0]);
+      console.log(results);
+  
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 
 module.exports={
     DISTRICT_PARLIMENT,
     TrendReport,
-    TrendReport2
+    TrendReport2,
+    TrendReport3,
+    TrendReport4
 
 }

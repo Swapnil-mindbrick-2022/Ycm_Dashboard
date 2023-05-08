@@ -50,7 +50,8 @@ let routes = (app) => {
   router.get('/distrctParliment',trendController.DISTRICT_PARLIMENT)
   router.post('/TrendReport',trendController.TrendReport)
   router.post('/TrendReport2',trendController.TrendReport2)
- 
+  router.post('/TrendReport3',trendController.TrendReport3)
+  router.post('/TrendReport4',trendController.TrendReport4)
 
 
 
