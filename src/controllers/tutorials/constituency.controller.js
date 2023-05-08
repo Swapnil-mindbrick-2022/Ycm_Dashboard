@@ -669,19 +669,90 @@ const PrefferMLAcandidate = async (req, res, next) => {
   try {
     const { district, constituency, Date } = req.body;
 
-    const query = `
-    SELECT 
-    \`MLA Preference\`,
-    CONCAT(ROUND(SUM(Factor) / (SELECT SUM(Factor) FROM fileddata WHERE District = '${district}' AND R_Constituency = '${constituency}' AND Date = '${Date}' AND \`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone') AND Party = 'YSRCP' AND R_Constituency IN (SELECT R_Constituency FROM fileddata WHERE R_Constituency = '${constituency}' AND Party = 'YSRCP')) * 100, 2), '%') AS totalFactor_percentage
-  FROM fileddata 
-  WHERE District = '${district}'
-    AND R_Constituency = '${constituency}' 
-    AND Date = '${Date}' 
-    AND \`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone')
-    AND Party = 'YSRCP'
-  GROUP BY \`MLA Preference\`;
-;
-    `;
+//     const query = `
+//     SELECT 
+//     \`MLA Preference\`,
+//     CONCAT(ROUND(SUM(Factor) / (SELECT SUM(Factor) FROM fileddata WHERE District = '${district}' AND R_Constituency = '${constituency}' AND Date = '${Date}' AND \`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone') AND Party = 'YSRCP' AND R_Constituency IN (SELECT R_Constituency FROM fileddata WHERE R_Constituency = '${constituency}' AND Party = 'YSRCP')) * 100, 2), '%') AS totalFactor_percentage
+//   FROM fileddata 
+//   WHERE District = '${district}'
+//     AND R_Constituency = '${constituency}' 
+//     AND Date = '${Date}' 
+//     AND \`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone')
+//     AND Party = 'YSRCP'
+//   GROUP BY \`MLA Preference\`;
+// ;
+//     `;
+
+    
+//    const query = `
+//    SELECT 
+//    COALESCE(c.R_Constituency, f.R_Constituency) AS R_Constituency,
+//    COALESCE(c.District, f.District) AS District,
+//    f.\`MLA Preference\`,
+//    CONCAT(
+//        ROUND(SUM(f.Factor) / (
+//            SELECT SUM(f2.Factor) 
+//            FROM fileddata f2 
+//            WHERE f2.District = '${district}' 
+//            AND f2.R_Constituency = '${constituency}' 
+//            AND f2.Date = '${Date}' 
+//            AND f2.\`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone') 
+//            AND f2.Party = 'YSRCP' 
+//            AND NOT EXISTS (
+//                SELECT 1 
+//                FROM cordinates c2 
+//                WHERE c2.R_Constituency = '${constituency}' 
+//                AND c2.District = '${district}'
+//            )
+//        ) * 100, 2), '%'
+//    ) AS totalFactor_percentage
+// FROM fileddata f
+// LEFT JOIN cordinates c 
+//    ON f.R_Constituency = c.R_Constituency AND f.District = c.District
+// WHERE f.District = '${district}'
+// AND f.R_Constituency = '${constituency}' 
+// AND f.Date = '${Date}' 
+// AND f.\`MLA Preference\` IN ('Same MLA', '  Other MLA', 'Anyone')
+// AND f.Party = 'YSRCP'
+// GROUP BY f.\`MLA Preference\`;
+
+// ;
+//    `;
+
+const query = `
+SELECT 
+    COALESCE(c.\`R.Constituency\`, f.R_Constituency) AS R_Constituency,
+    COALESCE(c.District, f.District) AS District,
+    f.\`MLA Preference\`,
+    CONCAT(
+        ROUND(SUM(f.Factor) / (
+            SELECT SUM(f2.Factor) 
+            FROM fileddata f2 
+            WHERE f2.District = '${district}' 
+            AND f2.R_Constituency = '${constituency}' 
+            AND f2.Date = '${Date}'  
+            AND f2.\`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone') 
+            AND f2.Party = 'YSRCP' 
+            AND NOT EXISTS (
+                SELECT 1 
+                FROM cordinates c2 
+                WHERE c2.\`R.Constituency\` = '${constituency}' 
+                AND c2.District = '${district}' 
+            )
+        ) * 100, 2), '%'
+    ) AS totalFactor_percentage
+FROM fileddata f
+LEFT JOIN cordinates c 
+    ON f.R_Constituency = c.\`R.Constituency\` AND f.District = c.District
+WHERE f.District = '${district}' 
+AND f.R_Constituency = '${constituency}'  
+AND f.Date = '${Date}'   
+AND f.\`MLA Preference\` IN ('Same MLA', ' Other MLA', 'Anyone')
+AND f.Party = 'YSRCP'
+GROUP BY f.\`MLA Preference\`;
+
+`
+   
     const result = await db.sequelize.query(query, {
       type: db.sequelize.QueryTypes.SELECT,
       replacements: {
