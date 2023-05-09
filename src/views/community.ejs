@@ -327,34 +327,19 @@ td {
     transform: rotate(360deg);
   }
 }
-#datatable thead td:first-child {
-  position: sticky;
-  left: 0;
-  z-index: 0;
-  background-color: white;
-}
-
 #datatable tbody td:first-child {
   position: sticky;
   left: 0;
-  z-index: 0;
-  background-color: white;
-}
-
-#datatable tbody th {
-  position: sticky;
-  top: 0;
   z-index: 1;
   background-color: white;
 }
 
-/* #datatable thead th:first-child {
+
+.fixedheader:first-of-type {
   position: sticky;
   left: 0;
-  z-index: 2;
-  background-color: white;
-} */
-
+  /* your styles here */
+}
 
 
 
@@ -477,7 +462,7 @@ loader.appendChild(text);
     const { data } = await axios.get(`/districtAndParliaments?selectedOption=${selectedOption.value}&selectedParty=${selectedParty.value}`);
     if (data && data.length > 0) {
       const tableHeaders = Object.keys(data[0]).map((header, index) => `
-        <th>
+        <th class='fixedheader'>
           ${header}
           ${index === 0 ? `
             <select class="filter-dropdown">

@@ -331,7 +331,24 @@ td {
     transform: rotate(360deg);
   }
 }
+.btn {
+      padding: 0.5px;
+      margin: 0.5px;
+      background-color: #16160b;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: auto;
 
+    }
+
+    .btn:hover {
+      background-color: #00d904;
+    }
+    .btn.active:hover {
+  background-color: #00d904;
+}
 
 	</style>
 </head>
@@ -412,9 +429,22 @@ td {
 
 <script>
 
+// get all buttons and add click event listener to each one
+const buttons = document.querySelectorAll('.btn');
+buttons.forEach(button => {
+  button.addEventListener('click', function() {
+    // remove 'active' class from all buttons
+    buttons.forEach(b => b.classList.remove('active'));
+    // add 'active' class to clicked button
+    this.classList.add('active');
+  });
+});
+
 
 
 // Attach an event listener to the radio inputs
+
+
 const radioInputs = document.querySelectorAll('input[name="selectedOption"]');
 radioInputs.forEach((radioInput) => {
   radioInput.addEventListener('click', async (event) => {
