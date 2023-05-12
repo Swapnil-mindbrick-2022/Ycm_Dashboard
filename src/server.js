@@ -28,6 +28,8 @@ const userauth=require('./middlewares/Auth/userauth')
 const cors = require('cors');
 
 app.set('view engine', 'ejs');	
+
+app.use(express.static(__dirname + '/views'));
 // app.use(express.urlencoded({ extended: true }));
 //for session --------------------
 app.use(session({

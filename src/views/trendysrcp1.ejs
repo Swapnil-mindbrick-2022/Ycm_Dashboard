@@ -30,81 +30,53 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
-	<title>Trends</title>
+	<title>Treds</title>
 
 	<style>
-html{
-    zoom: 80%;
+ body {
+  background: linear-gradient(to bottom right, #2c3e50, #ebefce);
 }
-body {
-  background-color: rgb(0, 206, 161);
-  
-}
-#header{
-  display: flex;
-  justify-content: center;
-}
-    #parentele {
-        display: flex;
-        justify-content: center;
-        border: 4px solid lightgrey;
-        height: 760px;
-        margin-left: 20px;
-        margin-right: 20px;
-        margin-top: 1px;
-        background-color: white;
-        width: 1850px;
-    }
-#mainele {
-      margin-top: 4px;
-      margin-left: 220px;
-      display: flex;
-      background-color: white;
-      border: 1px solid black;
-      height: 730px;
-      width: 88%
-}
+
+		/* Styling for the header */
+		#parentele{
+			display: flex;
+			justify-content: flex-end;
+			border: 2px solid yellow;
+			height: 580px;
+			/* width: 1650px; */
+			
+		}
+		.header {
+			background: linear-gradient(to bottom right, #2c3e50, #dda8d4);
+			color:black;
+			padding: 10px;
+			box-sizing: border-box;
+			text-align: center;
+		}
+
 		/* Styling for the left side navbar */
-.left-nav {
-			position: absolute;
+		.left-nav {
+			position: fixed;
+			top: 140px;
 			left: 0;
-			width: 10%;
-			height: 50%;
+			width: 35%;
+			height: 78%;
 			background-color:white;
 			color:black;
-      margin: 40px;
+			padding: 20px;
 			box-sizing: border-box;
 			display: flex;
 			flex-direction: column;
-			justify-content: center;
-      border-radius: 8px;
+			justify-content: flex-start;
 			align-items: center;
-			/* overflow-y: auto; */
-      box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
-			border: 1px solid  rgb(0, 74, 132); ;
+			overflow-y: auto;
+			border: 1px solid blue;
 			/* border-radius: 10%; */
 		}
-#navbtn{
-  background-color: lightgrey;
-  display: flex;
-  width: 1850px;
-  margin-left: 20px;
-  height: 40px;
-  margin-right: 10px;
-  margin-top: 1px;
-  justify-content: end;
-}
-#navbar{
-      background-color: rgb(0, 74, 132);
-      height: 60px;
-      /* margin: 40px; */
-      width: 1850px;
-      display: flex;
-      justify-content: end;
-      margin-left: 17.5px;
-      margin-left: 17.5px;
-      margin-top: 0;
-    }
+
+		/* Styling for the right side navbar */
+
+
 		/* Styling for the headings in side navbars */
 		.left-nav h2
 		 {
@@ -146,6 +118,12 @@ body {
 		.left-nav a:hover
  {
 			background-color: #555;
+		}
+		#mainele{
+			border:2px solid black;
+			height: 580px;
+			width: 950px;
+
 		}
 		    /* Set table width to 100% */
 			table {
@@ -241,7 +219,7 @@ body {
 }
 
 /* Mobile Styles */
-/* 
+
 @media only screen and (max-width: 600px) {
   .card {
     width: 90%;
@@ -259,8 +237,7 @@ body {
   .card p {
     font-size: 14px;
   }
-} */
-/* Style the table */
+}/* Style the table */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -323,16 +300,16 @@ td {
 
 
 /* Add media queries for responsive design */
-/* @media only screen and (max-width: 600px) { */
+@media only screen and (max-width: 600px) {
   /* Adjust the table layout for small screens */
-  /* table, th, td {
+  table, th, td {
     display: block;
     width: 100%;
   }
   th, td {
     text-align: center;
   }
-} */
+}
 .loader {
   position: fixed;
   top: 50%;
@@ -355,92 +332,97 @@ td {
   }
 }
 .btn {
-      padding: 1px;
-      margin: 1px;
-      font-size: small;
+      padding: 0.5px;
+      margin: 0.5px;
       background-color: #16160b;
       color: #fff;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       width: auto;
+
     }
+
     .btn:hover {
-      background-color:  rgb(0, 206, 161);
+      background-color: #00d904;
     }
     .btn.active:hover {
-  background-color: rgb(0, 206, 161);
+  background-color: #00d904;
 }
 
 	</style>
 </head>
 <body>
 	<!-- Header -->
-		<div id="header" >
+	<header class="header">
+		<div class="box2">
 			<h1>TREND</h1>
 		  </div>
-  <div id="navbar">
-      <button style="background-color:white; height: 34px;">
-        <a href="/constituency">
-         PrevView
-        </a>
-      </button> 
-      <button style="background-color:white; height: 34px;">
-        <a href="/trend">
-         NextView
-        </a>
-      </button> 
-			<button style="background-color:white; height: 34px;">
-				<a href="/homepage" title="HomePage">
+	</header>
+	<nav style="margin-left: 10rem;" class="top-nav ">
+			<button>
+				<a href="/homepage">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
 						<path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/>
 					  </svg>
 					</a>
-			</button >
-      <button title="Logout" style="background-color:white; height: 34px;">
+			</button>
+      <button>
+      <a href="#">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+          <path d="M8 1.5a6.5 6.5 0 1 0 6.5 6.5A6.508 6.508 0 0 0 8 1.5zM8 8a2 2 0 1 1 2-2A2 2 0 0 1 8 8zm4.5 4.5a5.5 5.5 0 0 1-5.5 5.5 5.5 5.5 0 0 1-5.5-5.5h11z"/>
+        </svg>
+      </a>
+    </button>
+      <button>
         <a href="/logout">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
-            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+            <path fill-rule="evenodd" d="M3.5 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 3.5 13h8a1.5 1.5 0 0 0 1.5-1.5v-9a1.5 1.5 0 0 0-1.5-1.5h-8a1.5 1.5 0 0 0-1.5 1.5v2a.5.5 0 0 0 1 0v-2z"/>
+            <path fill-rule="evenodd" d="M10.854 8.354a.5.5 0 0 0 0-.708L8.207 5.5H12.5a.5.5 0 0 0 0-1H8.207l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0Z"/>
           </svg>
         </a>
       </button>
-	<!-- </nav> -->
-  </div>
-<div id="navbtn">
-    <button id="trend1" class="btn btn-primary">CM QUESTION</button>
-    <button id="trend2" class="btn btn-primary">Party</button>
-    <button id="trend3" class="btn btn-primary">AGE</button>
-    <button id="trend4" class="btn btn-primary">OCCUPATION</button>
-<div>
-  </div>
-  </div>
+      <button id="trend1" class="btn btn-primary">CM QUESTION</button>
+      <button id="trend2" class="btn btn-primary">Party</button>
+      <button id="trend3" class="btn btn-primary">AGE</button>
+      <button id="trend4" class="btn btn-primary">OCCUPATION</button>
+	</nav>
 	<div id="parentele">
-		<div class="left-nav">
-		  <nav>
+		<div>
+		  <nav class="left-nav">
+			<div class="box">
+				<h2>TREND</h2>
+			  </div>
 			<header>
 			  <h4>SELECTION</h4>
 			</header>
-            <form id="form">
+            <form id="form" >
+
                 <ul>
                   <span>Trend By</span>
                   <li><input class="selectdata" type="radio" class="distinct" name="selectedOption" value='District'>DISTRICTS</li>
                   <li><input class="selectdata" type="radio" class="distinct" name="selectedOption" value="PARLIAMENT">PARLIAMENT</li>
                   <li><input class="selectdata" type="radio" class="distinct" name="selectedOption" value="RCaste">CASTE</li>
+
                 </ul>
+
                 <div id="dropdown">
                     <select name = 'DisParllimnet'>
                         <option value=""></option>
                     </select>
-                </div>    
+                </div>
+
+              
+              
+                <!-- <button type="submit" name="submit" class="btn btn-primary">Submit</button> -->
+                
               </form>
-      </nav>
-    </div>
-          <!-- <figure class="highcharts-figure"> -->
-    <div id="mainele">
-    </div>
-        <!-- </figure> -->
-  </div>
+            </nav>
+          </div>
+          <figure class="highcharts-figure">
+            <div id="mainele"></div>
+            
+        </figure>
 			
 		
 
@@ -510,20 +492,13 @@ const trendButton4 = document.getElementById('trend4');
 
 trendButton.addEventListener('click', async (event) => {
   event.preventDefault();
-  
-  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
-        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
-  if (!selectedOption || !DisParllimnet) {
-    alert("Please select an option.");
-    return;
-  }
    // Show the loader
   // Add a loader to the page
   const loader = document.createElement("div");
   loader.classList.add("loader");
   loader.style.position = "fixed";
-  loader.style.top = "40%";
-  loader.style.left = "50%";
+  loader.style.top = "50%";
+  loader.style.left = "60%";
   loader.style.transform = "translate(-50%, -50%)";
   loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
   loader.style.borderTopColor = "#3498db";
@@ -545,8 +520,8 @@ loader.appendChild(text);
 
 
     try {
-        // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
-        // const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
+        const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
 
         const response = await fetch('/TrendReport2', {
             method: 'POST',
@@ -650,19 +625,13 @@ loader.appendChild(text);
 // Fir CM question 
 trendButton2.addEventListener('click', async (event) => {
   event.preventDefault();
-  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
-        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
-  if (!selectedOption || !DisParllimnet) {
-    alert("Please select an option.");
-    return;
-  }
    // Show the loader
   // Add a loader to the page
   const loader = document.createElement("div");
   loader.classList.add("loader");
   loader.style.position = "fixed";
-  loader.style.top = "40%";
-  loader.style.left = "50%";
+  loader.style.top = "50%";
+  loader.style.left = "60%";
   loader.style.transform = "translate(-50%, -50%)";
   loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
   loader.style.borderTopColor = "#3498db";
@@ -684,8 +653,8 @@ loader.appendChild(text);
 
 
     try {
-        // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
-        // const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
+        const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
 
         const response = await fetch('/TrendReport', {
             method: 'POST',
@@ -812,19 +781,13 @@ loader.appendChild(text);
 
 trendButton3.addEventListener('click', async (event) => {
   event.preventDefault();
-  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
-        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
-  if (!selectedOption || !DisParllimnet) {
-    alert("Please select an option.");
-    return;
-  }
    // Show the loader
   // Add a loader to the page
   const loader = document.createElement("div");
   loader.classList.add("loader");
   loader.style.position = "fixed";
-  loader.style.top = "40%";
-  loader.style.left = "50%";
+  loader.style.top = "50%";
+  loader.style.left = "60%";
   loader.style.transform = "translate(-50%, -50%)";
   loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
   loader.style.borderTopColor = "#3498db";
@@ -846,8 +809,8 @@ loader.appendChild(text);
 
 
     try {
-        // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
-        // const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
+        const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
 
         const response = await fetch('/TrendReport3', {
             method: 'POST',
@@ -948,19 +911,13 @@ loader.appendChild(text);
 // for Occupations 
 trendButton4.addEventListener('click', async (event) => {
   event.preventDefault();
-  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
-        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
-  if (!selectedOption || !DisParllimnet) {
-    alert("Please select an option.");
-    return;
-  }
    // Show the loader
   // Add a loader to the page
   const loader = document.createElement("div");
   loader.classList.add("loader");
   loader.style.position = "fixed";
-  loader.style.top = "40%";
-  loader.style.left = "50%";
+  loader.style.top = "50%";
+  loader.style.left = "60%";
   loader.style.transform = "translate(-50%, -50%)";
   loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
   loader.style.borderTopColor = "#3498db";
@@ -982,8 +939,8 @@ loader.appendChild(text);
 
 
     try {
-        // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
-        // const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
+        const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+        const DisParllimnet = document.querySelector('select[name="DisParllimnet"]').value;
 
         const response = await fetch('/TrendReport4', {
             method: 'POST',

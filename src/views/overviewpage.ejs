@@ -28,23 +28,134 @@
 <!-- <link rel="stylesheet" href="../css/overview.css"> -->
 <!-- Add the column filtering plugin JS -->
 <script type="text/javascript" src="https://cdn.rawgit.com/rewonc/jquery.dataTables.columnFilter/v1.5.6/dist/jquery.dataTables.columnFilter.js"></script>
-	<title>Overview Page</title>
+	<title>OVERVIEW</title>
   <style>
-        body {
-        background: linear-gradient(to bottom right, #2c3e50, #ebefce);
+/* css reset */
+/* CSS Reset */
+
+/* Set default margin and padding to 0 for all elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set default font family and size */
+html {
+  font-family: sans-serif;
+  font-size: 16px;
+  zoom: 80%;
+}
+
+/* Remove list styles for all lists */
+ul, ol {
+  list-style: none;
+}
+
+/* Remove default styling for links */
+a {
+  color:black;
+  text-decoration: none;
+}
+
+/* Set default styles for form elements */
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* End CSS Reset */
+
+
+/* reset ends */
+    #header{
+      display: flex;
+      justify-content: center;
+      /* background-color: #00d904; */
+      width: 1800px;
+
     }
+    body {
+        height: 720px;
+        width: 1280px;
+        background: rgb(0, 206, 161);
+    }
+    #navbar{
+      background-color: rgb(0, 74, 132);
+      height: 60px;
+      margin: 20px;
+      width: 1850px;
+      display: flex;
+      justify-content: end;
+    }
+    #fixedheader{
+      position: fixed;
+    }
+    #btnnav{
+  background-color: lightgrey;
+  display: flex;
+  justify-content: end;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top:-15px;
+  height: 40px;
+  width: 1850px;
+}
   
     /* Styling for the header */
     #parentele {
         display: flex;
         justify-content: center;
-        border: 2px solid yellow;
-        height: 580px;
-        /* width: 1650px; */
+        border: 4px solid lightgrey;
+        height: 760px;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 1px;
+        background-color: white;
+        width: 1850px;
+    }
+.left-nav {
+  position: absolute;
+  /* top: 150; */
+  left: -25%;
+  width: 250px;
+  font-size:medium;
+  /* height: 90%; */
+  /* background-color: white; */
+  color: black;
+  box-shadow: inset 2px 2px 4px rgb(0, 74, 132);;
+  padding: 40px;
+  margin:50px;
+  height: 450px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  border: 1px solid rgb(0, 206, 161);
+  border-radius: 8px;
+  transition: left 0.5s ease-out;
+}
+#mainele {
+        border: 2px solid black;
+        height: 650px;
+        width: 1200px;
+        background-color: whitesmoke;
+        /* left: 50%; */
+        /* right: 0; */
+        /* margin-left: 20px; */
+        /* margin-right: 10px; */
+        bottom: 0;
+        overflow-x: scroll;
+        white-space: nowrap;
     }
   
+  
     .header {
-        background: linear-gradient(to bottom right, #2c3e50, #dda8d4);
         color: black;
         padding: 10px;
         box-sizing: border-box;
@@ -52,33 +163,21 @@
     }
   
     /* Styling for the left side navbar */
-    .left-nav {
-        position: fixed;
-        /* top: 140px; */
-        left: 0;
-        width: 25%;
-        height: 80%;
-        background-color: white;
-        color: black;
-        padding: 20px;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        overflow-y: auto;
-        border: 1px solid blue;
-        border-radius: 0.5%;
-    }
-  
+
+
+    .left-nav.show {
+  left: 0;
+}  
     /* Styling for the right side navbar */
     .right-nav {
-        position: fixed;
-        /* top: 140px; */
+        margin-top: 40px;
+        margin-right: 120px;
+        position: absolute;
+        width: 220px;
+        font-size:medium;
         right: 0;
-        width: 24%;
-        height: 80%;
-        background-color: white;
+        height: 480px;
+        /* background-color: white; */
         color: black;
         padding: 20px;
         box-sizing: border-box;
@@ -87,9 +186,17 @@
         justify-content: flex-start;
         align-items: center;
         overflow-y: auto;
-        border: 1px solid blue;
-        border-radius: 0.5%;
+        box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
+        border: 1px solid rgb(0, 206, 161);
+        border-radius: 5%;
+        line-height: 0.5;
     }
+    #toggle-nav {
+  position: relative;
+  top: -24px;
+  right: 185px;
+  height:25px;
+}
   
     /* Styling for the headings in side navbars */
     .left-nav h2,
@@ -135,18 +242,6 @@
         background-color: #555;
     }
   
-    #mainele {
-        border: 2px solid black;
-        height: 580px;
-        width: 750px;
-        /* left: 50%; */
-        /* right: 0; */
-        margin-left: 20px;
-        margin-right: 10px;
-        bottom: 0;
-        overflow-x: scroll;
-        white-space: nowrap;
-    }
   
       /* Customize column filter inputs */
       .dataTables_filter input {
@@ -190,13 +285,14 @@
     padding: 8px;
   }
   .box {
-    background-color: #f4f0f0;
+    background-color:rgb(0, 74, 132);
+    color: white;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 4px;
+
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.3s ease;
-    width:200px;
   }
   
   .box:hover {
@@ -204,7 +300,7 @@
   }
   
   .box h2 {
-    margin: 0;
+    margin: 20px;
   }
   .box2 {
     background-color: #f4f0f0;
@@ -216,49 +312,52 @@
     width:800px;
     margin-left: 450px;
   }
+  th{
+    background-color: rgb(0, 74, 132);
+  }
   
   
  /* Add media queries for responsive design */
- @media only screen and (max-width: 1024px) {
+ /* @media only screen and (max-width: 1024px) { */
     /* Adjust the width of the main container for tablets */
-    #parentele {
+    /* #parentele {
       height: auto;
       flex-wrap: wrap;
-    }
+    } */
   
     /* Adjust the width of the left and right navbars for tablets */
-    .left-nav,
+    /* .left-nav,
     .right-nav {
       width: 35%;
-    }
+    } */
   
     /* Adjust the height of the main container for tablets */
-    #mainele {
+    /* #mainele {
       height: auto;
       width: 100%;
       margin: 0px 0;
-    }
+    } */
     
-  }
+  /* } */
   
-  @media only screen and (min-width: 1025px) {
+  /* @media only screen and (min-width: 1025px) { */
     /* Adjust the width of the main container for desktops */
-    #parentele {
+    /* #parentele {
       height: 580px;
-    }
+    } */
   
     /* Adjust the width of the left and right navbars for desktops */
-    .left-nav,
+    /* .left-nav,
     .right-nav {
       width: 25%;
-    }
+    } */
   
     /* Adjust the width of the main container for desktops */
-    #mainele {
+    /* #mainele {
       width: 50%;
       margin: 0 0px;
-    }
-  }
+    } */
+  /* } */
   
   .loader {
   position: fixed;
@@ -266,7 +365,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-top-color: #3498db;
+  border-top-color: rgb(0, 206, 161);;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -284,6 +383,7 @@
 .btn {
       padding: 0.5px;
       margin: 0.5px;
+      width: 30px;
       background-color: #16160b;
       color: #fff;
       border: none;
@@ -294,72 +394,73 @@
     }
 
     .btn:hover {
-      background-color: #00d904;
+      background-color:rgb(0, 206, 161);
     }
     .btn.active:hover {
-  background-color: #00d904;
+  background-color:rgb(0, 206, 161);
 }
   </style>
 </head>
 <body>
 	<!-- Header -->
-	<header class="header">
-		<div class="box2">
-			<h1>Overview</h1>
+		<div id="header">
+			<h3>OVERVIEW</h3>
 		  </div>
-	</header>
-	<nav style="margin-left: 70rem;" class="top-nav ">
+  <div id="navbar">
+    <nav style="margin-left: 70rem;" class="top-nav ">
+      <button style="background-color:white;">
+        <a href="/constituency">
+         Nextview
+        </a>
+      </button> 
 			<button>
-				<a href="/homepage">
+				<a href="/homepage" title="HomePage">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
 						<path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/>
 					  </svg>
 					</a>
 			</button>
-      <button>
-      <a href="#">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-          <path d="M8 1.5a6.5 6.5 0 1 0 6.5 6.5A6.508 6.508 0 0 0 8 1.5zM8 8a2 2 0 1 1 2-2A2 2 0 0 1 8 8zm4.5 4.5a5.5 5.5 0 0 1-5.5 5.5 5.5 5.5 0 0 1-5.5-5.5h11z"/>
-        </svg>
-      </a>
-    </button>
-      <button>
+      <button title="Logout">
         <a href="/logout">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M3.5 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 3.5 13h8a1.5 1.5 0 0 0 1.5-1.5v-9a1.5 1.5 0 0 0-1.5-1.5h-8a1.5 1.5 0 0 0-1.5 1.5v2a.5.5 0 0 0 1 0v-2z"/>
-            <path fill-rule="evenodd" d="M10.854 8.354a.5.5 0 0 0 0-.708L8.207 5.5H12.5a.5.5 0 0 0 0-1H8.207l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0Z"/>
+            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
           </svg>
         </a>
       </button>
-
-      <button class="btn btn-warning" name='TDPFull' id="TDPFull">TDPFull</button>
+	</nav>
+  </div>
+  <div id="btnnav">
+    <div>
+      <button class="btn btn-warning" name='TDPFull' id="TDPFull" >TDPFull</button>
       <button class="btn btn-warning" name='JSPFull' id="JSPFull">JSPFull</button>
       <button class="btn btn-warning" name='TDPJSPAlliance' id="TDPJSPAlliance-btn">TDP+JSP Alliance</button> <!-- for '/TDPJSPAlliance' route -->
-      
-	</nav>
+      </div>
+  </div>
 	<div id="parentele">
+    <button id="toggle-nav">&#9776;</button>
 		<div>
 		  <nav class="left-nav">
-			<div class="box">
+			<!-- <div class="box">
 				<h2>Overview</h2>
-			  </div>
-			<header>
-			  <h4>SELECTION</h4>
+			  </div> -->
+			<header class="">
+			  <h4>Selection</h4>
 			</header>
 			<!-- <form id="form" method="get" action="/DPC_Data"> -->
 			  <ul>
-				<span>See By</span>
+				<!-- <span>See By</span> -->
 				<li><input type="radio" name="selectedOption" value="District">DISTRICTS</li>
 				<li><input type="radio" name="selectedOption" value="PARLIAMENT">PARLIAMENT</li>
 				<li><input type="radio" name="selectedOption" value="RCaste">CASTE</li>
 			  </ul>
-			  <button id="submit" name="DPC" class="btn btn-primary">Submit</button> <!-- for '/DPC' route -->
+			  <button id="submit" name="DPC" class="btn btn-dark"  style="margin-top: 60px;">Submit</button> <!-- for '/DPC' route -->
 
 			<!-- </form> -->
 		  </nav>
-      <nav class="right-nav">
-        <div class="box">
-          <h2>Filters</h2>
+      <nav class="right-nav" id="nav-right" style="display:none;">
+        <div class="">
+          <h3>Filters</h3>
           </div>
           <section style="margin:5px;">
             <label  style="display: block; margin-bottom: 5px;">District</label>
@@ -407,6 +508,12 @@
 </div>
 </body>
 <script>
+const nav = document.querySelector('.left-nav');
+const toggleBtn = document.querySelector('#toggle-nav');
+
+toggleBtn.addEventListener('click', () => {
+  nav.classList.toggle('show');
+});
 
 
 // get all buttons and add click event listener to each one
@@ -492,6 +599,12 @@ getParliament.addEventListener('change',async function(){
   })
 })
 async function  getData(e){
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked')?.value;
+  if (!selectedOption) {
+    alert("Please select an option.");
+    return;
+  }
+  document.getElementById("nav-right").style.display = 'block';
   e.preventDefault()
 // Add a loader to the page
 const loader = document.createElement("div");
@@ -508,7 +621,7 @@ const loader = document.createElement("div");
   loader.style.animation = "spin 1s ease-in-out infinite";
 
   document.body.appendChild(loader);
-    const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+    // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/DPC_Data', {selectedOption:selectedOption});
   let data = response1.data
   try {
@@ -519,7 +632,7 @@ const loader = document.createElement("div");
         <thead>
           <tr class="header-row">
             ${Object.keys(data[0]).map((key, index) => `
-            <th>
+            <th ">
               ${key}
               ${index === 0 ? `
             ` : ''}
@@ -539,7 +652,7 @@ const loader = document.createElement("div");
     $(document).ready(function() {
       const table = $('#datatable').DataTable({
         "paging": false,
-        scrollY: '800px',
+        scrollY: '400px',
         scrollCollapse: true,
         "ordering": false,
         "searching": true,
@@ -610,7 +723,7 @@ async function getFilteredData(e){
         <thead>
           <tr class="header-row">
             ${Object.keys(data[0]).map((key, index) => `
-            <th>
+            <th id=fixedheader>
               ${key}
               ${index === 0 ? `
             ` : ''}
@@ -666,6 +779,11 @@ async function getFilteredData(e){
 const TDPJSPAlliancebtn = document.querySelector('#TDPJSPAlliance-btn')
 TDPJSPAlliancebtn .addEventListener('click',TDPJSPAlliance)
 async function  TDPJSPAlliance(e){
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked')?.value;
+  if (!selectedOption) {
+    alert("Please select an option.");
+    return;
+  }
     document.getElementById('left-nav-btn').style.display = 'none'
     document.getElementById('left-nav-btn2').style.display = 'block'
     document.getElementById('jspBtn').style.display = 'none'
@@ -689,7 +807,7 @@ const loader = document.createElement("div");
   document.body.appendChild(loader);
 
   
-    const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+    // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/TDPJSPAlliance', {selectedOption:selectedOption});
 
   let data = response1.data
@@ -863,6 +981,11 @@ async function getFilteredData2(e){
 //tdp fullData---
 document.getElementById('TDPFull').addEventListener('click',TDPFull)
 async function TDPFull(e){ 
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked')?.value;
+  if (!selectedOption) {
+    alert("Please select an option.");
+    return;
+  }
     document.getElementById('left-nav-btn').style.display = 'none'
     document.getElementById('left-nav-btn2').style.display = 'none'
     document.getElementById('jspBtn').style.display = 'none'
@@ -884,7 +1007,7 @@ async function TDPFull(e){
   document.body.appendChild(loader);
 
   
-    const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+    // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/tdpfull', {selectedOption:selectedOption});
 
   let data = response1.data
@@ -915,31 +1038,31 @@ async function TDPFull(e){
     `;
     // Initialize DataTable plugin with pagination and column filtering options
     $(document).ready(function() {
-      const table = $('#datatable').DataTable({
-        "paging": false,
-        scrollY: '800px',
-        scrollX: true,
-        scrollCollapse: true,
-        "ordering": false,
-        "searching": true,
-        "columnDefs": [
-          { "targets": '_all', "searchable": true },
-          { "targets": '_all', "sortable": false }
-        ],
-        // "fixedHeader": true,
-        // "headerOffset": $(".header-row").height()
-      });
-      $('.search-input').on('keyup', function () {
-        const columnIdx = $(this).parent().index();
-        const searchValue = $(this).val();
-        table.column(columnIdx).search(searchValue).draw();
-      });
-      $('.filter-dropdown').on('change', function () {
-        const columnIdx = $(this).parent().index();
-        const filterValue = $(this).val();
-        table.column(columnIdx).search(filterValue).draw();
-      });
-    });
+        const table = $('#datatable').DataTable({
+          "paging": false,
+          scrollY: '800px',
+          // scrollX: true,
+          // scrollCollapse: true,
+          "ordering": false,
+          "searching": true,
+          "columnDefs": [
+            { "targets": '_all', "searchable": true },
+            { "targets": '_all', "sortable": false }
+          ],
+          // "fixedHeader": true,
+          // "headerOffset": $(".header-row").height()
+        });
+        $('.search-input').on('keyup', function () {
+          const columnIdx = $(this).parent().index();
+          const searchValue = $(this).val();
+          table.column(columnIdx).search(searchValue).draw();
+        });
+        $('.filter-dropdown').on('change', function () {
+          const columnIdx = $(this).parent().index();
+          const filterValue = $(this).val();
+          table.column(columnIdx).search(filterValue).draw();
+        });
+      });  
     
   } catch (error) {
     console.error(error);
@@ -1010,12 +1133,12 @@ async function getFilterTDP(e){
           </tbody>
         </table>
       `;
-      // Initialize DataTable plugin with pagination and column filtering options
       $(document).ready(function() {
         const table = $('#datatable').DataTable({
           "paging": false,
           scrollY: '800px',
-          scrollCollapse: true,
+          // scrollX: true,
+          // scrollCollapse: true,
           "ordering": false,
           "searching": true,
           "columnDefs": [
@@ -1035,7 +1158,7 @@ async function getFilterTDP(e){
           const filterValue = $(this).val();
           table.column(columnIdx).search(filterValue).draw();
         });
-      });
+      });  
     }catch(error){
       console.error(error);
     }
@@ -1052,6 +1175,11 @@ async function getFilterTDP(e){
 //jsp full data---
 document.getElementById('JSPFull').addEventListener('click',JSPFull)
 async function JSPFull(e){ 
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked')?.value;
+  if (!selectedOption) {
+    alert("Please select an option.");
+    return;
+  }
     document.getElementById('left-nav-btn').style.display = 'none'
     document.getElementById('left-nav-btn2').style.display = 'none'
     document.getElementById('jspBtn').style.display = 'block'
@@ -1073,7 +1201,7 @@ async function JSPFull(e){
   document.body.appendChild(loader);
 
   
-    const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+    // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/jspfull', {selectedOption:selectedOption});
 
   let data = response1.data
@@ -1104,32 +1232,31 @@ async function JSPFull(e){
     `;
     // Initialize DataTable plugin with pagination and column filtering options
     $(document).ready(function() {
-      const table = $('#datatable').DataTable({
-        "paging": false,
-        scrollY: '800px',
-        scrollX: true,
-        scrollCollapse: true,
-        "ordering": false,
-        "searching": true,
-        "columnDefs": [
-          { "targets": '_all', "searchable": true },
-          { "targets": '_all', "sortable": false }
-        ],
-        // "fixedHeader": true,
-        // "headerOffset": $(".header-row").height()
-      });
-      $('.search-input').on('keyup', function () {
-        const columnIdx = $(this).parent().index();
-        const searchValue = $(this).val();
-        table.column(columnIdx).search(searchValue).draw();
-      });
-      $('.filter-dropdown').on('change', function () {
-        const columnIdx = $(this).parent().index();
-        const filterValue = $(this).val();
-        table.column(columnIdx).search(filterValue).draw();
-      });
-    });
-    
+        const table = $('#datatable').DataTable({
+          "paging": false,
+          scrollY: '800px',
+          // scrollX: true,
+          // scrollCollapse: true,
+          "ordering": false,
+          "searching": true,
+          "columnDefs": [
+            { "targets": '_all', "searchable": true },
+            { "targets": '_all', "sortable": false }
+          ],
+          // "fixedHeader": true,
+          // "headerOffset": $(".header-row").height()
+        });
+        $('.search-input').on('keyup', function () {
+          const columnIdx = $(this).parent().index();
+          const searchValue = $(this).val();
+          table.column(columnIdx).search(searchValue).draw();
+        });
+        $('.filter-dropdown').on('change', function () {
+          const columnIdx = $(this).parent().index();
+          const filterValue = $(this).val();
+          table.column(columnIdx).search(filterValue).draw();
+        });
+      });  
   } catch (error) {
     console.error(error);
   }
@@ -1184,7 +1311,7 @@ async function getFilterJSP(e){
           <thead>
             <tr class="header-row">
               ${Object.keys(data[0]).map((key, index) => `
-              <th>
+              <th >
                 ${key}
                 ${index === 0 ? `
               ` : ''}
@@ -1205,7 +1332,8 @@ async function getFilterJSP(e){
         const table = $('#datatable').DataTable({
           "paging": false,
           scrollY: '800px',
-          scrollCollapse: true,
+          // scrollX: true,
+          // scrollCollapse: true,
           "ordering": false,
           "searching": true,
           "columnDefs": [
@@ -1225,7 +1353,7 @@ async function getFilterJSP(e){
           const filterValue = $(this).val();
           table.column(columnIdx).search(filterValue).draw();
         });
-      });
+      });  
     }catch(error){
       console.error(error);
     }

@@ -23,72 +23,51 @@
 <script type="text/javascript" src="https://cdn.rawgit.com/rewonc/jquery.dataTables.columnFilter/v1.5.6/dist/jquery.dataTables.columnFilter.js"></script>
 
 
-	<title>Community</title>
+	<title>Document</title>
 
 	<style>
-html{
-    zoom: 80%;
+    body {
+  background: linear-gradient(to bottom right, #2c3e50, #ebefce);
 }
- body {
-  background-color: rgb(0, 206, 161);
-}
-#heading {
-      display: flex;
-      justify-content: center;
-		
+
+		/* Styling for the header */
+		#parentele{
+			display: flex;
+			justify-content: flex-end;
+			border: 2px solid yellow;
+			height: 580px;
+			/* width: 1650px; */
+			
 		}
-    #navbar{
-      background-color: rgb(0, 74, 132);
-      height: 60px;
-      /* margin: 40px; */
-      width: 1850px;
-      display: flex;
-      justify-content: end;
-      margin: 17.5px;
-    }
-  #parentele {
-      display: flex;
-      border: 4px solid lightgrey;
-      height: 760px;
-      margin-left: 20px;
-      margin-right: 10px;
-      margin-top: -15px;
-      background-color: white;
-      width: 1850px;
-  }
+		.header {
+			background: linear-gradient(to bottom right, #2c3e50, #dda8d4);
+			color:black;
+			padding: 10px;
+			box-sizing: border-box;
+			text-align: center;
+		}
 
-.left-nav {
-  position: absolute;
-  float: left;
-  margin: 30px;
-  width: 250px;
-  font-size:medium;
-  color: black;
-  box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
-  height: 450px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content:space-around;
-  align-items: center;
-  border-radius: 8px;
+		/* Styling for the left side navbar */
+		.left-nav {
+			position: fixed;
+			top: 140px;
+			left: 0;
+			width: 30%;
+			height: 50%;
+			background-color:white;
+			color:black;
+			padding: 20px;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			overflow-y: auto;
+			border: 1px solid blue;
+			border-radius: 10%;
+		}
 
-}
-#mainele {
-    border: 1px solid black;
-    height: 95%;
-    width: 85%;
-    margin-left: 300px;
-    background-color: whitesmoke;
-    
-    /* right: 0; */
-    /* margin-left: 20px; */
-    /* margin-right: 10px; */
-    bottom: 0;
-    overflow-x: scroll;
-    white-space: nowrap;
-    }
-
+		/* Styling for the right side navbar */
 
 
 		/* Styling for the headings in side navbars */
@@ -132,6 +111,19 @@ html{
 		.left-nav a:hover
  {
 			background-color: #555;
+		}
+		#mainele{
+			border:2px solid black;
+			height: 580px;
+			width: 950px;
+      position: fixed;
+      top: 140px;
+      left: 35%;
+      right: 0;
+      bottom: 0;
+      overflow-x: scroll;
+      white-space: nowrap;
+
 		}
 		    /* Set table width to 100% */
 			table {
@@ -228,7 +220,7 @@ html{
 
 /* Mobile Styles */
 
-/* @media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
   .card {
     width: 90%;
     height: auto;
@@ -244,9 +236,8 @@ html{
 
   .card p {
     font-size: 14px;
-  } */
-/* } */
-/* Style the table */
+  }
+}/* Style the table */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -305,7 +296,8 @@ td {
 
 
 /* Add media queries for responsive design */
-/* @media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
+  /* Adjust the table layout for small screens */
   table, th, td {
     display: block;
     width: 100%;
@@ -313,7 +305,7 @@ td {
   th, td {
     text-align: center;
   }
-} */
+}
 .loader {
   position: fixed;
   top: 50%;
@@ -335,204 +327,168 @@ td {
     transform: rotate(360deg);
   }
 }
-#datatable tbody td:first-child {
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  background-color: white;
-}
-
-
-.fixedheader:first-of-type {
-  position: sticky;
-  left: 0;
-  /* your styles here */
-}
-.fixedheader{
-  background-color: rgb(0, 74, 132);
-  color: white;
-}
-
 
 
 	</style>
 </head>
 <body>
 	<!-- Header -->
-	<header >
-		<div id="heading">
-			<h1>COMMUNITY</h1>
+	<header class="header">
+		<div class="box2">
+			<h1>Overview</h1>
 		  </div>
 	</header>
-
-	<div id="navbar">
-    <!-- <nav style="margin-left: 70rem;" class="top-nav "> -->
-      <button style="background-color:white; height: 34px;">
-        <a href="/constituency">
-         PrevView
-        </a>
-      </button> 
-      <button style="background-color:white; height: 34px;">
-        <a href="/trendysrcp">
-         NextView
-        </a>
-      </button> 
-			<button style="background-color:white; height: 34px;">
-				<a href="/homepage" title="HomePage">
+	<nav style="margin-left: 70rem;" class="top-nav ">
+			<button>
+				<a href="/homepage">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
 						<path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/>
 					  </svg>
 					</a>
-			</button >
-      <button title="Logout" style="background-color:white; height: 34px;">
+			</button>
+      <button>
+      <a href="#">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+          <path d="M8 1.5a6.5 6.5 0 1 0 6.5 6.5A6.508 6.508 0 0 0 8 1.5zM8 8a2 2 0 1 1 2-2A2 2 0 0 1 8 8zm4.5 4.5a5.5 5.5 0 0 1-5.5 5.5 5.5 5.5 0 0 1-5.5-5.5h11z"/>
+        </svg>
+      </a>
+    </button>
+      <button>
         <a href="/logout">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
-            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+            <path fill-rule="evenodd" d="M3.5 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 3.5 13h8a1.5 1.5 0 0 0 1.5-1.5v-9a1.5 1.5 0 0 0-1.5-1.5h-8a1.5 1.5 0 0 0-1.5 1.5v2a.5.5 0 0 0 1 0v-2z"/>
+            <path fill-rule="evenodd" d="M10.854 8.354a.5.5 0 0 0 0-.708L8.207 5.5H12.5a.5.5 0 0 0 0-1H8.207l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0Z"/>
           </svg>
         </a>
       </button>
-	<!-- </nav> -->
-  </div>
+	</nav>
 	<div id="parentele">
-		<div class="left-nav">
-		  <nav >
+		<div>
+		  <nav class="left-nav">
+			<div class="box">
+				<h2>Overview</h2>
+			  </div>
 			<header>
 			  <h4>SELECTION</h4>
 			</header>
-            <form id="form" method="get" action="/districtAndParliaments">
-                <ul>
-                  <li><input type="radio" name="selectedOption" value='District'>DISTRICTS</li>
-                  <li><input type="radio" name="selectedOption" value="PARLIAMENT">PARLIAMENT</li>
-                  <span>See % Of</span>
-                  <li><input type="radio" name="selectedParty" value="TDP">TDP</li>
-                  <li><input type="radio" name="selectedParty" value="JSP">JSP</li>
-                  <li><input type="radio" name="selectedParty" value="YSRCP">YSRCP</li>
-                </ul>
-                <button type="submit" name="submit" class="btn btn-dark">Submit</button>
-              </form>
-            </nav>
-          </div>
-          <div id="mainele">
-          </div>
-    </div>
+			<form id="form" method="get" action="/DPC_Data">
+			  <ul>
+				<span>See By</span>
+				<li><input type="radio" name="selectedOption" value="District">DISTRICTS</li>
+				<li><input type="radio" name="selectedOption" value="PARLIAMENT">PARLIAMENT</li>
+				<li><input type="radio" name="selectedOption" value="Caste">CASTE</li>
+			  </ul>
+			  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+			</form>
+		  </nav>
+		</div>
+		<div id="mainele"></div>
+    
+			
+		
+
+
 <script>
-
-
-// Attach an event listener to the submit button
-document.querySelector('#form').addEventListener('submit', async (event) => {
+const form = document.getElementById("form");
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
-   // Show the loader
-  // Add a loader to the page
-  const selectedOption = document.querySelector('input[name="selectedOption"]:checked');
-  const selectedParty = document.querySelector('input[name="selectedParty"]:checked');
   
-
-  if (!selectedOption || !selectedParty) {
-    alert("Please select an option.");
-    return;
-  }
+  // Add a loader to the page
   const loader = document.createElement("div");
   loader.classList.add("loader");
   loader.style.position = "fixed";
-  loader.style.top = "40%";
+  loader.style.top = "25%";
   loader.style.left = "50%";
   loader.style.transform = "translate(-50%, -50%)";
-  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+  loader.style.border = "4px solid rgba(0, 0, 0, 0.1)";
   loader.style.borderTopColor = "#3498db";
-  loader.style.borderRadius = "75%";
-  loader.style.width = "250px";
-  loader.style.height = "250px";
+  loader.style.borderRadius = "50%";
+  loader.style.width = "500px";
+  loader.style.height = "500px";
   loader.style.animation = "spin 1s ease-in-out infinite";
-  const text = document.createElement("span");
-text.textContent = "Loading data";
-text.style.position = "absolute";
-text.style.top = "50%";
-text.style.left = "50%";
-text.style.transform = "translate(-50%, -50%)";
-text.style.fontSize = "20px";
-text.style.fontWeight = "bold";
-loader.appendChild(text);
 
   document.body.appendChild(loader);
 
- 
 
+  const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
+  const url = `/DPC_Data?selectedOption=${selectedOption}`;
   try {
-    const { data } = await axios.get(`/districtAndParliaments?selectedOption=${selectedOption.value}&selectedParty=${selectedParty.value}`);
-    if (data && data.length > 0) {
-      const tableHeaders = Object.keys(data[0]).map((header, index) => `
-        <th class='fixedheader'>
-          ${header}
-          ${index === 0 ? `
-            <select class="filter-dropdown">
-              <option value=""> ${header}</option>
-              ${Array.from(new Set(data.map(row => row[header]))).map(value => `
-                <option value="${value}">${value}</option>
-              `).join("")}
-            </select>` : ''}
-        </th>
-      `).join("");
-
-      const tableRows = data.map(row => `
-        <tr>
-          ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
-        </tr>
-      `).join("");
-
+    const response = await axios.get(url);
+    if (response.status === 200) {
+      let data = [];
+      const contentType = response.headers["content-type"];
+      if (contentType.includes("application/json")) {
+        data = response.data;
+      } else if (contentType.includes("text/plain")) {
+        // Parse the plain text data into a JSON object
+        data = JSON.parse(response.data);
+      } else if (contentType.includes("application/xml")) {
+        // Parse the XML data into a JSON object
+        data = parseXmlToJSON(response.data);
+      } else {
+        throw new Error("Unsupported response type");
+      }
       const mainele = document.getElementById("mainele");
       mainele.innerHTML = `
         <table id="datatable">
-          <thead>
-            <tr>
-              ${tableHeaders}
-            </tr>
-          </thead>
+			<thead>
+				<tr>
+					${Object.keys(data[0]).map((key, index) => `
+					<th>
+						${key}
+						${index === 0 ? `
+						<select class="filter-dropdown">
+							<option value=""> ${key}</option>
+							${Array.from(new Set(data.map(row => row[key]))).map(value => `
+							<option value="${value}">${value}</option>
+							`).join("")}
+						</select>` : ''}
+					</th>`).join("")}
+				</tr>
+				</thead>
+
           <tbody>
-            ${tableRows}
+            ${data.map(row => `
+              <tr>
+                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
+              </tr>
+            `).join("")}
           </tbody>
         </table>
       `;
-
       // Initialize DataTable plugin with pagination and column filtering options
       $(document).ready(function() {
-      const table = $('#datatable').DataTable({
-        "paging": false,
-        scrollY: '400px',
-        scrollX: true,
-        scrollCollapse: true,
-        ordering: false,
-        searching: true,
-        columnDefs: [
-          { targets: '_all', searchable: true },
-          { targets: '_all', sortable: false }
-        ]
+        const table = $('#datatable').DataTable({
+          "pagingType": "full_numbers",
+          "searching": true,
+          "ordering": true,
+          "order": [[ 0, "asc" ]],
+          "columnDefs": [
+            { "targets": '_all', "searchable": true },
+            { "targets": '_all', "sortable": true }
+          ]
+        });
+        $('.search-input').on('keyup', function () {
+          const columnIdx = $(this).parent().index();
+          const searchValue = $(this).val();
+          table.column(columnIdx).search(searchValue).draw();
+        });
+        $('.filter-dropdown').on('change', function () {
+          const columnIdx = $(this).parent().index();
+          const filterValue = $(this).val();
+          table.column(columnIdx).search(filterValue).draw();
+        });
       });
-
-      $('.search-input').on('keyup', function() {
-        const columnIdx = $(this).parent().index();
-        const searchValue = $(this).val();
-        table.column(columnIdx).search(searchValue).draw();
-      });
-
-      $('.filter-dropdown').on('change', function() {
-        const columnIdx = $(this).parent().index();
-        const filterValue = $(this).val();
-        table.column(columnIdx).search(filterValue).draw();
-      });
-    });
     } else {
-      console.error('No data found');
+      throw new Error("Response not OK");
     }
   } catch (error) {
     console.error(error);
-  }
-  finally {
+  } finally {
     // Remove the loader from the page
     document.body.removeChild(loader);
   }
 });
-
 
 
 </script>

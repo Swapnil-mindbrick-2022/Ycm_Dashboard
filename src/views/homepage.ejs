@@ -14,130 +14,111 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> 
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
     <style>
-
+        html{
+            zoom: 90%;
+        }
+        section a {
+            text-decoration: none;
+        }
         /* style for body */
         body{
-            background-color:#7d8483;
+            margin: 0;
+            padding: 0;
+            height: 815px;
+            width: 1250px;
+            background-image:url('./cm.png');
+            background-size:1840px 830px;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* height: 720px;
+            width: 1280px; */
         }
         /* Styles for the container */
         .container {
-            height: 100vh;
+            height: 520px;
             padding: 20px;
-            background-color: #7d8483;
+            margin-left: 220px;
+            margin-bottom: 100px;
+            width: 3500px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            /* flex-direction: row; */
+            /* background-color: red; */
             /* border: 1px solid #f0eaea; */
-        }
-        
-        /* Style for the heading */
-        h1 {
-            text-align: center;
-            font-size: 65px;
-            margin-top: 20px;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px #333;
-        }
-        
+        } 
         /* Styles for the sections */
         .section {
             display: flex;
-            flex-wrap: wrap;
+            flex-basis: calc(50% - 10px);
             justify-content: center;
             align-items: center;
-            margin: 20px;
-            padding: 20px;
-            width: 500px;
-            height: 250px;
-            border: none;
+            /* width:150px; */
+            height: 100px;
             box-sizing: border-box;
             text-align: center;
-            vertical-align: middle;
-            border-radius: 50px;
-            box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.2);
-            background-color: #fff;
+          
+            /* box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.2); */
+            /* background-color: #fff; */
             transition: all 0.3s ease;
         }
         
         /* Styles for the sections when hovered */
-        .section:hover {
+        button:hover {
             transform: scale(1.05);
-            box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.3);
+            /* box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.3); */
         }
         
         /* Styles for the section headings */
-        .section h2 {
-            font-size: 65px;
+        .button h2 {
+            font-size: 40px;
             margin: 0;
             color: #333;
             text-shadow: 1px 1px #ccc;
         }
-        
-        /* Styles for the first section */
-        .section:first-of-type {
-            background-color: #ffcb05;
-        }
-        
-        /* Styles for the second section */
-        .section:nth-of-type(2) {
-            background-color: #fc5a5a;
-        }
-        
-        /* Styles for the third section */
-        .section:nth-of-type(3) {
-            background-color: #5ebfbf;
-        }
-        
-        /* Styles for the fourth section */
-        .section:last-of-type {
-            background-color: #3b3b3b;
-        }
-        
-        /* Styles for the section headings in the first section */
-        .section:first-of-type h2 {
-            color: #fff;
-        }
-        
-        /* Styles for the section headings in the fourth section */
-        .section:last-of-type h2 {
-            color: #fff;
-        }
-        
-        /* Styles for the section headings when hovered */
-        .section:hover h2 {
-            text-shadow: 1px 1px #fff;
-        }
-        
         /* Styles for the section buttons */
-        .section button {
-            border: none;
-            background-color: transparent;
+        button {
+            width: 340px;
+            border: 2px solid transparent;
+            /* color: white; */
+            border-radius: 2%;
+            background-color:transparent;
             cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 4px 4px 20px 4px transparent;
         }
         
         /* Styles for the section buttons when hovered */
-        .section button:hover {
+        /* button:hover {
             transform: scale(1.2);
+        } */
+        #header{
+            margin-top: -15px;
         }
-        .container h1 {
+        #header h1 {
             text-align: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            padding: 20px;
-            background-color: #dae4dc;
+            /* margin-top: -12px; */
+            margin-bottom: 90px;
+            margin-left: 300px;
+            font-family:'Courier New', Courier, monospace;
+            font-size: xx-large;
+            /* padding: 20px; */
+            background-color: white;
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
             border-radius: 25px;
         }
         /* Styles for the sections when hovered and after hovering */
-        .section:hover {
+        /* button:hover {
             transform: scale(1.05);
-            box-shadow: 4px 4px 20px 4px rgba(62, 196, 14, 0.842);
-        }
+            box-shadow: 4px 4px 20px 4px transparent;
+        } */
 
-        .section:hover h2 {
+        /* button:hover h2 {
             text-shadow: 1px 1px #11a32c;
-            color: #cc7f7f;
-            
-        }
+            color: blue;
+        } */
 
-        .section:hover:after {
+        button:hover:after {
             content: "";
             display: block;
             position: absolute;
@@ -151,7 +132,7 @@
         }
 
         /* Styles for the sections on smaller screens */
-        @media (max-width: 768px) {
+        /* @media (max-width: 768px) {
             .section {
                 width: 300px;
                 height: 200px;
@@ -159,10 +140,10 @@
                 padding: 10px;
                 border-radius: 25px;
             }
-        }
+        } */
 
         /* Styles for the sections on even smaller screens */
-        @media (max-width: 480px) {
+        /* @media (max-width: 480px) {
             .section {
                 width: 250px;
                 height: 150px;
@@ -170,46 +151,46 @@
                 padding: 5px;
                 font-size: 16px;
             }
-        }
+        } */
         
     </style>
-    
-   
 </head>
 <body>
-    <div class="container">
+    <div id="header">
         <h1>Interactive Political Dashboard</h1>
-        <div class="row">
-            <section class="col-md-12">
-                <div class="col-md-6">
-                    <button class="section" >
-                        <a href="/overview"><h2>Overview</h2></a>
-                    
-                    </button>
-                  </div>
-                  <div class="col-md-6" >
-                    
-                    <button class="section">
-                        <a href="/constituency"><h2>Constituency View</h2></a>
-                    </button>
-                  </div>
-                  <div class="col-md-6" >
-                    
-                    <button class="section">
-                        <a href="/community"><h2>Community View</h2></a>
-                    </button>
-                  </div>
-                  <div class="col-md-6" >
-                    
-                    <button class="section">
-                        <a href="/trendysrcp"><h2>Trend View</h2></a>
-                    </button>
-                  </div>
-
-            </section>
-          
+    </div>
+    <div class="container">
+        <div class="section">
+            <button style="margin-right: 220px;" title="overview">
+                <a style="text-decoration: none; " href="/overview" >
+                    <img src="./overview.png" alt="" width="150px" height="150px">
+                </a><br>
+                <h2 style="color: white;font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">overview</h2>
+            </button>
         </div>
-      </div>
-      
+        <div class="section" >
+        <button style="margin-left: 220px;" >
+            <a style="text-decoration: none;"  href="/constituency">
+                <img src="./constituencyview.png" alt="" width="150px" height="150px">
+            </a><br>
+            <h2 style="color: white;font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Constituency view</h2>
+        </button>
+        </div>
+        <div class="section" >
+        <button style="margin-right: 220px; margin-top: 100px;">
+            <a style="text-decoration: none;" href="/community">
+                <img src="./communityview.png" alt="" width="150px" height="150px"></a><br>
+                <h2 style="color: white; font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Community view</h2>
+        </button>
+        </div>
+        <div class="section" >
+        <button style="margin-left: 220px; margin-top: 100px;" >
+            <a style="text-decoration: none;" href="/trendysrcp">
+                <img src="./trendview.png" alt="" width="150px" height="150px">
+            </a><br>
+            <h2 style="color: white;font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Trend view</h2>
+        </button>
+        </div>
+    </div>
 </body>
 </html>
