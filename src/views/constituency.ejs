@@ -340,6 +340,8 @@ white-space: nowrap;
   background-color: #3498db;
   text-transform: uppercase;
   color:#ffff;
+  width:31.5em;
+  position:absolute;
 }
 .summary-table tr:nth-child(1) td:nth-child(2) {
   background-color: #262bcd; /* red */
@@ -370,13 +372,13 @@ white-space: nowrap;
   text-transform: uppercase; /* uppercase header text */
   padding: 1px; /* increased padding for header cell */
 }
-.summary-table-header {
+/* .summary-table-header {
   text-align: center;
   margin-top: 0;
   height: 80px;
  position: absolute;
  width:1574px;
-}
+} */
 
 /* For iPads */
 @media only   screen and (max-width: 1180px) {
@@ -658,7 +660,7 @@ white-space: nowrap;
       }
     }
 
-  .summary-table {
+.summary-table {
   border-collapse: collapse;
   margin-top: 116px;
   font-family: Arial, sans-serif;
@@ -710,13 +712,13 @@ white-space: nowrap;
   text-transform: uppercase; /* uppercase header text */
   padding: 1px; /* increased padding for header cell */
 }
-.summary-table-header {
+/* .summary-table-header {
   text-align: center;
   margin-top: 0;
   height: 80px;
  position: absolute;
  width:100%;
-}
+} */
  #chart-container{
   display:inline-block;
   width:100%;
@@ -730,50 +732,10 @@ white-space: nowrap;
 
 }
 }
-
-/* Media query for desktop */
-/* @media only screen and (min-width: 1200px) { */
-  /* Styling for header */
- 
-
-  /* Styling for left side navbar */
-  /* .left-nav { */
-    /* Update styles for desktop */
-    /* top: 140px;
-    width: 30%;
-    padding: 35px;
-  } */
-
-  /* Styling for main content */
- 
-
-/* Media query for iPad */
-/* @media only screen and (min-width: 768px) and (max-width: 1199px) { */
-  /* Styling for header */
-  /* #parentele { */
-    /* Update styles for iPad */
-    /* height: 480px;
-    width: 100%;
-    justify-content: center;
-  } */
-
-  /* Styling for left side navbar */
-  /* .left-nav { */
-    /* Update styles for iPad */
-    /* top: 120px;
-    width: 100%;
-    padding: 20px;
-  } */
-
-  /* Styling for main content */
-  /* #mainele { */
-    /* Update styles for iPad */
-    /* left: 0;
-    width: 100%;
-    overflow-x: auto;
-    white-space: normal;
-  } */
-/* } */
+tbody{
+  width: 20%;
+  height: 10%;
+}
 
   </style>
 </head>
@@ -1193,7 +1155,7 @@ h1.style.borderRadius = '5px';
     resultContainer.appendChild(table);
 
     // Add an h1 tag above the table
-    const tableHeader = document.createElement('h1');
+const tableHeader = document.createElement('h1');
 tableHeader.classList.add('summary-table-header');
 tableHeader.classList.add('text-center'); // Add class to center align
 tableHeader.textContent = 'Summary Report';
@@ -1261,10 +1223,10 @@ resultContainer.insertBefore(tableHeader, table);
   // Build the table for the summary report
   const table = document.createElement('table');
   table.style.borderCollapse = 'collapse';
-  table.style.width = '50%';
-  table.style.height = '50%';
+  table.style.width = '35%';
+  table.style.height = '25%';
   table.style.marginTop='100px'
-  table.style.marginRight='50px'
+  // table.style.marginRight='50px'
 
 
   // Create the header row
@@ -1325,9 +1287,13 @@ resultContainer.insertBefore(tableHeader, table);
             chartContainer = document.createElement('div');
             chartContainer.id = 'chart-container';
             chartContainer.style.position = 'relative';
+            // chartContainer.style.flexGrow = '1';
+            chartContainer.style.float = 'right';
+            chartContainer.style.marginTop = '-22%';
+            // chartContainer.style.marginRight = '10%';
             // chartContainer.style.marginTop = '130px';
-            chartContainer.style.width = '100%';
-            chartContainer.style.height = '100%';
+            chartContainer.style.width = '65%';
+            chartContainer.style.height = '85%';
 
            
 
@@ -1356,6 +1322,8 @@ resultContainer.insertBefore(tableHeader, table);
     }
   },
   yAxis: {
+    min: 0, // Set the minimum value of the y-axis
+    max: 100, // Set the maximum value of the y-axis
     title: {
       text: '%',
       style: {
@@ -1383,7 +1351,9 @@ resultContainer.insertBefore(tableHeader, table);
         style: {
           color: '#fff'
         }
-      }
+      },
+      pointWidth: 25, // Adjust the width of the bars (increase or decrease the value as desired)
+      groupPadding: 0.01 // Adjust the gap between two bars (decrease or increase the value as desired)
     }
   },
   series: [{
@@ -1412,6 +1382,7 @@ resultContainer.insertBefore(tableHeader, table);
     document.body.removeChild(loader);
   }
     }
+
 
 
 
@@ -1482,7 +1453,7 @@ if (!chartContainer) {
   chartContainer = document.createElement('div');
   chartContainer.id = 'chart-container';
   chartContainer.style.display = 'inline-block'; // change display property to inline-block
-  chartContainer.style.width = '100%';
+  chartContainer.style.width = '50%';
   chartContainer.style.height = '100%';
   // chartContainer.style.marginRight = '20px';
   resultContainer.appendChild(chartContainer);
@@ -1493,7 +1464,7 @@ if (!chartContainer1) {
   chartContainer1 = document.createElement('div');
   chartContainer1.id = 'chart-container1';
   chartContainer1.style.display = 'inline-block'; // change display property to inline-block
-  chartContainer1.style.width = '100%';
+  chartContainer1.style.width = '50%';
   chartContainer1.style.height = '100%';
   // chartContainer1.style.marginRight = '-250px';
   resultContainer.appendChild(chartContainer1);
@@ -1513,6 +1484,8 @@ if (!chartContainer1) {
               categories: chartData.map(caste => caste.name)
             },
             yAxis: {
+              min: 0, // Set the minimum value of the y-axis
+              max: 100, // Set the maximum value of the y-axis
               title: {
                 text: '%'
               }
@@ -1521,17 +1494,19 @@ if (!chartContainer1) {
               reversed: true
             },
             plotOptions: {
-              series: {
-                stacking: 'normal',
-                dataLabels: {
-                  enabled: true,
-                  format: '{y}%',
-                  style: {
+    series: {
+      stacking: 'normal',
+      dataLabels: {
+        enabled: true,
+        format: '{y}%',
+        style: {
           color: '#fff'
         }
-                }
-              }
-            },
+      },
+      pointWidth: 25, // Adjust the width of the bars (increase or decrease the value as desired)
+      groupPadding: 0.01 // Adjust the gap between two bars (decrease or increase the value as desired)
+    }
+  },
             series: [
           
             // {
@@ -1958,7 +1933,7 @@ Highcharts.chart(chartContainer1, {
             chartContainer = document.createElement('div');
             chartContainer.id = 'chart-container';
             chartContainer.style.display = 'inline-block'; // change display property to inline-block
-            chartContainer.style.width = '100%';
+            chartContainer.style.width = '50%';
             chartContainer.style.height = '100%';
             chartContainer.style.marginRight = '5px'; 
             resultContainer.appendChild(chartContainer);
@@ -1969,8 +1944,9 @@ Highcharts.chart(chartContainer1, {
             chartContainer1 = document.createElement('div');
             chartContainer1.id = 'chart-container1';
             chartContainer1.style.display = 'inline-block'; // change display property to inline-block
-            chartContainer1.style.width = '100%';
+            chartContainer1.style.width = '50%';
             chartContainer1.style.height = '100%';
+            chartContainer.style.marginleft = '5px'; 
             resultContainer.appendChild(chartContainer1);
           }
 
@@ -1986,6 +1962,8 @@ Highcharts.chart(chartContainer1, {
               categories: chartData.map(caste => caste.name)
             },
             yAxis: {
+              min: 0, // Set the minimum value of the y-axis
+              max: 100, // Set the maximum value of the y-axis
               title: {
                 text: '%'
               }
@@ -1994,14 +1972,19 @@ Highcharts.chart(chartContainer1, {
               reversed: true
             },
             plotOptions: {
-              series: {
-                stacking: 'normal',
-                dataLabels: {
-                  enabled: true,
-                  format: '{y}%'
+            series: {
+              stacking: 'normal',
+              dataLabels: {
+                enabled: true,
+                format: '{y}%',
+                style: {
+                  color: '#fff'
                 }
-              }
-            },
+              },
+              pointWidth: 25, // Adjust the width of the bars (increase or decrease the value as desired)
+              groupPadding: 0.01 // Adjust the gap between two bars (decrease or increase the value as desired)
+            }
+          },
             series: [ {
               name: 'Not Good',
               data: chartData.map(caste => Number(caste.data[0])),
@@ -2139,9 +2122,9 @@ Highcharts.chart(chartContainer1, {
           chartContainer = document.createElement('div');
           chartContainer.id = 'chart-container';
           chartContainer.style.display = 'flex';
-          chartContainer.style.flexDirection = 'column';
+          chartContainer.style.flexDirection = 'row';
           chartContainer.style.width = '100%';
-          chartContainer.style.height = '100%';
+          chartContainer.style.height = '50%';
           
           // resultContainer.style.marginleft='10px'
           resultContainer.appendChild(chartContainer);
@@ -2152,9 +2135,9 @@ Highcharts.chart(chartContainer1, {
           chartContainer1 = document.createElement('div');
           chartContainer1.id = 'chart-container1';
           chartContainer1.style.display = 'flex';
-          chartContainer1.style.flexDirection = 'column';
+          chartContainer1.style.flexDirection = 'row';
           chartContainer1.style.width = '100%';
-          chartContainer1.style.height = '100%';
+          chartContainer1.style.height = '50%';
           // resultContainer.style.marginleft='10px'
           resultContainer.appendChild(chartContainer1);
         }
@@ -2189,7 +2172,7 @@ Highcharts.chart(chartContainer1, {
         Highcharts.chart(chartContainerTDP, {
           chart: {
             type: 'pie',
-            width: 780,
+            width: 600,
             // height: 400
           },
           title: {
@@ -2224,7 +2207,7 @@ Highcharts.chart(chartContainer1, {
         Highcharts.chart(chartContainerJSP, {
           chart: {
             type: 'pie',
-            width: 780,
+            width: 600,
             // height: 400
           },
           title: {
@@ -2267,7 +2250,7 @@ Highcharts.chart(chartContainer1, {
         Highcharts.chart('chart-container-jspfull', {
           chart: {
             type: 'pie',
-            width: 780,
+            width: 600,
           
           },
           title: {
@@ -2301,7 +2284,7 @@ Highcharts.chart(chartContainer1, {
         Highcharts.chart('chart-container-tdpfull', {
           chart: {
             type: 'pie',
-            width: 780,
+            width: 600,
            
           },
           title: {

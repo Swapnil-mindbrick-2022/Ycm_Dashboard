@@ -1024,7 +1024,7 @@ async function getFilteredData(e){
         <thead>
           <tr class="header-row">
             ${Object.keys(data[0]).map((key, index) => `
-            <th id=fixedheader>
+            <th>
               ${key}
               ${index === 0 ? `
             ` : ''}
@@ -1044,7 +1044,7 @@ async function getFilteredData(e){
     $(document).ready(function() {
       const table = $('#datatable').DataTable({
         "paging": false,
-        scrollY: '800px',
+        scrollY: '400px',
         scrollCollapse: true,
         "ordering": false,
         "searching": true,
@@ -1120,9 +1120,9 @@ const loader = document.createElement("div");
           <thead>
             <tr class="header-row">
               <th></th>
-              <th colspan="3">OVERALL</th>
-              <th colspan="3">TDP</th>
-              <th colspan="3">JSP</th>
+              <th colspan="3" style="background-color: gray;">OVERALL</th>
+              <th colspan="3" style="background-color: yellow;">TDP CONTESTS</th>
+              <th colspan="3" style="background-color: red;">JSP CONTESTS</th>
             </tr>
             <tr class="header-row">
               ${Object.keys(data[0]).map((key, index) => `
@@ -1144,31 +1144,31 @@ const loader = document.createElement("div");
       `;
       // Initialize DataTable plugin with pagination and column filtering options
       $(document).ready(function() {
-        const table = $('#datatable').DataTable({
-          "paging": false,
-          scrollY: '800px',
-          scrollX: true,
-          scrollCollapse: true,
-          "ordering": false,
-          "searching": true,
-          "columnDefs": [
-            { "targets": '_all', "searchable": true },
-            { "targets": '_all', "sortable": false }
-          ],
-          // "fixedHeader": true,
-          // "headerOffset": $(".header-row").height()
-        });
-        $('.search-input').on('keyup', function () {
-          const columnIdx = $(this).parent().index();
-          const searchValue = $(this).val();
-          table.column(columnIdx).search(searchValue).draw();
-        });
-        $('.filter-dropdown').on('change', function () {
-          const columnIdx = $(this).parent().index();
-          const filterValue = $(this).val();
-          table.column(columnIdx).search(filterValue).draw();
-        });
-      });  
+      const table = $('#datatable').DataTable({
+        "paging": false,
+        scrollY: '400px',
+        scrollX: true,
+        scrollCollapse: true,
+        "ordering": false,
+        "searching": true,
+        "columnDefs": [
+          { "targets": '_all', "searchable": true },
+          { "targets": '_all', "sortable": false }
+        ],
+        // "fixedHeader": true,
+        // "headerOffset": $(".header-row").height()
+      });
+      $('.search-input').on('keyup', function () {
+        const columnIdx = $(this).parent().index();
+        const searchValue = $(this).val();
+        table.column(columnIdx).search(searchValue).draw();
+      });
+      $('.filter-dropdown').on('change', function () {
+        const columnIdx = $(this).parent().index();
+        const filterValue = $(this).val();
+        table.column(columnIdx).search(filterValue).draw();
+      });
+    });
     
   } catch (error) {
     console.error(error);
@@ -1222,9 +1222,9 @@ async function getFilteredData2(e){
         <thead>
           <tr class="header-row">
             <th></th>
-            <th colspan="3">OVERALL</th>
-            <th colspan="3">TDP</th>
-            <th colspan="3">JSP</th>
+            <th colspan="3" style="background-color: gray;">OVERALL</th>
+            <th colspan="3" style="background-color: yellow;">TDP CONTESTS</th>
+            <th colspan="3" style="background-color: red;">JSP CONTESTS</th>
           </tr>
           <tr class="header-row">
             ${Object.keys(data[0]).map((key, index) => `
@@ -1248,8 +1248,7 @@ async function getFilteredData2(e){
     $(document).ready(function() {
       const table = $('#datatable').DataTable({
         "paging": false,
-        scrollY: '800px',
-        scrollX: true,
+        scrollY: '400px',
         scrollCollapse: true,
         "ordering": false,
         "searching": true,
@@ -1270,7 +1269,7 @@ async function getFilteredData2(e){
         const filterValue = $(this).val();
         table.column(columnIdx).search(filterValue).draw();
       });
-    });  
+    });
   }catch(error){
     console.error(error);
   }
@@ -1437,7 +1436,7 @@ async function getFilterTDP(e){
       $(document).ready(function() {
         const table = $('#datatable').DataTable({
           "paging": false,
-          scrollY: '800px',
+          scrollY: '400px',
           // scrollX: true,
           // scrollCollapse: true,
           "ordering": false,
@@ -1535,7 +1534,7 @@ async function JSPFull(e){
     $(document).ready(function() {
         const table = $('#datatable').DataTable({
           "paging": false,
-          scrollY: '800px',
+          scrollY: '400px',
           // scrollX: true,
           // scrollCollapse: true,
           "ordering": false,
@@ -1632,7 +1631,7 @@ async function getFilterJSP(e){
       $(document).ready(function() {
         const table = $('#datatable').DataTable({
           "paging": false,
-          scrollY: '800px',
+          scrollY: '400px',
           // scrollX: true,
           // scrollCollapse: true,
           "ordering": false,
