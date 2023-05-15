@@ -1646,3 +1646,62 @@ ORDER BY \`MANDAL\`;
   }
 };
 
+
+
+/* Media Query for tablets */
+@media only screen and (max-width: 1180px) {
+  .container {
+    display: grid;
+    grid-template-columns: 0.1fr;
+    grid-template-areas:
+      "parentele"
+      "left-nav"
+      "mainele";
+    grid-gap: 1px;
+  }
+  #parentele {
+    grid-area:"parentele";
+  }
+  .left-nav {
+    grid-area: left-nav;
+  }
+  #mainele{
+    grid-area: mainele;
+  }
+}
+
+/* Media Query for mobile devices */
+@media only screen and (max-width: 768px) {
+  .container {
+    display: block;
+  }
+  .parentele,
+  .left-elem,
+  .main-elem {
+    width: 100%;
+  }
+  .left-elem {
+    margin-top: 20px;
+  }
+}
+
+/* Media Query for desktops */
+@media only screen and (min-width: 1200px) {
+  .container {
+    display: grid;
+    grid-template-columns: 20% 1fr;
+    grid-template-areas: 
+      "parentele leftelem"
+      "parentele mainelem";
+    grid-gap: 20px;
+  }
+  .parentele {
+    grid-area: parentele;
+  }
+  .left-elem {
+    grid-area: leftelem;
+  }
+  .main-elem {
+    grid-area: mainelem;
+  }
+}

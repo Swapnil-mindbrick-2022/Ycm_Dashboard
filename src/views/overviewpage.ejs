@@ -9,20 +9,15 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
 	 integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 	<!-- Add the datatables library CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.dataTables.min.css"/>
-
-
 <!-- Add the jQuery library -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js"></script>
-
-
 <!-- Add the datatables library JS -->
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <!-- <link rel="stylesheet" href="../css/overview.css"> -->
@@ -34,6 +29,7 @@
 /* CSS Reset */
 
 /* Set default margin and padding to 0 for all elements */
+
 * {
   margin: 0;
   padding: 0;
@@ -44,92 +40,80 @@
 html {
   font-family: sans-serif;
   font-size: 16px;
-  zoom: 80%;
+  /* zoom: 100% */
 }
 
 /* Remove list styles for all lists */
-ul, ol {
-  list-style: none;
-}
+
 
 /* Remove default styling for links */
 a {
-  color:black;
-  text-decoration: none;
+  /* color:; */
+  background-color: white;
+  /* text-decoration: none; */
 }
 
-/* Set default styles for form elements */
-input, textarea, select, button {
-  font-family: inherit;
-  font-size: inherit;
-  border: none;
-  outline: none;
-  background: transparent;
-}
+
 
 /* End CSS Reset */
 
-
-/* reset ends */
     #header{
       display: flex;
       justify-content: center;
       /* background-color: #00d904; */
-      width: 1800px;
+      width: 100%
 
     }
     body {
-        height: 720px;
-        width: 1280px;
+        height: 45rem;
+        width: 93.75rem;
         background: rgb(0, 206, 161);
     }
     #navbar{
       background-color: rgb(0, 74, 132);
-      height: 60px;
-      margin: 20px;
-      width: 1850px;
+      height: 6.2%;
+      margin: 1.2%;
+      width: 100%;
       display: flex;
       justify-content: end;
     }
     #fixedheader{
       position: fixed;
     }
-    #btnnav{
+  #btnnav{
   background-color: lightgrey;
   display: flex;
   justify-content: end;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top:-15px;
+  margin-left: 1.2%;
+  margin-right: 1.2%;
+  margin-top:-1.6%;
   height: 40px;
-  width: 1850px;
+  width: 100%
 }
-  
-    /* Styling for the header */
-    #parentele {
-        display: flex;
-        justify-content: center;
-        border: 4px solid lightgrey;
-        height: 760px;
-        margin-left: 20px;
-        margin-right: 20px;
-        margin-top: 1px;
-        background-color: white;
-        width: 1850px;
-    }
+
+/* Styling for the header */
+#parentele {
+    display: flex;
+    justify-content: center;
+    border: 4px solid lightgrey;
+    height: 77.5%;
+    margin-left: 1.2%;
+    margin-right: 1.2%;
+    /* margin-top: 1px; */
+    background-color: white;
+    width: 100%
+}
 .left-nav {
   position: absolute;
   /* top: 150; */
-  left: -25%;
-  width: 250px;
+  left: -20%;
+  width: 14em;
   font-size:medium;
-  /* height: 90%; */
-  /* background-color: white; */
   color: black;
   box-shadow: inset 2px 2px 4px rgb(0, 74, 132);;
-  padding: 40px;
-  margin:50px;
-  height: 450px;
+  padding: 2.5em;
+  margin: 1.5em;
+  height: 28.125em;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -137,13 +121,13 @@ input, textarea, select, button {
   align-items: center;
   overflow-y: auto;
   border: 1px solid rgb(0, 206, 161);
-  border-radius: 8px;
+  border-radius: 0.5em;
   transition: left 0.5s ease-out;
 }
 #mainele {
         border: 2px solid black;
-        height: 650px;
-        width: 1200px;
+        height: 95%;
+        width: 70%;
         background-color: whitesmoke;
         /* left: 50%; */
         /* right: 0; */
@@ -155,11 +139,21 @@ input, textarea, select, button {
     }
   
   
-    .header {
+    #header {
         color: black;
         padding: 10px;
         box-sizing: border-box;
         text-align: center;
+    }
+    #header h1{
+      font-size: xx-large; 
+      font-style:italic; 
+      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
+      background-color: white;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+      border-radius: 25px;
+      width: 340px;   
+      text-align: center;
     }
   
     /* Styling for the left side navbar */
@@ -170,26 +164,25 @@ input, textarea, select, button {
 }  
     /* Styling for the right side navbar */
     .right-nav {
-        margin-top: 40px;
-        margin-right: 120px;
         position: absolute;
-        width: 220px;
-        font-size:medium;
-        right: 0;
-        height: 480px;
+        margin-top:1.5em;
+        width: 15.5em;
+        font-size:small;
+        margin-left: 81em;
+        height: 35em;
         /* background-color: white; */
         color: black;
-        padding: 20px;
+        padding: 2.5em;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        overflow-y: auto;
+        overflow: hidden;
         box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
         border: 1px solid rgb(0, 206, 161);
-        border-radius: 5%;
-        line-height: 0.5;
+        border-radius: 0.5em;
+        /* line-height: 0.5; */
     }
     #toggle-nav {
   position: relative;
@@ -314,51 +307,8 @@ input, textarea, select, button {
   }
   th{
     background-color: rgb(0, 74, 132);
-  }
-  
-  
- /* Add media queries for responsive design */
- /* @media only screen and (max-width: 1024px) { */
-    /* Adjust the width of the main container for tablets */
-    /* #parentele {
-      height: auto;
-      flex-wrap: wrap;
-    } */
-  
-    /* Adjust the width of the left and right navbars for tablets */
-    /* .left-nav,
-    .right-nav {
-      width: 35%;
-    } */
-  
-    /* Adjust the height of the main container for tablets */
-    /* #mainele {
-      height: auto;
-      width: 100%;
-      margin: 0px 0;
-    } */
-    
-  /* } */
-  
-  /* @media only screen and (min-width: 1025px) { */
-    /* Adjust the width of the main container for desktops */
-    /* #parentele {
-      height: 580px;
-    } */
-  
-    /* Adjust the width of the left and right navbars for desktops */
-    /* .left-nav,
-    .right-nav {
-      width: 25%;
-    } */
-  
-    /* Adjust the width of the main container for desktops */
-    /* #mainele {
-      width: 50%;
-      margin: 0 0px;
-    } */
-  /* } */
-  
+    color: white;
+  } 
   .loader {
   position: fixed;
   top: 50%;
@@ -371,7 +321,6 @@ input, textarea, select, button {
   height: 50px;
   animation: spin 1s ease-in-out infinite;
 }
-
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -399,16 +348,368 @@ input, textarea, select, button {
     .btn.active:hover {
   background-color:rgb(0, 206, 161);
 }
+@media only   screen and (max-width: 1180px) {
+  /* html {
+    zoom: 80%;
+} */
+    /* Styling for the header */
+    body {
+      height: 720px;
+      width: 1180;
+      background-color: rgb(0, 206, 161);
+    }
+    .header {
+      background: linear-gradient(to bottom right, #2c3e50, #dda8d4);
+      color: blue;
+      padding: 10px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+   /* parentelement */
+   #parentele {
+    /* Update styles for desktop */
+    margin-right: 10px;
+    margin-left: 20px;
+    margin-top: 0px;
+    display: flex;
+    height: 700px;
+    width: 1090px;
+    /* justify-content: space-between; */
+    /* margin: 30px; */
+    border: 2px solid lightgrey;
+    background-color: whitesmoke;
+  }
+    /* Styling for the left side navbar */
+    .left-nav {
+      position: absolute;
+      /* top: 140px; */
+      margin: 8px;
+      
+      height:450px;
+      width: 200px;
+      font-size:small;
+      background:white;
+      color: black;
+      padding: 35px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      /* justify-content: flex-start; */
+      align-items: center;
+      overflow:hidden;
+      border-radius: 3px;
+      box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
+    }
+    /* maincontent css */
+    #mainele {
+      margin-top: 4px;
+      margin-left: 220px;
+      display: flex;
+      background-color: white;
+      border: 1px solid black;
+      height: 700px;
+      width: 88%;
+      position: relative;
+      overflow-x: scroll;
+      /* white-space: nowrap; */
+
+    }
+#navbar{
+      background-color: rgb(0, 74, 132);
+      height: 60px;
+      /* margin: 40px; */
+      width: 1100px;
+      display: flex;
+      justify-content: end;
+      margin: 17.5px;
+      color: blue;
+    }
+  #navbtn{
+  background-color: lightgrey;
+  display: flex;
+  width: 1100px;
+  margin-left: 20px;
+  height: 40px;
+  margin-right: 10px;
+  margin-top: -14px;
+}
+    
+    /* Set table width to 100% */
+    table {
+      width: 100%;
+    }
+    /* Add some spacing between table cells */
+    td,
+    th {
+      padding: 1px;
+    }
+    /* Add some borders to table cells */
+    td {
+      border: 1px solid #097b1c;
+    }
+
+    /* Add a gray background color to the header row */
+    thead tr {
+      background-color: #1013ab;
+    }
+
+    /* Add a hover effect to table rows */
+    tbody tr:hover {
+      background-color: #d40f57e7;
+    }
+
+    /* Customize pagination buttons */
+    .paginate_button {
+      background-color: #e7e7e7;
+      border: 1px solid #ddd;
+      color: black;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .paginate_button:hover {
+      background-color: #ddd;
+    }
+
+    .paginate_button.current {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    /* Customize column filter inputs */
+    .dataTables_filter input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .dataTables_filter input:focus {
+      outline: none;
+      box-shadow: 0 0 3px #ddd;
+    }
+
+ 
+    /* Style the table */
+    table {
+      width: 80%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    /* Style the table headers */
+    th {
+      background-color: #f2f2f2;
+      text-align: left;
+      padding: 8px;
+      font-size:medium
+    }
+
+    /* Style the table rows */
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    /* Style the table cells */
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    .box {
+      background-color: #f4f0f0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      transition: box-shadow 0.3s ease;
+      width: 400px;
+    }
+
+    .box:hover {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .box h2 {
+      margin: 0;
+    }
+
+    .box2 {
+      background-color: #f4f0f0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      transition: box-shadow 0.3s ease;
+      width: 800px;
+      margin-left: 450px;
+    }
+
+    /* section part */
+    
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #666;
+    }
+
+    /* select {
+      padding: 5px;
+      margin-bottom: 5px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #333;
+      width: 100%;
+    } */
+
+    .btn {
+      padding: 0.5px;
+      margin: 0.5px;
+      background-color: #16160b;
+      color: #fff;
+      border: none;
+      font-size:smaller;
+      border-radius: 4px;
+      cursor: pointer;
+      width: auto;
+    }
+
+    .btn:hover {
+      background-color: rgb(0, 206, 161);
+    }
+    .btn.active:hover {
+  background-color: #00d904;
+}
+    /* Add media queries for responsive design */
+    /* @media only screen and (max-width: 600px) { */
+
+      /* Adjust the table layout for small screens */
+      /* table,
+      th,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      th,
+      td {
+        text-align: center;
+      } */
+    /* } */
+
+    .loader {
+      position: fixed;
+      top: 20%;
+      left: 20%;
+      transform: translate(-50%, -50%);
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-top-color: #3498db;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+  .summary-table {
+  border-collapse: collapse;
+  margin-top: 116px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  width: 100%;
+}
+
+.summary-table td,
+.summary-table th {
+  border: 1px solid #ddd;
+  padding: 1px;
+  text-align: center;
+  font-size: larger;
+}
+.summary-table-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3498db;
+  text-transform: uppercase;
+  color:#ffff;
+}
+.summary-table tr:nth-child(1) td:nth-child(2) {
+  background-color: #262bcd; /* red */
+  color: #fff; /* white text color */
+}
+.summary-table tr:nth-child(1) td:nth-child(3) {
+  background-color: #1cdcb9; /* red */
+  color: #fff; /* white text color */
+}
+
+.summary-table tr:nth-child(2) td:nth-child(n+2) {
+  background-color: #ff8080; /* red */
+  color: #fff; /* white text color */
+}
+
+.summary-table tr:nth-child(2) td:nth-child(n+3) {
+  background-color: #ffcc80; /* orange */
+}
+
+.summary-table tr:nth-child(2) td:nth-child(n+4) {
+  background-color: #26cd31; /* green */
+  color: #fff; /* white text color */
+}
+
+.summary-header-cell {
+  font-weight: bold;
+  background-color: #f0f0f0;
+  text-transform: uppercase; /* uppercase header text */
+  padding: 1px; /* increased padding for header cell */
+}
+.summary-table-header {
+  text-align: center;
+  margin-top: 0;
+  height: 80px;
+ position: absolute;
+ width:100%;
+}
+ #chart-container{
+  display:inline-block;
+  width:100%;
+  height: 100%;
+
+}
+ #chart-container1{
+  display:inline-block;
+  width:100%;
+  height: 100%;
+
+}
+}
   </style>
 </head>
 <body>
 	<!-- Header -->
 		<div id="header">
-			<h3>OVERVIEW</h3>
+			<h1 >OVERVIEW</h1>
 		  </div>
   <div id="navbar">
     <nav style="margin-left: 70rem;" class="top-nav ">
-      <button style="background-color:white;">
+      <button style="background-color:white; color: blue;">
         <a href="/constituency">
          Nextview
         </a>
