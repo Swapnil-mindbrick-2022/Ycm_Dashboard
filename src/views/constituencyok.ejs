@@ -1219,41 +1219,41 @@ resultContainer.insertBefore(tableHeader, table);
 
         const data = response.data;
 
-      if (typeof data === 'object' && Object.keys(data).length > 0) {
-      // Build the table for the summary report
-      const table = document.createElement('table');
-      table.style.borderCollapse = 'collapse';
-      table.style.width = '50%';
-      table.style.height = '25%';
-      table.style.marginTop='70px'
-      // table.style.marginRight='50px'
+        if (typeof data === 'object' && Object.keys(data).length > 0) {
+  // Build the table for the summary report
+  const table = document.createElement('table');
+  table.style.borderCollapse = 'collapse';
+  table.style.width = '35%';
+  table.style.height = '25%';
+  table.style.marginTop='100px'
+  // table.style.marginRight='50px'
 
 
-      // Create the header row
-      const headerRow = table.insertRow();
-      const typeHeaderCell = headerRow.insertCell();
-      typeHeaderCell.textContent = 'Type';
-      typeHeaderCell.style.border = '1px solid black';
-      const goodHeaderCell = headerRow.insertCell();
-      goodHeaderCell.textContent = 'SATISFIED';
-      goodHeaderCell.style.border = '1px solid black';
-      const notGoodHeaderCell = headerRow.insertCell();
-      notGoodHeaderCell.textContent = 'NOT SATISFIED';
-      notGoodHeaderCell.style.border = '1px solid black';
+  // Create the header row
+  const headerRow = table.insertRow();
+  const typeHeaderCell = headerRow.insertCell();
+  typeHeaderCell.textContent = 'Type';
+  typeHeaderCell.style.border = '1px solid black';
+  const goodHeaderCell = headerRow.insertCell();
+  goodHeaderCell.textContent = 'SATISFIED';
+  goodHeaderCell.style.border = '1px solid black';
+  const notGoodHeaderCell = headerRow.insertCell();
+  notGoodHeaderCell.textContent = 'NOT SATISFIED';
+  notGoodHeaderCell.style.border = '1px solid black';
 
   // Add rows for Male, Female, and Total
-      Object.keys(data['Good.']).forEach((key) => {
-      const row = table.insertRow();
-      const rowHeaderCell = row.insertCell();
-      rowHeaderCell.textContent = key;
-      rowHeaderCell.style.border = '1px solid black';
-      const goodCell = row.insertCell();
-      goodCell.textContent = data['Good.'][key]  // Add percentage sign
-      goodCell.style.border = '1px solid black';
-      const notGoodCell = row.insertCell();
-      notGoodCell.textContent = data['Not Good.'][key]  // Add percentage sign
-      notGoodCell.style.border = '1px solid black';
-    });
+  Object.keys(data['Good.']).forEach((key) => {
+    const row = table.insertRow();
+    const rowHeaderCell = row.insertCell();
+    rowHeaderCell.textContent = key;
+    rowHeaderCell.style.border = '1px solid black';
+    const goodCell = row.insertCell();
+    goodCell.textContent = data['Good.'][key]  // Add percentage sign
+    goodCell.style.border = '1px solid black';
+    const notGoodCell = row.insertCell();
+    notGoodCell.textContent = data['Not Good.'][key]  // Add percentage sign
+    notGoodCell.style.border = '1px solid black';
+  });
 
   // Clear any previous results and add the new table
   resultContainer.innerHTML = '';
@@ -1289,11 +1289,11 @@ resultContainer.insertBefore(tableHeader, table);
             chartContainer.style.position = 'relative';
             // chartContainer.style.flexGrow = '1';
             chartContainer.style.float = 'right';
-            chartContainer.style.marginTop = '-20%';
+            chartContainer.style.marginTop = '-22%';
             // chartContainer.style.marginRight = '10%';
             // chartContainer.style.marginTop = '130px';
-            chartContainer.style.width = '50%';
-            chartContainer.style.height = '100%';
+            chartContainer.style.width = '65%';
+            chartContainer.style.height = '85%';
 
            
 
@@ -1303,214 +1303,74 @@ resultContainer.insertBefore(tableHeader, table);
 
           // Use Highcharts to create the stacked bar chart
           Highcharts.chart(chartContainer, {
-          chart: {
-            type: 'bar',
-            // backgroundColor: 'transparent'
-          },
-          title: {
-            text: 'Satisfaction with Sitting MLA by Caste',
-            style: {
-              color: '#000'
-            }
-          },
-          xAxis: {
-            categories: chartData.map(caste => caste.name),
-            labels: {
-              style: {
-                color: '#000'
-              }
-            }
-          },
-          yAxis: {
-            min: 0, // Set the minimum value of the y-axis
-            max: 100, // Set the maximum value of the y-axis
-            title: {
-              text: '%',
-              style: {
-                color: '#000'
-              }
-            },
-            labels: {
-              style: {
-                color: '#000'
-              }
-            }
-          },
-          legend: {
-            reversed: true,
-            itemStyle: {
-              color: '#000'
-            }
-          },
-          plotOptions: {
-            series: {
-              stacking: 'normal',
-              dataLabels: {
-                enabled: true,
-                format: '{y}%',
-                style: {
-                  color: '#fff'
-                }
-              },
-              pointWidth: 30, // Adjust the width of the bars (increase or decrease the value as desired)
-              groupPadding: 0.01 // Adjust the gap between two bars (decrease or increase the value as desired)
-            }
-          },
-          series: [{
-            name: 'No',
-            data: chartData.map(caste => Number(caste.data[1])),
-            color: 'rgb(250, 20, 14)'
-          }, {
-            name: 'Yes',
-            data: chartData.map(caste => Number(caste.data[0])),
-            color: 'rgb(1, 169, 91)'
-          }],
-          tooltip: {
-            style: {
-              color: '#fff'
-            }
-          }
-        });
-        
-         const castResponse1 = await axios.post('/PrefferYSRCPCoordinator', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castData1 = castResponse1.data;
-        console.log(castData1)
-
-        if (castData1 && Object.keys(castData1).length > 0) {
-  // create an array of objects to store data for the pie chart
-  const chartData = [];
-  castData1.forEach((item) => {
-    let color;
-    if (item["YSRCP Co-ordinator"] === "Same Co-ordinator") {
-      color = 'rgb(1, 169, 91)';
-    } else if (item["YSRCP Co-ordinator"] === "Anyone") {
-      color = 'rgb(0, 119, 112)';
-    } else if (item["YSRCP Co-ordinator"] === "Other Co-ordinator") {
-      color = 'rgb(68, 114, 196)';
+  chart: {
+    type: 'bar',
+    // backgroundColor: 'transparent'
+  },
+  title: {
+    text: 'Satisfaction with Sitting MLA by Caste',
+    style: {
+      color: '#000'
     }
-    chartData.push({
-      name: item["YSRCP Co-ordinator"],
-      y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
-      color: color // add color property
-    });
-  });
-
-  //  Create the chart container if it doesn't exist
-  let chartContainer1 = document.getElementById('chart-container1');
-  if (!chartContainer1) {
-    chartContainer1 = document.createElement('div');
-    chartContainer1.id = 'chart-container1';
-    chartContainer1.style.width = '50%';
-    chartContainer1.style.height = '50%';
-    resultContainer.appendChild(chartContainer1);
-  }
-  Highcharts.chart(chartContainer1, {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'pie'
-    },
+  },
+  xAxis: {
+    categories: chartData.map(caste => caste.name),
+    labels: {
+      style: {
+        color: '#000'
+      }
+    }
+  },
+  yAxis: {
+    min: 0, // Set the minimum value of the y-axis
+    max: 100, // Set the maximum value of the y-axis
     title: {
-      text: 'YSRCP Co-ordinator Chart'
-    },
-    tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.0f} %' // Update format to remove decimal
-        }
+      text: '%',
+      style: {
+        color: '#000'
       }
     },
-    series: [{
-      name: 'Preference Percentage',
-      colorByPoint: true,
-      data: chartData
-    }],
-    colors: [
-      'rgb(1, 169, 91)', // Same MLA
-      'rgb(0, 119, 112)', // Other MLA
-      'rgb(68, 114, 196)' // Anyone
-    ]
-  });
-        }
-        const castResponse2 = await axios.post('/PrefferMLAcandidate', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castData2 = castResponse2.data;
-
-
-        if (castData2 && Object.keys(castData2).length > 0) {
-  // create an array of objects to store data for the pie chart
-  const chartData = [];
-  castData2.forEach((item) => {
-    let color;
-    if (item["MLA Preference"] === "Same MLA") {
-      color = 'rgb(1, 169, 91)';
-    } else if (item["MLA Preference"] === " Other MLA") {
-      color = 'rgb(0, 119, 112)';
-    } else if (item["MLA Preference"] === "Anyone") {
-      color = 'rgb(68, 114, 196)';
-    }
-    chartData.push({
-      name: item["MLA Preference"],
-      y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
-      color: color // add color property
-    });
-  });
-
-  //  Create the chart container if it doesn't exist
-  let chartContainer2 = document.getElementById('chart-container2');
-  if (!chartContainer2) {
-    chartContainer2 = document.createElement('div');
-    chartContainer2.id = 'chart-container2';
-    chartContainer2.style.width='50%';
-    chartContainer2.style.height='50%';
-    // chartContainer2.style.marginLeft='35%';
-
-    resultContainer.appendChild(chartContainer2);
-  }
-  Highcharts.chart(chartContainer2, {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'pie'
-    },
-    title: {
-      text: 'MLA Preference Chart'
-    },
-    tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.0f} %' // Update format to remove decimal
-        }
+    labels: {
+      style: {
+        color: '#000'
       }
-    },
-    series: [{
-      name: 'Preference Percentage',
-      colorByPoint: true,
-      data: chartData
-    }],
-    colors: [
-      'rgb(1, 169, 91)', // Same MLA
-      'rgb(0, 119, 112)', // Other MLA
-      'rgb(68, 114, 196)' // Anyone
-    ]
-  });
-}
-
-        
-
+    }
+  },
+  legend: {
+    reversed: true,
+    itemStyle: {
+      color: '#000'
+    }
+  },
+  plotOptions: {
+    series: {
+      stacking: 'normal',
+      dataLabels: {
+        enabled: true,
+        format: '{y}%',
+        style: {
+          color: '#fff'
+        }
+      },
+      pointWidth: 25, // Adjust the width of the bars (increase or decrease the value as desired)
+      groupPadding: 0.01 // Adjust the gap between two bars (decrease or increase the value as desired)
+    }
+  },
+  series: [{
+    name: 'No',
+    data: chartData.map(caste => Number(caste.data[1])),
+    color: 'rgb(250, 20, 14)'
+  }, {
+    name: 'Yes',
+    data: chartData.map(caste => Number(caste.data[0])),
+    color: 'rgb(1, 169, 91)'
+  }],
+  tooltip: {
+    style: {
+      color: '#fff'
+    }
+  }
+});
         } else {
           console.log('Data is not an array or is empty:', data);
           resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
@@ -1595,7 +1455,7 @@ if (!chartContainer) {
   chartContainer.style.display = 'inline-block'; // change display property to inline-block
   chartContainer.style.width = '50%';
   chartContainer.style.height = '100%';
-  chartContainer.style.marginRight = '20px';
+  // chartContainer.style.marginRight = '20px';
   resultContainer.appendChild(chartContainer);
 }
 
@@ -1617,10 +1477,6 @@ if (!chartContainer1) {
               type: 'bar',
               // backgroundColor: 'transparent'
             },
-            exporting: {
-              enabled: false // Disable the context menu
-            },
-
             title: {
               text: 'Prefferd Party By Caste'
             },
@@ -1724,10 +1580,6 @@ Highcharts.chart(chartContainer1, {
     width: 550,
     // height: 750
   },
-  exporting: {
-              enabled: false // Disable the context menu
-            },
-
   title: {
     text: 'PREFERRED TOTAL PARTY'
   },
@@ -2103,10 +1955,6 @@ Highcharts.chart(chartContainer1, {
             chart: {
               type: 'bar'
             },
-            exporting: {
-              enabled: false // Disable the context menu
-            },
-
             title: {
               text: 'CM SATISFACTION BY CASTE'
             },
@@ -2176,10 +2024,6 @@ Highcharts.chart(chartContainer1, {
             width: 550, // set width to 600px
   
           },
-          exporting: {
-            enabled: false // Disable the context menu
-          },
-
           title: {
             text: 'CM SATISFACTION Total%'
           },

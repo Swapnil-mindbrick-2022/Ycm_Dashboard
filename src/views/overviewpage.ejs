@@ -27,42 +27,31 @@
   <style>
 /* css reset */
 /* CSS Reset */
-
 /* Set default margin and padding to 0 for all elements */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 /* Set default font family and size */
 html {
   font-family: sans-serif;
   font-size: 16px;
   /* zoom: 100% */
 }
-
 /* Remove list styles for all lists */
-
-
 /* Remove default styling for links */
 a {
   /* color:; */
   background-color: white;
   /* text-decoration: none; */
 }
-
-
-
 /* End CSS Reset */
-
     #header{
       display: flex;
       justify-content: center;
       /* background-color: #00d904; */
-      width: 100%
-
+      width: 100%;
     }
     body {
         height: 45rem;
@@ -90,16 +79,15 @@ a {
   height: 40px;
   width: 100%
 }
-
 /* Styling for the header */
 #parentele {
     display: flex;
     justify-content: center;
     border: 4px solid lightgrey;
-    height: 77.5%;
+    height: 80%;
     margin-left: 1.2%;
     margin-right: 1.2%;
-    /* margin-top: 1px; */
+    margin-top: -7px;
     background-color: white;
     width: 100%
 }
@@ -126,7 +114,7 @@ a {
 }
 #mainele {
         border: 2px solid black;
-        height: 95%;
+        height: 99%;
         width: 70%;
         background-color: whitesmoke;
         /* left: 50%; */
@@ -139,26 +127,24 @@ a {
     }
   
   
-    #header {
-        color: black;
-        padding: 10px;
-        box-sizing: border-box;
-        text-align: center;
-    }
-    #header h1{
-      font-size: xx-large; 
-      font-style:italic; 
-      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
-      background-color: white;
-      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-      border-radius: 25px;
-      width: 340px;   
-      text-align: center;
-    }
-  
+#header {
+    color: black;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+ }
+#header h1{
+    font-size: xx-large; 
+    font-style:italic; 
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
+    background-color: white;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+    width: 340px;   
+    text-align: center;
+}
+
     /* Styling for the left side navbar */
-
-
     .left-nav.show {
   left: 0;
 }  
@@ -184,20 +170,20 @@ a {
         border-radius: 0.5em;
         /* line-height: 0.5; */
     }
-    #toggle-nav {
+#toggle-nav {
   position: relative;
   top: -24px;
   right: 185px;
   height:25px;
 }
   
-    /* Styling for the headings in side navbars */
-    .left-nav h2,
-    .right-nav h2 {
-        margin: 0;
-        padding: 1px;
-        text-align: center;
-    }
+/* Styling for the headings in side navbars */
+.left-nav h2,
+.right-nav h2 {
+    margin: 0;
+    padding: 1px;
+    text-align: center;
+}
   
     /* Styling for the links in side navbars */
     .left-nav ul,
@@ -238,10 +224,10 @@ a {
   
       /* Customize column filter inputs */
       .dataTables_filter input {
-        padding: 8px;
+        padding: 5px;
         border: 1px solid #ddd;
         border-radius: 4px;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
       }
   
       .dataTables_filter input:focus {
@@ -250,17 +236,17 @@ a {
       }
   /* Style the table */
   table {
-    width: 100%;
+    width: 90%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
   /* Style the table headers */
   th {
     background-color: #f2f2f2;
-    text-align: left;
-    padding: 8px;
-    font-size: 16px;
+    text-align: center;
+    padding: 3px;
+    font-size: 10px;
   }
   
   /* Style the table rows */
@@ -271,11 +257,13 @@ a {
   tr:hover {
     background-color: #ddd;
   }
-  
   /* Style the table cells */
   td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 2px;
+    font-size:small;
+    text-align: center;
+    font-family:cursive;
   }
   .box {
     background-color:rgb(0, 74, 132);
@@ -283,7 +271,6 @@ a {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 4px;
-
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.3s ease;
   }
@@ -339,9 +326,7 @@ a {
       border-radius: 4px;
       cursor: pointer;
       width: auto;
-
     }
-
     .btn:hover {
       background-color:rgb(0, 206, 161);
     }
@@ -412,7 +397,6 @@ a {
       position: relative;
       overflow-x: scroll;
       /* white-space: nowrap; */
-
     }
 #navbar{
       background-color: rgb(0, 74, 132);
@@ -447,17 +431,14 @@ a {
     td {
       border: 1px solid #097b1c;
     }
-
     /* Add a gray background color to the header row */
     thead tr {
       background-color: #1013ab;
     }
-
     /* Add a hover effect to table rows */
     tbody tr:hover {
       background-color: #d40f57e7;
     }
-
     /* Customize pagination buttons */
     .paginate_button {
       background-color: #e7e7e7;
@@ -468,16 +449,13 @@ a {
       text-decoration: none;
       display: inline-block;
     }
-
     .paginate_button:hover {
       background-color: #ddd;
     }
-
     .paginate_button.current {
       background-color: #4CAF50;
       color: white;
     }
-
     /* Customize column filter inputs */
     .dataTables_filter input {
       padding: 8px;
@@ -485,12 +463,10 @@ a {
       border-radius: 4px;
       margin-bottom: 10px;
     }
-
     .dataTables_filter input:focus {
       outline: none;
       box-shadow: 0 0 3px #ddd;
     }
-
  
     /* Style the table */
     table {
@@ -498,7 +474,6 @@ a {
       border-collapse: collapse;
       margin-bottom: 20px;
     }
-
     /* Style the table headers */
     th {
       background-color: #f2f2f2;
@@ -506,22 +481,18 @@ a {
       padding: 8px;
       font-size:medium
     }
-
     /* Style the table rows */
     tr:nth-child(even) {
       background-color: #f2f2f2;
     }
-
     tr:hover {
       background-color: #ddd;
     }
-
     /* Style the table cells */
     td {
       border: 1px solid #ddd;
       padding: 8px;
     }
-
     .box {
       background-color: #f4f0f0;
       border: 1px solid #ddd;
@@ -531,15 +502,12 @@ a {
       transition: box-shadow 0.3s ease;
       width: 400px;
     }
-
     .box:hover {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
-
     .box h2 {
       margin: 0;
     }
-
     .box2 {
       background-color: #f4f0f0;
       border: 1px solid #ddd;
@@ -550,17 +518,14 @@ a {
       width: 800px;
       margin-left: 450px;
     }
-
     /* section part */
     
-
     label {
       display: block;
       margin-bottom: 5px;
       font-weight: bold;
       color: #666;
     }
-
     /* select {
       padding: 5px;
       margin-bottom: 5px;
@@ -569,7 +534,6 @@ a {
       color: #333;
       width: 100%;
     } */
-
     .btn {
       padding: 0.5px;
       margin: 0.5px;
@@ -581,7 +545,6 @@ a {
       cursor: pointer;
       width: auto;
     }
-
     .btn:hover {
       background-color: rgb(0, 206, 161);
     }
@@ -590,7 +553,6 @@ a {
 }
     /* Add media queries for responsive design */
     /* @media only screen and (max-width: 600px) { */
-
       /* Adjust the table layout for small screens */
       /* table,
       th,
@@ -598,13 +560,11 @@ a {
         display: block;
         width: 100%;
       }
-
       th,
       td {
         text-align: center;
       } */
     /* } */
-
     .loader {
       position: fixed;
       top: 20%;
@@ -617,17 +577,14 @@ a {
       height: 30px;
       animation: spin 1s ease-in-out infinite;
     }
-
     @keyframes spin {
       from {
         transform: rotate(0deg);
       }
-
       to {
         transform: rotate(360deg);
       }
     }
-
   .summary-table {
   border-collapse: collapse;
   margin-top: 116px;
@@ -635,7 +592,6 @@ a {
   font-size: 14px;
   width: 100%;
 }
-
 .summary-table td,
 .summary-table th {
   border: 1px solid #ddd;
@@ -659,21 +615,17 @@ a {
   background-color: #1cdcb9; /* red */
   color: #fff; /* white text color */
 }
-
 .summary-table tr:nth-child(2) td:nth-child(n+2) {
   background-color: #ff8080; /* red */
   color: #fff; /* white text color */
 }
-
 .summary-table tr:nth-child(2) td:nth-child(n+3) {
   background-color: #ffcc80; /* orange */
 }
-
 .summary-table tr:nth-child(2) td:nth-child(n+4) {
   background-color: #26cd31; /* green */
   color: #fff; /* white text color */
 }
-
 .summary-header-cell {
   font-weight: bold;
   background-color: #f0f0f0;
@@ -691,14 +643,23 @@ a {
   display:inline-block;
   width:100%;
   height: 100%;
-
 }
  #chart-container1{
   display:inline-block;
   width:100%;
   height: 100%;
-
 }
+}
+.fixedheader:first-of-type {
+  position: sticky;
+  left: 0;
+  /* your styles here */
+}
+#datatable tbody td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: white;
 }
   </style>
 </head>
@@ -811,12 +772,9 @@ a {
 <script>
 const nav = document.querySelector('.left-nav');
 const toggleBtn = document.querySelector('#toggle-nav');
-
 toggleBtn.addEventListener('click', () => {
   nav.classList.toggle('show');
 });
-
-
 // get all buttons and add click event listener to each one
 const buttons = document.querySelectorAll('.btn');
 buttons.forEach(button => {
@@ -827,7 +785,6 @@ buttons.forEach(button => {
     this.classList.add('active');
   });
 });
-
   const submitbtn = document.querySelector('#submit')
   submitbtn.addEventListener('click',getData)
   const filterbtn = document.querySelector('#left-nav-btn')  //for data filter----
@@ -889,8 +846,6 @@ getParliament.addEventListener('change',async function(){
     const caste = res.data
     getCaste.innerHTML = ''
     getCaste.innerHTML =  '<option value="">Select Caste</option>'
-
-
     caste.forEach(val =>{
     const option = document.createElement('option');
     option.value = val;
@@ -920,7 +875,6 @@ const loader = document.createElement("div");
   loader.style.width = "250px";
   loader.style.height = "250px";
   loader.style.animation = "spin 1s ease-in-out infinite";
-
   document.body.appendChild(loader);
     // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/DPC_Data', {selectedOption:selectedOption});
@@ -975,7 +929,6 @@ const loader = document.createElement("div");
         table.column(columnIdx).search(filterValue).draw();
       });
     });
-
 } catch (error) {
   console.error(error);
 }
@@ -984,7 +937,6 @@ finally {
   document.body.removeChild(loader);
 }
 }
-
 async function getFilteredData(e){
   e.preventDefault()
   // Add a loader to the page
@@ -1000,8 +952,6 @@ async function getFilteredData(e){
   loader.style.width = "250px";
   loader.style.height = "250px";
   loader.style.animation = "spin 1s ease-in-out infinite";
-
-
   document.body.appendChild(loader);
   const District = document.querySelector('#district').value
   const PARLIAMENT = document.querySelector('#parliament').value
@@ -1010,7 +960,6 @@ async function getFilteredData(e){
   const age =document.querySelector('#age').value
   const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;  
   console.log(Caste)
-
   
   const response1 = await  axios.post('/DPC_Data', {selectedOption:selectedOption,Gender:Gender,Caste:Caste,age:age,
     District:District,PARLIAMENT:PARLIAMENT});
@@ -1075,8 +1024,6 @@ async function getFilteredData(e){
   }
  
 }
-
-
 const TDPJSPAlliancebtn = document.querySelector('#TDPJSPAlliance-btn')
 TDPJSPAlliancebtn .addEventListener('click',TDPJSPAlliance)
 async function  TDPJSPAlliance(e){
@@ -1089,7 +1036,6 @@ async function  TDPJSPAlliance(e){
     document.getElementById('left-nav-btn2').style.display = 'block'
     document.getElementById('jspBtn').style.display = 'none'
     document.getElementById('tdpBtn').style.display = 'none'
-
   e.preventDefault()
 // Add a loader to the page
 const loader = document.createElement("div");
@@ -1104,50 +1050,68 @@ const loader = document.createElement("div");
   loader.style.width = "250px";
   loader.style.height = "250px";
   loader.style.animation = "spin 1s ease-in-out infinite";
-
   document.body.appendChild(loader);
-
   
     // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/TDPJSPAlliance', {selectedOption:selectedOption});
-
   let data = response1.data
   
   try {
     const mainele = document.getElementById("mainele");
-    mainele.innerHTML = `
-        <table id="datatable">
-          <thead>
-            <tr class="header-row">
-              <th></th>
-              <th colspan="3" style="background-color: gray;">OVERALL</th>
-              <th colspan="3" style="background-color: yellow;">TDP CONTESTS</th>
-              <th colspan="3" style="background-color: red;">JSP CONTESTS</th>
-            </tr>
-            <tr class="header-row">
-              ${Object.keys(data[0]).map((key, index) => `
-                <th>
-                  ${key}
-                  ${index === 0 ? `
-                ` : ''}
-                </th>`).join("")}
-            </tr>
-          </thead>
-          <tbody>
-            ${data.map(row => `
-              <tr>
-                ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      `;
-      // Initialize DataTable plugin with pagination and column filtering options
-      $(document).ready(function() {
+  mainele.innerHTML = `
+    <table id="datatable">
+      <thead>
+        <tr class="header-row">
+          <th></th>
+          <th colspan="3" style="background-color: gray;">OVERALL</th>
+          <th colspan="3" style="background-color: yellow;">TDP CONTESTS</th>
+          <th colspan="3" style="background-color: red;">JSP CONTESTS</th>
+        </tr>
+        <tr class="header-row">
+          ${Object.keys(data[0]).map((key, index) => {
+            if (index >= 4 && index <= 9) {
+              switch (index) {
+                case 4:
+                  return `<th class='fixedheader'>YSRCP</th>`;
+                case 5:
+                  return `<th class='fixedheader'>TDP_JSP</th>`;
+                case 6:
+                  return `<th class='fixedheader'>Will Not Vote</th>`;
+                  case 7:
+                  return `<th class='fixedheader'>YSRCP</th>`;
+                case 8:
+                  return `<th class='fixedheader'>TDP_JSP</th>`;
+                case 9:
+                  return `<th class='fixedheader'>Will Not Vote</th>`;
+                default:
+                  return `<th class='fixedheader'>${key}</th>`;
+              }
+            } else {
+              return `<th class='fixedheader'>${key}</th>`;
+            }
+          }).join("")}
+        </tr>
+      </thead>
+      <tbody>
+        ${data.map(row => `
+          <tr>
+            ${Object.values(row).map((value, index) => {
+              if (index >= 4 && index <= 9) {
+                return `<td style="text-align:center">${value}</td>`;
+              } else {
+                return `<td>${value}</td>`;
+              }
+            }).join("")}
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+  // Initialize DataTable plugin with pagination and column filtering options
+  $(document).ready(function() {
       const table = $('#datatable').DataTable({
         "paging": false,
         scrollY: '400px',
-        scrollX: true,
         scrollCollapse: true,
         "ordering": false,
         "searching": true,
@@ -1178,11 +1142,8 @@ const loader = document.createElement("div");
     document.body.removeChild(loader);
   }
 }
-
-
 //filter data fir TDPJSPALLIANCE
 document.getElementById('left-nav-btn2').addEventListener('click',getFilteredData2)
-
 async function getFilteredData2(e){
     console.log('btn is clicked....')
   e.preventDefault()
@@ -1199,8 +1160,6 @@ async function getFilteredData2(e){
   loader.style.width = "250px";
   loader.style.height = "250px";
   loader.style.animation = "spin 1s ease-in-out infinite";
-
-
   document.body.appendChild(loader);
   const District = document.querySelector('#district').value
   const PARLIAMENT = document.querySelector('#parliament').value
@@ -1209,7 +1168,6 @@ async function getFilteredData2(e){
   const age =document.querySelector('#age').value
   const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;  
   console.log(Caste)
-
   
   const response1 = await  axios.post('/TDPJSPAlliance', {selectedOption:selectedOption,Gender:Gender,Caste:Caste,age:age,
     District:District,PARLIAMENT:PARLIAMENT});
@@ -1303,13 +1261,10 @@ async function TDPFull(e){
   loader.style.width = "250px";
   loader.style.height = "250px";
   loader.style.animation = "spin 1s ease-in-out infinite";
-
   document.body.appendChild(loader);
-
   
     // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/tdpfull', {selectedOption:selectedOption});
-
   let data = response1.data
   
   try {
@@ -1320,7 +1275,7 @@ async function TDPFull(e){
         <thead>
           <tr class="header-row">
             ${Object.keys(data[0]).map((key, index) => `
-            <th>
+            <th style="position:sticky">
               ${key}
               ${index === 0 ? `
             ` : ''}
@@ -1371,8 +1326,6 @@ async function TDPFull(e){
     // Remove the loader from the page
     document.body.removeChild(loader);
   }
-
-
 }
 //filtering tdpfull----
 const tdpBtn = document.getElementById('tdpBtn')
@@ -1467,11 +1420,6 @@ async function getFilterTDP(e){
       document.body.removeChild(loader);
     }
   }
-
-
-
-
-
 //jsp full data---
 document.getElementById('JSPFull').addEventListener('click',JSPFull)
 async function JSPFull(e){ 
@@ -1497,13 +1445,10 @@ async function JSPFull(e){
   loader.style.width = "250px";
   loader.style.height = "250px";
   loader.style.animation = "spin 1s ease-in-out infinite";
-
   document.body.appendChild(loader);
-
   
     // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/jspfull', {selectedOption:selectedOption});
-
   let data = response1.data
   
   try {
@@ -1564,8 +1509,6 @@ async function JSPFull(e){
     // Remove the loader from the page
     document.body.removeChild(loader);
   }
-
-
 }
 //filtering jspFull--
 const jspBtn = document.getElementById('jspBtn')
@@ -1662,14 +1605,5 @@ async function getFilterJSP(e){
       document.body.removeChild(loader);
     }
   }
-
-
-
-
-
-
-
-
-
 </script>
 </html>

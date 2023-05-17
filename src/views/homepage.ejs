@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,46 +11,42 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/07b0ce5d10.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> 
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
     <style>
-        html {
-            zoom: 90%;
+        html{
+            zoom: 100%;
         }
-
         section a {
             text-decoration: none;
         }
-
         /* style for body */
-        body {
-            margin: 0;
+        body{
+            margin: 10rem;
             padding: 0;
-            height: 815px;
-            width: 1250px;
-            background-image: url('./cm.png');
-            background-size: 1840px 830px;
-            background-position: center;
+            height: 45rem;
+            width: 93.75rem;
+            background-image:url('./cm.png');
+            background-size:110em 74.5rem;
+            /* background-position: center; */
             background-repeat: no-repeat;
             /* height: 720px;
             width: 1280px; */
         }
-
         /* Styles for the container */
         .container {
-            height: 520px;
+            height: 100%;
             padding: 20px;
-            margin-left: 220px;
-            margin-bottom: 100px;
-            width: 3500px;
+            margin-left: 4.575em;
+            margin-top: 7.8em;
+            width: 120%;
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
             /* flex-direction: row; */
             /* background-color: red; */
             /* border: 1px solid #f0eaea; */
-        }
-
+        } 
         /* Styles for the sections */
         .section {
             display: flex;
@@ -62,18 +57,18 @@
             height: 100px;
             box-sizing: border-box;
             text-align: center;
-
+          
             /* box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.2); */
             /* background-color: #fff; */
             transition: all 0.3s ease;
         }
-
+        
         /* Styles for the sections when hovered */
         button:hover {
             transform: scale(1.05);
             /* box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.3); */
         }
-
+        
         /* Styles for the section headings */
         .button h2 {
             font-size: 40px;
@@ -81,40 +76,37 @@
             color: #333;
             text-shadow: 1px 1px #ccc;
         }
-
         /* Styles for the section buttons */
         button {
-            width: 340px;
+            width: 21.25em;
             border: 2px solid transparent;
             /* color: white; */
             border-radius: 2%;
-            background-color: transparent;
+            background-color:transparent;
             cursor: pointer;
             background-color: rgba(255, 255, 255, 0.2);
             box-shadow: 4px 4px 20px 4px transparent;
         }
-
+        
         /* Styles for the section buttons when hovered */
         /* button:hover {
             transform: scale(1.2);
         } */
-        #header {
-            margin-top: -15px;
+        #header{
+            /* background-color: blue; */
+            margin-top: -6.5em;
+            margin-left: 18.75em;
+            margin-bottom: 2em;
         }
-
         #header h1 {
             text-align: center;
-            /* margin-top: -12px; */
-            margin-bottom: 90px;
-            margin-left: 300px;
-            font-family: 'Courier New', Courier, monospace;
+            font-family:'Courier New', Courier, monospace;
             font-size: xx-large;
             /* padding: 20px; */
             background-color: white;
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
             border-radius: 25px;
         }
-
         /* Styles for the sections when hovered and after hovering */
         /* button:hover {
             transform: scale(1.05);
@@ -160,9 +152,9 @@
                 font-size: 16px;
             }
         } */
+        
     </style>
 </head>
-
 <body>
     <div id="header">
         <h1>Interactive Political Dashboard</h1>
@@ -170,44 +162,35 @@
     <div class="container">
         <div class="section">
             <button style="margin-right: 220px;" title="overview">
-                <a style="text-decoration: none; " href="/overview">
+                <a style="text-decoration: none; " href="/overview" >
                     <img src="./overview.png" alt="" width="150px" height="150px">
                 </a><br>
-                <h2
-                    style="color: white;font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-                    overview</h2>
+                <h2 style="color: white;font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">overview</h2>
             </button>
         </div>
-        <div class="section">
-            <button style="margin-left: 220px;">
-                <a style="text-decoration: none;" href="/constituency">
-                    <img src="./constituencyview.png" alt="" width="150px" height="150px">
-                </a><br>
-                <h2
-                    style="color: white;font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-                    Constituency view</h2>
-            </button>
+        <div class="section" >
+        <button style="margin-left: 220px;" >
+            <a style="text-decoration: none;"  href="/constituency">
+                <img src="./constituencyview.png" alt="" width="150px" height="150px">
+            </a><br>
+            <h2 style="color: white;font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Constituency view</h2>
+        </button>
         </div>
-        <div class="section">
-            <button style="margin-right: 220px; margin-top: 100px;">
-                <a style="text-decoration: none;" href="/community">
-                    <img src="./communityview.png" alt="" width="150px" height="150px"></a><br>
-                <h2
-                    style="color: white; font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-                    Community view</h2>
-            </button>
+        <div class="section" >
+        <button style="margin-right: 220px; margin-top: 100px;">
+            <a style="text-decoration: none;" href="/community">
+                <img src="./communityview.png" alt="" width="150px" height="150px"></a><br>
+                <h2 style="color: white; font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Community view</h2>
+        </button>
         </div>
-        <div class="section">
-            <button style="margin-left: 220px; margin-top: 100px;">
-                <a style="text-decoration: none;" href="/trendysrcp">
-                    <img src="./trendview.png" alt="" width="150px" height="150px">
-                </a><br>
-                <h2
-                    style="color: white;font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-                    Trend view</h2>
-            </button>
+        <div class="section" >
+        <button style="margin-left: 220px; margin-top: 100px;" >
+            <a style="text-decoration: none;" href="/trendysrcp">
+                <img src="./trendview.png" alt="" width="150px" height="150px">
+            </a><br>
+            <h2 style="color: white;font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Trend view</h2>
+        </button>
         </div>
     </div>
 </body>
-
 </html>
