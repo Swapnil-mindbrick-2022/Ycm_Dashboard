@@ -94,7 +94,7 @@ a {
 .left-nav {
   position: absolute;
   /* top: 150; */
-  left: -20%;
+  left: 0%;
   width: 14em;
   font-size:medium;
   color: black;
@@ -110,7 +110,8 @@ a {
   overflow-y: auto;
   border: 1px solid rgb(0, 206, 161);
   border-radius: 0.5em;
-  transition: left 0.5s ease-out;
+  /* transition: left 0.5s ease-out; */
+ 
 }
 #mainele {
         border: 2px solid black;
@@ -145,9 +146,7 @@ a {
 }
 
     /* Styling for the left side navbar */
-    .left-nav.show {
-  left: 0;
-}  
+
     /* Styling for the right side navbar */
     .right-nav {
         position: absolute;
@@ -170,13 +169,7 @@ a {
         border-radius: 0.5em;
         /* line-height: 0.5; */
     }
-#toggle-nav {
-  position: relative;
-  top: -24px;
-  right: 185px;
-  height:25px;
-}
-  
+
 /* Styling for the headings in side navbars */
 .left-nav h2,
 .right-nav h2 {
@@ -700,7 +693,7 @@ a {
       </div>
   </div>
 	<div id="parentele">
-    <button id="toggle-nav">&#9776;</button>
+  
 		<div>
 		  <nav class="left-nav">
 			<!-- <div class="box">
@@ -770,11 +763,7 @@ a {
 </div>
 </body>
 <script>
-const nav = document.querySelector('.left-nav');
-const toggleBtn = document.querySelector('#toggle-nav');
-toggleBtn.addEventListener('click', () => {
-  nav.classList.toggle('show');
-});
+
 // get all buttons and add click event listener to each one
 const buttons = document.querySelectorAll('.btn');
 buttons.forEach(button => {
@@ -1295,7 +1284,7 @@ async function TDPFull(e){
     $(document).ready(function() {
         const table = $('#datatable').DataTable({
           "paging": false,
-          scrollY: '800px',
+          scrollY: '400px',
           // scrollX: true,
           // scrollCollapse: true,
           "ordering": false,
