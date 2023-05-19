@@ -381,94 +381,98 @@ white-space: nowrap;
 } */
 
 /* For iPads */
-@media only   screen and (max-width: 1180px) {
-  /* html {
-    zoom: 80%;
-} */
-    /* Styling for the header */
-    body {
-      height: 720px;
-      width: 1180;
-      background-color: rgb(0, 206, 161);
+@media only   screen and (max-width: 1500px) {
+  html {
+    zoom: 100%;
+}
+body {
+        height: 45rem;
+        width: auto;
+        background: rgb(0, 206, 161);
     }
-    .header {
-      background: linear-gradient(to bottom right, #2c3e50, #dda8d4);
-      color: black;
-      padding: 10px;
-      box-sizing: border-box;
-      text-align: center;
-    }
-   /* parentelement */
-   #parentele {
-    /* Update styles for desktop */
-    margin-right: 10px;
-    margin-left: 20px;
-    margin-top: 0px;
+#heading {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+
+}
+#heading h1{
+  font-size: xx-large; 
+  font-style:italic; 
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
+  background-color: white;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  border-radius: 1.56em;
+  width: 21.25em;      
+  text-align: center;
+}
+    /* parentelement */
+    #parentele {
     display: flex;
-    height: 700px;
-    width: 1090px;
-    /* justify-content: space-between; */
-    /* margin: 30px; */
-    border: 2px solid lightgrey;
-    background-color: whitesmoke;
-  }
+    /* justify-content: center; */
+    border: 4px solid lightgrey;
+    height: 82%;
+    margin-left: 1.2%;
+    margin-right: 1.2%;
+    /* margin-top: 1px; */
+    background-color: white;
+    width: 99.5%
+}
     /* Styling for the left side navbar */
     .left-nav {
-      position: absolute;
-      /* top: 140px; */
-      margin: 8px;
-      
-      height:450px;
-      width: 200px;
-      font-size:small;
-      background:white;
-      color: black;
-      padding: 35px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      /* justify-content: flex-start; */
-      align-items: center;
-      overflow:hidden;
-      border-radius: 3px;
-      box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
-    }
-    /* maincontent css */
-    #mainele {
-      margin-top: 4px;
-      margin-left: 220px;
-      display: flex;
-      background-color: white;
-      border: 1px solid black;
-      height: 700px;
-      width: 88%;
-      position: relative;
-      overflow-x: scroll;
-      /* white-space: nowrap; */
-
-    }
-#navbar{
-      background-color: rgb(0, 74, 132);
-      height: 60px;
-      /* margin: 40px; */
-      width: 1100px;
-      display: flex;
-      justify-content: end;
-      margin: 17.5px;
-    }
-  #navbtn{
-  background-color: lightgrey;
+  position: absolute;
+  float: left;
+  margin: -0.8em;
+  width: 15em;
+  font-size:small;
+  color: black;
+  box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
+  height: 32em;
+  box-sizing: border-box;
   display: flex;
-  width: 1100px;
-  margin-left: 20px;
+  flex-direction: column;
+  justify-content:space-around;
+  align-items: center;
+  border-radius: 0.5em;
+}
+    /* maincontent css */
+#mainele {
+border: 1px solid black;
+height: 95%;
+width: 85%;
+margin-left: 14.5%;
+background-color: whitesmoke;
+
+/* right: 0; */
+/* margin-left: 20px; */
+/* margin-right: 10px; */
+bottom: 0;
+overflow-x: scroll;
+white-space: nowrap;
+}
+  #navbar{
+    background-color: rgb(0, 74, 132);
+    height: 6.2%;
+    margin: 1.2%;
+    width: 99.5%;
+    display: flex;
+    justify-content: end;
+  }
+  #navbtn{
+    background-color: lightgrey;
+  display: flex;
+  justify-content: end;
+  margin-left: 1.2%;
+  margin-right: 1.2%;
+  margin-top:-1.6%;
   height: 40px;
-  margin-right: 10px;
-  margin-top: -14px;
+  width: 99.5%;
 }
     
     /* Set table width to 100% */
     table {
       width: 100%;
+      background-color: #ddd;
     }
     /* Add some spacing between table cells */
     td,
@@ -639,14 +643,14 @@ white-space: nowrap;
 
     .loader {
       position: fixed;
-      top: 20%;
-      left: 20%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       border: 4px solid rgba(0, 0, 0, 0.1);
       border-top-color: #3498db;
       border-radius: 50%;
-      width: 30px;
-      height: 30px;
+      width: 50px;
+      height: 50px;
       animation: spin 1s ease-in-out infinite;
     }
 
@@ -660,7 +664,7 @@ white-space: nowrap;
       }
     }
 
-.summary-table {
+  .summary-table {
   border-collapse: collapse;
   margin-top: 116px;
   font-family: Arial, sans-serif;
@@ -682,6 +686,8 @@ white-space: nowrap;
   background-color: #3498db;
   text-transform: uppercase;
   color:#ffff;
+  width:auto;
+  position:absolute;
 }
 .summary-table tr:nth-child(1) td:nth-child(2) {
   background-color: #262bcd; /* red */
@@ -711,25 +717,6 @@ white-space: nowrap;
   background-color: #f0f0f0;
   text-transform: uppercase; /* uppercase header text */
   padding: 1px; /* increased padding for header cell */
-}
-/* .summary-table-header {
-  text-align: center;
-  margin-top: 0;
-  height: 80px;
- position: absolute;
- width:100%;
-} */
- #chart-container{
-  display:inline-block;
-  width:100%;
-  height: 100%;
-
-}
- #chart-container1{
-  display:inline-block;
-  width:100%;
-  height: 100%;
-
 }
 }
 tbody{
@@ -1262,6 +1249,7 @@ resultContainer.insertBefore(tableHeader, table);
   // Add an h1 tag above the table
   const tableHeader = document.createElement('h4');
   tableHeader.textContent = 'Satisfaction with Sitting MLA?';
+  tableHeader.style.backgroundColor = 'white'
 
   // tableHeader.style.width = '50px';
   tableHeader.style.position = 'absolute';

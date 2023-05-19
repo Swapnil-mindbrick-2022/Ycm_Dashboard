@@ -20,7 +20,14 @@ module.exports = (sequelize, Sequelize) => {
     
     ['Candidate']: {
       type: Sequelize.STRING
-    }
+    },
+    ['Week']:{
+      type: Sequelize.STRING
+    },
+    Date: {
+      type: Sequelize.STRING
+      
+    },
   
     
   }, {

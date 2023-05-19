@@ -20,7 +20,14 @@ module.exports = (sequelize, Sequelize) => {
     },
     ['R.Constituency']: {
       type: Sequelize.STRING
-    }
+    },
+    ['Week']:{
+      type: Sequelize.STRING
+    },
+    Date: {
+      type: Sequelize.STRING
+      
+    },
   }, {
     timestamps: false
   })
