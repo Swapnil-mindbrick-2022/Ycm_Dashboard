@@ -94,13 +94,13 @@ a {
 .left-nav {
   position: absolute;
   /* top: 150; */
-  left: 0%;
-  width: 14em;
+  left: 0.5%;
+  width: 13em;
   font-size:medium;
   color: black;
   box-shadow: inset 2px 2px 4px rgb(0, 74, 132);;
   padding: 2.5em;
-  margin: 1.5em;
+  margin: 1.4em;
   height: 28.125em;
   box-sizing: border-box;
   display: flex;
@@ -148,27 +148,27 @@ a {
     /* Styling for the left side navbar */
 
     /* Styling for the right side navbar */
-    .right-nav {
-        position: absolute;
-        margin-top:1.5em;
-        width: 15.5em;
-        font-size:small;
-        margin-left: 81em;
-        height: 35em;
-        /* background-color: white; */
-        color: black;
-        padding: 2.5em;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        overflow: hidden;
-        box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
-        border: 1px solid rgb(0, 206, 161);
-        border-radius: 0.5em;
-        /* line-height: 0.5; */
-    }
+.right-nav {
+    position: absolute;
+    margin-top:1.5em;
+    width: 15.5em;
+    font-size:small;
+    margin-left: 81em;
+    height: 35em;
+    /* background-color: white; */
+    color: black;
+    padding: 2.5em;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
+    border: 1px solid rgb(0, 206, 161);
+    border-radius: 0.5em;
+    /* line-height: 0.5; */
+}
 
 /* Styling for the headings in side navbars */
 .left-nav h2,
@@ -178,24 +178,24 @@ a {
     text-align: center;
 }
   
-    /* Styling for the links in side navbars */
-    .left-nav ul,
-    .right-nav ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
+/* Styling for the links in side navbars */
+.left-nav ul,
+.right-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
   
-    .left-nav li,
-    .right-nav li {
-        width: 100%;
-        margin: 10px 0;
-    }
-  
+  .left-nav li,
+  .right-nav li {
+      width: 100%;
+      margin: 10px 0;
+  }
+
     .left-nav a,
     .right-nav a {
         color: black;
@@ -210,23 +210,23 @@ a {
     }
   
     .left-nav a:hover,
-    .right-nav a:hover {
-        background-color: #555;
-    }
+  .right-nav a:hover {
+      background-color: #555;
+  }
   
   
       /* Customize column filter inputs */
-      .dataTables_filter input {
-        padding: 5px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-bottom: 5px;
-      }
+  .dataTables_filter input {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
   
-      .dataTables_filter input:focus {
-        outline: none;
-        box-shadow: 0 0 3px #ddd;
-      }
+.dataTables_filter input:focus {
+  outline: none;
+  box-shadow: 0 0 3px #ddd;
+}
   /* Style the table */
   table {
     width: 90%;
@@ -326,323 +326,7 @@ a {
     .btn.active:hover {
   background-color:rgb(0, 206, 161);
 }
-@media only   screen and (max-width: 1180px) {
-  /* html {
-    zoom: 80%;
-} */
-    /* Styling for the header */
-    body {
-      height: 720px;
-      width: 1180;
-      background-color: rgb(0, 206, 161);
-    }
-    .header {
-      background: linear-gradient(to bottom right, #2c3e50, #dda8d4);
-      color: blue;
-      padding: 10px;
-      box-sizing: border-box;
-      text-align: center;
-    }
-   /* parentelement */
-   #parentele {
-    /* Update styles for desktop */
-    margin-right: 10px;
-    margin-left: 20px;
-    margin-top: 0px;
-    display: flex;
-    height: 700px;
-    width: 1090px;
-    /* justify-content: space-between; */
-    /* margin: 30px; */
-    border: 2px solid lightgrey;
-    background-color: whitesmoke;
-  }
-    /* Styling for the left side navbar */
-    .left-nav {
-      position: absolute;
-      /* top: 140px; */
-      margin: 8px;
-      
-      height:450px;
-      width: 200px;
-      font-size:small;
-      background:white;
-      color: black;
-      padding: 35px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      /* justify-content: flex-start; */
-      align-items: center;
-      overflow:hidden;
-      border-radius: 3px;
-      box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
-    }
-    /* maincontent css */
-    #mainele {
-      margin-top: 4px;
-      margin-left: 220px;
-      display: flex;
-      background-color: white;
-      border: 1px solid black;
-      height: 700px;
-      width: 88%;
-      position: relative;
-      overflow-x: scroll;
-      /* white-space: nowrap; */
-    }
-#navbar{
-      background-color: rgb(0, 74, 132);
-      height: 60px;
-      /* margin: 40px; */
-      width: 1100px;
-      display: flex;
-      justify-content: end;
-      margin: 17.5px;
-      color: blue;
-    }
-  #navbtn{
-  background-color: lightgrey;
-  display: flex;
-  width: 1100px;
-  margin-left: 20px;
-  height: 40px;
-  margin-right: 10px;
-  margin-top: -14px;
-}
-    
-    /* Set table width to 100% */
-    table {
-      width: 100%;
-    }
-    /* Add some spacing between table cells */
-    td,
-    th {
-      padding: 1px;
-    }
-    /* Add some borders to table cells */
-    td {
-      border: 1px solid #097b1c;
-    }
-    /* Add a gray background color to the header row */
-    thead tr {
-      background-color: #1013ab;
-    }
-    /* Add a hover effect to table rows */
-    tbody tr:hover {
-      background-color: #d40f57e7;
-    }
-    /* Customize pagination buttons */
-    .paginate_button {
-      background-color: #e7e7e7;
-      border: 1px solid #ddd;
-      color: black;
-      padding: 8px 16px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .paginate_button:hover {
-      background-color: #ddd;
-    }
-    .paginate_button.current {
-      background-color: #4CAF50;
-      color: white;
-    }
-    /* Customize column filter inputs */
-    .dataTables_filter input {
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      margin-bottom: 10px;
-    }
-    .dataTables_filter input:focus {
-      outline: none;
-      box-shadow: 0 0 3px #ddd;
-    }
- 
-    /* Style the table */
-    table {
-      width: 80%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-    /* Style the table headers */
-    th {
-      background-color: #f2f2f2;
-      text-align: left;
-      padding: 8px;
-      font-size:medium
-    }
-    /* Style the table rows */
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-    tr:hover {
-      background-color: #ddd;
-    }
-    /* Style the table cells */
-    td {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-    .box {
-      background-color: #f4f0f0;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 10px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-      transition: box-shadow 0.3s ease;
-      width: 400px;
-    }
-    .box:hover {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
-    .box h2 {
-      margin: 0;
-    }
-    .box2 {
-      background-color: #f4f0f0;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 10px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-      transition: box-shadow 0.3s ease;
-      width: 800px;
-      margin-left: 450px;
-    }
-    /* section part */
-    
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #666;
-    }
-    /* select {
-      padding: 5px;
-      margin-bottom: 5px;
-      font-size: 16px;
-      line-height: 1.5;
-      color: #333;
-      width: 100%;
-    } */
-    .btn {
-      padding: 0.5px;
-      margin: 0.5px;
-      background-color: #16160b;
-      color: #fff;
-      border: none;
-      font-size:smaller;
-      border-radius: 4px;
-      cursor: pointer;
-      width: auto;
-    }
-    .btn:hover {
-      background-color: rgb(0, 206, 161);
-    }
-    .btn.active:hover {
-  background-color: #00d904;
-}
-    /* Add media queries for responsive design */
-    /* @media only screen and (max-width: 600px) { */
-      /* Adjust the table layout for small screens */
-      /* table,
-      th,
-      td {
-        display: block;
-        width: 100%;
-      }
-      th,
-      td {
-        text-align: center;
-      } */
-    /* } */
-    .loader {
-      position: fixed;
-      top: 20%;
-      left: 20%;
-      transform: translate(-50%, -50%);
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-top-color: #3498db;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s ease-in-out infinite;
-    }
-    @keyframes spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-  .summary-table {
-  border-collapse: collapse;
-  margin-top: 116px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  width: 100%;
-}
-.summary-table td,
-.summary-table th {
-  border: 1px solid #ddd;
-  padding: 1px;
-  text-align: center;
-  font-size: larger;
-}
-.summary-table-header{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #3498db;
-  text-transform: uppercase;
-  color:#ffff;
-}
-.summary-table tr:nth-child(1) td:nth-child(2) {
-  background-color: #262bcd; /* red */
-  color: #fff; /* white text color */
-}
-.summary-table tr:nth-child(1) td:nth-child(3) {
-  background-color: #1cdcb9; /* red */
-  color: #fff; /* white text color */
-}
-.summary-table tr:nth-child(2) td:nth-child(n+2) {
-  background-color: #ff8080; /* red */
-  color: #fff; /* white text color */
-}
-.summary-table tr:nth-child(2) td:nth-child(n+3) {
-  background-color: #ffcc80; /* orange */
-}
-.summary-table tr:nth-child(2) td:nth-child(n+4) {
-  background-color: #26cd31; /* green */
-  color: #fff; /* white text color */
-}
-.summary-header-cell {
-  font-weight: bold;
-  background-color: #f0f0f0;
-  text-transform: uppercase; /* uppercase header text */
-  padding: 1px; /* increased padding for header cell */
-}
-.summary-table-header {
-  text-align: center;
-  margin-top: 0;
-  height: 80px;
- position: absolute;
- width:100%;
-}
- #chart-container{
-  display:inline-block;
-  width:100%;
-  height: 100%;
-}
- #chart-container1{
-  display:inline-block;
-  width:100%;
-  height: 100%;
-}
-}
+
 .fixedheader:first-of-type {
   position: sticky;
   left: 0;
@@ -654,6 +338,319 @@ a {
   z-index: 1;
   background-color: white;
 }
+
+
+@media only   screen and (max-width: 1500px) {
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Set default font family and size */
+html {
+  font-family: sans-serif;
+  font-size: small;
+  /* zoom: 100% */
+}
+/* Remove list styles for all lists */
+/* Remove default styling for links */
+a {
+  /* color:; */
+  background-color: none;
+  /* text-decoration: none; */
+}
+/* End CSS Reset */
+    #header{
+      display: flex;
+      justify-content: center;
+      /* background-color: #00d904; */
+      width: 100%;
+    }
+    body {
+        height: 45rem;
+        width: auto;
+        background: rgb(0, 206, 161);
+    }
+    #navbar{
+      background-color: rgb(0, 74, 132);
+      height: 6.2%;
+      margin: 1.2%;
+      
+      width: 100%;
+      display: flex;
+      justify-content: end;
+    }
+    #fixedheader{
+      position: fixed;
+    }
+  #btnnav{
+  background-color: lightgrey;
+  display: flex;
+  justify-content: end;
+  margin-left: 1.2%;
+  margin-right: 1.2%;
+  margin-top:-1%;
+  height: 40px;
+  width: 100%
+}
+/* Styling for the header */
+#parentele {
+    display: flex;
+    justify-content: center;
+    border: 4px solid lightgrey;
+    height: 80%;
+    margin-left: 1.2%;
+    margin-right: 1.2%;
+    margin-top: -7px;
+    background-color: white;
+    width: 100%
+}
+.left-nav {
+  position: absolute;
+  left: 0%;
+  width: 14em;
+  font-size:small;
+  color: black;
+  box-shadow: inset 2px 2px 4px rgb(0, 74, 132);;
+  padding: 2.5em;
+  margin: 1.5em;
+  height: 28.125em;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  border: 1px solid rgb(0, 206, 161);
+  border-radius: 0.5em;
+  /* transition: left 0.5s ease-out; */
+ 
+}
+#mainele {
+        border: 2px solid black;
+        height: 99%;
+        width: 68%;
+        background-color: whitesmoke;
+        /* left: 50%; */
+        /* right: 0; */
+        /* margin-left: 20px; */
+        /* margin-right: 10px; */
+        bottom: 0;
+        overflow-x: scroll;
+        white-space: nowrap;
+    }
+  
+  
+#header {
+    color: black;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+ }
+#header h1{
+    font-size: xx-large; 
+    font-style:italic; 
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
+    background-color: white;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+    width: 340px;   
+    text-align: center;
+}
+
+    /* Styling for the left side navbar */
+
+    /* Styling for the right side navbar */
+.right-nav {
+    position: fixed;
+    margin-top:1.2em;
+    width: 13.5em;
+    font-size:small;
+    margin-left: 61.4em;
+    height: 34em;
+    /* background-color: white; */
+    color: black;
+    padding: 1.5em;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
+    border: 1px solid rgb(0, 206, 161);
+    border-radius: 0.5em;
+    /* line-height: 0.5; */
+    }
+
+/* Styling for the headings in side navbars */
+.left-nav h2,
+.right-nav h2 {
+    margin: 0;
+    padding: 1px;
+    text-align: center;
+}
+    /* Styling for the links in side navbars */
+.left-nav ul,
+.right-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+  
+.left-nav li,
+.right-nav li {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.left-nav a,
+.right-nav a {
+    color: black;
+    text-decoration: none;
+    width: 100%;
+    display: block;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+  
+.left-nav a:hover,
+.right-nav a:hover {
+    background-color: #555;
+}
+
+/* Customize column filter inputs */
+.dataTables_filter input {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+  
+.dataTables_filter input:focus {
+  outline: none;
+  box-shadow: 0 0 3px #ddd;
+}
+  /* Style the table */
+table {
+  width: 50%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+  /* Style the table headers */
+th {
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 3px;
+  font-size: 10px;
+}
+  
+  /* Style the table rows */
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  tr:hover {
+    background-color: #ddd;
+  }
+  /* Style the table cells */
+  td {
+    border: 1px solid #ddd;
+    padding: 2px;
+    font-size:small;
+    text-align: center;
+    font-family:cursive;
+  }
+  .box {
+    background-color:rgb(0, 74, 132);
+    color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .box:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .box h2 {
+    margin: 20px;
+  }
+  .box2 {
+    background-color: #f4f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+    width:800px;
+    margin-left: 450px;
+  }
+  th{
+    background-color: rgb(0, 74, 132);
+    color: white;
+  } 
+  .loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top-color: rgb(0, 206, 161);;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.btn {
+      padding: 0.5px;
+      margin: 0.5px;
+      width: 30px;
+      background-color: #16160b;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: auto;
+    }
+    .btn:hover {
+      background-color:rgb(0, 206, 161);
+    }
+    .btn.active:hover {
+  background-color:rgb(0, 206, 161);
+}
+
+.fixedheader:first-of-type {
+  position: sticky;
+  left: 0;
+  /* your styles here */
+}
+#datatable tbody td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: white;
+}
+
+}
   </style>
 </head>
 <body>
@@ -662,7 +659,7 @@ a {
 			<h1 >OVERVIEW</h1>
 		  </div>
   <div id="navbar">
-    <nav style="margin-left: 70rem;" class="top-nav ">
+    <nav class="top-nav ">
       <a href="/constituency" title="NextView">
         <img src="./b.png" alt="NextView" width="120" height="35">
       </a>
@@ -677,10 +674,10 @@ a {
 	</nav>
   </div>
   <div id="btnnav">
-    <div>
+    <div id="hidden" style="display: none;">
       <button class="btn btn-warning" name='TDPFull' id="TDPFull" >TDPFull</button>
-      <button class="btn btn-warning" name='JSPFull' id="JSPFull">JSPFull</button>
-      <button class="btn btn-warning" name='TDPJSPAlliance' id="TDPJSPAlliance-btn">TDP+JSP Alliance</button> <!-- for '/TDPJSPAlliance' route -->
+      <button class="btn btn-warning" name='JSPFull' id="JSPFull" >JSPFull</button>
+      <button class="btn btn-warning" name='TDPJSPAlliance' id="TDPJSPAlliance-btn" >TDP+JSP Alliance</button> <!-- for '/TDPJSPAlliance' route -->
       </div>
   </div>
 	<div id="parentele">
@@ -835,6 +832,7 @@ getParliament.addEventListener('change',async function(){
   })
 })
 async function  getData(e){
+  document.getElementById("hidden").style.display = 'block';
   const selectedOption = document.querySelector('input[name="selectedOption"]:checked')?.value;
   if (!selectedOption) {
     alert("Please select an option.");
