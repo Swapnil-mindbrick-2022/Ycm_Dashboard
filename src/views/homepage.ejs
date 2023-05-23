@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="./css/homepage.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/07b0ce5d10.js"></script>
@@ -43,9 +44,6 @@
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
-            /* flex-direction: row; */
-            /* background-color: red; */
-            /* border: 1px solid #f0eaea; */
         } 
         /* Styles for the sections */
         .section {
@@ -107,17 +105,24 @@
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
             border-radius: 25px;
         }
-        /* Styles for the sections when hovered and after hovering */
-        /* button:hover {
-            transform: scale(1.05);
-            box-shadow: 4px 4px 20px 4px transparent;
-        } */
+        #overviewbtn{
+            margin-right: 220px;
 
-        /* button:hover h2 {
-            text-shadow: 1px 1px #11a32c;
-            color: blue;
-        } */
+        }
+        #constituencybtn{
+            margin-left: 220px;
+        }
+        #communitybtn{
+            margin-right: 220px; 
+            margin-top: 100px;
 
+        }
+        #trendbtn{
+            margin-left: 220px; 
+            margin-top: 100px;
+
+        }
+       
         button:hover:after {
             content: "";
             display: block;
@@ -130,28 +135,7 @@
             border-radius: 50px;
             z-index: -1;
         }
-
-        /* Styles for the sections on smaller screens */
-        /* @media (max-width: 768px) {
-            .section {
-                width: 300px;
-                height: 200px;
-                margin: 10px;
-                padding: 10px;
-                border-radius: 25px;
-            }
-        } */
-
-        /* Styles for the sections on even smaller screens */
-        /* @media (max-width: 480px) {
-            .section {
-                width: 250px;
-                height: 150px;
-                margin: 5px;
-                padding: 5px;
-                font-size: 16px;
-            }
-        } */
+      
         
     </style>
 </head>
@@ -161,7 +145,7 @@
     </div>
     <div class="container">
         <div class="section">
-            <button style="margin-right: 220px;" title="overview">
+            <button id="overviewbtn" title="overview">
                 <a style="text-decoration: none; " href="/overview" >
                     <img src="./overview.png" alt="" width="150px" height="150px">
                 </a><br>
@@ -169,7 +153,7 @@
             </button>
         </div>
         <div class="section" >
-        <button style="margin-left: 220px;" >
+        <button id="constituencybtn">
             <a style="text-decoration: none;"  href="/constituency">
                 <img src="./constituencyview.png" alt="" width="150px" height="150px">
             </a><br>
@@ -177,14 +161,14 @@
         </button>
         </div>
         <div class="section" >
-        <button style="margin-right: 220px; margin-top: 100px;">
+        <button id="communitybtn">
             <a style="text-decoration: none;" href="/community">
                 <img src="./communityview.png" alt="" width="150px" height="150px"></a><br>
                 <h2 style="color: white; font-weight:800; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Community view</h2>
         </button>
         </div>
         <div class="section" >
-        <button style="margin-left: 220px; margin-top: 100px;" >
+        <button id="trendbtn" >
             <a style="text-decoration: none;" href="/trendysrcp">
                 <img src="./trendview.png" alt="" width="150px" height="150px">
             </a><br>
