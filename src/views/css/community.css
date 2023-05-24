@@ -317,13 +317,13 @@
       font-family: Helvetica;
     }
      */
-    .loader {
+     .loader {
       height: 20px;
       width: 250px;
       position: absolute;
       top: 0;
       bottom: 0;
-      left: 0;
+      left: 1200px;
       right: 0;
       margin: auto;
       display: none; /* Initially hide the loader */

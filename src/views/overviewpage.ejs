@@ -290,7 +290,7 @@ a {
     background-color: rgb(0, 74, 132);
     color: white;
   } 
-  .loader {
+  /* .loader {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -309,7 +309,104 @@ a {
   to {
     transform: rotate(360deg);
   }
-}
+} */
+
+.loader {
+    height: 20px;
+    width: 250px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: none; /* Initially hide the loader */
+  }
+    .loader--dot {
+      animation: loader 3s ease-in-out infinite;
+      height: 20px;
+      width: 20px;
+      border-radius: 100%;
+      background-color: black;
+      position: absolute;
+      border: 2px solid white;
+    }
+    
+    .loader--dot:first-child {
+      background-color: #8cc759;
+      animation-delay: 0.5s;
+    }
+    
+    .loader--dot:nth-child(2) {
+      background-color: #8c6daf;
+      animation-delay: 0.4s;
+    }
+    
+    .loader--dot:nth-child(3) {
+      background-color: #ef5d74;
+      animation-delay: 0.3s;
+    }
+    
+    .loader--dot:nth-child(4) {
+      background-color: #f9a74b;
+      animation-delay: 0.2s;
+    }
+    
+    .loader--dot:nth-child(5) {
+      background-color: #60beeb;
+      animation-delay: 0.1s;
+    }
+    
+    .loader--dot:nth-child(6) {
+      background-color: #fbef5a;
+      animation-delay: 0s;
+    }
+    
+    .loader--text {
+      position: absolute;
+      top: 200%;
+      left: 0;
+      right: 0;
+      width: 4rem;
+      margin: auto;
+    }
+    
+    .loader--text:after {
+      content: "Loading";
+      font-weight: bold;
+      animation: loading-text 3s infinite;
+    }
+    
+    @keyframes loader {
+      15% {
+        transform: translateX(0);
+      }
+      45% {
+        transform: translateX(230px);
+      }
+      65% {
+        transform: translateX(230px);
+      }
+      95% {
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes loading-text {
+      0% {
+        content: "Loading";
+      }
+      25% {
+        content: "Loading.";
+      }
+      50% {
+        content: "Loading..";
+      }
+      75% {
+        content: "Loading...";
+      }
+    }
+
 .btn {
       padding: 0.5px;
       margin: 0.5px;
@@ -440,6 +537,18 @@ a {
 		</div>
 		<div id="mainele"></div>	
 </div>
+<div class="container">
+  <div id="loader" class="loader">
+    <div class="loader--dot"></div>
+    <div class="loader--dot"></div>
+    <div class="loader--dot"></div>
+    <div class="loader--dot"></div>
+    <div class="loader--dot"></div>
+    <div class="loader--dot"></div>
+    <div class="loader--text"></div>
+  </div>
+</div>
+    
 </body>
 <script>
 
@@ -532,19 +641,8 @@ async function  getData(e){
   document.getElementById("nav-right").style.display = 'block';
   e.preventDefault()
 // Add a loader to the page
-const loader = document.createElement("div");
-  loader.classList.add("loader");
-  loader.style.position = "fixed";
-  loader.style.top = "35%";
-  loader.style.left = "42%";
-  loader.style.transform = "translate(-50%, -50%)";
-  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-  loader.style.borderTopColor = "#3498db";
-  loader.style.borderRadius = "75%";
-  loader.style.width = "250px";
-  loader.style.height = "250px";
-  loader.style.animation = "spin 1s ease-in-out infinite";
-  document.body.appendChild(loader);
+  const loader = document.getElementById('loader');
+      loader.style.display = 'block';
     // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/DPC_Data', {selectedOption:selectedOption});
   let data = response1.data
@@ -603,25 +701,14 @@ const loader = document.createElement("div");
 }
 finally {
   // Remove the loader from the page
-  document.body.removeChild(loader);
+  loader.style.display = 'none';
 }
 }
 async function getFilteredData(e){
   e.preventDefault()
   // Add a loader to the page
-  const loader = document.createElement("div");
-  loader.classList.add("loader");
-  loader.style.position = "fixed";
-  loader.style.top = "35%";
-  loader.style.left = "42%";
-  loader.style.transform = "translate(-50%, -50%)";
-  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-  loader.style.borderTopColor = "#3498db";
-  loader.style.borderRadius = "75%";
-  loader.style.width = "250px";
-  loader.style.height = "250px";
-  loader.style.animation = "spin 1s ease-in-out infinite";
-  document.body.appendChild(loader);
+    const loader = document.getElementById('loader');
+      loader.style.display = 'block';
   const District = document.querySelector('#district').value
   const PARLIAMENT = document.querySelector('#parliament').value
   const Caste = document.querySelector('#Caste').value
@@ -689,7 +776,7 @@ async function getFilteredData(e){
   }
   finally {
     // Remove the loader from the page
-    document.body.removeChild(loader);
+    loader.style.display = 'none';
   }
  
 }
@@ -707,19 +794,8 @@ async function  TDPJSPAlliance(e){
     document.getElementById('tdpBtn').style.display = 'none'
   e.preventDefault()
 // Add a loader to the page
-const loader = document.createElement("div");
-  loader.classList.add("loader");
-  loader.style.position = "fixed";
-  loader.style.top = "35%";
-  loader.style.left = "42%";
-  loader.style.transform = "translate(-50%, -50%)";
-  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-  loader.style.borderTopColor = "#3498db";
-  loader.style.borderRadius = "75%";
-  loader.style.width = "250px";
-  loader.style.height = "250px";
-  loader.style.animation = "spin 1s ease-in-out infinite";
-  document.body.appendChild(loader);
+  const loader = document.getElementById('loader');
+      loader.style.display = 'block';
   
     // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/TDPJSPAlliance', {selectedOption:selectedOption});
@@ -808,7 +884,7 @@ const loader = document.createElement("div");
   }
   finally {
     // Remove the loader from the page
-    document.body.removeChild(loader);
+    loader.style.display = 'none';
   }
 }
 //filter data fir TDPJSPALLIANCE
@@ -817,19 +893,8 @@ async function getFilteredData2(e){
     console.log('btn is clicked....')
   e.preventDefault()
   // Add a loader to the page
-  const loader = document.createElement("div");
-  loader.classList.add("loader");
-  loader.style.position = "fixed";
-  loader.style.top = "35%";
-  loader.style.left = "42%";
-  loader.style.transform = "translate(-50%, -50%)";
-  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-  loader.style.borderTopColor = "#3498db";
-  loader.style.borderRadius = "75%";
-  loader.style.width = "250px";
-  loader.style.height = "250px";
-  loader.style.animation = "spin 1s ease-in-out infinite";
-  document.body.appendChild(loader);
+    const loader = document.getElementById('loader');
+      loader.style.display = 'block';
   const District = document.querySelector('#district').value
   const PARLIAMENT = document.querySelector('#parliament').value
   const Caste = document.querySelector('#Caste').value
@@ -902,7 +967,7 @@ async function getFilteredData2(e){
   }
   finally {
     // Remove the loader from the page
-    document.body.removeChild(loader);
+    loader.style.display = 'none';
   }
 }
 //tdp fullData---
@@ -918,19 +983,8 @@ async function TDPFull(e){
     document.getElementById('jspBtn').style.display = 'none'
     document.getElementById('tdpBtn').style.display = 'block'
     e.preventDefault()
-  const loader = document.createElement("div");
-  loader.classList.add("loader");
-  loader.style.position = "fixed";
-  loader.style.top = "35%";
-  loader.style.left = "42%";
-  loader.style.transform = "translate(-50%, -50%)";
-  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-  loader.style.borderTopColor = "#3498db";
-  loader.style.borderRadius = "75%";
-  loader.style.width = "250px";
-  loader.style.height = "250px";
-  loader.style.animation = "spin 1s ease-in-out infinite";
-  document.body.appendChild(loader);
+    const loader = document.getElementById('loader');
+      loader.style.display = 'block';
   
     // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/tdpfull', {selectedOption:selectedOption});
@@ -993,7 +1047,7 @@ async function TDPFull(e){
   }
   finally {
     // Remove the loader from the page
-    document.body.removeChild(loader);
+    loader.style.display = 'none';
   }
 }
 //filtering tdpfull----
@@ -1086,7 +1140,7 @@ async function getFilterTDP(e){
     }
     finally {
       // Remove the loader from the page
-      document.body.removeChild(loader);
+      loader.style.display = 'none';
     }
   }
 //jsp full data---
@@ -1102,19 +1156,8 @@ async function JSPFull(e){
     document.getElementById('jspBtn').style.display = 'block'
     document.getElementById('tdpBtn').style.display = 'none'
     e.preventDefault()
-  const loader = document.createElement("div");
-  loader.classList.add("loader");
-  loader.style.position = "fixed";
-  loader.style.top = "35%";
-  loader.style.left = "42%";
-  loader.style.transform = "translate(-50%, -50%)";
-  loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-  loader.style.borderTopColor = "#3498db";
-  loader.style.borderRadius = "75%";
-  loader.style.width = "250px";
-  loader.style.height = "250px";
-  loader.style.animation = "spin 1s ease-in-out infinite";
-  document.body.appendChild(loader);
+    const loader = document.getElementById('loader');
+      loader.style.display = 'block';
   
     // const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;
     const response1 =  await  axios.post('/jspfull', {selectedOption:selectedOption});
@@ -1176,7 +1219,7 @@ async function JSPFull(e){
   }
   finally {
     // Remove the loader from the page
-    document.body.removeChild(loader);
+    loader.style.display = 'none';
   }
 }
 //filtering jspFull--
@@ -1271,7 +1314,7 @@ async function getFilterJSP(e){
     }
     finally {
       // Remove the loader from the page
-      document.body.removeChild(loader);
+      loader.style.display = 'none';
     }
   }
 </script>
