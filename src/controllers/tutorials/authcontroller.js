@@ -32,7 +32,7 @@ const generateOtp = async (req,res)=>{
                 const mobile = "+91"+username
 
 
-                const client = twilio('AC319781e51b2fc861f42c8b0b164f18ba', '18078408287d31ba0443fadb091fc58b');
+                const client = twilio('AC319781e51b2fc861f42c8b0b164f18ba', '6cb49c14ccd0ceac152c2a6e69dc34d1');
                 client.messages.create({
                   body: `Your OTP is: ${otp}`,
                   from: +13159049601,
