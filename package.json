@@ -46,10 +46,10 @@
     "read-excel-file": "^4.0.6",
     "sequelize": "^6.28.0",
     "stream": "^0.0.2",
+    "twilio": "^4.11.1",
     "util": "^0.12.5",
     "util.promisify": "^1.1.1",
     "xlsx": "^0.18.5"
   },
-  "devDependencies": {},
   "description": ""
 }

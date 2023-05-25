@@ -11,6 +11,7 @@ const constituencyController = require('../controllers/tutorials/constituency.co
 const communityController = require('../controllers/tutorials/community.controller')
 const trendController = require('../controllers/tutorials/trend.controller')
 const upload = require("../middlewares/upload");
+const authcontroller = require('../controllers/tutorials/authcontroller')
 
 
 // const { ivrs } = require("../models");
@@ -52,6 +53,7 @@ let routes = (app) => {
   router.post('/TrendReport2',trendController.TrendReport2)
   router.post('/TrendReport3',trendController.TrendReport3)
   router.post('/TrendReport4',trendController.TrendReport4)
+  router.post('/sendotp',authcontroller.generateOtp)
 
 
 

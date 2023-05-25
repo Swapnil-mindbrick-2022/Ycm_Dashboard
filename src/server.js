@@ -64,7 +64,7 @@ initializingPassport(passport);
 app.use( passport.initialize());
 app.use(passport.session());
 
-app.get("/data",userauth, function (req, res) {
+app.get("/data", function (req, res) {
   res.render(path.join(__dirname, "./views/index.ejs"));
 });
 // app.get("/register", function (req, res) {

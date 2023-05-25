@@ -547,7 +547,7 @@ document.querySelector('#form').addEventListener('submit', async (event) => {
         <th class='fixedheader'>
           ${header}
           ${index === 0 ? `
-            <select class="filter-dropdown">
+            <select class="filter-dropdown" >
               <option value=""> ${header}</option>
               ${Array.from(new Set(data.map(row => row[header]))).map(value => `
                 <option value="${value}">${value}</option>

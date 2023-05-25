@@ -87,7 +87,7 @@ const districtAndParliaments = async (req, res, next) => {
     const result = await resultPromise;
 
     const output = result.map(item => {
-      const newObj = { RCaste: item.RCaste };
+      const newObj = { Caste: item.RCaste };
       districts.forEach(district => {
         newObj[district] = `${item[district]}`;
       });
