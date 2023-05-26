@@ -97,7 +97,7 @@ border: 1px solid black;
 height: 95%;
 width: 85%;
 margin-left: 14.5%;
-background-color: whitesmoke;
+background-color: white;
 
 /* right: 0; */
 /* margin-left: 20px; */
@@ -118,6 +118,7 @@ white-space: nowrap;
     background-color: lightgrey;
   display: flex;
   justify-content: end;
+  align-items: center;
   margin-left: 1.2%;
   margin-right: 1.2%;
   margin-top:-1.6%;
@@ -172,14 +173,14 @@ white-space: nowrap;
     /* Customize column filter inputs */
     .dataTables_filter input {
       padding: 8px;
-      border: 1px solid #ddd;
+      border: 1px solid white;
       border-radius: 4px;
       margin-bottom: 10px;
     }
 
     .dataTables_filter input:focus {
       outline: none;
-      box-shadow: 0 0 3px #ddd;
+      box-shadow: 0 0 3px white;
     }
 
  
@@ -188,11 +189,12 @@ white-space: nowrap;
       width: 80%;
       border-collapse: collapse;
       margin-bottom: 20px;
+      background-color: white;
     }
 
     /* Style the table headers */
     th {
-      background-color: #f2f2f2;
+      background-color: white;
       text-align: left;
       padding: 8px;
       font-size:medium
@@ -200,16 +202,16 @@ white-space: nowrap;
 
     /* Style the table rows */
     tr:nth-child(even) {
-      background-color: #f2f2f2;
+      background-color: white;
     }
 
     tr:hover {
-      background-color: #ddd;
+      background-color: white;
     }
 
     /* Style the table cells */
     td {
-      border: 1px solid #ddd;
+      border: 1px solid white;
       padding: 8px;
     }
 
@@ -418,7 +420,7 @@ white-space: nowrap;
 
   .summary-table {
   border-collapse: collapse;
-  margin-top: 116px;
+  margin-top: 50px;
   font-family: Arial, sans-serif;
   font-size: 14px;
   width: 100%;
@@ -435,10 +437,13 @@ white-space: nowrap;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #3498db;
+  font-size:1.8em;
+  
+  margin-top: 8px;
+  /* background-color: #3498db; */
   text-transform: uppercase;
-  color:#ffff;
-  width:31.5em;
+  color:#0c0202;
+  width:80%;
   position:absolute;
 }
 .summary-table tr:nth-child(1) td:nth-child(2) {
@@ -504,25 +509,25 @@ tbody{
       </a>
       -->
 			<a href="/homepage" title="HomePage">
-        <img src="./c.png" alt="Home" width="35" height="40">
+        <img src="./c.png" alt="Home" width="45" height="40" >
       </a>
       <a href="/logout" title="Logout">
-        <img src="d.png" alt="Logout" width="35" height="35">
+        <img src="d.png" alt="Logout" width="35" height="35" style="margin-right:10px; display: flex; align-items: center; justify-content: center;">
       </a>
 	<!-- </nav> -->
   </div>
   <div id="navbtn">
-    <nav style="margin-left: 1rem;">
-      <button class="btn btn-dark" id="summary-button">Summary</button>
-      <button class="btn btn-dark" id="PrefferdCMByCaste-btn">CM Satisfaction</button>
+    <nav style="margin-right: 0.7rem;">
+      <button class="btn btn-dark" id="summary-button">SUMMARY</button>
+      <button class="btn btn-dark" id="PrefferdCMByCaste-btn">CM SATISFACTION</button>
       <!-- <button id="stateSatisfaction-btn" class="btn btn-dark">state Satisfaction</button> -->
-      <button class="btn btn-dark" id="mlaSatisfaction-btn">MLA Satisfaction</button>
-      <button class="btn btn-dark" id="prefferedparty-btn">Preferrd Party</button>
+      <button class="btn btn-dark" id="mlaSatisfaction-btn">MLA SATISFACTION</button>
+      <button class="btn btn-dark" id="prefferedparty-btn">PREFERRD PARTY</button>
            <button class="btn btn-dark" id="PrefferMLAcandidate-btn">PREFERRED MLA CANDIDATE</button>
       <button class="btn btn-dark" id="TDPJSPAlliance-btn">TDP JSP ALLIANCE</button>
       <button class="btn btn-dark" id="PrefferYSRCPCoordinator-btn">PREFERRED YSRCP-COORDINATOR</button>
       <!-- <button class="btn btn-dark" id="PrefferdMLAByCaste-btn">PREFERRED MLA BY CASTE</button> -->
-      <button class="btn btn-dark" id="PrefferYSRCPCoordinatorcandidate-btn">PREFERRED YSRCP-COORDINATOR-CANDIDATE</button> 
+      <button class="btn btn-dark" id="PrefferYSRCPCoordinatorcandidate-btn">PREFERED YSRCP-CANDIDATE</button> 
     </nav>
   </div>
   <div id="parentele">
@@ -539,7 +544,7 @@ tbody{
         </section>
         <section style="margin: 5px;">
           <label for="constituencyDropdown" style="display: block; margin-bottom: 5px;">CONSTITUENCY</label>
-          <select name="R_Constituency" id="constituencyDropdown" style="padding: 5px; margin-bottom: 5px;">
+          <select name="R_Constituency" id="constituencyDropdown" style="padding: 5px; margin-bottom: 5px; font-size: 10px;">
             <option value="">Select a constituency</option>
           </select>
         </section>
@@ -854,12 +859,23 @@ h1.style.borderRadius = '5px';
 
     // Add a row for each result
     data.forEach(result => {
-      const row = table.insertRow();
-      for (const key in result) {
-        const cell = row.insertCell();
-        cell.textContent = result[key];
+    const row = table.insertRow();
+    let isFirstColumn = true;
+    for (const key in result) {
+      const cell = row.insertCell();
+      cell.textContent = result[key];
+      // Apply styling to increase row height
+      cell.style.padding = '10px'; // Adjust the padding value as needed
+      cell.style.lineHeight = '30px'; // Adjust the line height value as needed
+      
+      // Add class to the first column cells and align text to left
+      if (isFirstColumn) {
+        cell.classList.add('first-column-cell');
+        cell.style.textAlign = 'left';
+        isFirstColumn = false;
       }
-    });
+    }
+  });
 
     // Clear any previous results and add the new table
     resultContainer.innerHTML = '';
@@ -950,9 +966,14 @@ resultContainer.insertBefore(tableHeader, table);
   resultContainer.appendChild(table);
 
   // Add an h1 tag above the table
-  const tableHeader = document.createElement('h4');
-  tableHeader.textContent = 'Satisfaction with Sitting MLA?';
+  const tableHeader = document.createElement('h1');
+  tableHeader.textContent = 'SATISFACTION WITH CURRENT MLA';
   tableHeader.style.backgroundColor = 'white'
+  tableHeader.style.fontSize ='1.2em';
+  tableHeader.style.fontWeight = 'bold'; // Set text to bold
+  tableHeader.style.fontfamily ='Helvetica, Arial, sans-serif';
+  tableHeader.style.marginTop = '24px'; // Add marginTop of 24px
+  tableHeader.style.marginLeft = '148px'; // Add marginLeft of 148px
 
   // tableHeader.style.width = '50px';
   tableHeader.style.position = 'absolute';
@@ -999,7 +1020,7 @@ resultContainer.insertBefore(tableHeader, table);
             // backgroundColor: 'transparent'
           },
           title: {
-            text: 'Satisfaction with Sitting MLA by Caste',
+            text: 'SATISFACTION WITH CURRENT MLA BY CASTE',
             style: {
               color: '#000'
             }
@@ -1103,7 +1124,7 @@ resultContainer.insertBefore(tableHeader, table);
       type: 'pie'
     },
     title: {
-      text: 'YSRCP Co-ordinator Chart'
+      text: 'YSRCP  CO-ORDINATOR '
     },
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
@@ -1172,7 +1193,7 @@ resultContainer.insertBefore(tableHeader, table);
       type: 'pie'
     },
     title: {
-      text: 'MLA Preference Chart'
+      text: 'MLA PREFERENCE'
     },
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
@@ -1292,7 +1313,7 @@ if (!chartContainer1) {
             },
 
             title: {
-              text: 'Prefferd Party By Caste'
+              text: 'PREFFERD PARTY BY CASTE'
             },
             xAxis: {
               categories: chartData.map(caste => caste.name)
@@ -1399,7 +1420,7 @@ Highcharts.chart(chartContainer1, {
             },
 
   title: {
-    text: 'PREFERRED TOTAL PARTY'
+    text: 'PREFERRED PARTY'
   },
   plotOptions: {
     pie: {
@@ -1495,7 +1516,7 @@ Highcharts.chart(chartContainer1, {
       type: 'pie'
     },
     title: {
-      text: 'MLA Preference Chart'
+      text: 'MLA PREFERENCE'
     },
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
@@ -1830,7 +1851,7 @@ Highcharts.chart(chartContainer1, {
           },
 
           title: {
-            text: 'CM SATISFACTION Total%'
+            text: 'CM SATISFACTION'
           },
           plotOptions: {
             pie: {
@@ -1960,7 +1981,10 @@ Highcharts.chart(chartContainer1, {
             // height: 400
           },
           title: {
-            text: 'TDP Voters preference on alliance '
+            text: 'TDP Voters preference on alliance ',
+            style: {
+    textTransform: 'uppercase' // Transform text to capitals
+  }
           },
           plotOptions: {
             pie: {
@@ -1995,7 +2019,10 @@ Highcharts.chart(chartContainer1, {
             // height: 400
           },
           title: {
-            text: 'JSP Voters preference on alliance '
+            text: 'JSP Voters preference on alliance ',
+            style: {
+    textTransform: 'uppercase' // Transform text to capitals
+  }
           },
           plotOptions: {
             pie: {
@@ -2038,7 +2065,10 @@ Highcharts.chart(chartContainer1, {
           
           },
           title: {
-            text: 'Party Prefference If TDP Contests'
+            text: 'Party Prefference If TDP Contests',
+            style: {
+    textTransform: 'uppercase' // Transform text to capitals
+  }
           },
           plotOptions: {
             pie: {
@@ -2072,7 +2102,10 @@ Highcharts.chart(chartContainer1, {
            
           },
           title: {
-            text: 'Party Prefference If JSP Contests'
+            text: 'Party Prefference If JSP Contests',
+            style: {
+    textTransform: 'uppercase' // Transform text to capitals
+  }
           },
           plotOptions: {
             pie: {
@@ -2160,7 +2193,11 @@ Highcharts.chart(chartContainer1, {
       type: 'pie'
     },
     title: {
-      text: 'YSRCP Co-ordinator Chart'
+      text: 'YSRCP Co-ordinator ',
+      style: {
+    textTransform: 'uppercase' // Transform text to capitals
+  }
+
     },
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
@@ -2188,7 +2225,7 @@ Highcharts.chart(chartContainer1, {
   });
         } else {
           // console.log('Data is not an object or is empty:', castData);
-          resultContainer.innerHTML = '<p> No YSRCP coordinator for This Constituency .</p>';
+          resultContainer.innerHTML = '<p> No YSRCP-Coordinator for this constituency .</p>';
           // renderPrefferMLAcandidate()
         }
       } catch (error) {
@@ -2253,7 +2290,10 @@ Highcharts.chart(chartContainer1, {
       type: 'pie'
     },
     title: {
-      text: ' YSRCP-Best Candidate Chart'
+      text: ' YSRCP-Best Candidate',
+      style: {
+    textTransform: 'uppercase' // Transform text to capitals
+  }
     },
     tooltip: {
       pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
@@ -2281,7 +2321,7 @@ Highcharts.chart(chartContainer1, {
   });
         } else {
           // console.log('Data is not an object or is empty:', castData);
-          resultContainer.innerHTML = '<p> re we are searching for better candidate for upcoming .</p>';
+          resultContainer.innerHTML = '<p> No Alternative candidate for this constituency</p>';
           // renderPrefferMLAcandidate()
         }
       } catch (error) {

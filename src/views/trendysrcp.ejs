@@ -463,6 +463,8 @@ td {
       border-radius: 4px;
       cursor: pointer;
       width: auto;
+      height: 21px;
+      margin-top: 10px;
     }
     .btn:hover {
       background-color:  rgb(0, 206, 161);
@@ -489,18 +491,18 @@ td {
       
      
 			<a href="/homepage" title="HomePage">
-        <img src="./c.png" alt="Home" width="35" height="40">
+        <img src="./c.png" alt="Home" width="45" height="40">
       </a>
       <a href="/logout" title="Logout">
-        <img src="d.png" alt="Logout" width="35" height="35">
+        <img src="d.png" alt="Logout" width="35" height="35"  style="margin-right:10px; display: flex; align-items: center; justify-content: center;">
       </a>
 	<!-- </nav> -->
   </div>
-<div id="navbtn">
-    <button id="trend1" class="btn btn-primary">CM QUESTION</button>
+<div id="navbtn" >
+    <button id="trend1" class="btn btn-primary" >CM QUESTION</button>
     <button id="trend2" class="btn btn-primary">Party</button>
     <button id="trend3" class="btn btn-primary">AGE</button>
-    <button id="trend4" class="btn btn-primary">OCCUPATION</button>
+    <button id="trend4" class="btn btn-primary" style="margin-right: 0.7rem;">OCCUPATION</button>
 <div>
   </div>
   </div>
@@ -647,7 +649,10 @@ trendButton.addEventListener('click', async (event) => {
                 type: 'spline'
             },
             title: {
-                text: 'Trend Report for CM-Question By Month'
+                text: 'Trend Report for CM-Question By Month',
+                style: {
+    textTransform: 'uppercase' // Transform text to capitals
+  }
             },
             xAxis: {
                 categories: data
@@ -764,7 +769,10 @@ trendButton2.addEventListener('click', async (event) => {
                 type: 'spline'
             },
             title: {
-                text: 'Trend Report for Constituency'
+                text: 'Trend Report for Constituency',
+                style: {
+    textTransform: 'uppercase' // Transform text to capitals
+  }
             },
             xAxis: {
                 categories: data.map(item => item['R_Constituency']),
@@ -906,7 +914,10 @@ trendButton3.addEventListener('click', async (event) => {
                 type: 'spline'
             },
             title: {
-                text: 'Trend Report For Age Group'
+                text: 'Trend Report For Age Group',
+                style: {
+    textTransform: 'uppercase' // Transform text to capitals
+  }
             },
             xAxis: {
                 categories: data.map(item => item['Age Group']),
@@ -1021,7 +1032,10 @@ trendButton4.addEventListener('click', async (event) => {
                 type: 'spline'
             },
             title: {
-                text: 'Trend Report For Occupations'
+                text: 'Trend Report For Occupations',
+                style: {
+    textTransform: 'uppercase' // Transform text to capitals
+  }
             },
             xAxis: {
                 categories: data.map(item => item['Occupation']),

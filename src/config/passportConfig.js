@@ -20,7 +20,7 @@ exports.initializingPassport = (passport)=>{
             }
             })
             if (!user) {
-                // console.log('user not found or  OTP Expired..')
+                console.log('user not found or  OTP Expired..')
                 // res.send('sdsfdsf')
                 return done(null,false);
             }

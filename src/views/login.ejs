@@ -209,62 +209,63 @@ button:hover {
   <div class="box">
     <div class="container">
       <h2>Login</h2>
-        
-        <div id="otpnotification"></div>
-        <div class="inputBox">
-          <input type="text" id="mobilenumber" required>
-          <span>Mobile Number:</span>
-          <i></i>
-        </div>
-        <button id="getotp">Send OTP</button>
-        <div class="inputBox">
-          <input type="text" id="otpfield" required>
-          <span>OTP:</span>
-          <i></i>
-        </div>
       
-        <button id="verifyotp">Verify OTP</button>
-   
+      <div id="otpnotification"></div>
+      <div class="inputBox">
+        <input type="text" id="mobilenumber" required>
+        <span>Mobile Number:</span>
+        <i></i>
+      </div>
+      <button id="getotp">Send OTP</button>
+  
+      <div class="inputBox" id="otpfieldContainer" style="display: none;">
+        <input type="text" id="otpfield" required>
+        <span>OTP:</span>
+        <i></i>
+      </div>
+  
+      <button id="verifyotp" style="display: none;">Verify OTP</button>
+      
     </div>
   </div>
-
   <script>
-   const mobilenumberInput = document.getElementById('mobilenumber');
-   const getotp = document.getElementById('getotp')
-   const verifyotp = document.getElementById('verifyotp')
-   const otpfield = document.getElementById('otpfield')
-   
-   getotp.addEventListener('click',()=>{
-    console.log('btnclicked')
-       const mobilenumber = mobilenumberInput.value;
-       
-       axios.post('/sendotp',{username:mobilenumber}).then((resp)=>{
+    const mobilenumberInput = document.getElementById('mobilenumber');
+    const getotp = document.getElementById('getotp');
+    const verifyotp = document.getElementById('verifyotp');
+    const otpfield = document.getElementById('otpfield');
+    const otpfieldContainer = document.getElementById('otpfieldContainer');
+  
+    getotp.addEventListener('click', () => {
+      console.log('btnclicked');
+      const mobilenumber = mobilenumberInput.value;
+  
+      axios.post('/sendotp', { username: mobilenumber }).then((resp) => {
         const message = document.createElement("p");
         message.textContent = "OTP sent to mobile number.";
         document.getElementById("otpnotification").appendChild(message);
-
+  
         setTimeout(function () {
           message.remove();
         }, 2000);
-                
-          
-          
-           console.log(`OTP send successfully to ${mobilenumber}`)
-
-       }).catch(err => console.log(err))
-   })
-
-   verifyotp.addEventListener('click',async ()=>{
-       const mobilenumber = mobilenumberInput.value
-       const otp = otpfield.value
-       console.log('mobile',mobilenumber,otp)
-       axios.post('/login',{username:mobilenumber,password:otp}).then((success)=>{
-           if (!success){
-               console.log('invalid otp...')
-           }
-           window.location.href = '/homepage'
-
-       } ).catch(err => console.log(err))
-   })
+  
+        console.log(`OTP sent successfully to ${mobilenumber}`);
+  
+        // Show the OTP field and Verify OTP button
+        otpfieldContainer.style.display = "block";
+        verifyotp.style.display = "block";
+      }).catch(err => console.log(err));
+    });
+  
+    verifyotp.addEventListener('click', async () => {
+      const mobilenumber = mobilenumberInput.value;
+      const otp = otpfield.value;
+      console.log('mobile', mobilenumber, otp);
+      axios.post('/login', { username: mobilenumber, password: otp }).then((success) => {
+        if (!success) {
+          console.log('Invalid OTP...');
+        }
+        window.location.href = '/homepage';
+      }).catch(err => console.log(err));
+    });
   </script>
   </html>

@@ -417,17 +417,19 @@
         content: "Loading...";
       }
     }
-  .btn {
-        padding: 1px;
-        margin: 1px;
-        font-size: small;
-        background-color: #16160b;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        width: auto;
-      }
+    .btn {
+      padding: 1px;
+      margin: 1px;
+      font-size: small;
+      background-color: #16160b;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: auto;
+      height: 21px;
+      margin-top: 10px;
+    }
       .btn:hover {
         background-color:  rgb(0, 206, 161);
       }
