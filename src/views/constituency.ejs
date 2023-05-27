@@ -1024,13 +1024,15 @@ resultContainer.insertBefore(tableHeader, table);
             style: {
               color: '#000'
             }
+           
           },
           xAxis: {
             categories: chartData.map(caste => caste.name),
             labels: {
               style: {
                 color: '#000'
-              }
+              },
+              align: 'right' // Align labels to the left
             }
           },
           yAxis: {
@@ -1317,6 +1319,7 @@ if (!chartContainer1) {
             },
             xAxis: {
               categories: chartData.map(caste => caste.name)
+              
             },
             yAxis: {
               min: 0, // Set the minimum value of the y-axis
@@ -2124,7 +2127,7 @@ Highcharts.chart(chartContainer1, {
 
       } catch (error) {
         console.error(error);
-        resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
+        resultContainer.innerHTML = '<p>No Alliance data, Please choose next Survey Date.</p>';
       }
       finally {
     // Remove the loader from the page

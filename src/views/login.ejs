@@ -242,6 +242,7 @@ button:hover {
       axios.post('/sendotp', { username: mobilenumber }).then((resp) => {
         const message = document.createElement("p");
         message.textContent = "OTP sent to mobile number.";
+        message.style.color='white'
         document.getElementById("otpnotification").appendChild(message);
   
         setTimeout(function () {
