@@ -7,6 +7,8 @@
           height: 45rem;
           width: auto;
           background: rgb(0, 206, 161);
+          font-family: "Abadi", sans-serif;
+
       }
   #header {
         display: flex;  

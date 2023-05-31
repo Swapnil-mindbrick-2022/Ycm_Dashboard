@@ -1,89 +1,109 @@
-@media only   screen and (max-width: 1500px) {
-    html{
-    zoom: 100%;
-}
-section a {
-    text-decoration: none;
-}
-body{
-    /* margin: 5rem; */
-    padding: 0;
-    height: 50rem;
-    width: auto;
-    /* overflow: hidden; */
-    position: fixed;
-    /* background-image:url('./cm.png'); */
-    background-size:90em 82rem;
-    /* background-position: center; */
-    /* background-repeat: no-repeat; */
-    /* height: 720px;
-    width: 1280px; */
+@media only screen and (min-width: 760px) and (max-width: 1500px) {
+    html {
+        zoom: 100%;
+    }
     
-}
-#header{
-    width: 70%;
-    /* background-color: blue; */
-    margin-top: -8.5em;
-    /* margin-left: 10.75em; */
-    margin-bottom: 2em;
-}
-#header h1 {
-    text-align: center;
-    font-family:'Courier New', Courier, monospace;
-    font-size: small;
-    /* padding: 20px; */
-    background-color: white;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-    border-radius: 25px;
-}
-.container {
-    height: 50rem;
-    padding: 20px;
-    margin-left: 4.575em;
-    margin-top: 5rem;
-    width: 90rem;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    /* background-color: aqua; */
-} 
-.section {
-    display: flex;
-    /* flex-basis: calc(50% - 5px); */
-    /* justify-content: center; */
-    align-items: center;
-    /* width:150px; */
-    height: 80px;
-    width: 50px;
-    box-sizing: border-box;
-    text-align: center;
-    margin: 0.5rem;
-  
-    /* box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.2); */
-    /* background-color: #fff; */
-    transition: all 0.3s ease;
-}
-#overviewbtn{
-    margin-right: 220px;
-    margin-top: 120px;
-    margin-bottom: 80px;
-
-}
-#constituencybtn{
-    margin-left: 220px;
-    margin-top: 120px;
-    margin-bottom: 80px;
-}
-#communitybtn{
-    margin-right: 220px; 
-    margin-top: 100px;
-
-}
-#trendbtn{
-    margin-left: 220px; 
-    margin-top: 90px;
-
-}
-
-
+    section a {
+        text-decoration: none;
+    }
+    
+    body {
+        padding: 0;
+        height: 50rem;
+        width: auto;
+        position: fixed;
+        background-image: url('../cm.png');
+        background-size: 90em 100rem;
+    }
+    
+    #header {
+        margin-top: -4.5em;
+        margin-left: 18.75em;
+        margin-bottom: 2em;
+    }
+    
+    #header h1 {
+        text-align: center;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: small;
+        background-color: white;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+        border-radius: 25px;
+    }
+    
+    .container {
+        height: 50rem;
+        padding: 20px;
+        margin-left: 4.575em;
+        margin-top: 5rem;
+        width: 90rem;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+    
+    .section {
+        display: flex;
+        align-items: center;
+        height: 80px;
+        width: 50px;
+        box-sizing: border-box;
+        text-align: center;
+        margin: 0.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .button h2 {
+        font-size: 21px;
+        margin: 0;
+        color: #333;
+        text-shadow: 1px 1px #ccc;
+    }
+    
+    button {
+        width: 21.25em;
+        border: 2px solid transparent;
+        border-radius: 2%;
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 4px 4px 20px 4px transparent;
+    }
+    
+    #header h1 {
+        text-align: center;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: xx-large;
+        background-color: darkblue;
+        color: white;
+        margin-left: 49px;
+        padding: 10px;
+        border-radius: 10px;
+        border-top: 1px solid white;
+        border-left: 1px solid white;
+        border-bottom: 1px solid black;
+        border-right: 1px solid black;
+        box-shadow: 5px 5px 10px rgba(100, 187, 220, 0.4) inset, -5px -5px 10px rgba(100, 187, 220, 0.4) inset;
+    }
+    
+    #overviewbtn {
+        margin-right: 280px;
+        margin-top: 120px;
+        margin-bottom: 80px;
+    }
+    
+    #constituencybtn {
+        margin-left: 280px;
+        margin-top: 120px;
+        margin-bottom: 80px;
+    }
+    
+    #communitybtn {
+        margin-right: 280px;
+        margin-top: 100px;
+    }
+    
+    #trendbtn {
+        margin-left: 280px;
+        margin-top: 90px;
+    }
 }
