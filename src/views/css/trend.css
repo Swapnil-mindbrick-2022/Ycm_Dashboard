@@ -348,7 +348,8 @@
       border: 2px solid white;
       /* display: flex; */
     /* justify-content: center; */
-    margin-left: 65%;
+    margin-left: 85%;
+    margin-top: 10%;
   
     }
     
@@ -388,7 +389,8 @@
       left: 0;
       right: 0;
       width: 4rem;
-      margin-left:50%;
+      margin-left:75%;
+      margin-top:10%;
     
       display: flex;
     justify-content: center;
@@ -404,7 +406,8 @@
       right: 0;
       width: 4rem;
       margin-left:30%; */
-    
+      /* margin-left:40%;
+      margin-top:25%; */
       display: flex;
     justify-content: center;
       
@@ -434,6 +437,7 @@
         content: "Loading...";
       }
     }
+    
 
     .btn {
       padding: 1px;

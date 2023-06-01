@@ -241,8 +241,18 @@ a {
   th {
     background-color: #f2f2f2;
     text-align: center;
-    padding: 3px;
+    padding: 1px;
     font-size: 10px;
+    border:0.2px solid #6c757d;
+  }
+  .header-row1{
+    background-color: #f2f2f2;
+    text-align: center;
+    padding: 1px;
+    font-size: 15px;
+    border:0.2px solid #6c757d;
+    background-color: rgb(0, 74, 132);
+    color: white;
   }
   
   /* Style the table rows */
@@ -339,7 +349,8 @@ a {
       border: 2px solid white;
       /* display: flex; */
     /* justify-content: center; */
-    margin-left: 65%;
+    margin-left: 50%;
+    margin-top: 25%;
   
     }
     
@@ -379,7 +390,8 @@ a {
       left: 0;
       right: 0;
       width: 4rem;
-      margin-left:50%;
+      margin-left:40%;
+      margin-top:25%;
     
       display: flex;
     justify-content: center;
@@ -395,7 +407,8 @@ a {
       right: 0;
       width: 4rem;
       margin-left:30%; */
-    
+      /* margin-left:40%;
+      margin-top:25%; */
       display: flex;
     justify-content: center;
       
@@ -555,19 +568,20 @@ a {
         <button id="jspBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; background-color:yellow; display:none">Submit</button>
       </nav>
 		</div>
-		<div id="mainele"></div>	
+		<div id="mainele"></div>
+    <div id="loader" class="loader">
+      <div class="loader--dot"></div>
+      <div class="loader--dot"></div>
+      <div class="loader--dot"></div>
+      <div class="loader--dot"></div>
+      <div class="loader--dot"></div>
+      <div class="loader--dot"></div>
+      <div class="loader--text"></div>
+    </div>
 </div>
-<div class="container">
-  <div id="loader" class="loader">
-    <div class="loader--dot"></div>
-    <div class="loader--dot"></div>
-    <div class="loader--dot"></div>
-    <div class="loader--dot"></div>
-    <div class="loader--dot"></div>
-    <div class="loader--dot"></div>
-    <div class="loader--text"></div>
-  </div>
-</div>
+
+  
+
     
 </body>
 <script>
@@ -674,7 +688,7 @@ async function  getData(e){
         <thead>
           <tr class="header-row">
             ${Object.keys(data[0]).map((key, index) => `
-            <th ">
+            <th class="header-row1">
               ${key}
               ${index === 0 ? `
             ` : ''}
@@ -749,7 +763,7 @@ async function getFilteredData(e){
         <thead>
           <tr class="header-row">
             ${Object.keys(data[0]).map((key, index) => `
-            <th>
+            <th class="header-row1">
               ${key}
               ${index === 0 ? `
             ` : ''}
@@ -1018,7 +1032,7 @@ async function TDPFull(e){
         <thead>
           <tr class="header-row">
             ${Object.keys(data[0]).map((key, index) => `
-            <th style="position:sticky">
+            <th style="position:sticky" class="header-row1">
               ${key}
               ${index === 0 ? `
             ` : ''}
@@ -1075,28 +1089,17 @@ const tdpBtn = document.getElementById('tdpBtn')
 tdpBtn.addEventListener('click',getFilterTDP)
 async function getFilterTDP(e){
     console.log('btn clicked...')
-    e.preventDefault()
-    // Add a loader to the page
-    const loader = document.createElement("div");
-    loader.classList.add("loader");
-    loader.style.position = "fixed";
-    loader.style.top = "35%";
-    loader.style.left = "42%";
-    loader.style.transform = "translate(-50%, -50%)";
-    loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-    loader.style.borderTopColor = "#3498db";
-    loader.style.borderRadius = "75%";
-    loader.style.width = "250px";
-    loader.style.height = "250px";
-    loader.style.animation = "spin 1s ease-in-out infinite";
-  
-  
-    document.body.appendChild(loader);
+   
+   
     const District = document.querySelector('#district').value
     const PARLIAMENT = document.querySelector('#parliament').value
     const Caste = document.querySelector('#Caste').value
     const Gender = document.querySelector('#Gender').value
     const age =document.querySelector('#age').value
+    e.preventDefault()
+    const loader = document.getElementById('loader');
+      loader.style.display = 'block';
+  
     const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;  
     console.log(Caste)
   
@@ -1113,7 +1116,7 @@ async function getFilterTDP(e){
           <thead>
             <tr class="header-row">
               ${Object.keys(data[0]).map((key, index) => `
-              <th>
+              <th class="header-row1">
                 ${key}
                 ${index === 0 ? `
               ` : ''}
@@ -1191,7 +1194,7 @@ async function JSPFull(e){
         <thead>
           <tr class="header-row">
             ${Object.keys(data[0]).map((key, index) => `
-            <th>
+            <th class="header-row1">
               ${key}
               ${index === 0 ? `
             ` : ''}
@@ -1248,28 +1251,15 @@ console.log(jspBtn)
 jspBtn.addEventListener('click',getFilterJSP)
 async function getFilterJSP(e){
     console.log('btn clicked...')
-    e.preventDefault()
-    // Add a loader to the page
-    const loader = document.createElement("div");
-    loader.classList.add("loader");
-    loader.style.position = "fixed";
-    loader.style.top = "35%";
-    loader.style.left = "42%";
-    loader.style.transform = "translate(-50%, -50%)";
-    loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-    loader.style.borderTopColor = "#3498db";
-    loader.style.borderRadius = "75%";
-    loader.style.width = "250px";
-    loader.style.height = "250px";
-    loader.style.animation = "spin 1s ease-in-out infinite";
-  
-  
-    document.body.appendChild(loader);
+   
     const District = document.querySelector('#district').value
     const PARLIAMENT = document.querySelector('#parliament').value
     const Caste = document.querySelector('#Caste').value
     const Gender = document.querySelector('#Gender').value
     const age =document.querySelector('#age').value
+    e.preventDefault()
+    const loader = document.getElementById('loader');
+      loader.style.display = 'block';
     const selectedOption = document.querySelector('input[name="selectedOption"]:checked').value;  
     console.log(Caste)
   
@@ -1286,7 +1276,7 @@ async function getFilterJSP(e){
           <thead>
             <tr class="header-row">
               ${Object.keys(data[0]).map((key, index) => `
-              <th >
+              <th class="header-row1">
                 ${key}
                 ${index === 0 ? `
               ` : ''}
