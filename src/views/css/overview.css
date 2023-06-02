@@ -302,110 +302,111 @@
     bottom: 0;
     left: 0;
     right: 0;
-    margin: auto;
-    /* display: flex; */
-    /* justify-content: center; */
-    display: none;    
+    margin-right: -10%;
+    display: none;
+    transform-origin: center;
   }
-    .loader--dot {
-      animation: loader 1.5s ease-in-out infinite;
-      height: 20px;
-      width: 20px;
-      border-radius: 100%;
-      background-color: black;
-      position: absolute;
-      border: 2px solid white;
-      /* display: flex; */
-    /* justify-content: center; */
-    margin-left: 50%;
-    margin-top: 25%;
   
-    }
-    
-    .loader--dot:first-child {
-      background-color: #8cc759;
-      animation-delay: 0.5s;
-    }
-    
-    .loader--dot:nth-child(2) {
-      background-color: #8c6daf;
-      animation-delay: 0.4s;
-    }
-    
-    .loader--dot:nth-child(3) {
-      background-color: #ef5d74;
-      animation-delay: 0.3s;
-    }
-    
-    .loader--dot:nth-child(4) {
-      background-color: #f9a74b;
-      animation-delay: 0.2s;
-    }
-    
-    .loader--dot:nth-child(5) {
-      background-color: #60beeb;
-      animation-delay: 0.1s;
-    }
-    
-    .loader--dot:nth-child(6) {
-      background-color: #fbef5a;
-      animation-delay: 0s;
-    }
-    
-    .loader--text {
-      position: absolute;
-      /* top: 200%; */
-      left: 0;
-      right: 0;
-      width: 4rem;
-      margin-left:40%;
-      margin-top:25%;
-    
-      display: flex;
+  .loader--dot {
+    animation: loader 1.5s ease-in-out infinite;
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    background-color: black;
+    position: absolute;
+    border: 2px solid white;
+    margin-left: 300%;
+    margin-top: 165%;
+    transform-origin: center;
+  }
+  
+  .loader--dot:first-child {
+    background-color: #8cc759;
+    animation-delay: 0.5s;
+  }
+  
+  .loader--dot:nth-child(2) {
+    background-color: #8c6daf;
+    animation-delay: 0.4s;
+  }
+  
+  .loader--dot:nth-child(3) {
+    background-color: #ef5d74;
+    animation-delay: 0.3s;
+  }
+  
+  .loader--dot:nth-child(4) {
+    background-color: #f9a74b;
+    animation-delay: 0.2s;
+  }
+  
+  .loader--dot:nth-child(5) {
+    background-color: #60beeb;
+    animation-delay: 0.1s;
+  }
+  
+  .loader--dot:nth-child(6) {
+    background-color: #fbef5a;
+    animation-delay: 0s;
+  }
+  
+  .loader--text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 4rem;
+    margin-left: 290%;
+    margin-top: 165%;
+    display: flex;
     justify-content: center;
+  }
+  
+  .loader--text:after {
+    content: "Loading";
+    font-weight: bold;
+    animation: loading-text 3s infinite;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+  }
+  
+  @keyframes loader {
+    0% {
+      transform: rotate(0) translateX(100px) rotate(0);
     }
-    
-    .loader--text:after {
+    100% {
+      transform: rotate(360deg) translateX(100px) rotate(-360deg);
+    }
+  }
+  
+  @keyframes loading-text {
+    0% {
       content: "Loading";
-      font-weight: bold;
-      animation: loading-text 3s infinite;
-      position: absolute;
-      /* top: 200%; */
-      /* left: 0;
-      right: 0;
-      width: 4rem;
-      margin-left:30%; */
-      /* margin-left:40%;
-      margin-top:25%; */
-      display: flex;
-    justify-content: center;
-      
     }
-    
-    @keyframes loader {
-  0% {
-    transform: rotate(0) translateX(100px) rotate(0);
-  }
-  100% {
-    transform: rotate(360deg) translateX(100px) rotate(-360deg);
-  }
-}
-
-    
-    @keyframes loading-text {
-      0% {
-        content: "Loading";
-      }
-      25% {
-        content: "Loading.";
-      }
-      50% {
-        content: "Loading..";
-      }
-      75% {
-        content: "Loading...";
-      }
+    25% {
+      content: "Loading.";
     }
+    50% {
+      content: "Loading..";
+    }
+    75% {
+      content: "Loading...";
+    }
+  }
+  
+  /* Zooming effect */
+  .zoom {
+    animation: zoom 0.3s ease-in-out;
+  }
+  
+  @keyframes zoom {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.5);
+    }
+  }
 
   .btn {
         padding: 0.5px;
