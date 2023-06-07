@@ -42,8 +42,8 @@ html {
     zoom: 100%;
 }
 body {
-        height: 45rem;
-        width: 93.75rem;
+        height: 41rem;
+        width: 90.75rem;
         background: rgb(0, 206, 161);
     }
 #heading {
@@ -53,14 +53,16 @@ body {
 
 }
 #heading h1{
-  font-size: xx-large; 
-  font-style:italic; 
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
-  background-color: white;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-  border-radius: 1.56em;
-  width: 21.25em;      
-  text-align: center;
+      font-size: 40px; 
+      margin-top:10px;
+      /* font-style:italic;  */
+      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
+      box-shadow: rgba(0, 0, 0, 0.5);
+      text-shadow:  3px 3px 4px rgba(0, 0, 0, 0.5);
+      border-radius: 25px;
+      width: 600px;     
+      color: white;
+      text-align: center;
 }
     /* parentelement */
     #parentele {
@@ -78,12 +80,12 @@ body {
     .left-nav {
   position: absolute;
   float: left;
-  margin: 0.8em;
-  width: 15em;
+  margin: 0.4em;
+  width: 17em;
   font-size:small;
   color: black;
   box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
-  height: 32em;
+  height: 37em;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -94,9 +96,9 @@ body {
     /* maincontent css */
 #mainele {
 border: 1px solid black;
-height: 95%;
-width: 85%;
-margin-left: 14.5%;
+height: 99%;
+width: 83%;
+margin-left: 16.5%;
 background-color: white;
 
 /* right: 0; */
@@ -108,7 +110,7 @@ white-space: nowrap;
 }
   #navbar{
     background-color: rgb(0, 74, 132);
-    height: 6.2%;
+    height: 9.0%;
     margin: 1.2%;
     width: 99.5%;
     display: flex;
@@ -266,6 +268,7 @@ white-space: nowrap;
     .btn {
       padding: 0.5px;
       margin: 0.5px;
+      margin-top:4px;
       background-color: #16160b;
       color: #fff;
       border: none;
@@ -273,6 +276,7 @@ white-space: nowrap;
       border-radius: 4px;
       cursor: pointer;
       width: auto;
+      height:35px;
     }
 
     .btn:hover {
@@ -280,6 +284,11 @@ white-space: nowrap;
     }
     .btn.active:hover {
   background-color: #00d904;
+
+}
+.btn.active {
+  background-color: #00d904;
+  
 }
     /* Add media queries for responsive design */
     /* @media only screen and (max-width: 600px) { */
@@ -465,25 +474,25 @@ white-space: nowrap;
   position:absolute;
 }
 .summary-table tr:nth-child(1) td:nth-child(2) {
-  background-color: #262bcd; /* red */
+  background-color: #080810; /* red */
   color: #fff; /* white text color */
 }
 .summary-table tr:nth-child(1) td:nth-child(3) {
-  background-color: #1cdcb9; /* red */
+  background-color: #16168a; /* red */
   color: #fff; /* white text color */
 }
 
 .summary-table tr:nth-child(2) td:nth-child(n+2) {
-  background-color: #ff8080; /* red */
+  background-color: #080810; /* red */
   color: #fff; /* white text color */
 }
 
 .summary-table tr:nth-child(2) td:nth-child(n+3) {
-  background-color: #ffcc80; /* orange */
+  background-color: #080810; /* orange */
 }
 
 .summary-table tr:nth-child(2) td:nth-child(n+4) {
-  background-color: #26cd31; /* green */
+  background-color: #16168a; /* green */
   color: #fff; /* white text color */
 }
 
@@ -527,10 +536,10 @@ tbody{
       </a>
       -->
 			<a href="/homepage" title="HomePage">
-        <img src="./c.png" alt="Home" width="45" height="40" >
+        <img src="./c.png" alt="Home" width="65" height="65" style="margin-top:-4.5px;" >
       </a>
       <a href="/logout" title="Logout">
-        <img src="d.png" alt="Logout" width="35" height="35" style="margin-right:10px; display: flex; align-items: center; justify-content: center;">
+        <img src="d.png" alt="Logout" width="45" height="50" style="margin-right:10px; display: flex; align-items: center; justify-content: center;margin-top:0.5px;">
       </a>
 	<!-- </nav> -->
   </div>
@@ -552,28 +561,28 @@ tbody{
     <div class="left-nav">
       <nav>
         <header>
-          <h5>SELECTION</h5>
+          <h4 style="font-size:30px;">SELECTION</h4>
         </header>
-        <section style="margin: 5px;">
-          <label for="districtDropdown" style="display: block; margin-bottom: 5px;">DISTRICTS</label>
-          <select name="District" id="districtDropdown" style="padding: 5px; margin-bottom: 5px;">
+        <section style="margin: 5px; Margin-top:50px;">
+          <label for="districtDropdown" style="display: block; margin-bottom: 5px;margin-left:-34px; font-size: large;">DISTRICT</label>
+          <select name="District" id="districtDropdown" style="padding: 5px; margin-bottom: 5px;margin-left:-34px;width:149%;font-size: 13px;">
             <option value="">Select a district</option>
           </select>
         </section>
-        <section style="margin: 5px;">
-          <label for="constituencyDropdown" style="display: block; margin-bottom: 5px;">CONSTITUENCY</label>
-          <select name="R_Constituency" id="constituencyDropdown" style="padding: 5px; margin-bottom: 5px; font-size: 10px;">
+        <section style="margin: 5px; Margin-top:15px;">
+          <label for="constituencyDropdown" style="display: block; margin-bottom: 5px;margin-left:-34px;font-size: large;">CONSTITUENCY</label>
+          <select name="R_Constituency" id="constituencyDropdown" style="padding: 5px; margin-bottom: 5px; font-size: 10px;margin-left:-34px;width:149%;">
             <option value="">Select a constituency</option>
           </select>
         </section>
-        <section style="margin: 5px;">
-          <label for="weekDropdown" style="display: block; margin-bottom: 5px;">SURVEY DATE</label>
-          <select name="Date" id="weekDropdown" style="padding: 5px; margin-bottom: 5px;">
+        <section style="margin: 5px;Margin-top:15px;">
+          <label for="weekDropdown" style="display: block; margin-bottom: 5px;margin-left:-34px;font-size: large;">SURVEY DATE</label>
+          <select name="Date" id="weekDropdown" style="padding: 5px; margin-bottom: 5px;margin-left:-34px;width:149%;font-size: 13px;">
             <option value="">Select a survey date</option>
           </select>
         </section>
         <button id="left-nav-btn" type="button" class="btn btn-primary"
-          style="padding: 5px; margin: 5px;">Submit</button>
+        style="margin-top: 50px;margin-left:25px; width:100px; height:50px;border-radius: 15px;">SUBMIT</button>
       </nav>
     </div>
 
@@ -591,7 +600,9 @@ tbody{
       <div class="loader--text"></div>
     </div>
   </div>
-			
+	
+  
+  <script src="./js/inactivity.js"></script>    
   <script>
     // get all buttons and add click event listener to each one
 const buttons = document.querySelectorAll('.btn');
@@ -626,8 +637,8 @@ buttons.forEach(button => {
         const option = document.createElement('option');
         option.value = constituency;
         option.textContent = constituency;
-        option.style.fontSize = '10px';
-        option.style.width = 'auto';
+        option.style.fontSize = '13px';
+        // option.style.width = 'auto';
         constituencyDropdown.appendChild(option);
       });
     });
@@ -647,8 +658,8 @@ buttons.forEach(button => {
         const option = document.createElement('option');
         option.value = week;
         option.textContent = week;
-        option.style.fontSize = '10px';
-        option.style.width = 'auto';
+        option.style.fontSize = '13px';
+        // option.style.width = 'auto';
         weekDropdown.appendChild(option);
       });
     });
@@ -664,7 +675,7 @@ buttons.forEach(button => {
           const option = document.createElement('option');
           option.value = district;
           option.textContent = district;
-          option.style.fontSize = '10px';
+          option.style.fontSize = '15px';
           option.style.width = 'auto';
           districtDropdown.appendChild(option);
         });
@@ -866,14 +877,39 @@ h1.style.borderRadius = '5px';
     cell.textContent = 'Which party do you vote for in next MLA Election?';
     cell.colSpan = '4';
     cell.classList.add('summary-header-cell');
+    
 
     // Create the header row
-    const headerRow = table.insertRow();
-    for (const key in data[0]) {
-      const headerCell = headerRow.insertCell();
-      headerCell.textContent = key;
-      headerCell.classList.add('summary-header-cell');
+    // Create the header row
+const headerRow = table.insertRow();
+let columnIndex = 0; // Variable to keep track of the column index
+for (const key in data[0]) {
+  const headerCell = headerRow.insertCell();
+  if (columnIndex === 1 || columnIndex === 2 || columnIndex === 3 || columnIndex === 4 || columnIndex === 5 || columnIndex === 6) {
+    // Set custom column headers for columns 2, 3, 4, 5, and 6
+    if (columnIndex === 1) {
+      headerCell.textContent = 'YSRCP';
+    } else if (columnIndex === 2) {
+      headerCell.textContent = 'TDP';
+    } else if (columnIndex === 3) {
+      headerCell.textContent = 'JSP';
+    } else if (columnIndex === 4) {
+      headerCell.textContent = 'YSRCP';
+    } else if (columnIndex === 5) {
+      headerCell.textContent = 'TDP';
+    }else if (columnIndex === 6) {
+      headerCell.textContent = 'OTHERS';
     }
+  } else {
+    // Set the default column header
+    headerCell.textContent = key;
+  }
+  headerCell.classList.add('summary-header-cell');
+  columnIndex++;
+}
+
+// ... (existing code)
+
 
     // Add a row for each result
     data.forEach(result => {
@@ -949,20 +985,20 @@ resultContainer.insertBefore(tableHeader, table);
       table.style.borderCollapse = 'collapse';
       table.style.width = '50%';
       table.style.height = '25%';
-      table.style.marginTop='70px'
+      table.style.marginTop='50px'
       // table.style.marginRight='50px'
 
 
       // Create the header row
       const headerRow = table.insertRow();
       const typeHeaderCell = headerRow.insertCell();
-      typeHeaderCell.textContent = 'Type';
+      typeHeaderCell.textContent = 'GENDER';
       typeHeaderCell.style.border = '1px solid black';
       const goodHeaderCell = headerRow.insertCell();
       goodHeaderCell.textContent = 'SATISFIED';
       goodHeaderCell.style.border = '1px solid black';
       const notGoodHeaderCell = headerRow.insertCell();
-      notGoodHeaderCell.textContent = 'NOT SATISFIED';
+      notGoodHeaderCell.textContent = 'DISSATISFIED';
       notGoodHeaderCell.style.border = '1px solid black';
 
   // Add rows for Male, Female, and Total
@@ -990,7 +1026,7 @@ resultContainer.insertBefore(tableHeader, table);
   tableHeader.style.fontSize ='1.2em';
   tableHeader.style.fontWeight = 'bold'; // Set text to bold
   tableHeader.style.fontfamily ='Helvetica, Arial, sans-serif';
-  tableHeader.style.marginTop = '24px'; // Add marginTop of 24px
+  tableHeader.style.marginTop = '14px'; // Add marginTop of 24px
   tableHeader.style.marginLeft = '148px'; // Add marginLeft of 148px
 
   // tableHeader.style.width = '50px';
@@ -1023,7 +1059,7 @@ resultContainer.insertBefore(tableHeader, table);
             // chartContainer.style.marginRight = '10%';
             // chartContainer.style.marginTop = '130px';
             chartContainer.style.width = '50%';
-            chartContainer.style.height = '100%';
+            chartContainer.style.height = '95%';
 
            
 
@@ -1099,8 +1135,10 @@ resultContainer.insertBefore(tableHeader, table);
           }],
           tooltip: {
             style: {
-              color: '#fff'
-            }
+              color: 'black'
+            },
+            pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+    
           }
         });
         
@@ -1141,7 +1179,10 @@ resultContainer.insertBefore(tableHeader, table);
       plotBackgroundColor: null,
       plotBorderWidth: null,
       plotShadow: false,
-      type: 'pie'
+      type: 'pie',
+     
+      
+      
     },
     title: {
       text: 'YSRCP  CO-ORDINATOR '
@@ -1773,7 +1814,7 @@ Highcharts.chart(chartContainer1, {
             chartContainer.id = 'chart-container';
             chartContainer.style.display = 'inline-block'; // change display property to inline-block
             chartContainer.style.width = '50%';
-            chartContainer.style.height = '100%';
+            chartContainer.style.height = '95%';
             chartContainer.style.marginRight = '5px'; 
             resultContainer.appendChild(chartContainer);
           }
@@ -1784,7 +1825,7 @@ Highcharts.chart(chartContainer1, {
             chartContainer1.id = 'chart-container1';
             chartContainer1.style.display = 'inline-block'; // change display property to inline-block
             chartContainer1.style.width = '50%';
-            chartContainer1.style.height = '100%';
+            chartContainer1.style.height = '95%';
             chartContainer.style.marginleft = '5px'; 
             resultContainer.appendChild(chartContainer1);
           }
@@ -1998,8 +2039,10 @@ Highcharts.chart(chartContainer1, {
         Highcharts.chart(chartContainerTDP, {
           chart: {
             type: 'pie',
+            // styledMode: true // Enable styled mode
             width: 600,
-            // height: 400
+            // height: 270,
+            spacing: [0, 0, 0, 0] // Set margin and padding to 0
           },
           title: {
             text: 'TDP Voters preference on alliance ',
@@ -2032,12 +2075,13 @@ Highcharts.chart(chartContainer1, {
           }]
         });
 
+
         // Render the JSP pie chart
         Highcharts.chart(chartContainerJSP, {
           chart: {
             type: 'pie',
             width: 600,
-            // height: 400
+            height: 270,
           },
           title: {
             text: 'JSP Voters preference on alliance ',
@@ -2098,7 +2142,10 @@ Highcharts.chart(chartContainer1, {
               dataLabels: {
                 enabled: true,
                 format: '{point.name}: {point.percentage:.1f}%'
-              }
+              },
+              tooltip: {
+        pointFormat: '{point.name}: <b>{point.percentage:.2f}%</b>' // Display 2 decimal places
+      }
             }
           },
           series: [{
@@ -2135,7 +2182,10 @@ Highcharts.chart(chartContainer1, {
               dataLabels: {
                 enabled: true,
                 format: '{point.name}: {point.percentage:.1f}%'
-              }
+              },
+              tooltip: {
+        pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' // Display 2 decimal places
+      }
             }
           },
           series: [{

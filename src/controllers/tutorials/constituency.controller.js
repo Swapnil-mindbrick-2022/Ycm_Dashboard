@@ -505,24 +505,25 @@ const PrefferdCaste= async(req,res,next)=>{
     SELECT 
     fileddata.Caste,
     CONCAT(
-      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` = 'YSRCP' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` = 'YSRCP' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100, 1), 
       '%'
     ) AS 'YSRCP',
     CONCAT(
-      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` = 'TDP' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100), 
+      ROUND(SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` = 'TDP' THEN factor ELSE 0 END) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END) * 100, 1), 
       '%'
     ) AS 'TDP',
     CONCAT(
-      ROUND(((SUM(CASE WHEN fileddata.Caste = Castes.Caste AND Party = 'JSP' THEN factor ELSE 0 END) + SUM(CASE WHEN fileddata.Caste = Castes.Caste AND Party = 'BJP' THEN factor ELSE 0 END)) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END)) * 100),
+      ROUND(((SUM(CASE WHEN fileddata.Caste = Castes.Caste AND Party = 'JSP' THEN factor ELSE 0 END) + SUM(CASE WHEN fileddata.Caste = Castes.Caste AND Party = 'BJP' THEN factor ELSE 0 END)) / SUM(CASE WHEN fileddata.Caste = Castes.Caste THEN factor ELSE 0 END)) * 100, 1),
       '%'
     ) AS 'JSP_BJP',
-    
-   
-    CONCAT(ROUND((100 - (SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` IN ('YSRCP', 'TDP', 'JSP', 'BJP') THEN factor ELSE 0 END) / SUM(fileddata.Factor) * 100)), 0), '%') AS \`Others\`
-    FROM 
+    CONCAT(
+      ROUND((100 - (SUM(CASE WHEN fileddata.Caste = Castes.Caste AND \`Party\` IN ('YSRCP', 'TDP', 'JSP', 'BJP') THEN factor ELSE 0 END) / SUM(fileddata.Factor) * 100)), 1),
+      '%'
+    ) AS \`Others\`
+FROM 
     fileddata,
     (SELECT DISTINCT Caste FROM fileddata WHERE Caste IS NOT NULL AND District = :district AND R_Constituency = :constituency AND Date = :Date ) AS Castes
-    WHERE 
+WHERE 
     fileddata.Caste IS NOT NULL 
     AND \`Party\` IS NOT NULL 
     AND factor IS NOT NULL 
@@ -530,8 +531,9 @@ const PrefferdCaste= async(req,res,next)=>{
     AND R_Constituency = :constituency
     AND Date = :Date
     AND fileddata.Caste = Castes.Caste
-    GROUP BY fileddata.Caste
-    ORDER BY SUM(Factor) DESC;
+GROUP BY fileddata.Caste
+ORDER BY SUM(Factor) DESC;
+
     `;
 
     const results = await db.sequelize.query(query, { 

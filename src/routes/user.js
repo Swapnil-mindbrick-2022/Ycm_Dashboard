@@ -67,7 +67,7 @@ router.get('/overview',userauth,(req,res)=>{
     res.render('overviewpage')
 })
 
-router.get('/constituency',userauth,(req,res)=>{
+router.get('/constituency',userauth, (req,res)=>{
     res.render('constituency')
 })
 router.get('/community',userauth,(req,res)=>{

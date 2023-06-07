@@ -31,31 +31,37 @@
     zoom: 100%;
 } */
 body {
-        height: 45rem;
-        width: 93.75rem;
+        height: 41rem;
+        width: 90.75rem;
         background: rgb(0, 206, 161);
         font-family: "Abadi", sans-serif;
 
     }
+header{
+  margin: 1.5rem;
+  font-style: normal;
+  /* background-color: #4CAF50; */
+}
 #heading {
       margin-top: 5px;
       display: flex;
       justify-content: center;
-		
 		}
     #heading h1{
-      font-size: xx-large; 
-      font-style:italic; 
+      font-size: 40px; 
+      margin-top:10px;
+      /* font-style:italic;  */
       font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
-      background-color: white;
-      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-      border-radius: 1.56em;
-      width: 21.25em;      
+      box-shadow: rgba(0, 0, 0, 0.5);
+      text-shadow:  3px 3px 4px rgba(0, 0, 0, 0.5);
+      border-radius: 25px;
+      width: 400px;     
+      color: white;
       text-align: center;
     }
     #navbar{
       background-color: rgb(0, 74, 132);
-      height: 6.2%;
+      height: 9.0%;
       /* margin: 40px; */
       width: 100%;
       display: flex;
@@ -77,6 +83,10 @@ body {
     background-color: white;
     width: 100%
 }
+#leftcontent{
+  justify-content: center;
+  display: flex;
+}
 
 .left-nav {
   position: absolute;
@@ -84,13 +94,14 @@ body {
   margin: 0.8em;
   width: 15em;
   font-size:small;
+  font-style: italic;
   color: black;
   box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
-  height: 32em;
+  height: 38em;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content:space-around;
+  /* justify-content:space-around; */
   align-items: center;
   border-radius: 0.5em;
 }
@@ -294,7 +305,7 @@ tr:hover {
 td {
     border: 1px solid #ddd;
     padding: 2px;
-    font-size:small;
+    font-size:large;
     text-align: center;
     font-family:cursive;
   }
@@ -459,6 +470,12 @@ td {
     transform: scale(1.5);
   }
 }
+.left-content header {
+    margin-bottom: 1em;
+  }
+  .left-content input[type="radio"] {
+    margin-right: 0.4em;
+  }
 
 
     
@@ -485,12 +502,9 @@ td {
 </head>
 <body>
 	<!-- Header -->
-	<header >
 		<div id="heading">
 			<h1 >COMMUNITY VIEW</h1>
 		  </div>
-	</header>
-
 	<div id="navbar">
     <!-- <nav style="margin-left: 70rem;" class="top-nav "> -->
    
@@ -501,33 +515,32 @@ td {
         <img src="./b.png" alt="NextView" width="120" height="35">
       </a>
       -->
-			<a href="/homepage" title="HomePage">
-        <img src="./c.png" alt="Home" width="45" height="40">
+      <a href="/homepage" title="HomePage">
+        <img src="./c.png" alt="Home" width="65" height="65" style="margin-top:-4.5px;" >
       </a>
       <a href="/logout" title="Logout">
-        <img src="d.png" alt="Logout" width="35" height="35" style="margin-right:10px; display: flex; align-items: center; justify-content: center;">
+        <img src="d.png" alt="Logout" width="45" height="50" style="margin-right:10px; display: flex; align-items: center; justify-content: center;margin-top:0.5px;">
       </a>
 	<!-- </nav> -->
   </div>
 	<div id="parentele">
 		<div class="left-nav">
-		  <nav >
-			<header>
+			<header  style ='margin-top:40px;'>
 			  <h4>SELECTION</h4>
 			</header>
+          <div class="left-content" >
             <form id="form" method="get" action="/districtAndParliaments">
-                <ul>
-                  <li><input type="radio" name="selectedOption" value='District'>DISTRICTS</li>
-                  <li><input type="radio" name="selectedOption" value="PARLIAMENT">PARLIAMENT</li>
-                  <span style="margin-right: 35px;">Percentage Of</span>
-                  <li><input type="radio" name="selectedParty" value="YSRCP">YSRCP</li>
-                  <li><input type="radio" name="selectedParty" value="TDP">TDP</li>
-                  <li><input type="radio" name="selectedParty" value="JSP">JSP</li>
-                
-                </ul>
-                <button type="submit" name="submit" class="btn btn-dark">Submit</button>
-              </form>
-            </nav>
+              <ul style="margin-top: -20px;">
+                <li style="font-weight:bolder;font-style: normal;font-size: large;" ><input  type="radio" style="margin-left:-30px;" name="selectedOption" value='District'>DISTRICTS</li>
+                <li style="font-weight:bolder; font-style: normal;font-size: large;"><input type="radio" style="margin-left:-30px;" name="selectedOption" value="PARLIAMENT">PARLIAMENT</li>
+                <span style="margin-top: 21px;margin-right:-22px; font-size: larger; width: 140%;font-style: normal;">PERCENTAGE OF</span>
+                <li style="font-size: medium;font-weight: bold;"><input style="margin-left:-30px; margin-top:10px;" type="radio" name="selectedParty" value="YSRCP">YSRCP</li>
+                <li style="font-size: medium;font-weight: bold;"><input style="margin-left:-30px;" type="radio" name="selectedParty" value="TDP">TDP</li>
+                <li style="font-size: medium;font-weight: bold;"><input style="margin-left:-30px;" type="radio" name="selectedParty" value="JSP">JSP</li>
+              </ul>
+              <button type="submit" name="submit" class="btn btn-dark" style="margin-top: 40px;margin-left:10px; width:90px; height:40px;border-radius: 15px;">SUBMIT</button>
+            </form>
+          </div>
           </div>
           <div id="mainele">
           </div>
@@ -543,7 +556,7 @@ td {
     </div>
     
    
-    
+    <script src="./js/inactivity.js"></script>     
 <script>
 
 
@@ -557,8 +570,17 @@ document.querySelector('#form').addEventListener('submit', async (event) => {
   const selectedParty = document.querySelector('input[name="selectedParty"]:checked');
   
 
-  if (!selectedOption || !selectedParty) {
+  // if (!selectedOption || !selectedParty) {
+  //   alert("Please select an option.");
+  //   return;
+  // }
+  if (!selectedOption) {
     alert("Please select an option.");
+    return;
+  }
+
+  if (!selectedParty) {
+    alert("Please select a party.");
     return;
   }
  

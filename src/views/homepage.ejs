@@ -14,11 +14,12 @@
     <script src="https://use.fontawesome.com/07b0ce5d10.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> 
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+    
     <style>
         
-        html{
+        /* html{
             zoom: 100%;
-        }
+        } */
         section a {
             text-decoration: none;
         }
@@ -26,14 +27,16 @@
         body{
             margin: 10rem;
             padding: 0;
-            height: 42rem;
-            width: 93.75rem;
+            height: 35rem;
+            width: 83.75rem;
             background-image:url('./cm.jpg');
-            background-size:110em 74.5rem;
+            
+            background-size:105em 72.5rem;
             /* background-position: center; */
             background-repeat: no-repeat;
             /* height: 720px;
             width: 1280px; */
+            background-attachment: fixed;
         }
         /* Styles for the container */
         .container {
@@ -96,9 +99,10 @@
         } */
         #header{
             /* background-color: blue; */
-            margin-top: -4.5em;
-            margin-left: 18.75em;
+            margin-top: -6.0em;
+            margin-left: 12.75em;
             margin-bottom: 2em;
+            min-width: 850px;
         }
         #header h1 {
             text-align: center;
@@ -159,12 +163,24 @@
     width:280px;
 }
 
+.logout{
+    position:absolute; 
+    margin-left:-50px;
+}
+
+/* Styles for screens with a maximum width of 600px */
+
+
+
 
       
         
     </style>
 </head>
 <body>
+    <a href="/logout" title="Logout" class="logout">
+        <img src="d.png" alt="Logout" width="50" height="50"  >
+      </a>
     <div id="header">
         <h1 style="font-weight:800;">INTERACTIVE POLITICAL DASHBOARD</h1>
     </div>
@@ -202,4 +218,5 @@
         </div>
     </div>
 </body>
+<script src="./js/inactivity.js"></script>  
 </html>

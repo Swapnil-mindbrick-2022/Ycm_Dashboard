@@ -55,14 +55,15 @@ a {
       width: 100%;
     }
     body {
-        height: 45rem;
-        width: 93.75rem;
+        height: 40rem;
+        width: 90.75rem;
         background: rgb(0, 206, 161);
         font-family: "Abadi", sans-serif;
+
     }
     #navbar{
       background-color: rgb(0, 74, 132);
-      height: 6.2%;
+      height: 9.2%;
       margin: 1.2%;
       width: 100%;
       display: flex;
@@ -70,6 +71,7 @@ a {
     }
     #fixedheader{
       position: fixed;
+     
     }
   #btnnav{
   background-color: lightgrey;
@@ -97,25 +99,37 @@ a {
 .left-nav {
   position: absolute;
   /* top: 150; */
-  left: 0.5%;
+  left: 0.0%;
   width: 13em;
   font-size:medium;
   color: black;
-  box-shadow: inset 2px 2px 4px rgb(0, 74, 132);;
+  box-shadow: inset 2px 2px 4px rgb(0, 74, 132);
   padding: 2.5em;
   margin: 1.4em;
+  
   height: 28.125em;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   border: 1px solid rgb(0, 206, 161);
   border-radius: 0.5em;
+  
   /* transition: left 0.5s ease-out; */
  
 }
+
+.left-nav header {
+    margin-bottom: 1em;
+  }
+  .left-nav input[type="radio"] {
+    margin-right: 0.6em;
+  }
+
+
+
 #mainele {
         border: 2px solid black;
         height: 99%;
@@ -132,20 +146,23 @@ a {
   
   
 #header {
-    color: black;
+    /* color: black; */
     padding: 10px;
     box-sizing: border-box;
     text-align: center;
+    
  }
 #header h1{
-    font-size: xx-large; 
-    font-style:italic; 
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
-    background-color: white;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-    border-radius: 25px;
-    width: 340px;   
-    text-align: center;
+      font-size: 40px; 
+      margin-top:12px;  
+      /* font-style:italic;  */
+      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
+      box-shadow: rgba(0, 0, 0, 0.5);
+      text-shadow:  3px 3px 4px rgba(0, 0, 0, 0.5);
+      border-radius: 25px;
+      width: 400px;     
+      color: white;
+      text-align: center;
 }
 
     /* Styling for the left side navbar */
@@ -156,7 +173,7 @@ a {
     margin-top:1.5em;
     width: 15.5em;
     font-size:small;
-    margin-left: 81em;
+    margin-left: 78.5em;
     height: 35em;
     /* background-color: white; */
     color: black;
@@ -234,15 +251,15 @@ a {
   table {
     width: 90%;
     border-collapse: collapse;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
   }
   
   /* Style the table headers */
   th {
     background-color: #f2f2f2;
     text-align: center;
-    padding: 1px;
-    font-size: 10px;
+    padding: 0.5px;
+    font-size: 9.6px;
     border:0.2px solid #6c757d;
   }
   .header-row1{
@@ -266,7 +283,7 @@ a {
   /* Style the table cells */
   td {
     border: 1px solid #ddd;
-    padding: 2px;
+    padding: 1px;
     font-size:small;
     text-align: center;
     font-family:cursive;
@@ -487,19 +504,19 @@ a {
       </a>
       -->
 			<a href="/homepage" title="HomePage">
-        <img src="./c.png" alt="Home" width="45" height="42" >
+        <img src="./c.png" alt="Home" width="65" height="65" style="margin-top:-4.5px;">
       </a>
       <a href="/logout" title="Logout">
-        <img src="d.png" alt="Logout" width="35" height="35" style="margin-right:13px; display: flex; align-items: center; justify-content: center;" >
+        <img src="d.png" alt="Logout" width="45" height="50" style="margin-right:13px; display: flex;margin-top:0.5px;" >
       </a>
     
 	<!-- </nav> -->
   </div>
   <div id="btnnav" >
     <div id="hidden" style="display: none;">
-      <button class="btn btn-warning" name='TDPFull' id="TDPFull" >TDPFull</button>
-      <button class="btn btn-warning" name='JSPFull' id="JSPFull" >JSPFull</button>
-      <button class="btn btn-warning" name='TDPJSPAlliance' id="TDPJSPAlliance-btn" style="margin-right: 0.9rem;">TDP+JSP Alliance</button> <!-- for '/TDPJSPAlliance' route -->
+      <button class="btn btn-warning" name='TDPFull' id="TDPFull" >TDP CONTESTS</button>
+      <button class="btn btn-warning" name='JSPFull' id="JSPFull" >JSP CONTESTS</button>
+      <button class="btn btn-warning" name='TDPJSPAlliance' id="TDPJSPAlliance-btn" style="margin-right: 0.9rem;">ALLIANCE SHIFT</button> <!-- for '/TDPJSPAlliance' route -->
       </div>
   </div>
 	<div id="parentele">
@@ -509,45 +526,45 @@ a {
 			<!-- <div class="box">
 				<h2>Overview</h2>
 			  </div> -->
-			<header class="">
-			  <h4>Selection</h4>
+			<header class="" style ='margin-top:40px;'>
+			  <h4>SELECTION</h4>
 			</header>
 			<!-- <form id="form" method="get" action="/DPC_Data"> -->
-			  <ul>
+			  <ul style="margin-left:-47px;">
 				<!-- <span>See By</span> -->
 				<li><input type="radio" name="selectedOption" value="District">DISTRICTS</li>
 				<li><input type="radio" name="selectedOption" value="PARLIAMENT">PARLIAMENT</li>
 				<li><input type="radio" name="selectedOption" value="RCaste">CASTE</li>
 			  </ul>
-			  <button id="submit" name="DPC" class="btn btn-dark"  style="margin-top: 60px;">Submit</button> <!-- for '/DPC' route -->
+			  <button id="submit" name="DPC" class="btn btn-dark"  style="margin-top: 60px; width:100px; height:50px;border-radius: 15px;">SUBMIT</button> <!-- for '/DPC' route -->
 
 			<!-- </form> -->
 		  </nav>
       <nav class="right-nav" id="nav-right" style="display:none;">
         <div class="">
-          <h3>Filters</h3>
+          <h3>FILTERS</h3>
           </div>
           <section style="margin:5px;">
-            <label  style="display: block; margin-bottom: 5px;">District</label>
-            <select  id="district" style="padding: 5px; margin-bottom: 5px;">
+            <label  style="display: block; margin-bottom: 5px; margin-left:-27px">District</label>
+            <select  id="district" style="padding: 5px; margin-bottom: 5px;margin-left:-27px"">
             </select>
           </section>
           <section style="margin: 5px;">
-            <label  style="display: block; margin-bottom: 5px;">Parliament</label>
-            <select  id="parliament" style="padding: 5px; margin-bottom: 5px;">
+            <label  style="display: block; margin-bottom: 5px;margin-left:-27px">Parliament</label>
+            <select  id="parliament" style="padding: 5px; margin-bottom: 5px;margin-left:-27px">
               <option value="selectparliament">Select Parliament</option>
             </select>
           </section>
           
         <section style="margin: 5px;">
-          <label style="display: block; margin-bottom: 5px;">Caste</label>
-          <select  id="Caste" style="padding: 5px; margin-bottom: 5px; " >
+          <label style="display: block; margin-bottom: 5px;margin-left:-27px">Caste</label>
+          <select  id="Caste" style="padding: 5px; margin-bottom: 5px;margin-left:-27px"  >
             <option  value="">Select Caste</option>
           </select>
         </section>
         <section style="margin: 5px;">
-          <label for="weekDropdown" style="display: block; margin-bottom: 5px;">AGE</label>
-          <select id="age" style="padding: 5px; margin-bottom: 5px;">
+          <label for="weekDropdown" style="display: block; margin-bottom: 5px;margin-left:-27px">AGE</label>
+          <select id="age" style="padding: 5px; margin-bottom: 5px;margin-left:-27px">
             <option value="">Select Age</option>
             <option value="18-30">18-30</option>
             <option value="30-45">30-45</option>
@@ -556,17 +573,17 @@ a {
           </select>
         </section>
         <section style="margin: 5px;">
-          <label for="Gender" style="display: block; margin-bottom: 5px;">Gender</label>
-          <select name="Gender" id="Gender" style="padding: 5px; margin-bottom: 5px;">
+          <label for="Gender" style="display: block; margin-bottom: 5px;margin-left:-27px">Gender</label>
+          <select name="Gender" id="Gender" style="padding: 5px; margin-bottom: 5px;margin-left:-27px"">
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
         </section>
-        <button id="left-nav-btn" class="btn btn-primary" style="padding: 5px; margin: 5px;">Submit</button>
-        <button id="left-nav-btn2" class="btn btn-danger" style="padding: 5px; margin: 5px; background-color: #00d904; display:none">Submit</button>
-        <button id="tdpBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; background-color: red; display:none">Submit</button>
-        <button id="jspBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; background-color:yellow; display:none">Submit</button>
+        <button id="left-nav-btn" class="btn btn-primary" style="padding: 5px; margin: 5px;  width:100px; height:50px;border-radius: 15px;">SUBMIT</button>
+        <button id="left-nav-btn2" class="btn btn-danger" style="padding: 5px; margin: 5px;  width:100px; height:50px;border-radius: 15px;background-color: #00d904; display:none">SUBMIT</button>
+        <button id="tdpBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; width:100px; height:50px;border-radius: 15px; background-color: red; display:none">SUBMIT</button>
+        <button id="jspBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; width:100px; height:50px;border-radius: 15px; background-color:yellow; display:none">SUBMIT</button>
       </nav>
 		</div>
 		<div id="mainele"></div>
@@ -585,6 +602,7 @@ a {
 
     
 </body>
+<script src="./js/inactivity.js"></script>    
 <script>
 
 // get all buttons and add click event listener to each one
@@ -696,7 +714,7 @@ async function  getData(e){
             </th>`).join("")}
           </tr>
         </thead>
-        <tbody>
+        <tbody style="text-align:center;font-size: 13px; font-family;cursive; color:black">
           ${data.map(row => `
             <tr>
               ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
@@ -771,7 +789,7 @@ async function getFilteredData(e){
             </th>`).join("")}
           </tr>
         </thead>
-        <tbody>
+        <tbody style="text-align:center;font-size: 13px; font-family;cursive; color:black">
           ${data.map(row => `
             <tr>
               ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
@@ -841,18 +859,18 @@ async function  TDPJSPAlliance(e){
   mainele.innerHTML = `
     <table id="datatable">
       <thead>
-        <tr class="header-row">
+        <tr class="header-row" >
           <th></th>
-          <th colspan="3" style="background-color: gray;">OVERALL</th>
-          <th colspan="3" style="background-color: yellow;">TDP CONTESTS</th>
-          <th colspan="3" style="background-color: red;">JSP CONTESTS</th>
+          <th colspan="3" style="background-color: gray;font-size:15px">OVERALL</th>
+          <th colspan="3" style="background-color: yellow;font-size:15px">TDP CONTESTS</th>
+          <th colspan="3" style="background-color: red;font-size:15px">JSP CONTESTS</th>
         </tr>
         <tr class="header-row">
           ${Object.keys(data[0]).map((key, index) => {
             if (index >= 4 && index <= 9) {
               switch (index) {
                 case 4:
-                  return `<th class='fixedheader'>YSRCP</th>`;
+                  return `<th class='fixedheader' >YSRCP</th>`;
                 case 5:
                   return `<th class='fixedheader'>TDP_JSP</th>`;
                 case 6:
@@ -876,8 +894,8 @@ async function  TDPJSPAlliance(e){
         ${data.map(row => `
           <tr>
             ${Object.values(row).map((value, index) => {
-              if (index >= 4 && index <= 9) {
-                return `<td style="text-align:center">${value}</td>`;
+              if (index >= 1 && index <= 9) {
+                return `<td style="text-align:center;font-size: 13px; font-family;cursive; color:black">${value}</td>`;
               } else {
                 return `<td>${value}</td>`;
               }
@@ -944,35 +962,57 @@ async function getFilteredData2(e){
   // console.log(data)
   try {
     const mainele = document.getElementById("mainele");
-  mainele.innerHTML = `
-      <table id="datatable">
-        <thead>
-          <tr class="header-row">
-            <th></th>
-            <th colspan="3" style="background-color: gray;">OVERALL</th>
-            <th colspan="3" style="background-color: yellow;">TDP CONTESTS</th>
-            <th colspan="3" style="background-color: red;">JSP CONTESTS</th>
+    mainele.innerHTML = `
+    <table id="datatable">
+      <thead>
+        <tr class="header-row" >
+          <th></th>
+          <th colspan="3" style="background-color: gray;font-size:15px">OVERALL</th>
+          <th colspan="3" style="background-color: yellow;font-size:15px">TDP CONTESTS</th>
+          <th colspan="3" style="background-color: red;font-size:15px">JSP CONTESTS</th>
+        </tr>
+        <tr class="header-row">
+          ${Object.keys(data[0]).map((key, index) => {
+            if (index >= 4 && index <= 9) {
+              switch (index) {
+                case 4:
+                  return `<th class='fixedheader' >YSRCP</th>`;
+                case 5:
+                  return `<th class='fixedheader'>TDP_JSP</th>`;
+                case 6:
+                  return `<th class='fixedheader'>Will Not Vote</th>`;
+                  case 7:
+                  return `<th class='fixedheader'>YSRCP</th>`;
+                case 8:
+                  return `<th class='fixedheader'>TDP_JSP</th>`;
+                case 9:
+                  return `<th class='fixedheader'>Will Not Vote</th>`;
+                default:
+                  return `<th class='fixedheader'>${key}</th>`;
+              }
+            } else {
+              return `<th class='fixedheader'>${key}</th>`;
+            }
+          }).join("")}
+        </tr>
+      </thead>
+      <tbody>
+        ${data.map(row => `
+          <tr>
+            ${Object.values(row).map((value, index) => {
+              if (index >= 1 && index <= 9) {
+                return `<td style="text-align:center;font-size: 13px; font-family;cursive; color:black">${value}</td>`;
+              } else {
+                return `<td>${value}</td>`;
+              }
+            }).join("")}
           </tr>
-          <tr class="header-row">
-            ${Object.keys(data[0]).map((key, index) => `
-              <th>
-                ${key}
-                ${index === 0 ? `
-              ` : ''}
-              </th>`).join("")}
-          </tr>
-        </thead>
-        <tbody>
-          ${data.map(row => `
-            <tr>
-              ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-    `;
-    // Initialize DataTable plugin with pagination and column filtering options
-    $(document).ready(function() {
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+  // Initialize DataTable plugin with pagination and column filtering options
+  $(document).ready(function() {
       const table = $('#datatable').DataTable({
         "paging": false,
         scrollY: '400px',
@@ -1040,7 +1080,7 @@ async function TDPFull(e){
             </th>`).join("")}
           </tr>
         </thead>
-        <tbody>
+        <tbody style="text-align:center;font-size: 13px; font-family;cursive; color:black">
           ${data.map(row => `
             <tr>
               ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
@@ -1124,7 +1164,7 @@ async function getFilterTDP(e){
               </th>`).join("")}
             </tr>
           </thead>
-          <tbody>
+          <tbody style="text-align:center;font-size: 13px; font-family;cursive; color:black">
             ${data.map(row => `
               <tr>
                 ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
@@ -1202,7 +1242,7 @@ async function JSPFull(e){
             </th>`).join("")}
           </tr>
         </thead>
-        <tbody>
+        <tbody style="text-align:center;font-size: 13px; font-family;cursive; color:black">
           ${data.map(row => `
             <tr>
               ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
@@ -1290,7 +1330,7 @@ async function getFilterJSP(e){
                 ${Object.values(row).map(value => `<td>${value}</td>`).join("")}
               </tr>
             `).join("")}
-          </tbody>
+          </tbody style="text-align:center;font-size: 13px; font-family;cursive; color:black">
         </table>
       `;
       // Initialize DataTable plugin with pagination and column filtering options

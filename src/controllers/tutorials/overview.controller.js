@@ -98,11 +98,38 @@ const DPC_data = async (req, res, next) => {
       ${District ? `AND t1.District = '${District}'` : ''}
       ${PARLIAMENT ? `AND t1.PARLIAMENT = '${PARLIAMENT}'` : ''}
       GROUP BY t1.PARLIAMENT
-      ORDER BY t1.PARLIAMENT ASC;`; // Add the query for parliament here--------
+      ORDER BY 
+      CASE 
+      WHEN t1.PARLIAMENT = 'SRIKAKULAM' THEN 1 
+      WHEN t1.PARLIAMENT = 'VIZIANAGARAM' THEN 2 
+      WHEN t1.PARLIAMENT = 'VISAKHAPATNAM' THEN 3
+      WHEN t1.PARLIAMENT = 'ANAKAPALLI' THEN 4 
+      WHEN t1.PARLIAMENT = 'ARAKU' THEN 5
+      WHEN t1.PARLIAMENT = 'AMALAPURAM' THEN 6 
+      WHEN t1.PARLIAMENT = 'KAKINADA' THEN 7
+      WHEN t1.PARLIAMENT = 'RAJAHMUNDRY' THEN 8 
+      WHEN t1.PARLIAMENT = 'NARASAPURAM' THEN 9
+      WHEN t1.PARLIAMENT = 'ELURU' THEN 10 
+      WHEN t1.PARLIAMENT = 'MACHILIPATNAM' THEN 11
+      WHEN t1.PARLIAMENT = 'VIJAYAWADA' THEN 12
+      WHEN t1.PARLIAMENT = 'GUNTUR' THEN 13 
+      WHEN t1.PARLIAMENT = 'NARASARAOPETA' THEN 14 
+      WHEN t1.PARLIAMENT = 'BAPATLA' THEN 15
+      WHEN t1.PARLIAMENT = 'ONGOLE' THEN 16
+      WHEN t1.PARLIAMENT = 'NELLORE' THEN 17
+      WHEN t1.PARLIAMENT = 'TIRUPATHI' THEN 18 
+      WHEN t1.PARLIAMENT = 'KADAPA' THEN 19
+      WHEN t1.PARLIAMENT = 'RAJAMPET' THEN 20 
+      WHEN t1.PARLIAMENT = 'KURNOOL' THEN 21
+      WHEN t1.PARLIAMENT = 'NANDYAL' THEN 22 
+      WHEN t1.PARLIAMENT = 'CHITTOOR' THEN 23
+      WHEN t1.PARLIAMENT = 'HINDUPUR' THEN 24
+      ELSE 25 
+    END;`; // Add the query for parliament here--------
       break;
     case 'RCaste':
         query = `SELECT
-        t1.RCaste,
+        t1.RCaste As Caste,
         CONCAT(ROUND(((SUM(CASE WHEN Party = 'YSRCP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS YSRCP,
         CONCAT(ROUND(((SUM(CASE WHEN Party = 'TDP' THEN Factor ELSE 0 END) / SUM(Factor)) * 100)), '%') AS TDP,
         CONCAT(ROUND((((SUM(CASE WHEN Party = 'JSP' THEN Factor ELSE 0 END) + SUM(CASE WHEN Party = 'BJP' THEN Factor ELSE 0 END)) / SUM(Factor)) * 100)), '%') AS JSP_BJP,
@@ -130,7 +157,7 @@ const DPC_data = async (req, res, next) => {
           ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
         GROUP BY R_Constituency
     ) AS t2 ON t1.R_Constituency = t2.R_Constituency 
-    GROUP BY t1.RCaste
+    GROUP BY Caste
     ORDER BY SUM(Factor) DESC;
     `; // Add the query for caste here
       // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
@@ -296,11 +323,38 @@ const TDPJSPAlliance = async (req, res, next) => {
               GROUP BY R_Constituency
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
           GROUP BY t1.PARLIAMENT
-          ORDER BY PARLIAMENT ASC;`; // Add the query for parliament here--------
+          ORDER BY 
+      CASE 
+      WHEN t1.PARLIAMENT = 'SRIKAKULAM' THEN 1 
+      WHEN t1.PARLIAMENT = 'VIZIANAGARAM' THEN 2 
+      WHEN t1.PARLIAMENT = 'VISAKHAPATNAM' THEN 3
+      WHEN t1.PARLIAMENT = 'ANAKAPALLI' THEN 4 
+      WHEN t1.PARLIAMENT = 'ARAKU' THEN 5
+      WHEN t1.PARLIAMENT = 'AMALAPURAM' THEN 6 
+      WHEN t1.PARLIAMENT = 'KAKINADA' THEN 7
+      WHEN t1.PARLIAMENT = 'RAJAHMUNDRY' THEN 8 
+      WHEN t1.PARLIAMENT = 'NARASAPURAM' THEN 9
+      WHEN t1.PARLIAMENT = 'ELURU' THEN 10 
+      WHEN t1.PARLIAMENT = 'MACHILIPATNAM' THEN 11
+      WHEN t1.PARLIAMENT = 'VIJAYAWADA' THEN 12
+      WHEN t1.PARLIAMENT = 'GUNTUR' THEN 13 
+      WHEN t1.PARLIAMENT = 'NARASARAOPETA' THEN 14 
+      WHEN t1.PARLIAMENT = 'BAPATLA' THEN 15
+      WHEN t1.PARLIAMENT = 'ONGOLE' THEN 16
+      WHEN t1.PARLIAMENT = 'NELLORE' THEN 17
+      WHEN t1.PARLIAMENT = 'TIRUPATHI' THEN 18 
+      WHEN t1.PARLIAMENT = 'KADAPA' THEN 19
+      WHEN t1.PARLIAMENT = 'RAJAMPET' THEN 20 
+      WHEN t1.PARLIAMENT = 'KURNOOL' THEN 21
+      WHEN t1.PARLIAMENT = 'NANDYAL' THEN 22 
+      WHEN t1.PARLIAMENT = 'CHITTOOR' THEN 23
+      WHEN t1.PARLIAMENT = 'HINDUPUR' THEN 24
+      ELSE 25 
+    END;`; // Add the query for parliament here--------
       break;
     case 'RCaste':
         query = `SELECT
-        t1.RCaste,
+        t1.RCaste AS Caste,
         CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'YSRCP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS YSRCP,
         CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'TDP+JSP' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS 'TDP+JSP',
         CONCAT(ROUND(((SUM(CASE WHEN \`TDP+JSP Alliance\` = 'Will Not Vote' AND t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END) / SUM(CASE WHEN t1.Party IN ('TDP', 'JSP') THEN Factor ELSE 0 END)) * 100)), '%') AS Will_Not_Vote,
@@ -337,7 +391,7 @@ const TDPJSPAlliance = async (req, res, next) => {
                 ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
               GROUP BY R_Constituency
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
-          GROUP BY t1.RCaste
+          GROUP BY Caste 
           ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
       // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
       break;
@@ -473,11 +527,38 @@ const TDPFull= async (req, res, next) => {
               GROUP BY R_Constituency
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
           GROUP BY t1.PARLIAMENT
-          ORDER BY PARLIAMENT ASC;`; // Add the query for parliament here--------
+          ORDER BY 
+      CASE 
+      WHEN t1.PARLIAMENT = 'SRIKAKULAM' THEN 1 
+      WHEN t1.PARLIAMENT = 'VIZIANAGARAM' THEN 2 
+      WHEN t1.PARLIAMENT = 'VISAKHAPATNAM' THEN 3
+      WHEN t1.PARLIAMENT = 'ANAKAPALLI' THEN 4 
+      WHEN t1.PARLIAMENT = 'ARAKU' THEN 5
+      WHEN t1.PARLIAMENT = 'AMALAPURAM' THEN 6 
+      WHEN t1.PARLIAMENT = 'KAKINADA' THEN 7
+      WHEN t1.PARLIAMENT = 'RAJAHMUNDRY' THEN 8 
+      WHEN t1.PARLIAMENT = 'NARASAPURAM' THEN 9
+      WHEN t1.PARLIAMENT = 'ELURU' THEN 10 
+      WHEN t1.PARLIAMENT = 'MACHILIPATNAM' THEN 11
+      WHEN t1.PARLIAMENT = 'VIJAYAWADA' THEN 12
+      WHEN t1.PARLIAMENT = 'GUNTUR' THEN 13 
+      WHEN t1.PARLIAMENT = 'NARASARAOPETA' THEN 14 
+      WHEN t1.PARLIAMENT = 'BAPATLA' THEN 15
+      WHEN t1.PARLIAMENT = 'ONGOLE' THEN 16
+      WHEN t1.PARLIAMENT = 'NELLORE' THEN 17
+      WHEN t1.PARLIAMENT = 'TIRUPATHI' THEN 18 
+      WHEN t1.PARLIAMENT = 'KADAPA' THEN 19
+      WHEN t1.PARLIAMENT = 'RAJAMPET' THEN 20 
+      WHEN t1.PARLIAMENT = 'KURNOOL' THEN 21
+      WHEN t1.PARLIAMENT = 'NANDYAL' THEN 22 
+      WHEN t1.PARLIAMENT = 'CHITTOOR' THEN 23
+      WHEN t1.PARLIAMENT = 'HINDUPUR' THEN 24
+      ELSE 25 
+    END;`; // Add the query for parliament here--------
       break;
     case 'RCaste':
         query = `SELECT
-        t1.RCaste,
+        t1.RCaste As Caste,
         CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\`='TDP+JSP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'TDP+JSP',
         CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'YSRCP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'YSRCP',
         CONCAT(FORMAT(SUM(CASE WHEN \`TDP Full\` = 'BJP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'BJP',
@@ -508,7 +589,7 @@ const TDPFull= async (req, res, next) => {
                 ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
               GROUP BY R_Constituency
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
-          GROUP BY t1.RCaste
+          GROUP BY Caste
           ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
       // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
       break;
@@ -618,11 +699,38 @@ const JSPFull= async (req, res, next) => {
               GROUP BY R_Constituency
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
           GROUP BY t1.PARLIAMENT
-          ORDER BY PARLIAMENT ASC;`; // Add the query for parliament here--------
+          ORDER BY 
+      CASE 
+      WHEN t1.PARLIAMENT = 'SRIKAKULAM' THEN 1 
+      WHEN t1.PARLIAMENT = 'VIZIANAGARAM' THEN 2 
+      WHEN t1.PARLIAMENT = 'VISAKHAPATNAM' THEN 3
+      WHEN t1.PARLIAMENT = 'ANAKAPALLI' THEN 4 
+      WHEN t1.PARLIAMENT = 'ARAKU' THEN 5
+      WHEN t1.PARLIAMENT = 'AMALAPURAM' THEN 6 
+      WHEN t1.PARLIAMENT = 'KAKINADA' THEN 7
+      WHEN t1.PARLIAMENT = 'RAJAHMUNDRY' THEN 8 
+      WHEN t1.PARLIAMENT = 'NARASAPURAM' THEN 9
+      WHEN t1.PARLIAMENT = 'ELURU' THEN 10 
+      WHEN t1.PARLIAMENT = 'MACHILIPATNAM' THEN 11
+      WHEN t1.PARLIAMENT = 'VIJAYAWADA' THEN 12
+      WHEN t1.PARLIAMENT = 'GUNTUR' THEN 13 
+      WHEN t1.PARLIAMENT = 'NARASARAOPETA' THEN 14 
+      WHEN t1.PARLIAMENT = 'BAPATLA' THEN 15
+      WHEN t1.PARLIAMENT = 'ONGOLE' THEN 16
+      WHEN t1.PARLIAMENT = 'NELLORE' THEN 17
+      WHEN t1.PARLIAMENT = 'TIRUPATHI' THEN 18 
+      WHEN t1.PARLIAMENT = 'KADAPA' THEN 19
+      WHEN t1.PARLIAMENT = 'RAJAMPET' THEN 20 
+      WHEN t1.PARLIAMENT = 'KURNOOL' THEN 21
+      WHEN t1.PARLIAMENT = 'NANDYAL' THEN 22 
+      WHEN t1.PARLIAMENT = 'CHITTOOR' THEN 23
+      WHEN t1.PARLIAMENT = 'HINDUPUR' THEN 24
+      ELSE 25 
+    END;`; // Add the query for parliament here--------
       break;
     case 'RCaste':
         query = `SELECT
-        t1.RCaste,
+        t1.RCaste As Caste,
         CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\`='TDP+JSP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'TDP+JSP',
         CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'YSRCP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'YSRCP',
         CONCAT(FORMAT(SUM(CASE WHEN \`JSP Full\` = 'BJP' THEN Factor ELSE 0 END)/SUM(Factor)*100, 1), '%') AS 'BJP',
@@ -653,7 +761,7 @@ const JSPFull= async (req, res, next) => {
                 ${PARLIAMENT ? `AND PARLIAMENT = '${PARLIAMENT}'` : ''}
               GROUP BY R_Constituency
           ) AS t2 ON t1.R_Constituency = t2.R_Constituency AND t1.Week = t2.Max_date
-          GROUP BY t1.RCaste
+          GROUP BY Caste
           ORDER BY SUM(Factor) DESC;`; // Add the query for caste here
       // ${Caste && Caste.length ? `AND Caste IN (${Caste.map(c => `'${c}'`).join(', ')})` : ''}
       break;
