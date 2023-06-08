@@ -38,7 +38,7 @@
 html {
   font-family: sans-serif;
   font-size: 16px;
-  /* zoom: 100% */
+  zoom: 90%
 }
 /* Remove list styles for all lists */
 /* Remove default styling for links */
@@ -99,22 +99,23 @@ a {
 .left-nav {
   position: absolute;
   /* top: 150; */
-  left: 0.0%;
+  left: 1.5%;
   width: 13em;
   font-size:medium;
   color: black;
-  box-shadow: inset 2px 2px 4px rgb(0, 74, 132);
+  box-shadow: inset 2px 2px 4px rgba(17, 17, 17, 0.596);
+    border: 1px solid rgba(15, 18, 18, 0.419);
   padding: 2.5em;
-  margin: 1.4em;
+  margin: 0.0em;
   
-  height: 28.125em;
+  height: 31.125em;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   /* overflow-y: auto; */
-  border: 1px solid rgb(0, 206, 161);
+  /* border: 1px solid rgb(0, 206, 161); */
   border-radius: 0.5em;
   
   /* transition: left 0.5s ease-out; */
@@ -170,11 +171,11 @@ a {
     /* Styling for the right side navbar */
 .right-nav {
     position: absolute;
-    margin-top:1.5em;
+    margin-top:0.0em;
     width: 15.5em;
     font-size:small;
     margin-left: 78.5em;
-    height: 35em;
+    height: 38.15em;
     /* background-color: white; */
     color: black;
     padding: 2.5em;
@@ -184,8 +185,8 @@ a {
     justify-content: flex-start;
     align-items: center;
     overflow: hidden;
-    box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
-    border: 1px solid rgb(0, 206, 161);
+    box-shadow: inset 2px 2px 4px rgba(17, 17, 17, 0.596);
+    border: 1px solid rgba(15, 18, 18, 0.419);
     border-radius: 0.5em;
     /* line-height: 0.5; */
 }
@@ -475,6 +476,10 @@ a {
     .btn.active:hover {
   background-color:rgb(0, 206, 161);
 }
+.btn.active {
+  background-color: #00d904;
+  
+}
 
 .fixedheader:first-of-type {
   position: sticky;
@@ -526,7 +531,7 @@ a {
 			<!-- <div class="box">
 				<h2>Overview</h2>
 			  </div> -->
-			<header class="" style ='margin-top:40px;'>
+			<header class="" style ='margin-top:28px;'>
 			  <h4>SELECTION</h4>
 			</header>
 			<!-- <form id="form" method="get" action="/DPC_Data"> -->
@@ -541,7 +546,7 @@ a {
 			<!-- </form> -->
 		  </nav>
       <nav class="right-nav" id="nav-right" style="display:none;">
-        <div class="">
+        <div class="" style ='margin-top:28px;'>
           <h3>FILTERS</h3>
           </div>
           <section style="margin:5px;">
@@ -580,10 +585,10 @@ a {
             <option value="Female">Female</option>
           </select>
         </section>
-        <button id="left-nav-btn" class="btn btn-primary" style="padding: 5px; margin: 5px;  width:100px; height:50px;border-radius: 15px;">SUBMIT</button>
-        <button id="left-nav-btn2" class="btn btn-danger" style="padding: 5px; margin: 5px;  width:100px; height:50px;border-radius: 15px;background-color: #00d904; display:none">SUBMIT</button>
-        <button id="tdpBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; width:100px; height:50px;border-radius: 15px; background-color: red; display:none">SUBMIT</button>
-        <button id="jspBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; width:100px; height:50px;border-radius: 15px; background-color:yellow; display:none">SUBMIT</button>
+        <button id="left-nav-btn" class="btn btn-primary" style="padding: 5px; margin: 5px;  width:100px; height:50px;border-radius: 15px;margin-top: 20px;margin-left: 19px;">SUBMIT</button>
+        <button id="left-nav-btn2" class="btn btn-danger" style="padding: 5px; margin: 5px;  width:100px; height:50px;border-radius: 15px;background-color: #00d904;margin-top: 20px;margin-left: 19px; display:none">SUBMIT</button>
+        <button id="tdpBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; width:100px; height:50px;border-radius: 15px; background-color: red;margin-top: 20px;margin-left: 19px; display:none">SUBMIT</button>
+        <button id="jspBtn" class="btn btn-danger" style="padding: 5px; margin: 5px; width:100px; height:50px;border-radius: 15px; background-color:yellow;margin-top: 20px;margin-left: 19px; display:none">SUBMIT</button>
       </nav>
 		</div>
 		<div id="mainele"></div>

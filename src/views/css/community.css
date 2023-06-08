@@ -1,9 +1,10 @@
 
 @media only   screen and (max-width: 1500px) {
 
-  /* html {
-    zoom: 100%;
-} */
+html {
+    zoom: 80%;
+}
+
 body {
   height: 41rem;
   width: 90.75rem;
@@ -65,13 +66,14 @@ display: flex;
 .left-nav {
 position: absolute;
 float: left;
-margin: 0.8em;
-width: 15em;
+margin: 0.05em;
+width: 15.5em;
 font-size:small;
 font-style: italic;
 color: black;
-box-shadow: inset 2px 2px 4px rgb(0, 206, 161);
-height: 38em;
+box-shadow: inset 2px 2px 4px rgba(17, 17, 17, 0.596);
+border: 1px solid rgba(15, 18, 18, 0.419);
+height: 40em;
 box-sizing: border-box;
 display: flex;
 flex-direction: column;
