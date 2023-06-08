@@ -58,26 +58,26 @@ let routes = (app) => {
 
 
 
-  router.get('/homepage',(req,res)=>{
+  router.get('/homepage',userauth,(req,res)=>{
     res.render('homepage')
     
 })
 
-router.get('/overview',(req,res)=>{
+router.get('/overview',userauth,(req,res)=>{
     res.render('overviewpage')
 })
 
-router.get('/constituency', (req,res)=>{
+router.get('/constituency',userauth, (req,res)=>{
     res.render('constituency')
 })
-router.get('/community',(req,res)=>{
+router.get('/community',userauth,(req,res)=>{
   res.render('community')
 })
-router.get('/trend',(req,res)=>{
+router.get('/trend',userauth,(req,res)=>{
   res.render('Trend')
 })
 
-router.get('/trendysrcp',(req,res)=>{
+router.get('/trendysrcp',userauth,(req,res)=>{
   res.render('trendysrcp')
 })
   // router.get('/register',userController.registerpage)
