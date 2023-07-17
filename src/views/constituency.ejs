@@ -2059,7 +2059,10 @@ Highcharts.chart(chartContainer1, {
               dataLabels: {
                 enabled: true,
                 format: '{point.name}: {point.percentage:.1f}%'
-              }
+              },
+              tooltip: {
+        pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' // Display 2 decimal places
+      }
             }
           },
           series: [{
@@ -2098,7 +2101,10 @@ Highcharts.chart(chartContainer1, {
               dataLabels: {
                 enabled: true,
                 format: '{point.name}: {point.percentage:.1f}%'
-              }
+              },
+              tooltip: {
+        pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' // Display 2 decimal places
+      }
             }
           },
           series: [{
@@ -2146,7 +2152,7 @@ Highcharts.chart(chartContainer1, {
                 format: '{point.name}: {point.percentage:.1f}%'
               },
               tooltip: {
-        pointFormat: '{point.name}: <b>{point.percentage:.2f}%</b>' // Display 2 decimal places
+        pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' // Display 2 decimal places
       }
             }
           },

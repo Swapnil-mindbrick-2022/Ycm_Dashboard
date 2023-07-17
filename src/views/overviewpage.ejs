@@ -38,7 +38,7 @@
 html {
   font-family: sans-serif;
   font-size: 16px;
-  zoom: 80%;
+  zoom: 100%;
 }
 /* Remove list styles for all lists */
 /* Remove default styling for links */
@@ -99,7 +99,7 @@ a {
 .left-nav {
   position: absolute;
   /* top: 150; */
-  left: 1.5%;
+  left: 23px;
   width: 13em;
   font-size:medium;
   color: black;
@@ -492,7 +492,53 @@ a {
   z-index: 1;
   background-color: white;
 }
-
+     /* Media Queries
+     @media only screen and (max-width: 1024px) {
+        .left-nav,
+        .right-sidebar {
+          display: none;
+        }
+  
+        #mainele {
+          width: 100%;
+        }
+      }
+  
+      @media only screen and (max-width: 768px) {
+        #header {
+          font-size: 1.5rem;
+        }
+  
+        #navbar {
+          height: auto;
+          flex-direction: column;
+          align-items: center;
+        }
+  
+        #content {
+          height: auto;
+          padding: 1rem;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+        }
+  
+        #mainele {
+          width: 100%;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+  
+        .left-nav,
+        .right-sidebar {
+          width: 100%;
+          padding: 1rem;
+        }
+  
+        table {
+          font-size: 0.8rem;
+        }
+      } */
 
 
   </style>
