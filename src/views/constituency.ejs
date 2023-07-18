@@ -2235,6 +2235,7 @@ Highcharts.chart(chartContainer1, {
         // Call the PrefferdCaste endpoint to get the data for the pie chart
         const castResponse = await axios.post('/PrefferYSRCPCoordinator', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
         const castData = castResponse.data;
+        console.log(castData)
 
         if (castData && Object.keys(castData).length > 0) {
   // create an array of objects to store data for the pie chart
@@ -2315,6 +2316,121 @@ Highcharts.chart(chartContainer1, {
     loader.style.display = 'none';
   }
     }
+
+
+  // new changes 
+  
+
+//   async function renderPrefferYSRCPCoordinator(e) {
+//   const selectedDistrict = districtDropdown.value;
+//   const selectedConstituency = constituencyDropdown.value;
+//   const selectedWeek = weekDropdown.value;
+//   resultContainer.innerHTML = '';
+//   if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+//     resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
+//     return;
+//   }
+
+//   e.preventDefault();
+
+//   // Add a loader to the page
+//   const loader = document.getElementById('loader');
+//   loader.style.display = 'block';
+
+//   try {
+//     // Call the PrefferdCaste endpoint to get the data for the pie chart
+//     const castResponse = await axios.post('/PrefferYSRCPCoordinator', {
+//       district: selectedDistrict,
+//       constituency: selectedConstituency,
+//       Date: selectedWeek,
+//     });
+//     const castData = castResponse.data;
+
+//     if (Array.isArray(castData) && castData.length > 0) {
+//       // Get the first element of the array which contains the percentages object
+//       const percentages = castData[0];
+
+//       // Create an array of objects to store data for the pie chart
+//       const chartData = Object.keys(percentages).map((key) => {
+//         let color;
+//         if (key === 'Same Co-ordinator') {
+//           color = 'rgb(1, 169, 91)';
+//         } else if (key === 'Anyone') {
+//           color = 'rgb(0, 119, 112)';
+//         } else if (key === 'Other Co-ordinator') {
+//           color = 'rgb(68, 114, 196)';
+//         }
+
+//         return {
+//           name: key,
+//           y: parseFloat(percentages[key].replace('%', '')),
+//           color: color,
+//         };
+//       });
+
+//       // Create the chart container if it doesn't exist
+//       let chartContainer = document.getElementById('chart-container');
+//       if (!chartContainer) {
+//         chartContainer = document.createElement('div');
+//         chartContainer.id = 'chart-container';
+//         chartContainer.style.width = '100%';
+//         chartContainer.style.height = '100%';
+//         resultContainer.appendChild(chartContainer);
+//       }
+
+//       // Render the pie chart using Highcharts
+//       Highcharts.chart(chartContainer, {
+//         chart: {
+//           plotBackgroundColor: null,
+//           plotBorderWidth: null,
+//           plotShadow: false,
+//           type: 'pie',
+//         },
+//         title: {
+//           text: 'YSRCP Co-ordinator ',
+//           style: {
+//             textTransform: 'uppercase', // Transform text to capitals
+//           },
+//         },
+//         tooltip: {
+//           pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>', // Update pointFormat to remove decimal
+//         },
+//         plotOptions: {
+//           pie: {
+//             allowPointSelect: true,
+//             cursor: 'pointer',
+//             dataLabels: {
+//               enabled: true,
+//               format: '<b>{point.name}</b>: {point.percentage:.2f} %', // Update format to remove decimal
+//             },
+//           },
+//         },
+//         series: [
+//           {
+//             name: 'Preference Percentage',
+//             colorByPoint: true,
+//             data: chartData,
+//           },
+//         ],
+//         colors: [
+//           'rgb(1, 169, 91)', // Same Co-ordinator
+//           'rgb(0, 119, 112)', // Anyone
+//           'rgb(68, 114, 196)', // Other Co-ordinator
+//         ],
+//       });
+//     } else {
+//       resultContainer.innerHTML = '<p>No YSRCP-Coordinator data for this constituency.</p>';
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     resultContainer.innerHTML = '<p>Failed to fetch data from the server.</p>';
+//   } finally {
+//     // Remove the loader from the page
+//     loader.style.display = 'none';
+//   }
+// }
+
+
 
 
     // prefferd YSRCP COORDINATOR  CANDIDATE

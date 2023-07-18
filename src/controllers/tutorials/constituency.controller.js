@@ -1083,14 +1083,38 @@ const PrefferYSRCPCoordinator = async (req, res, next) => {
     const { district, constituency, Date } = req.body;
 
     const query = `
-      SELECT 
-        f.\`YSRCP Co-ordinator\`,
-        CONCAT(
-          ROUND(SUM(f.Factor) / (SELECT SUM(f2.Factor) FROM fileddata f2 JOIN cordinates c2 ON f2.R_Constituency = c2.\`R.Constituency\` AND f2.District = c2.District AND f2.Party = 'YSRCP' WHERE c2.District = :district AND c2.\`R.Constituency\` = :constituency AND f2.\`YSRCP Co-ordinator\` IN ('Same Co-ordinator', 'Anyone', 'Other Co-ordinator') AND c2.\`Date\` = :Date) * 100, 2), '%') AS totalFactor_percentage
-      FROM fileddata f
-      JOIN cordinates c ON f.R_Constituency = c.\`R.Constituency\` AND f.District = c.District
-      WHERE c.District = :district AND c.\`R.Constituency\` = :constituency AND f.\`YSRCP Co-ordinator\` IN ('Same Co-ordinator', 'Anyone', 'Other Co-ordinator') AND f.Party = 'YSRCP' AND c.\`Date\` = :Date
-      GROUP BY f.\`YSRCP Co-ordinator\`;
+    SELECT 
+    COALESCE(c.\`R.Constituency\`, f.R_Constituency) AS R_Constituency,
+    COALESCE(c.District, f.District) AS District,
+    f.\`YSRCP Co-ordinator\`,
+    CONCAT(
+        ROUND(SUM(f.Factor) / (
+            SELECT SUM(f2.Factor) 
+            FROM fileddata f2 
+            WHERE f2.District = '${district}' 
+            AND f2.R_Constituency = '${constituency}' 
+            AND f2.Date = '${Date}'  
+            AND f2.\`YSRCP Co-ordinator\` IN ('Same Co-ordinator', 'Anyone', 'Other Co-ordinator') 
+            AND f2.Party = 'YSRCP' 
+            AND  EXISTS (
+                SELECT 1 
+                FROM cordinates c2 
+                WHERE c2.\`R.Constituency\` = '${constituency}' 
+                AND c2.District = '${district}'
+                AND c2.Date = '${Date}'
+                
+            )
+        ) * 100, 2), '%'
+    ) AS totalFactor_percentage
+FROM fileddata f
+LEFT JOIN cordinates c 
+    ON f.R_Constituency = c.\`R.Constituency\` AND f.District = c.District AND f.Date = c.Date
+WHERE f.District = '${district}' 
+AND f.R_Constituency = '${constituency}'  
+AND f.Date = '${Date}'   
+AND f.\`YSRCP Co-ordinator\` IN ('Same Co-ordinator', 'Anyone', 'Other Co-ordinator')
+AND f.Party = 'YSRCP'
+GROUP BY f.\`YSRCP Co-ordinator\`;
     `;
     const results = await db.sequelize.query(query, {
       type: db.sequelize.QueryTypes.SELECT,
@@ -1108,6 +1132,7 @@ const PrefferYSRCPCoordinator = async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 
 //  Candidate for YSRCP
