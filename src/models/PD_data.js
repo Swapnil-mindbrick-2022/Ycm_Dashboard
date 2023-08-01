@@ -172,6 +172,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     ['C&S']:{
       type: Sequelize.STRING
+    },
+    ["TDP+JSP Alliance O"]:{
+      type: Sequelize.STRING
     }
   }, {
     timestamps: false

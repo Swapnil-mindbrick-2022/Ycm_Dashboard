@@ -1,263 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./css/constituency.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/constituency.css">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <title>Document</title>
 
-  <script src="https://code.highcharts.com/modules/exporting.js"></script>
-  <script src="https://code.highcharts.com/modules/export-data.js"></script>
-  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://code.highcharts.com/highcharts-3d.js"></script>
-  <script src="https://code.highcharts.com/modules/data.js"></script>
-  <script src="https://code.highcharts.com/modules/drilldown.js"></script>
-  <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-
-
-
-
-  <title>Document</title>
-
-  <style>
-html {
-  zoom: 80%;
-}
-body {
+    <style>
+      html {
+        zoom: 80%;
+      }
+      body {
         height: 41rem;
         width: 90.75rem;
         background: rgb(0, 206, 161);
-    }
-#heading {
-  margin-top: 5px;
-  display: flex;
-  justify-content: center;
+      }
+      #heading {
+        margin-top: 5px;
+        display: flex;
+        justify-content: center;
+      }
+      #heading h1 {
+        font-size: 40px;
+        margin-top: 10px;
+        /* font-style:italic;  */
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Verdana, sans-serif;
+        box-shadow: rgba(0, 0, 0, 0.5);
+        text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.5);
+        border-radius: 25px;
+        width: 600px;
+        color: white;
+        text-align: center;
+      }
+      /* parentelement */
+      #parentele {
+        display: flex;
+        /* justify-content: center; */
+        border: 4px solid lightgrey;
+        height: 82%;
+        margin-left: 1.2%;
+        margin-right: 1.2%;
+        /* margin-top: 1px; */
+        background-color: white;
+        width: 99.5%;
+      }
+      /* Styling for the left side navbar */
+      .left-nav {
+        position: absolute;
+        float: left;
+        margin: 0.1em;
+        width: 18em;
+        font-size: small;
+        color: black;
+        box-shadow: inset 2px 2px 4px rgba(17, 17, 17, 0.596);
+        border: 1px solid rgba(15, 18, 18, 0.419);
+        height: 40em;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        border-radius: 0.5em;
+      }
+      /* maincontent css */
+      #mainele {
+        border: 1px solid black;
+        height: 99%;
+        width: 83%;
+        margin-left: 16.5%;
+        background-color: white;
 
-}
-#heading h1{
-      font-size: 40px; 
-      margin-top:10px;
-      /* font-style:italic;  */
-      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',Verdana, sans-serif;
-      box-shadow: rgba(0, 0, 0, 0.5);
-      text-shadow:  3px 3px 4px rgba(0, 0, 0, 0.5);
-      border-radius: 25px;
-      width: 600px;     
-      color: white;
-      text-align: center;
-}
-    /* parentelement */
-    #parentele {
-    display: flex;
-    /* justify-content: center; */
-    border: 4px solid lightgrey;
-    height: 82%;
-    margin-left: 1.2%;
-    margin-right: 1.2%;
-    /* margin-top: 1px; */
-    background-color: white;
-    width: 99.5%
-}
-    /* Styling for the left side navbar */
-    .left-nav {
-  position: absolute;
-  float: left;
-  margin: 0.1em;
-  width: 18em;
-  font-size:small;
-  color: black;
-  box-shadow: inset 2px 2px 4px rgba(17, 17, 17, 0.596);
-  border: 1px solid rgba(15, 18, 18, 0.419);
-  height: 40em;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content:space-around;
-  align-items: center;
-  border-radius: 0.5em;
-}
-    /* maincontent css */
-#mainele {
-border: 1px solid black;
-height: 99%;
-width: 83%;
-margin-left: 16.5%;
-background-color: white;
+        /* right: 0; */
+        /* margin-left: 20px; */
+        /* margin-right: 10px; */
+        bottom: 0;
+        overflow-x: scroll;
+        white-space: nowrap;
+      }
+      #navbar {
+        background-color: rgb(0, 74, 132);
+        height: 9%;
+        margin: 1.2%;
+        width: 99.5%;
+        display: flex;
+        justify-content: end;
+      }
+      #navbtn {
+        background-color: lightgrey;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        margin-left: 1.2%;
+        margin-right: 1.2%;
+        margin-top: -1.6%;
+        height: 40px;
+        width: 99.5%;
+      }
 
-/* right: 0; */
-/* margin-left: 20px; */
-/* margin-right: 10px; */
-bottom: 0;
-overflow-x: scroll;
-white-space: nowrap;
-}
-  #navbar{
-    background-color: rgb(0, 74, 132);
-    height: 9.0%;
-    margin: 1.2%;
-    width: 99.5%;
-    display: flex;
-    justify-content: end;
-  }
-  #navbtn{
-    background-color: lightgrey;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  margin-left: 1.2%;
-  margin-right: 1.2%;
-  margin-top:-1.6%;
-  height: 40px;
-  width: 99.5%;
-}
-    
-    /* Set table width to 100% */
-    table {
-      width: 100%;
-    }
-    /* Add some spacing between table cells */
-    td,
-    th {
-      padding: 1px;
-    }
-    /* Add some borders to table cells */
-    td {
-      border: 1px solid #097b1c;
-    }
+      /* Set table width to 100% */
+      table {
+        width: 100%;
+      }
+      /* Add some spacing between table cells */
+      td,
+      th {
+        padding: 1px;
+      }
+      /* Add some borders to table cells */
+      td {
+        border: 1px solid #097b1c;
+      }
 
-    /* Add a gray background color to the header row */
-    thead tr {
-      background-color: #1013ab;
-    }
+      /* Add a gray background color to the header row */
+      thead tr {
+        background-color: #1013ab;
+      }
 
-    /* Add a hover effect to table rows */
-    tbody tr:hover {
-      background-color: #3050090b;
-    }
+      /* Add a hover effect to table rows */
+      tbody tr:hover {
+        background-color: #3050090b;
+      }
 
-    /* Customize pagination buttons */
-    .paginate_button {
-      background-color: #e7e7e7;
-      border: 1px solid #ddd;
-      color: black;
-      padding: 8px 16px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-    }
+      /* Customize pagination buttons */
+      .paginate_button {
+        background-color: #e7e7e7;
+        border: 1px solid #ddd;
+        color: black;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+      }
 
-    .paginate_button:hover {
-      background-color: #ddd;
-    }
+      .paginate_button:hover {
+        background-color: #ddd;
+      }
 
-    .paginate_button.current {
-      background-color: #4CAF50;
-      color: white;
-    }
+      .paginate_button.current {
+        background-color: #4caf50;
+        color: white;
+      }
 
-    /* Customize column filter inputs */
-    .dataTables_filter input {
-      padding: 8px;
-      border: 1px solid white;
-      border-radius: 4px;
-      margin-bottom: 10px;
-    }
+      /* Customize column filter inputs */
+      .dataTables_filter input {
+        padding: 8px;
+        border: 1px solid white;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
 
-    .dataTables_filter input:focus {
-      outline: none;
-      box-shadow: 0 0 3px white;
-    }
+      .dataTables_filter input:focus {
+        outline: none;
+        box-shadow: 0 0 3px white;
+      }
 
- 
-    /* Style the table */
-    table {
-      width: 80%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-      background-color: white;
-    }
+      /* Style the table */
+      table {
+        width: 80%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: white;
+      }
 
-    /* Style the table headers */
-    th {
-      background-color: white;
-      text-align: left;
-      padding: 8px;
-      font-size:medium
-    }
+      /* Style the table headers */
+      th {
+        background-color: white;
+        text-align: left;
+        padding: 8px;
+        font-size: medium;
+      }
 
-    /* Style the table rows */
-    tr:nth-child(even) {
-      background-color: white;
-    }
+      /* Style the table rows */
+      tr:nth-child(even) {
+        background-color: white;
+      }
 
-    tr:hover {
-      background-color: white;
-    }
+      tr:hover {
+        background-color: white;
+      }
 
-    /* Style the table cells */
-    td {
-      border: 1px solid white;
-      padding: 8px;
-    }
+      /* Style the table cells */
+      td {
+        border: 1px solid white;
+        padding: 8px;
+      }
 
-    .box {
-      background-color: #f4f0f0;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 10px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-      transition: box-shadow 0.3s ease;
-      width: 400px;
-    }
+      .box {
+        background-color: #f4f0f0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        transition: box-shadow 0.3s ease;
+        width: 400px;
+      }
 
-    .box:hover {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
+      .box:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
 
-    .box h2 {
-      margin: 0;
-    }
+      .box h2 {
+        margin: 0;
+      }
 
-    .box2 {
-      background-color: #f4f0f0;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 10px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-      transition: box-shadow 0.3s ease;
-      width: 800px;
-      margin-left: 450px;
-    }
+      .box2 {
+        background-color: #f4f0f0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        transition: box-shadow 0.3s ease;
+        width: 800px;
+        margin-left: 450px;
+      }
 
-    /* section part */
-    
+      /* section part */
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #666;
-    }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #666;
+      }
 
-    /* select {
+      /* select {
       padding: 5px;
       margin-bottom: 5px;
       font-size: 16px;
@@ -266,33 +264,31 @@ white-space: nowrap;
       width: 100%;
     } */
 
-    .btn {
-      padding: 0.5px;
-      margin: 0.5px;
-      margin-top:4px;
-      background-color: #16160b;
-      color: #fff;
-      border: none;
-      font-size:smaller;
-      border-radius: 4px;
-      cursor: pointer;
-      width: auto;
-      height:35px;
-    }
+      .btn {
+        padding: 0.5px;
+        margin: 0.5px;
+        margin-top: 4px;
+        background-color: #16160b;
+        color: #fff;
+        border: none;
+        font-size: smaller;
+        border-radius: 4px;
+        cursor: pointer;
+        width: auto;
+        height: 35px;
+      }
 
-    .btn:hover {
-      background-color: rgb(0, 206, 161);
-    }
-    .btn.active:hover {
-  background-color: #00d904;
-
-}
-.btn.active {
-  background-color: #00d904;
-  
-}
-    /* Add media queries for responsive design */
-    /* @media only screen and (max-width: 600px) { */
+      .btn:hover {
+        background-color: rgb(0, 206, 161);
+      }
+      .btn.active:hover {
+        background-color: #00d904;
+      }
+      .btn.active {
+        background-color: #00d904;
+      }
+      /* Add media queries for responsive design */
+      /* @media only screen and (max-width: 600px) { */
 
       /* Adjust the table layout for small screens */
       /* table,
@@ -306,9 +302,9 @@ white-space: nowrap;
       td {
         text-align: center;
       } */
-    /* } */
+      /* } */
 
-    /* .loader {
+      /* .loader {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -330,181 +326,179 @@ white-space: nowrap;
         transform: rotate(360deg);
       }
     } */
-    .loader {
-  height: 20px;
-  width: 250px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin-right: -10%;
-  display: none;
-  transform-origin: center;
-}
+      .loader {
+        height: 20px;
+        width: 250px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin-right: -10%;
+        display: none;
+        transform-origin: center;
+      }
 
-.loader--dot {
-  animation: loader 1.5s ease-in-out infinite;
-  height: 20px;
-  width: 20px;
-  border-radius: 100%;
-  background-color: black;
-  position: absolute;
-  border: 2px solid white;
-  margin-left: 320%;
-  margin-top: 165%;
-  transform-origin: center;
-}
+      .loader--dot {
+        animation: loader 1.5s ease-in-out infinite;
+        height: 20px;
+        width: 20px;
+        border-radius: 100%;
+        background-color: black;
+        position: absolute;
+        border: 2px solid white;
+        margin-left: 320%;
+        margin-top: 165%;
+        transform-origin: center;
+      }
 
-.loader--dot:first-child {
-  background-color: #8cc759;
-  animation-delay: 0.5s;
-}
+      .loader--dot:first-child {
+        background-color: #8cc759;
+        animation-delay: 0.5s;
+      }
 
-.loader--dot:nth-child(2) {
-  background-color: #8c6daf;
-  animation-delay: 0.4s;
-}
+      .loader--dot:nth-child(2) {
+        background-color: #8c6daf;
+        animation-delay: 0.4s;
+      }
 
-.loader--dot:nth-child(3) {
-  background-color: #ef5d74;
-  animation-delay: 0.3s;
-}
+      .loader--dot:nth-child(3) {
+        background-color: #ef5d74;
+        animation-delay: 0.3s;
+      }
 
-.loader--dot:nth-child(4) {
-  background-color: #f9a74b;
-  animation-delay: 0.2s;
-}
+      .loader--dot:nth-child(4) {
+        background-color: #f9a74b;
+        animation-delay: 0.2s;
+      }
 
-.loader--dot:nth-child(5) {
-  background-color: #60beeb;
-  animation-delay: 0.1s;
-}
+      .loader--dot:nth-child(5) {
+        background-color: #60beeb;
+        animation-delay: 0.1s;
+      }
 
-.loader--dot:nth-child(6) {
-  background-color: #fbef5a;
-  animation-delay: 0s;
-}
+      .loader--dot:nth-child(6) {
+        background-color: #fbef5a;
+        animation-delay: 0s;
+      }
 
-.loader--text {
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 4rem;
-  margin-left: 310%;
-  margin-top: 165%;
-  display: flex;
-  justify-content: center;
-}
+      .loader--text {
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 4rem;
+        margin-left: 310%;
+        margin-top: 165%;
+        display: flex;
+        justify-content: center;
+      }
 
-.loader--text:after {
-  content: "Loading";
-  font-weight: bold;
-  animation: loading-text 3s infinite;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-}
+      .loader--text:after {
+        content: "Loading";
+        font-weight: bold;
+        animation: loading-text 3s infinite;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+      }
 
-@keyframes loader {
-  0% {
-    transform: rotate(0) translateX(100px) rotate(0);
-  }
-  100% {
-    transform: rotate(360deg) translateX(100px) rotate(-360deg);
-  }
-}
+      @keyframes loader {
+        0% {
+          transform: rotate(0) translateX(100px) rotate(0);
+        }
+        100% {
+          transform: rotate(360deg) translateX(100px) rotate(-360deg);
+        }
+      }
 
-@keyframes loading-text {
-  0% {
-    content: "Loading";
-  }
-  25% {
-    content: "Loading.";
-  }
-  50% {
-    content: "Loading..";
-  }
-  75% {
-    content: "Loading...";
-  }
-}
+      @keyframes loading-text {
+        0% {
+          content: "Loading";
+        }
+        25% {
+          content: "Loading.";
+        }
+        50% {
+          content: "Loading..";
+        }
+        75% {
+          content: "Loading...";
+        }
+      }
 
-/* Zooming effect */
-.zoom {
-  animation: zoom 0.3s ease-in-out;
-}
+      /* Zooming effect */
+      .zoom {
+        animation: zoom 0.3s ease-in-out;
+      }
 
-@keyframes zoom {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.5);
-  }
-}
+      @keyframes zoom {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.5);
+        }
+      }
 
+      .summary-table {
+        border-collapse: collapse;
+        margin-top: 50px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        width: 100%;
+      }
 
+      .summary-table td,
+      .summary-table th {
+        border: 0.05px solid #0a0101;
+        padding: 1px;
+        text-align: center;
+        font-size: larger;
+      }
+      .summary-table-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8em;
 
-  .summary-table {
-  border-collapse: collapse;
-  margin-top: 50px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  width: 100%;
-}
+        margin-top: 8px;
+        /* background-color: #3498db; */
+        text-transform: uppercase;
+        color: #0c0202;
+        width: 80%;
+        position: absolute;
+      }
+      .summary-table tr:nth-child(1) td:nth-child(2) {
+        background-color: #ffc107b0; /* red */
+        color: black; /* white text color */
+      }
+      .summary-table tr:nth-child(1) td:nth-child(3) {
+        background-color: #ffc107b0; /* red */
+        color: black; /* white text color */
+      }
 
-.summary-table td,
-.summary-table th {
-  border: 0.05px solid #0a0101;
-  padding: 1px;
-  text-align: center;
-  font-size: larger;
-}
-.summary-table-header{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size:1.8em;
-  
-  margin-top: 8px;
-  /* background-color: #3498db; */
-  text-transform: uppercase;
-  color:#0c0202;
-  width:80%;
-  position:absolute;
-}
-.summary-table tr:nth-child(1) td:nth-child(2) {
-  background-color: #ffc107b0; /* red */
-  color: black;/* white text color */
-}
-.summary-table tr:nth-child(1) td:nth-child(3) {
-  background-color: #ffc107b0; /* red */
-  color: black; /* white text color */
-}
+      .summary-table tr:nth-child(2) td:nth-child(n + 2) {
+        background-color: #08d6ff; /* red */
+        color: black; /* white text color */
+      }
 
-.summary-table tr:nth-child(2) td:nth-child(n+2) {
-  background-color: #08d6ff; /* red */
-  color: black; /* white text color */
-}
+      .summary-table tr:nth-child(2) td:nth-child(n + 3) {
+        background-color: #08d6ff;
+        color: black;
+      }
 
-.summary-table tr:nth-child(2) td:nth-child(n+3) {
-  background-color: #08d6ff;
-  color: black;  
-}
+      .summary-table tr:nth-child(2) td:nth-child(n + 4) {
+        background-color: #08d6ff; /* green */
+        color: black; /* white text color */
+      }
 
-.summary-table tr:nth-child(2) td:nth-child(n+4) {
-  background-color: #08d6ff; /* green */
-  color: black; /* white text color */
-}
-
-.summary-header-cell {
-  font-weight: bold;
-  background-color: #f0f0f0;
-  text-transform: uppercase; /* uppercase header text */
-  padding: 1px; /* increased padding for header cell */
-}
-/* .summary-table-header {
+      .summary-header-cell {
+        font-weight: bold;
+        background-color: #f0f0f0;
+        text-transform: uppercase; /* uppercase header text */
+        padding: 1px; /* increased padding for header cell */
+      }
+      /* .summary-table-header {
   text-align: center;
   margin-top: 0;
   height: 80px;
@@ -512,24 +506,22 @@ white-space: nowrap;
  width:1574px;
 } */
 
+      tbody {
+        width: 20%;
+        height: 10%;
+      }
+    </style>
+  </head>
 
-tbody{
-  width: 20%;
-  height: 10%;
-}
-
-  </style>
-</head>
-
-<body>
-  <!-- Header -->
-  <header >
-		<div id="heading">
-			<h1 >CONSTITUENCY VIEW</h1>
-		  </div>
-	</header>
-  <div id="navbar">
-    <!-- <nav style="margin-left: 70rem;" class="top-nav "> -->
+  <body>
+    <!-- Header -->
+    <header>
+      <div id="heading">
+        <h1>CONSTITUENCY VIEW</h1>
+      </div>
+    </header>
+    <div id="navbar">
+      <!-- <nav style="margin-left: 70rem;" class="top-nav "> -->
       <!-- <a href="/overview" title="PrevView">
         <img src="./a.png" alt="PrevView" width="120" height="35">
       </a>
@@ -537,2004 +529,2255 @@ tbody{
         <img src="./b.png" alt="NextView" width="120" height="35">
       </a>
       -->
-			<a href="/homepage" title="HomePage">
-        <img src="./c.png" alt="Home" width="65" height="65" style="margin-top:-4.5px;" >
+      <a href="/homepage" title="HomePage">
+        <img
+          src="./c.png"
+          alt="Home"
+          width="65"
+          height="65"
+          style="margin-top: -4.5px"
+        />
       </a>
       <a href="/logout" title="Logout">
-        <img src="d.png" alt="Logout" width="45" height="50" style="margin-right:10px; display: flex; align-items: center; justify-content: center;margin-top:0.5px;">
+        <img
+          src="d.png"
+          alt="Logout"
+          width="45"
+          height="50"
+          style="
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.5px;
+          "
+        />
       </a>
-	<!-- </nav> -->
-  </div>
-  <div id="navbtn">
-    <nav style="margin-right: 0.7rem;">
-      <button class="btn btn-dark" id="summary-button">SUMMARY</button>
-      <button class="btn btn-dark" id="PrefferdCMByCaste-btn">CM SATISFACTION</button>
-      <!-- <button id="stateSatisfaction-btn" class="btn btn-dark">state Satisfaction</button> -->
-      <button class="btn btn-dark" id="mlaSatisfaction-btn">MLA SATISFACTION</button>
-      <button class="btn btn-dark" id="prefferedparty-btn">PREFERRD PARTY</button>
-           <button class="btn btn-dark" id="PrefferMLAcandidate-btn">PREFERRED MLA CANDIDATE</button>
-      <button class="btn btn-dark" id="TDPJSPAlliance-btn">TDP JSP ALLIANCE</button>
-      <button class="btn btn-dark" id="PrefferYSRCPCoordinator-btn">PREFERRED YSRCP-COORDINATOR</button>
-      <!-- <button class="btn btn-dark" id="PrefferdMLAByCaste-btn">PREFERRED MLA BY CASTE</button> -->
-      <button class="btn btn-dark" id="PrefferYSRCPCoordinatorcandidate-btn">PREFERED YSRCP-CANDIDATE</button> 
-    </nav>
-  </div>
-  <div id="parentele">
-    <div class="left-nav">
-      <nav>
-        <header>
-          <h4 style="font-size:30px;">SELECTION</h4>
-        </header>
-        <section style="margin: 5px; Margin-top:50px;">
-          <label for="districtDropdown" style="display: block; margin-bottom: 5px;margin-left:-34px; font-size: large;">DISTRICT</label>
-          <select name="District" id="districtDropdown" style="padding: 5px; margin-bottom: 5px;margin-left:-34px;width:149%;font-size: 13px;">
-            <option value="">Select a district</option>
-          </select>
-        </section>
-        <section style="margin: 5px; Margin-top:15px;">
-          <label for="constituencyDropdown" style="display: block; margin-bottom: 5px;margin-left:-34px;font-size: large;">CONSTITUENCY</label>
-          <select name="R_Constituency" id="constituencyDropdown" style="padding: 5px; margin-bottom: 5px; font-size: 10px;margin-left:-34px;width:149%;">
-            <option value="">Select a constituency</option>
-          </select>
-        </section>
-        <section style="margin: 5px;Margin-top:15px;">
-          <label for="weekDropdown" style="display: block; margin-bottom: 5px;margin-left:-34px;font-size: large;">SURVEY DATE</label>
-          <select name="Date" id="weekDropdown" style="padding: 5px; margin-bottom: 5px;margin-left:-34px;width:149%;font-size: 13px;">
-            <option value="">Select a survey date</option>
-          </select>
-        </section>
-        <button id="left-nav-btn" type="button" class="btn btn-primary"
-        style="margin-top: 50px;margin-left:25px; width:100px; height:50px;border-radius: 15px;">SUBMIT</button>
+      <!-- </nav> -->
+    </div>
+    <div id="navbtn">
+      <nav style="margin-right: 0.7rem">
+        <button class="btn btn-dark" id="summary-button">SUMMARY</button>
+        <button class="btn btn-dark" id="PrefferdCMByCaste-btn">
+          CM SATISFACTION
+        </button>
+        <!-- <button id="stateSatisfaction-btn" class="btn btn-dark">state Satisfaction</button> -->
+        <button class="btn btn-dark" id="mlaSatisfaction-btn">
+          MLA SATISFACTION
+        </button>
+        <button class="btn btn-dark" id="prefferedparty-btn">
+          PREFERRD PARTY
+        </button>
+        <button class="btn btn-dark" id="PrefferMLAcandidate-btn">
+          PREFERRED MLA CANDIDATE
+        </button>
+        <button class="btn btn-dark" id="TDPJSPAlliance-btn">
+          TDP JSP ALLIANCE
+        </button>
+        <button class="btn btn-dark" id="PrefferYSRCPCoordinator-btn">
+          PREFERRED YSRCP-COORDINATOR
+        </button>
+        <!-- <button class="btn btn-dark" id="PrefferdMLAByCaste-btn">PREFERRED MLA BY CASTE</button> -->
+        <button class="btn btn-dark" id="PrefferYSRCPCoordinatorcandidate-btn">
+          PREFERED YSRCP-CANDIDATE
+        </button>
       </nav>
     </div>
+    <div id="parentele">
+      <div class="left-nav">
+        <nav>
+          <header>
+            <h4 style="font-size: 30px">SELECTION</h4>
+          </header>
+          <section style="margin: 5px; margin-top: 50px">
+            <label
+              for="districtDropdown"
+              style="
+                display: block;
+                margin-bottom: 5px;
+                margin-left: -34px;
+                font-size: large;
+              "
+              >DISTRICT</label
+            >
+            <select
+              name="District"
+              id="districtDropdown"
+              style="
+                padding: 5px;
+                margin-bottom: 5px;
+                margin-left: -34px;
+                width: 149%;
+                font-size: 13px;
+              "
+            >
+              <option value="">Select a district</option>
+            </select>
+          </section>
+          <section style="margin: 5px; margin-top: 15px">
+            <label
+              for="constituencyDropdown"
+              style="
+                display: block;
+                margin-bottom: 5px;
+                margin-left: -34px;
+                font-size: large;
+              "
+              >CONSTITUENCY</label
+            >
+            <select
+              name="R_Constituency"
+              id="constituencyDropdown"
+              style="
+                padding: 5px;
+                margin-bottom: 5px;
+                font-size: 10px;
+                margin-left: -34px;
+                width: 149%;
+              "
+            >
+              <option value="">Select a constituency</option>
+            </select>
+          </section>
+          <section style="margin: 5px; margin-top: 15px">
+            <label
+              for="weekDropdown"
+              style="
+                display: block;
+                margin-bottom: 5px;
+                margin-left: -34px;
+                font-size: large;
+              "
+              >SURVEY DATE</label
+            >
+            <select
+              name="Date"
+              id="weekDropdown"
+              style="
+                padding: 5px;
+                margin-bottom: 5px;
+                margin-left: -34px;
+                width: 149%;
+                font-size: 13px;
+              "
+            >
+              <option value="">Select a survey date</option>
+            </select>
+          </section>
+          <button
+            id="left-nav-btn"
+            type="button"
+            class="btn btn-primary"
+            style="
+              margin-top: 50px;
+              margin-left: 25px;
+              width: 100px;
+              height: 50px;
+              border-radius: 15px;
+            "
+          >
+            SUBMIT
+          </button>
+        </nav>
+      </div>
 
-    <div id="mainele"></div>
-
-  </div>
-  <div class="container">
-    <div id="loader" class="loader">
-      <div class="loader--dot"></div>
-      <div class="loader--dot"></div>
-      <div class="loader--dot"></div>
-      <div class="loader--dot"></div>
-      <div class="loader--dot"></div>
-      <div class="loader--dot"></div>
-      <div class="loader--text"></div>
+      <div id="mainele"></div>
     </div>
-  </div>
-	
-  
-  <script src="./js/inactivity.js"></script>    
-  <script>
-    // get all buttons and add click event listener to each one
-const buttons = document.querySelectorAll('.btn');
-buttons.forEach(button => {
-  button.addEventListener('click', function() {
-    // remove 'active' class from all buttons
-    buttons.forEach(b => b.classList.remove('active'));
-    // add 'active' class to clicked button
-    this.classList.add('active');
-  });
-});
+    <div class="container">
+      <div id="loader" class="loader">
+        <div class="loader--dot"></div>
+        <div class="loader--dot"></div>
+        <div class="loader--dot"></div>
+        <div class="loader--dot"></div>
+        <div class="loader--dot"></div>
+        <div class="loader--dot"></div>
+        <div class="loader--text"></div>
+      </div>
+    </div>
 
-
-    // Select DOM elements
-    const districtDropdown = document.querySelector('#districtDropdown');
-    const constituencyDropdown = document.querySelector('#constituencyDropdown');
-    const weekDropdown = document.querySelector('#weekDropdown');
-
-
-
-    // Event listener for district dropdown
-    districtDropdown.addEventListener('change', async function () {
-      const selectedDistrict = this.value;
-
-      // Make GET request using Axios
-      const response = await axios.get('/constituencies', { params: { district: selectedDistrict } });
-      const constituencies = response.data;
-
-      // Populate constituency dropdown
-      constituencyDropdown.innerHTML = '<option value="">Select a constituency</option>';
-      constituencies.forEach(constituency => {
-        const option = document.createElement('option');
-        option.value = constituency;
-        option.textContent = constituency;
-        option.style.fontSize = '13px';
-        // option.style.width = 'auto';
-        constituencyDropdown.appendChild(option);
-      });
-    });
-
-    // Event listener for constituency dropdown
-    constituencyDropdown.addEventListener('change', async function () {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = this.value;
-
-      // Make GET request using Axios
-      const response = await axios.get('/weeks', { params: { district: selectedDistrict, constituency: selectedConstituency } });
-      const weeks = response.data;
-
-      // Populate week dropdown
-      weekDropdown.innerHTML = '<option value="">Select a survey date</option>';
-      weeks.forEach(week => {
-        const option = document.createElement('option');
-        option.value = week;
-        option.textContent = week;
-        option.style.fontSize = '13px';
-        // option.style.width = 'auto';
-        weekDropdown.appendChild(option);
-      });
-    });
-
-    // Initial GET request for districts
-    axios.get('/districts')
-      .then(response => {
-        const districts = response.data;
-
-        // Populate district dropdown
-        districtDropdown.innerHTML = '<option value="">Select a district</option>';
-        districts.forEach(district => {
-          const option = document.createElement('option');
-          option.value = district;
-          option.textContent = district;
-          option.style.fontSize = '15px';
-          option.style.width = 'auto';
-          districtDropdown.appendChild(option);
+    <script src="./js/inactivity.js"></script>
+    <script>
+      // get all buttons and add click event listener to each one
+      const buttons = document.querySelectorAll(".btn");
+      buttons.forEach((button) => {
+        button.addEventListener("click", function () {
+          // remove 'active' class from all buttons
+          buttons.forEach((b) => b.classList.remove("active"));
+          // add 'active' class to clicked button
+          this.classList.add("active");
         });
-      })
-      .catch(error => {
-        console.log(error);
       });
 
-    const submitButton = document.querySelector('#left-nav-btn');
-    const resultContainer = document.querySelector('#mainele');
-    const stateSatisfaction = document.querySelector('#stateSatisfaction-btn');
-    // stateSatisfaction.addEventListener('click', renderstateSatisfactionTable);
-    while (resultContainer.firstChild) {
-      resultContainer.removeChild(resultContainer.firstChild);
-    }
+      // Select DOM elements
+      const districtDropdown = document.querySelector("#districtDropdown");
+      const constituencyDropdown = document.querySelector(
+        "#constituencyDropdown"
+      );
+      const weekDropdown = document.querySelector("#weekDropdown");
 
-    async function renderstateSatisfactionTable(e) {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = constituencyDropdown.value;
-      const selectedWeek = weekDropdown.value;
-      resultContainer.innerHTML = '';
+      // Event listener for district dropdown
+      districtDropdown.addEventListener("change", async function () {
+        const selectedDistrict = this.value;
 
-      if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-        resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-        return;
-      }
-      e.preventDefault()
-      // Add a loader to the page
-  const loader = document.getElementById('loader');
-      loader.style.display = 'block';
-      try {
-// Call the CM_Satisfaction endpoint to get the data
-const response1 = await axios.post('/CM_Satisfaction', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-const data1 = response1.data;
+        // Make GET request using Axios
+        const response = await axios.get("/constituencies", {
+          params: { district: selectedDistrict },
+        });
+        const constituencies = response.data;
 
+        // Populate constituency dropdown
+        constituencyDropdown.innerHTML =
+          '<option value="">Select a constituency</option>';
+        constituencies.forEach((constituency) => {
+          const option = document.createElement("option");
+          option.value = constituency;
+          option.textContent = constituency;
+          option.style.fontSize = "13px";
+          // option.style.width = 'auto';
+          constituencyDropdown.appendChild(option);
+        });
+      });
 
-// Create the table element
-const table1 = document.createElement('table');
-table1.style.borderCollapse = 'collapse';
-table1.style.width = '100%';
+      // Event listener for constituency dropdown
+      constituencyDropdown.addEventListener("change", async function () {
+        const selectedDistrict = districtDropdown.value;
+        const selectedConstituency = this.value;
 
-// Create the header row
-const headerRow1 = table1.insertRow();
-const headerCell1 = headerRow1.insertCell();
-headerCell1.textContent = 'Type';
-headerCell1.style.border = '1px solid black';
-const goodHeaderCell = headerRow1.insertCell();
-goodHeaderCell.textContent = 'SATISFIED';
-goodHeaderCell.style.border = '1px solid black';
-const notGoodHeaderCell = headerRow1.insertCell();
-notGoodHeaderCell.textContent = 'NOT SATISFIED';
-notGoodHeaderCell.style.border = '1px solid black';
+        // Make GET request using Axios
+        const response = await axios.get("/weeks", {
+          params: {
+            district: selectedDistrict,
+            constituency: selectedConstituency,
+          },
+        });
+        const weeks = response.data;
 
-// Add rows for Male, Female, and Total
-Object.keys(data1['Good']).forEach((key) => {
-  const row = table1.insertRow();
-  const rowHeaderCell = row.insertCell();
-  rowHeaderCell.textContent = key;
-  rowHeaderCell.style.border = '1px solid black';
-  const goodCell = row.insertCell();
-  goodCell.textContent = data1['Good'][key];
-  goodCell.style.border = '1px solid black';
-  const notGoodCell = row.insertCell();
-  notGoodCell.textContent = data1['Not Good'][key];
-  notGoodCell.style.border = '1px solid black';
-});
+        // Populate week dropdown
+        weekDropdown.innerHTML =
+          '<option value="">Select a survey date</option>';
+        weeks.forEach((week) => {
+          const option = document.createElement("option");
+          option.value = week;
+          option.textContent = week;
+          option.style.fontSize = "13px";
+          // option.style.width = 'auto';
+          weekDropdown.appendChild(option);
+        });
+      });
 
-// Add an h1 tag above the table
-const h1 = document.createElement('h1');
-h1.textContent = 'Satisfaction with STATE Government?';
-h1.style.textAlign = 'center';
-// h1.style.padding = '10px';
-h1.style.backgroundColor = 'lightgray';
-h1.style.borderRadius = '5px';
+      // Initial GET request for districts
+      axios
+        .get("/districts")
+        .then((response) => {
+          const districts = response.data;
 
-        // Add the table to the result container
-        // resultContainer.appendChild(table1);
-
-        // Call the TopFiveCast endpoint to get the data
-        const response2 = await axios.post('/TopFiveCast', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const data2 = response2.data;
-
-        // Build the second table
-        const table2 = document.createElement('table');
-        table2.style.borderCollapse = 'collapse';
-        table2.style.width = '100%';
-
-        // Create the header row
-        const headerRow2 = table2.insertRow();
-        const casteHeaderCell = headerRow2.insertCell();
-        casteHeaderCell.textContent = 'Caste';
-        casteHeaderCell.style.border = '1px solid black';
-        const goodPercentageHeaderCell = headerRow2.insertCell();
-        goodPercentageHeaderCell.textContent = 'SATISFIED';
-        goodPercentageHeaderCell.style.border = '1px solid black';
-        const notGoodPercentageHeaderCell = headerRow2.insertCell();
-        notGoodPercentageHeaderCell.textContent = 'NOT SATISFIED';
-        notGoodPercentageHeaderCell.style.border = '1px solid black';
-
-        // Add a row for each caste
-        Object.keys(data2).forEach((caste) => {
-          const row = table2.insertRow();
-          const casteCell = row.insertCell();
-          casteCell.textContent = caste;
-          casteCell.style.border = '1px solid black';
-          const goodPercentageCell = row.insertCell();
-          goodPercentageCell.textContent = data2[caste].SATISFIED;
-          goodPercentageCell.style.border = '1px solid black';
-          const notGoodPercentageCell = row.insertCell();
-          notGoodPercentageCell.textContent = data2[caste]['NOT SATISFIED'];
-          notGoodPercentageCell.style.border = '1px solid black';
+          // Populate district dropdown
+          districtDropdown.innerHTML =
+            '<option value="">Select a district</option>';
+          districts.forEach((district) => {
+            const option = document.createElement("option");
+            option.value = district;
+            option.textContent = district;
+            option.style.fontSize = "15px";
+            option.style.width = "auto";
+            districtDropdown.appendChild(option);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
 
-        // Add the tables to the result container
-        // const resultContainer = document.getElementById('mainele');
-        // Create the h1 tag and center it
-        const h1_2 = document.createElement('h1');
-        h1_2.textContent = 'Top 5 Caste’s Satisfaction with STATE Government?';
-        h1_2.style.textAlign = 'center';
-        h1_2.style.padding = '10px';
-        h1_2.style.backgroundColor = 'lightgray';
-        h1_2.style.borderRadius = '5px';
-
-        // Add the h1 tag and second table to the result container
-        resultContainer.innerHTML = '';
-        resultContainer.appendChild(table1);
-        resultContainer.insertBefore(h1, table1);
-        resultContainer.appendChild(h1_2); // Add the h1 tag before the second table
-        resultContainer.appendChild(table2);
-
-
-
-      } catch (error) {
-        console.log(error);
-        const resultContainer = document.getElementById('mainele');
-        resultContainer.innerHTML = '<p>Something went wrong. Please try again.</p>';
+      const submitButton = document.querySelector("#left-nav-btn");
+      const resultContainer = document.querySelector("#mainele");
+      const stateSatisfaction = document.querySelector(
+        "#stateSatisfaction-btn"
+      );
+      // stateSatisfaction.addEventListener('click', renderstateSatisfactionTable);
+      while (resultContainer.firstChild) {
+        resultContainer.removeChild(resultContainer.firstChild);
       }
-      finally {
-        // Remove the loader from the page
-        loader.style.display = 'none';
+
+      async function renderstateSatisfactionTable(e) {
+        const selectedDistrict = districtDropdown.value;
+        const selectedConstituency = constituencyDropdown.value;
+        const selectedWeek = weekDropdown.value;
+        resultContainer.innerHTML = "";
+
+        if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+          resultContainer.innerHTML =
+            "<p>Please select all dropdowns to get the data.</p>";
+          return;
+        }
+        e.preventDefault();
+        // Add a loader to the page
+        const loader = document.getElementById("loader");
+        loader.style.display = "block";
+        try {
+          // Call the CM_Satisfaction endpoint to get the data
+          const response1 = await axios.post("/CM_Satisfaction", {
+            district: selectedDistrict,
+            constituency: selectedConstituency,
+            Date: selectedWeek,
+          });
+          const data1 = response1.data;
+
+          // Create the table element
+          const table1 = document.createElement("table");
+          table1.style.borderCollapse = "collapse";
+          table1.style.width = "100%";
+
+          // Create the header row
+          const headerRow1 = table1.insertRow();
+          const headerCell1 = headerRow1.insertCell();
+          headerCell1.textContent = "Type";
+          headerCell1.style.border = "1px solid black";
+          const goodHeaderCell = headerRow1.insertCell();
+          goodHeaderCell.textContent = "SATISFIED";
+          goodHeaderCell.style.border = "1px solid black";
+          const notGoodHeaderCell = headerRow1.insertCell();
+          notGoodHeaderCell.textContent = "NOT SATISFIED";
+          notGoodHeaderCell.style.border = "1px solid black";
+
+          // Add rows for Male, Female, and Total
+          Object.keys(data1["Good"]).forEach((key) => {
+            const row = table1.insertRow();
+            const rowHeaderCell = row.insertCell();
+            rowHeaderCell.textContent = key;
+            rowHeaderCell.style.border = "1px solid black";
+            const goodCell = row.insertCell();
+            goodCell.textContent = data1["Good"][key];
+            goodCell.style.border = "1px solid black";
+            const notGoodCell = row.insertCell();
+            notGoodCell.textContent = data1["Not Good"][key];
+            notGoodCell.style.border = "1px solid black";
+          });
+
+          // Add an h1 tag above the table
+          const h1 = document.createElement("h1");
+          h1.textContent = "Satisfaction with STATE Government?";
+          h1.style.textAlign = "center";
+          // h1.style.padding = '10px';
+          h1.style.backgroundColor = "lightgray";
+          h1.style.borderRadius = "5px";
+
+          // Add the table to the result container
+          // resultContainer.appendChild(table1);
+
+          // Call the TopFiveCast endpoint to get the data
+          const response2 = await axios.post("/TopFiveCast", {
+            district: selectedDistrict,
+            constituency: selectedConstituency,
+            Date: selectedWeek,
+          });
+          const data2 = response2.data;
+
+          // Build the second table
+          const table2 = document.createElement("table");
+          table2.style.borderCollapse = "collapse";
+          table2.style.width = "100%";
+
+          // Create the header row
+          const headerRow2 = table2.insertRow();
+          const casteHeaderCell = headerRow2.insertCell();
+          casteHeaderCell.textContent = "Caste";
+          casteHeaderCell.style.border = "1px solid black";
+          const goodPercentageHeaderCell = headerRow2.insertCell();
+          goodPercentageHeaderCell.textContent = "SATISFIED";
+          goodPercentageHeaderCell.style.border = "1px solid black";
+          const notGoodPercentageHeaderCell = headerRow2.insertCell();
+          notGoodPercentageHeaderCell.textContent = "NOT SATISFIED";
+          notGoodPercentageHeaderCell.style.border = "1px solid black";
+
+          // Add a row for each caste
+          Object.keys(data2).forEach((caste) => {
+            const row = table2.insertRow();
+            const casteCell = row.insertCell();
+            casteCell.textContent = caste;
+            casteCell.style.border = "1px solid black";
+            const goodPercentageCell = row.insertCell();
+            goodPercentageCell.textContent = data2[caste].SATISFIED;
+            goodPercentageCell.style.border = "1px solid black";
+            const notGoodPercentageCell = row.insertCell();
+            notGoodPercentageCell.textContent = data2[caste]["NOT SATISFIED"];
+            notGoodPercentageCell.style.border = "1px solid black";
+          });
+
+          // Add the tables to the result container
+          // const resultContainer = document.getElementById('mainele');
+          // Create the h1 tag and center it
+          const h1_2 = document.createElement("h1");
+          h1_2.textContent =
+            "Top 5 Caste’s Satisfaction with STATE Government?";
+          h1_2.style.textAlign = "center";
+          h1_2.style.padding = "10px";
+          h1_2.style.backgroundColor = "lightgray";
+          h1_2.style.borderRadius = "5px";
+
+          // Add the h1 tag and second table to the result container
+          resultContainer.innerHTML = "";
+          resultContainer.appendChild(table1);
+          resultContainer.insertBefore(h1, table1);
+          resultContainer.appendChild(h1_2); // Add the h1 tag before the second table
+          resultContainer.appendChild(table2);
+        } catch (error) {
+          console.log(error);
+          const resultContainer = document.getElementById("mainele");
+          resultContainer.innerHTML =
+            "<p>Something went wrong. Please try again.</p>";
+        } finally {
+          // Remove the loader from the page
+          loader.style.display = "none";
+        }
       }
-    }
 
-    const summaryButton = document.querySelector('#summary-button');
-    summaryButton.addEventListener('click', renderSummaryTable);
+      const summaryButton = document.querySelector("#summary-button");
+      summaryButton.addEventListener("click", renderSummaryTable);
 
-    async function renderSummaryTable(e) {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = constituencyDropdown.value;
-      const selectedWeek = weekDropdown.value;
-      resultContainer.innerHTML = '';
-      if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-        resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-        return;
+      async function renderSummaryTable(e) {
+        const selectedDistrict = districtDropdown.value;
+        const selectedConstituency = constituencyDropdown.value;
+        const selectedWeek = weekDropdown.value;
+        resultContainer.innerHTML = "";
+        if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+          resultContainer.innerHTML =
+            "<p>Please select all dropdowns to get the data.</p>";
+          return;
+        }
+        e.preventDefault();
+        // Add a loader to the page
+        const loader = document.getElementById("loader");
+        loader.style.display = "block";
+
+        try {
+          // Call the new SummaryReport endpoint to get the data
+          const response = await axios.post("/api/summary-report", {
+            district: selectedDistrict,
+            constituency: selectedConstituency,
+            Date: selectedWeek,
+          });
+
+          const data = response.data;
+
+          if (Array.isArray(data) && data.length > 0) {
+            // Build the table for the summary report
+
+            const table = document.createElement("table");
+            table.classList.add("summary-table");
+
+            // Add the first row with column names
+            const colNameRow = table.insertRow();
+            let cell = colNameRow.insertCell();
+            cell.colSpan = "1";
+            cell = colNameRow.insertCell();
+            cell.textContent = "2019";
+            cell.colSpan = "3";
+            cell.classList.add("summary-header-cell");
+            cell = colNameRow.insertCell();
+            cell.textContent = "2014";
+            cell.colSpan = "3";
+            cell.classList.add("summary-header-cell");
+            cell = colNameRow.insertCell();
+            cell.textContent = "Survey Results";
+            cell.colSpan = "4";
+            cell.classList.add("summary-header-cell");
+
+            // Add the second row with additional column names
+            const colNameRow2 = table.insertRow(0); // Add row at index 0 to put it at the top
+            cell = colNameRow2.insertCell();
+            cell.colSpan = "1";
+            cell = colNameRow2.insertCell();
+            cell.textContent = "Past history";
+            cell.colSpan = "6";
+            cell.classList.add("summary-header-cell");
+            cell = colNameRow2.insertCell();
+            cell.textContent =
+              "Which party do you vote for in next MLA Election?";
+            cell.colSpan = "4";
+            cell.classList.add("summary-header-cell");
+
+            // Create the header row
+            // Create the header row
+            const headerRow = table.insertRow();
+            let columnIndex = 0; // Variable to keep track of the column index
+            for (const key in data[0]) {
+              const headerCell = headerRow.insertCell();
+              if (
+                columnIndex === 1 ||
+                columnIndex === 2 ||
+                columnIndex === 3 ||
+                columnIndex === 4 ||
+                columnIndex === 5 ||
+                columnIndex === 6
+              ) {
+                // Set custom column headers for columns 2, 3, 4, 5, and 6
+                if (columnIndex === 1) {
+                  headerCell.textContent = "YSRCP";
+                } else if (columnIndex === 2) {
+                  headerCell.textContent = "TDP";
+                } else if (columnIndex === 3) {
+                  headerCell.textContent = "JSP";
+                } else if (columnIndex === 4) {
+                  headerCell.textContent = "YSRCP";
+                } else if (columnIndex === 5) {
+                  headerCell.textContent = "TDP";
+                } else if (columnIndex === 6) {
+                  headerCell.textContent = "OTHERS";
+                }
+              } else {
+                // Set the default column header
+                headerCell.textContent = key;
+              }
+              headerCell.classList.add("summary-header-cell");
+              columnIndex++;
+            }
+
+            // ... (existing code)
+
+            // Add a row for each result
+            data.forEach((result) => {
+              const row = table.insertRow();
+              let isFirstColumn = true;
+              for (const key in result) {
+                const cell = row.insertCell();
+                cell.textContent = result[key];
+                // Apply styling to increase row height
+                cell.style.padding = "10px"; // Adjust the padding value as needed
+                cell.style.lineHeight = "30px"; // Adjust the line height value as needed
+
+                // Add class to the first column cells and align text to left
+                if (isFirstColumn) {
+                  cell.classList.add("first-column-cell");
+                  cell.style.textAlign = "left";
+                  isFirstColumn = false;
+                }
+              }
+            });
+
+            // Clear any previous results and add the new table
+            resultContainer.innerHTML = "";
+            resultContainer.appendChild(table);
+
+            // Add an h1 tag above the table
+            const tableHeader = document.createElement("h1");
+            tableHeader.classList.add("summary-table-header");
+            tableHeader.classList.add("text-center"); // Add class to center align
+            tableHeader.textContent = "Summary Report";
+            resultContainer.insertBefore(tableHeader, table);
+          } else {
+            console.log("Data is not an array or is empty:", data);
+            resultContainer.innerHTML =
+              "<p>No data found. Please try again.</p>";
+          }
+        } catch (error) {
+          console.error(error);
+          resultContainer.innerHTML =
+            "<p>Something went wrong. Please try again.</p>";
+        } finally {
+          // Remove the loader from the page
+          loader.style.display = "none";
+        }
       }
-      e.preventDefault()
-      // Add a loader to the page
-  const loader = document.getElementById('loader');
-      loader.style.display = 'block';
 
-      try {
-  // Call the new SummaryReport endpoint to get the data
-  const response = await axios.post('/api/summary-report', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
+      const MLASatishfactionButton = document.querySelector(
+        "#mlaSatisfaction-btn"
+      );
+      MLASatishfactionButton.addEventListener("click", renderMlasatishfaction);
+      async function renderMlasatishfaction(e) {
+        const selectedDistrict = districtDropdown.value;
+        const selectedConstituency = constituencyDropdown.value;
+        const selectedWeek = weekDropdown.value;
+        resultContainer.innerHTML = "";
+        if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+          resultContainer.innerHTML =
+            "<p>Please select all dropdowns to get the data.</p>";
+          return;
+        }
+        e.preventDefault();
+        // Add a loader to the page
+        const loader = document.getElementById("loader");
+        loader.style.display = "block";
 
-  const data = response.data;
+        try {
+          // Call the new SummaryReport endpoint to get the data
+          const response = await axios.post("/Mlasatishfaction", {
+            district: selectedDistrict,
+            constituency: selectedConstituency,
+            Date: selectedWeek,
+          });
 
-  if (Array.isArray(data) && data.length > 0) {
-    // Build the table for the summary report
-    
-    const table = document.createElement('table');
-    table.classList.add('summary-table');
+          const data = response.data;
 
-    // Add the first row with column names
-    const colNameRow = table.insertRow();
-    let cell = colNameRow.insertCell();
-    cell.colSpan = '1';
-    cell = colNameRow.insertCell();
-    cell.textContent = '2019';
-    cell.colSpan = '3';
-    cell.classList.add('summary-header-cell');
-    cell = colNameRow.insertCell();
-    cell.textContent = '2014';
-    cell.colSpan = '3';
-    cell.classList.add('summary-header-cell');
-    cell = colNameRow.insertCell();
-    cell.textContent = 'Survey Results';
-    cell.colSpan = '4';
-    cell.classList.add('summary-header-cell');
+          if (typeof data === "object" && Object.keys(data).length > 0) {
+            // Build the table for the summary report
+            const table = document.createElement("table");
+            table.style.borderCollapse = "collapse";
+            table.style.width = "50%";
+            table.style.height = "25%";
+            table.style.marginTop = "50px";
+            // table.style.marginRight='50px'
 
-    // Add the second row with additional column names
-    const colNameRow2 = table.insertRow(0); // Add row at index 0 to put it at the top
-    cell = colNameRow2.insertCell();
-    cell.colSpan = '1';
-    cell = colNameRow2.insertCell();
-    cell.textContent = 'Past history';
-    cell.colSpan = '6';
-    cell.classList.add('summary-header-cell');
-    cell = colNameRow2.insertCell();
-    cell.textContent = 'Which party do you vote for in next MLA Election?';
-    cell.colSpan = '4';
-    cell.classList.add('summary-header-cell');
-    
+            // Create the header row
+            const headerRow = table.insertRow();
+            const typeHeaderCell = headerRow.insertCell();
+            typeHeaderCell.textContent = "GENDER";
+            typeHeaderCell.style.border = "1px solid black";
+            const goodHeaderCell = headerRow.insertCell();
+            goodHeaderCell.textContent = "SATISFIED";
+            goodHeaderCell.style.border = "1px solid black";
+            const notGoodHeaderCell = headerRow.insertCell();
+            notGoodHeaderCell.textContent = "DISSATISFIED";
+            notGoodHeaderCell.style.border = "1px solid black";
 
-    // Create the header row
-    // Create the header row
-const headerRow = table.insertRow();
-let columnIndex = 0; // Variable to keep track of the column index
-for (const key in data[0]) {
-  const headerCell = headerRow.insertCell();
-  if (columnIndex === 1 || columnIndex === 2 || columnIndex === 3 || columnIndex === 4 || columnIndex === 5 || columnIndex === 6) {
-    // Set custom column headers for columns 2, 3, 4, 5, and 6
-    if (columnIndex === 1) {
-      headerCell.textContent = 'YSRCP';
-    } else if (columnIndex === 2) {
-      headerCell.textContent = 'TDP';
-    } else if (columnIndex === 3) {
-      headerCell.textContent = 'JSP';
-    } else if (columnIndex === 4) {
-      headerCell.textContent = 'YSRCP';
-    } else if (columnIndex === 5) {
-      headerCell.textContent = 'TDP';
-    }else if (columnIndex === 6) {
-      headerCell.textContent = 'OTHERS';
-    }
-  } else {
-    // Set the default column header
-    headerCell.textContent = key;
-  }
-  headerCell.classList.add('summary-header-cell');
-  columnIndex++;
-}
+            // Add rows for Male, Female, and Total
+            Object.keys(data["Good."]).forEach((key) => {
+              const row = table.insertRow();
+              const rowHeaderCell = row.insertCell();
+              rowHeaderCell.textContent = key;
+              rowHeaderCell.style.border = "1px solid black";
+              const goodCell = row.insertCell();
+              goodCell.textContent = data["Good."][key]; // Add percentage sign
+              goodCell.style.border = "1px solid black";
+              const notGoodCell = row.insertCell();
+              notGoodCell.textContent = data["Not Good."][key]; // Add percentage sign
+              notGoodCell.style.border = "1px solid black";
+            });
 
-// ... (existing code)
+            // Clear any previous results and add the new table
+            resultContainer.innerHTML = "";
+            resultContainer.appendChild(table);
 
+            // Add an h1 tag above the table
+            const tableHeader = document.createElement("h1");
+            tableHeader.textContent = "SATISFACTION WITH CURRENT MLA";
+            tableHeader.style.backgroundColor = "white";
+            tableHeader.style.fontSize = "1.2em";
+            tableHeader.style.fontWeight = "bold"; // Set text to bold
+            tableHeader.style.fontfamily = "Helvetica, Arial, sans-serif";
+            tableHeader.style.marginTop = "14px"; // Add marginTop of 24px
+            tableHeader.style.marginLeft = "148px"; // Add marginLeft of 148px
 
-    // Add a row for each result
-    data.forEach(result => {
-    const row = table.insertRow();
-    let isFirstColumn = true;
-    for (const key in result) {
-      const cell = row.insertCell();
-      cell.textContent = result[key];
-      // Apply styling to increase row height
-      cell.style.padding = '10px'; // Adjust the padding value as needed
-      cell.style.lineHeight = '30px'; // Adjust the line height value as needed
-      
-      // Add class to the first column cells and align text to left
-      if (isFirstColumn) {
-        cell.classList.add('first-column-cell');
-        cell.style.textAlign = 'left';
-        isFirstColumn = false;
+            // tableHeader.style.width = '50px';
+            tableHeader.style.position = "absolute";
+            resultContainer.insertBefore(tableHeader, table);
+
+            // Call the Castsatisfactionmla endpoint to get the data for the stacked bar chart
+            const castResponse = await axios.post("/Castsatisfactionmla", {
+              district: selectedDistrict,
+              constituency: selectedConstituency,
+              Date: selectedWeek,
+            });
+            const castData = castResponse.data;
+
+            // Transform the data into an array of objects that Highcharts can use
+            const chartData = [];
+            Object.keys(castData).forEach((caste) => {
+              chartData.push({
+                name: caste,
+                data: [
+                  Number(castData[caste].good_percentage.slice(0, -1)),
+                  Number(castData[caste].not_good_percentage.slice(0, -1)),
+                ],
+              });
+            });
+
+            // Create the chart container if it doesn't exist
+            let chartContainer = document.getElementById("chart-container");
+            if (!chartContainer) {
+              chartContainer = document.createElement("div");
+              chartContainer.id = "chart-container";
+              chartContainer.style.position = "relative";
+              // chartContainer.style.flexGrow = '1';
+              chartContainer.style.float = "right";
+              chartContainer.style.marginTop = "-20%";
+              // chartContainer.style.marginRight = '10%';
+              // chartContainer.style.marginTop = '130px';
+              chartContainer.style.width = "50%";
+              chartContainer.style.height = "95%";
+
+              resultContainer.appendChild(chartContainer);
+            }
+
+            // Use Highcharts to create the stacked bar chart
+            Highcharts.chart(chartContainer, {
+              chart: {
+                type: "bar",
+                // backgroundColor: 'transparent'
+              },
+              title: {
+                text: "SATISFACTION WITH CURRENT MLA BY CASTE",
+                style: {
+                  color: "#000",
+                },
+              },
+              xAxis: {
+                categories: chartData.map((caste) => caste.name),
+                labels: {
+                  style: {
+                    color: "#000",
+                  },
+                  align: "right", // Align labels to the left
+                },
+              },
+              yAxis: {
+                min: 0, // Set the minimum value of the y-axis
+                max: 100, // Set the maximum value of the y-axis
+                title: {
+                  text: "%",
+                  style: {
+                    color: "#000",
+                  },
+                },
+                labels: {
+                  style: {
+                    color: "#000",
+                  },
+                },
+              },
+              legend: {
+                reversed: true,
+                itemStyle: {
+                  color: "#000",
+                },
+              },
+              plotOptions: {
+                series: {
+                  stacking: "normal",
+                  dataLabels: {
+                    enabled: true,
+                    format: "{y}%",
+                    style: {
+                      color: "#fff",
+                    },
+                  },
+                  pointWidth: 30, // Adjust the width of the bars (increase or decrease the value as desired)
+                  groupPadding: 0.01, // Adjust the gap between two bars (decrease or increase the value as desired)
+                },
+              },
+              series: [
+                {
+                  name: "No",
+                  data: chartData.map((caste) => Number(caste.data[1])),
+                  color: "rgb(250, 20, 14)",
+                },
+                {
+                  name: "Yes",
+                  data: chartData.map((caste) => Number(caste.data[0])),
+                  color: "rgb(1, 169, 91)",
+                },
+              ],
+              tooltip: {
+                style: {
+                  color: "black",
+                },
+                pointFormat: "{series.name}: <b>{point.percentage:.0f}%</b>",
+              },
+            });
+
+            const castResponse1 = await axios.post("/PrefferYSRCPCoordinator", {
+              district: selectedDistrict,
+              constituency: selectedConstituency,
+              Date: selectedWeek,
+            });
+            const castData1 = castResponse1.data;
+            console.log(castData1);
+
+            if (castData1 && Object.keys(castData1).length > 0) {
+              // create an array of objects to store data for the pie chart
+              const chartData = [];
+              castData1.forEach((item) => {
+                let color;
+                if (item["YSRCP Co-ordinator"] === "Same Co-ordinator") {
+                  color = "rgb(1, 169, 91)";
+                } else if (item["YSRCP Co-ordinator"] === "Anyone") {
+                  color = "rgb(0, 119, 112)";
+                } else if (
+                  item["YSRCP Co-ordinator"] === "Other Co-ordinator"
+                ) {
+                  color = "rgb(68, 114, 196)";
+                }
+                chartData.push({
+                  name: item["YSRCP Co-ordinator"],
+                  y: parseFloat(
+                    item["totalFactor_percentage"].replace("%", "")
+                  ),
+                  color: color, // add color property
+                });
+              });
+
+              //  Create the chart container if it doesn't exist
+              let chartContainer1 = document.getElementById("chart-container1");
+              if (!chartContainer1) {
+                chartContainer1 = document.createElement("div");
+                chartContainer1.id = "chart-container1";
+                chartContainer1.style.width = "50%";
+                chartContainer1.style.height = "50%";
+                resultContainer.appendChild(chartContainer1);
+              }
+              Highcharts.chart(chartContainer1, {
+                chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: "pie",
+                },
+                title: {
+                  text: "YSRCP  CO-ORDINATOR ",
+                },
+                tooltip: {
+                  pointFormat: "{series.name}: <b>{point.percentage:.0f}%</b>", // Update pointFormat to remove decimal
+                },
+                plotOptions: {
+                  pie: {
+                    allowPointSelect: true,
+                    cursor: "pointer",
+                    dataLabels: {
+                      enabled: true,
+                      format: "<b>{point.name}</b>: {point.percentage:.0f} %", // Update format to remove decimal
+                    },
+                  },
+                },
+                series: [
+                  {
+                    name: "Preference Percentage",
+                    colorByPoint: true,
+                    data: chartData,
+                  },
+                ],
+                colors: [
+                  "rgb(1, 169, 91)", // Same MLA
+                  "rgb(0, 119, 112)", // Other MLA
+                  "rgb(68, 114, 196)", // Anyone
+                ],
+              });
+            }
+            const castResponse2 = await axios.post("/PrefferMLAcandidate", {
+              district: selectedDistrict,
+              constituency: selectedConstituency,
+              Date: selectedWeek,
+            });
+            const castData2 = castResponse2.data;
+
+            if (castData2 && Object.keys(castData2).length > 0) {
+              // create an array of objects to store data for the pie chart
+              const chartData = [];
+              castData2.forEach((item) => {
+                let color;
+                if (item["MLA Preference"] === "Same MLA") {
+                  color = "rgb(1, 169, 91)";
+                } else if (item["MLA Preference"] === " Other MLA") {
+                  color = "rgb(0, 119, 112)";
+                } else if (item["MLA Preference"] === "Anyone") {
+                  color = "rgb(68, 114, 196)";
+                }
+                chartData.push({
+                  name: item["MLA Preference"],
+                  y: parseFloat(
+                    item["totalFactor_percentage"].replace("%", "")
+                  ),
+                  color: color, // add color property
+                });
+              });
+
+              //  Create the chart container if it doesn't exist
+              let chartContainer2 = document.getElementById("chart-container2");
+              if (!chartContainer2) {
+                chartContainer2 = document.createElement("div");
+                chartContainer2.id = "chart-container2";
+                chartContainer2.style.width = "50%";
+                chartContainer2.style.height = "50%";
+                // chartContainer2.style.marginLeft='35%';
+
+                resultContainer.appendChild(chartContainer2);
+              }
+              Highcharts.chart(chartContainer2, {
+                chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: "pie",
+                },
+                title: {
+                  text: "MLA PREFERENCE",
+                },
+                tooltip: {
+                  pointFormat: "{series.name}: <b>{point.percentage:.0f}%</b>", // Update pointFormat to remove decimal
+                },
+                plotOptions: {
+                  pie: {
+                    allowPointSelect: true,
+                    cursor: "pointer",
+                    dataLabels: {
+                      enabled: true,
+                      format: "<b>{point.name}</b>: {point.percentage:.0f} %", // Update format to remove decimal
+                    },
+                  },
+                },
+                series: [
+                  {
+                    name: "Preference Percentage",
+                    colorByPoint: true,
+                    data: chartData,
+                  },
+                ],
+                colors: [
+                  "rgb(1, 169, 91)", // Same MLA
+                  "rgb(0, 119, 112)", // Other MLA
+                  "rgb(68, 114, 196)", // Anyone
+                ],
+              });
+            }
+          } else {
+            console.log("Data is not an array or is empty:", data);
+            resultContainer.innerHTML =
+              "<p>No data found. Please try again.</p>";
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          // Remove the loader from the page
+          loader.style.display = "none";
+        }
       }
-    }
-  });
 
-    // Clear any previous results and add the new table
-    resultContainer.innerHTML = '';
-    resultContainer.appendChild(table);
+      // prefferd Pary
+      const prefferdParty = document.querySelector("#prefferedparty-btn");
+      prefferdParty.addEventListener("click", renderPrefferdParty);
 
-    // Add an h1 tag above the table
-const tableHeader = document.createElement('h1');
-tableHeader.classList.add('summary-table-header');
-tableHeader.classList.add('text-center'); // Add class to center align
-tableHeader.textContent = 'Summary Report';
-resultContainer.insertBefore(tableHeader, table);
-  } else {
-    console.log('Data is not an array or is empty:', data);
-    resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
-  }
-} catch (error) {
-  console.error(error);
-  resultContainer.innerHTML = '<p>Something went wrong. Please try again.</p>';
-}
+      async function renderPrefferdParty(e) {
+        const selectedDistrict = districtDropdown.value;
+        const selectedConstituency = constituencyDropdown.value;
+        const selectedWeek = weekDropdown.value;
+        resultContainer.innerHTML = "";
+        if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+          resultContainer.innerHTML =
+            "<p>Please select all dropdowns to get the data.</p>";
+          return;
+        }
+        e.preventDefault();
+        // Add a loader to the page
+        const loader = document.getElementById("loader");
+        loader.style.display = "block";
 
-      finally {
-    // Remove the loader from the page
-    loader.style.display = 'none';
-  }
-    }
+        try {
+          // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
+          const castResponse = await axios.post("/PrefferdCaste", {
+            district: selectedDistrict,
+            constituency: selectedConstituency,
+            Date: selectedWeek,
+          });
+          const castDataa = castResponse.data;
+          const castData = castDataa.output;
+          const castData2 = castDataa.result1;
+          console.log(castData2);
 
+          if (castData && Object.keys(castData).length > 0) {
+            // Transform the data into an array of objects that Highcharts can use
+            const chartData = Object.keys(castData).map((caste) => {
+              const casteData = castData[caste];
+              return {
+                name: caste,
+                data: [
+                  Number(casteData.YSRCP.slice(0, -1)),
+                  Number(casteData.TDP.slice(0, -1)),
+                  Number(casteData.JSP_BJP.slice(0, -1)),
+                  Number(casteData.Others.slice(0, -1)),
+                ],
+              };
+            });
 
-    const MLASatishfactionButton = document.querySelector('#mlaSatisfaction-btn');
-    MLASatishfactionButton.addEventListener('click', renderMlasatishfaction);
-    async function renderMlasatishfaction(e) {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = constituencyDropdown.value;
-      const selectedWeek = weekDropdown.value;
-      resultContainer.innerHTML = '';
-      if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-        resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-        return;
+            // Create the chart container if it doesn't exist
+            let chartContainer = document.getElementById("chart-container");
+            if (!chartContainer) {
+              chartContainer = document.createElement("div");
+              chartContainer.id = "chart-container";
+              chartContainer.style.display = "inline-block"; // change display property to inline-block
+              chartContainer.style.width = "50%";
+              chartContainer.style.height = "100%";
+              chartContainer.style.marginRight = "20px";
+              resultContainer.appendChild(chartContainer);
+            }
+
+            let chartContainer1 = document.getElementById("chart-container1");
+            if (!chartContainer1) {
+              chartContainer1 = document.createElement("div");
+              chartContainer1.id = "chart-container1";
+              chartContainer1.style.display = "inline-block"; // change display property to inline-block
+              chartContainer1.style.width = "50%";
+              chartContainer1.style.height = "100%";
+              // chartContainer1.style.marginRight = '-250px';
+              resultContainer.appendChild(chartContainer1);
+            }
+
+            // Use Highcharts to create the stacked bar chart
+            Highcharts.chart(chartContainer, {
+              chart: {
+                type: "bar",
+                // backgroundColor: 'transparent'
+              },
+              exporting: {
+                enabled: false, // Disable the context menu
+              },
+
+              title: {
+                text: "PREFFERD PARTY BY CASTE",
+              },
+              xAxis: {
+                categories: chartData.map((caste) => caste.name),
+              },
+              yAxis: {
+                min: 0, // Set the minimum value of the y-axis
+                max: 100, // Set the maximum value of the y-axis
+                title: {
+                  text: "%",
+                },
+              },
+              legend: {
+                reversed: true,
+              },
+              plotOptions: {
+                series: {
+                  stacking: "normal",
+                  dataLabels: {
+                    enabled: true,
+                    format: "{y}%",
+                    style: {
+                      color: "#fff",
+                    },
+                  },
+                  pointWidth: 25, // Adjust the width of the bars (increase or decrease the value as desired)
+                  groupPadding: 0.01, // Adjust the gap between two bars (decrease or increase the value as desired)
+                },
+              },
+              series: [
+                // {
+                //   name: 'INC',
+                //   data: chartData.map(caste => Number(caste.data[3])),
+                //   color: 'rgb(5,99, 193)'
+                // },
+                // {
+                //   name: 'Not Decided',
+                //   data: chartData.map(caste => Number(caste.data[4])),
+                //   color: 'pink'
+                // },
+                {
+                  name: "Others",
+                  data: chartData.map((caste) => Number(caste.data[3])),
+                  color: "rgb(192,192, 192)",
+                },
+                {
+                  name: "JSP_BJP",
+                  data: chartData.map((caste) => Number(caste.data[2])),
+                  color: "rgb(250,20, 14)",
+                },
+                {
+                  name: "TDP",
+                  data: chartData.map((caste) => Number(caste.data[1])),
+                  color: "rgb(255, 192, 0)",
+                },
+                {
+                  name: "YSRCP",
+                  data: chartData.map((caste) => Number(caste.data[0])),
+                  color: "rgb(1, 169, 91)",
+                },
+              ],
+            });
+            // Calculate total count for result2
+            const result2TotalCount = castData2.reduce(
+              (total, d) => total + d["totalFactor"],
+              0
+            );
+
+            // Create a pie chart for result2
+            const result2PieData = castData2.map((d) => {
+              let color;
+              switch (d["Party"]) {
+                case "YSRCP":
+                  color = "rgb(1, 169, 91)";
+                  break;
+                case "TDP":
+                  color = "rgb(255, 192, 0)";
+                  break;
+                case "JSP":
+                  color = "rgb(250,20, 14)";
+                  break;
+                case "BJP":
+                  color = "rgb(237,125, 49)";
+                  break;
+                case "INC":
+                  color = "rgb(5,99, 193)";
+                  break;
+                case "Not Decided":
+                  color = "rgb(192,192, 192)";
+                  break;
+                default:
+                  color = "gray";
+              }
+              return {
+                name: d["Party"],
+                y: (d["totalFactor"] / result2TotalCount) * 100,
+                color: color,
+              };
+            });
+
+            Highcharts.chart(chartContainer1, {
+              chart: {
+                type: "pie",
+                // backgroundColor: 'transparent',
+                width: 550,
+                // height: 750
+              },
+              exporting: {
+                enabled: false, // Disable the context menu
+              },
+
+              title: {
+                text: "PREFERRED PARTY",
+              },
+              plotOptions: {
+                pie: {
+                  allowPointSelect: true,
+                  cursor: "pointer",
+                  dataLabels: {
+                    enabled: true,
+                    format: "{point.name}: {point.percentage:.0f}%",
+                    formatter: function () {
+                      return (
+                        this.point.name +
+                        ": " +
+                        this.point.percentage.toFixed(0) +
+                        "%"
+                      ); // Add percentage directly to the data label
+                    },
+                  },
+                  tooltip: {
+                    pointFormat: "{point.name}: <b>{point.percentage:.0f}%</b>",
+                  },
+                },
+              },
+              series: [
+                {
+                  data: result2PieData,
+                },
+              ],
+            });
+          } else {
+            console.log("Data is not an object or is empty:", castData);
+            resultContainer.innerHTML =
+              "<p>No data found. Please try again.</p>";
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          // Remove the loader from the page
+          loader.style.display = "none";
+        }
       }
-      e.preventDefault()
-      // Add a loader to the page
-  const loader = document.getElementById('loader');
-      loader.style.display = 'block';
 
-      try {
-        // Call the new SummaryReport endpoint to get the data
-        const response = await axios.post('/Mlasatishfaction', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-
-        const data = response.data;
-
-      if (typeof data === 'object' && Object.keys(data).length > 0) {
-      // Build the table for the summary report
-      const table = document.createElement('table');
-      table.style.borderCollapse = 'collapse';
-      table.style.width = '50%';
-      table.style.height = '25%';
-      table.style.marginTop='50px'
-      // table.style.marginRight='50px'
-
-
-      // Create the header row
-      const headerRow = table.insertRow();
-      const typeHeaderCell = headerRow.insertCell();
-      typeHeaderCell.textContent = 'GENDER';
-      typeHeaderCell.style.border = '1px solid black';
-      const goodHeaderCell = headerRow.insertCell();
-      goodHeaderCell.textContent = 'SATISFIED';
-      goodHeaderCell.style.border = '1px solid black';
-      const notGoodHeaderCell = headerRow.insertCell();
-      notGoodHeaderCell.textContent = 'DISSATISFIED';
-      notGoodHeaderCell.style.border = '1px solid black';
-
-  // Add rows for Male, Female, and Total
-      Object.keys(data['Good.']).forEach((key) => {
-      const row = table.insertRow();
-      const rowHeaderCell = row.insertCell();
-      rowHeaderCell.textContent = key;
-      rowHeaderCell.style.border = '1px solid black';
-      const goodCell = row.insertCell();
-      goodCell.textContent = data['Good.'][key]  // Add percentage sign
-      goodCell.style.border = '1px solid black';
-      const notGoodCell = row.insertCell();
-      notGoodCell.textContent = data['Not Good.'][key]  // Add percentage sign
-      notGoodCell.style.border = '1px solid black';
-    });
-
-  // Clear any previous results and add the new table
-  resultContainer.innerHTML = '';
-  resultContainer.appendChild(table);
-
-  // Add an h1 tag above the table
-  const tableHeader = document.createElement('h1');
-  tableHeader.textContent = 'SATISFACTION WITH CURRENT MLA';
-  tableHeader.style.backgroundColor = 'white'
-  tableHeader.style.fontSize ='1.2em';
-  tableHeader.style.fontWeight = 'bold'; // Set text to bold
-  tableHeader.style.fontfamily ='Helvetica, Arial, sans-serif';
-  tableHeader.style.marginTop = '14px'; // Add marginTop of 24px
-  tableHeader.style.marginLeft = '148px'; // Add marginLeft of 148px
-
-  // tableHeader.style.width = '50px';
-  tableHeader.style.position = 'absolute';
-  resultContainer.insertBefore(tableHeader, table);
-
-          // Call the Castsatisfactionmla endpoint to get the data for the stacked bar chart
-          const castResponse = await axios.post('/Castsatisfactionmla', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
+      // prefferd MLA CANDIDATE
+      const PrefferMLAcandidate = document.querySelector(
+        "#PrefferMLAcandidate-btn"
+      );
+      PrefferMLAcandidate.addEventListener("click", renderPrefferMLAcandidate);
+      async function renderPrefferMLAcandidate(e) {
+        const selectedDistrict = districtDropdown.value;
+        const selectedConstituency = constituencyDropdown.value;
+        const selectedWeek = weekDropdown.value;
+        resultContainer.innerHTML = "";
+        if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+          resultContainer.innerHTML =
+            "<p>Please select all dropdowns to get the data.</p>";
+          return;
+        }
+        // e.preventDefault()
+        // Add a loader to the page
+        const loader = document.getElementById("loader");
+        loader.style.display = "block";
+        try {
+          // Call the PrefferdCaste endpoint to get the data for the pie chart
+          const castResponse = await axios.post("/PrefferMLAcandidate", {
+            district: selectedDistrict,
+            constituency: selectedConstituency,
+            Date: selectedWeek,
+          });
           const castData = castResponse.data;
 
-
-          // Transform the data into an array of objects that Highcharts can use
-          const chartData = [];
-          Object.keys(castData).forEach(caste => {
-            chartData.push({
-              name: caste,
-              data: [Number(castData[caste].good_percentage.slice(0, -1)), Number(castData[caste].not_good_percentage.slice(0, -1))]
+          if (castData && Object.keys(castData).length > 0) {
+            // create an array of objects to store data for the pie chart
+            const chartData = [];
+            castData.forEach((item) => {
+              let color;
+              if (item["MLA Preference"] === "Same MLA") {
+                color = "rgb(1, 169, 91)";
+              } else if (item["MLA Preference"] === " Other MLA") {
+                color = "rgb(0, 119, 112)";
+              } else if (item["MLA Preference"] === "Anyone") {
+                color = "rgb(68, 114, 196)";
+              }
+              chartData.push({
+                name: item["MLA Preference"],
+                y: parseFloat(item["totalFactor_percentage"].replace("%", "")),
+                color: color, // add color property
+              });
             });
-          });
 
-          // Create the chart container if it doesn't exist
-          let chartContainer = document.getElementById('chart-container');
-          if (!chartContainer) {
-            chartContainer = document.createElement('div');
-            chartContainer.id = 'chart-container';
-            chartContainer.style.position = 'relative';
-            // chartContainer.style.flexGrow = '1';
-            chartContainer.style.float = 'right';
-            chartContainer.style.marginTop = '-20%';
-            // chartContainer.style.marginRight = '10%';
-            // chartContainer.style.marginTop = '130px';
-            chartContainer.style.width = '50%';
-            chartContainer.style.height = '95%';
-
-           
-
-
-            resultContainer.appendChild(chartContainer);
-          }
-
-          // Use Highcharts to create the stacked bar chart
-          Highcharts.chart(chartContainer, {
-          chart: {
-            type: 'bar',
-            // backgroundColor: 'transparent'
-          },
-          title: {
-            text: 'SATISFACTION WITH CURRENT MLA BY CASTE',
-            style: {
-              color: '#000'
+            //  Create the chart container if it doesn't exist
+            let chartContainer = document.getElementById("chart-container");
+            if (!chartContainer) {
+              chartContainer = document.createElement("div");
+              chartContainer.id = "chart-container";
+              chartContainer.style.width = "100%";
+              chartContainer.style.height = "100%";
+              resultContainer.appendChild(chartContainer);
             }
-           
-          },
-          xAxis: {
-            categories: chartData.map(caste => caste.name),
-            labels: {
-              style: {
-                color: '#000'
+            Highcharts.chart(chartContainer, {
+              chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: "pie",
               },
-              align: 'right' // Align labels to the left
-            }
-          },
-          yAxis: {
-            min: 0, // Set the minimum value of the y-axis
-            max: 100, // Set the maximum value of the y-axis
-            title: {
-              text: '%',
-              style: {
-                color: '#000'
-              }
-            },
-            labels: {
-              style: {
-                color: '#000'
-              }
-            }
-          },
-          legend: {
-            reversed: true,
-            itemStyle: {
-              color: '#000'
-            }
-          },
-          plotOptions: {
-            series: {
-              stacking: 'normal',
-              dataLabels: {
-                enabled: true,
-                format: '{y}%',
-                style: {
-                  color: '#fff'
-                }
-              },
-              pointWidth: 30, // Adjust the width of the bars (increase or decrease the value as desired)
-              groupPadding: 0.01 // Adjust the gap between two bars (decrease or increase the value as desired)
-            }
-          },
-          series: [{
-            name: 'No',
-            data: chartData.map(caste => Number(caste.data[1])),
-            color: 'rgb(250, 20, 14)'
-          }, {
-            name: 'Yes',
-            data: chartData.map(caste => Number(caste.data[0])),
-            color: 'rgb(1, 169, 91)'
-          }],
-          tooltip: {
-            style: {
-              color: 'black'
-            },
-            pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
-    
-          }
-        });
-        
-         const castResponse1 = await axios.post('/PrefferYSRCPCoordinator', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castData1 = castResponse1.data;
-        console.log(castData1)
-
-        if (castData1 && Object.keys(castData1).length > 0) {
-  // create an array of objects to store data for the pie chart
-  const chartData = [];
-  castData1.forEach((item) => {
-    let color;
-    if (item["YSRCP Co-ordinator"] === "Same Co-ordinator") {
-      color = 'rgb(1, 169, 91)';
-    } else if (item["YSRCP Co-ordinator"] === "Anyone") {
-      color = 'rgb(0, 119, 112)';
-    } else if (item["YSRCP Co-ordinator"] === "Other Co-ordinator") {
-      color = 'rgb(68, 114, 196)';
-    }
-    chartData.push({
-      name: item["YSRCP Co-ordinator"],
-      y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
-      color: color // add color property
-    });
-  });
-
-  //  Create the chart container if it doesn't exist
-  let chartContainer1 = document.getElementById('chart-container1');
-  if (!chartContainer1) {
-    chartContainer1 = document.createElement('div');
-    chartContainer1.id = 'chart-container1';
-    chartContainer1.style.width = '50%';
-    chartContainer1.style.height = '50%';
-    resultContainer.appendChild(chartContainer1);
-  }
-  Highcharts.chart(chartContainer1, {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'pie',
-     
-      
-      
-    },
-    title: {
-      text: 'YSRCP  CO-ORDINATOR '
-    },
-    tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.0f} %' // Update format to remove decimal
-        }
-      }
-    },
-    series: [{
-      name: 'Preference Percentage',
-      colorByPoint: true,
-      data: chartData
-    }],
-    colors: [
-      'rgb(1, 169, 91)', // Same MLA
-      'rgb(0, 119, 112)', // Other MLA
-      'rgb(68, 114, 196)' // Anyone
-    ]
-  });
-        }
-        const castResponse2 = await axios.post('/PrefferMLAcandidate', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castData2 = castResponse2.data;
-
-
-        if (castData2 && Object.keys(castData2).length > 0) {
-  // create an array of objects to store data for the pie chart
-  const chartData = [];
-  castData2.forEach((item) => {
-    let color;
-    if (item["MLA Preference"] === "Same MLA") {
-      color = 'rgb(1, 169, 91)';
-    } else if (item["MLA Preference"] === " Other MLA") {
-      color = 'rgb(0, 119, 112)';
-    } else if (item["MLA Preference"] === "Anyone") {
-      color = 'rgb(68, 114, 196)';
-    }
-    chartData.push({
-      name: item["MLA Preference"],
-      y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
-      color: color // add color property
-    });
-  });
-
-  //  Create the chart container if it doesn't exist
-  let chartContainer2 = document.getElementById('chart-container2');
-  if (!chartContainer2) {
-    chartContainer2 = document.createElement('div');
-    chartContainer2.id = 'chart-container2';
-    chartContainer2.style.width='50%';
-    chartContainer2.style.height='50%';
-    // chartContainer2.style.marginLeft='35%';
-
-    resultContainer.appendChild(chartContainer2);
-  }
-  Highcharts.chart(chartContainer2, {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'pie'
-    },
-    title: {
-      text: 'MLA PREFERENCE'
-    },
-    tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.0f} %' // Update format to remove decimal
-        }
-      }
-    },
-    series: [{
-      name: 'Preference Percentage',
-      colorByPoint: true,
-      data: chartData
-    }],
-    colors: [
-      'rgb(1, 169, 91)', // Same MLA
-      'rgb(0, 119, 112)', // Other MLA
-      'rgb(68, 114, 196)' // Anyone
-    ]
-  });
-}
-
-        
-
-        } else {
-          console.log('Data is not an array or is empty:', data);
-          resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
-        }
-      } catch (error) {
-        console.error(error);
-      }finally {
-    // Remove the loader from the page
-    loader.style.display = 'none';
-  }
-    }
-
-
-
-
-
-    // prefferd Pary 
-    const prefferdParty = document.querySelector('#prefferedparty-btn');
-    prefferdParty.addEventListener('click', renderPrefferdParty);
-
-    async function renderPrefferdParty(e) {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = constituencyDropdown.value;
-      const selectedWeek = weekDropdown.value;
-      resultContainer.innerHTML = '';
-      if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-        resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-        return;
-      }
-      e.preventDefault()
-      // Add a loader to the page
-  const loader = document.getElementById('loader');
-      loader.style.display = 'block';
-
-      try {
-        // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
-        const castResponse = await axios.post('/PrefferdCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castDataa = castResponse.data;
-        const castData= castDataa.output 
-        const castData2=  castDataa.result1
-        console.log(castData2)  
-
-
-        if (castData && Object.keys(castData).length > 0) {
-
-          // Transform the data into an array of objects that Highcharts can use
-          const chartData = Object.keys(castData).map(caste => {
-            const casteData = castData[caste];
-            return {
-              name: caste,
-              data: [Number(casteData.YSRCP.slice(0, -1)), Number(casteData.TDP.slice(0, -1)), Number(casteData.JSP_BJP.slice(0, -1)), Number(casteData.Others.slice(0, -1)),
-                ]
-            };
-          });
-
-          // Create the chart container if it doesn't exist
-          let chartContainer = document.getElementById('chart-container');
-if (!chartContainer) {
-  chartContainer = document.createElement('div');
-  chartContainer.id = 'chart-container';
-  chartContainer.style.display = 'inline-block'; // change display property to inline-block
-  chartContainer.style.width = '50%';
-  chartContainer.style.height = '100%';
-  chartContainer.style.marginRight = '20px';
-  resultContainer.appendChild(chartContainer);
-}
-
-let chartContainer1 = document.getElementById('chart-container1');
-if (!chartContainer1) {
-  chartContainer1 = document.createElement('div');
-  chartContainer1.id = 'chart-container1';
-  chartContainer1.style.display = 'inline-block'; // change display property to inline-block
-  chartContainer1.style.width = '50%';
-  chartContainer1.style.height = '100%';
-  // chartContainer1.style.marginRight = '-250px';
-  resultContainer.appendChild(chartContainer1);
-}
-
-
-          // Use Highcharts to create the stacked bar chart
-          Highcharts.chart(chartContainer, {
-            chart: {
-              type: 'bar',
-              // backgroundColor: 'transparent'
-            },
-            exporting: {
-              enabled: false // Disable the context menu
-            },
-
-            title: {
-              text: 'PREFFERD PARTY BY CASTE'
-            },
-            xAxis: {
-              categories: chartData.map(caste => caste.name)
-              
-            },
-            yAxis: {
-              min: 0, // Set the minimum value of the y-axis
-              max: 100, // Set the maximum value of the y-axis
               title: {
-                text: '%'
-              }
-            },
-            legend: {
-              reversed: true
-            },
-            plotOptions: {
-    series: {
-      stacking: 'normal',
-      dataLabels: {
-        enabled: true,
-        format: '{y}%',
-        style: {
-          color: '#fff'
-        }
-      },
-      pointWidth: 25, // Adjust the width of the bars (increase or decrease the value as desired)
-      groupPadding: 0.01 // Adjust the gap between two bars (decrease or increase the value as desired)
-    }
-  },
-            series: [
-          
-            // {
-            //   name: 'INC',
-            //   data: chartData.map(caste => Number(caste.data[3])),
-            //   color: 'rgb(5,99, 193)'
-            // },
-            // {
-            //   name: 'Not Decided',
-            //   data: chartData.map(caste => Number(caste.data[4])),
-            //   color: 'pink'
-            // },
-            {
-              name: 'Others',
-              data: chartData.map(caste => Number(caste.data[3])),
-              color: 'rgb(192,192, 192)'
-            }, {
-              name: 'JSP_BJP',
-              data: chartData.map(caste => Number(caste.data[2])),
-              color: 'rgb(250,20, 14)'
-            },{
-              name: 'TDP',
-              data: chartData.map(caste => Number(caste.data[1])),
-              color: 'rgb(255, 192, 0)'
-            }, 
-            {
-              name: 'YSRCP',
-              data: chartData.map(caste => Number(caste.data[0])),
-              color: 'rgb(1, 169, 91)'
-            }]
-          });
-           // Calculate total count for result2
-        const result2TotalCount = castData2.reduce((total, d) => total + d['totalFactor'], 0);
-
-// Create a pie chart for result2
-const result2PieData = castData2.map(d => {
-  let color;
-  switch (d['Party']) {
-    case 'YSRCP':
-      color = 'rgb(1, 169, 91)';
-      break;
-    case 'TDP':
-      color = 'rgb(255, 192, 0)';
-      break;
-    case 'JSP':
-      color = 'rgb(250,20, 14)';
-      break;
-    case 'BJP':
-      color = 'rgb(237,125, 49)';
-      break;
-    case 'INC':
-      color = 'rgb(5,99, 193)';
-      break;
-    case 'Not Decided':
-      color = 'rgb(192,192, 192)';
-      break;
-    default:
-      color = 'gray';
-  }
-  return {
-    name: d['Party'],
-    y: (d['totalFactor'] / result2TotalCount) * 100,
-    color: color
-  };
-});
-
-Highcharts.chart(chartContainer1, {
-  chart: {
-    type: 'pie',
-    // backgroundColor: 'transparent',
-    width: 550,
-    // height: 750
-  },
-  exporting: {
-              enabled: false // Disable the context menu
-            },
-
-  title: {
-    text: 'PREFERRED PARTY'
-  },
-  plotOptions: {
-    pie: {
-      allowPointSelect: true,
-      cursor: 'pointer',
-      dataLabels: {
-        enabled: true,
-        format: '{point.name}: {point.percentage:.0f}%',
-        formatter: function() {
-          return this.point.name + ': ' + this.point.percentage.toFixed(0) + '%'; // Add percentage directly to the data label
-        }
-      },
-      tooltip: {
-        pointFormat: '{point.name}: <b>{point.percentage:.0f}%</b>',
-      }
-    }
-  },
-  series: [{
-    data: result2PieData
-  }]
-});
-
-
-          
-        } else {
-          console.log('Data is not an object or is empty:', castData);
-          resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
-        }
-      } catch (error) {
-        console.error(error);
-      }finally {
-    // Remove the loader from the page
-    loader.style.display = 'none';
-  }
-    }
-
-
-    // prefferd MLA CANDIDATE
-    const PrefferMLAcandidate = document.querySelector('#PrefferMLAcandidate-btn');
-    PrefferMLAcandidate.addEventListener('click', renderPrefferMLAcandidate);
-      async function renderPrefferMLAcandidate(e) {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = constituencyDropdown.value;
-      const selectedWeek = weekDropdown.value;
-      resultContainer.innerHTML = '';
-      if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-        resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-        return;
-      }
-      // e.preventDefault()
-      // Add a loader to the page
-  const loader = document.getElementById('loader');
-      loader.style.display = 'block';
-      try {
-        // Call the PrefferdCaste endpoint to get the data for the pie chart
-        const castResponse = await axios.post('/PrefferMLAcandidate', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castData = castResponse.data;
-
-
-        if (castData && Object.keys(castData).length > 0) {
-  // create an array of objects to store data for the pie chart
-  const chartData = [];
-  castData.forEach((item) => {
-    let color;
-    if (item["MLA Preference"] === "Same MLA") {
-      color = 'rgb(1, 169, 91)';
-    } else if (item["MLA Preference"] === " Other MLA") {
-      color = 'rgb(0, 119, 112)';
-    } else if (item["MLA Preference"] === "Anyone") {
-      color = 'rgb(68, 114, 196)';
-    }
-    chartData.push({
-      name: item["MLA Preference"],
-      y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
-      color: color // add color property
-    });
-  });
-
-  //  Create the chart container if it doesn't exist
-  let chartContainer = document.getElementById('chart-container');
-  if (!chartContainer) {
-    chartContainer = document.createElement('div');
-    chartContainer.id = 'chart-container';
-    chartContainer.style.width='100%';
-    chartContainer.style.height='100%';
-    resultContainer.appendChild(chartContainer);
-  }
-  Highcharts.chart(chartContainer, {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'pie'
-    },
-    title: {
-      text: 'MLA PREFERENCE'
-    },
-    tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.0f} %' // Update format to remove decimal
+                text: "MLA PREFERENCE",
+              },
+              tooltip: {
+                pointFormat: "{series.name}: <b>{point.percentage:.0f}%</b>", // Update pointFormat to remove decimal
+              },
+              plotOptions: {
+                pie: {
+                  allowPointSelect: true,
+                  cursor: "pointer",
+                  dataLabels: {
+                    enabled: true,
+                    format: "<b>{point.name}</b>: {point.percentage:.0f} %", // Update format to remove decimal
+                  },
+                },
+              },
+              series: [
+                {
+                  name: "Preference Percentage",
+                  colorByPoint: true,
+                  data: chartData,
+                },
+              ],
+              colors: [
+                "rgb(1, 169, 91)", // Same MLA
+                "rgb(0, 119, 112)", // Other MLA
+                "rgb(68, 114, 196)", // Anyone
+              ],
+            });
+          } else {
+            console.log("Data is not an object or is empty:", castData);
+            resultContainer.innerHTML =
+              "<p>No data found. Please try again.</p>";
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          // Remove the loader from the page
+          loader.style.display = "none";
         }
       }
-    },
-    series: [{
-      name: 'Preference Percentage',
-      colorByPoint: true,
-      data: chartData
-    }],
-    colors: [
-      'rgb(1, 169, 91)', // Same MLA
-      'rgb(0, 119, 112)', // Other MLA
-      'rgb(68, 114, 196)' // Anyone
-    ]
-  });
-}
- else {
-          console.log('Data is not an object or is empty:', castData);
-          resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
-        }
-      } catch (error) {
-        console.error(error);
-      }finally {
-    // Remove the loader from the page
-    loader.style.display = 'none';
-  }
-    }
 
+      // By default cliiekd on summer button and view summary data  into table
+      $(document).ready(function () {
+        $("#left-nav-btn").click(function () {
+          // your existing code for handling the button click goes here
 
-
-    // By default cliiekd on summer button and view summary data  into table 
-    $(document).ready(function () {
-      $("#left-nav-btn").click(function () {
-        // your existing code for handling the button click goes here
-
-        // show the summary by default
-        $("#summary-button").click();
+          // show the summary by default
+          $("#summary-button").click();
+        });
       });
-    })
 
+      //   const PrefferdMLAByCaste = document.querySelector('#PrefferdMLAByCaste-btn');
+      //   PrefferdMLAByCaste.addEventListener('click', renderPrefferdMLAByCaste);
 
+      //   async function renderPrefferdMLAByCaste(e) {
+      //     const selectedDistrict = districtDropdown.value;
+      //     const selectedConstituency = constituencyDropdown.value;
+      //     const selectedWeek = weekDropdown.value;
+      //     resultContainer.innerHTML = '';
+      //     if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+      //       resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
+      //       return;
+      //     }
+      //     e.preventDefault()
+      //     // Add a loader to the page
+      //     const loader = document.createElement("div");
+      //     loader.classList.add("loader");
+      //     loader.style.position = "fixed";
+      //     loader.style.top = "35%";
+      //     loader.style.left = "55%";
+      //     loader.style.transform = "translate(-50%, -50%)";
+      //     loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+      //     loader.style.borderTopColor = "#3498db";
+      //     loader.style.borderRadius = "75%";
+      //     loader.style.width = "250px";
+      //     loader.style.height = "250px";
+      //     loader.style.animation = "spin 1s ease-in-out infinite";
+      //     //   const text = document.createElement("span");
+      //     // text.textContent = "Loading data";
+      //     // text.style.position = "absolute";
+      //     // text.style.top = "50%";
+      //     // text.style.left = "50%";
+      //     // text.style.transform = "translate(-50%, -50%)";
+      //     // text.style.fontSize = "20px";
+      //     // text.style.fontWeight = "bold";
+      //     // loader.appendChild(text);
 
+      //     document.body.appendChild(loader);
+      //     try {
+      //       // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
+      //       const castResponse = await axios.post('/PrefferdMLAByCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
+      //       const castData = castResponse.data;
+      //       console.log(castData);
 
-  //   const PrefferdMLAByCaste = document.querySelector('#PrefferdMLAByCaste-btn');
-  //   PrefferdMLAByCaste.addEventListener('click', renderPrefferdMLAByCaste);
+      //       if (castData && Object.keys(castData).length > 0) {
 
-  //   async function renderPrefferdMLAByCaste(e) {
-  //     const selectedDistrict = districtDropdown.value;
-  //     const selectedConstituency = constituencyDropdown.value;
-  //     const selectedWeek = weekDropdown.value;
-  //     resultContainer.innerHTML = '';
-  //     if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-  //       resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-  //       return;
-  //     }
-  //     e.preventDefault()
-  //     // Add a loader to the page
-  //     const loader = document.createElement("div");
-  //     loader.classList.add("loader");
-  //     loader.style.position = "fixed";
-  //     loader.style.top = "35%";
-  //     loader.style.left = "55%";
-  //     loader.style.transform = "translate(-50%, -50%)";
-  //     loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-  //     loader.style.borderTopColor = "#3498db";
-  //     loader.style.borderRadius = "75%";
-  //     loader.style.width = "250px";
-  //     loader.style.height = "250px";
-  //     loader.style.animation = "spin 1s ease-in-out infinite";
-  //     //   const text = document.createElement("span");
-  //     // text.textContent = "Loading data";
-  //     // text.style.position = "absolute";
-  //     // text.style.top = "50%";
-  //     // text.style.left = "50%";
-  //     // text.style.transform = "translate(-50%, -50%)";
-  //     // text.style.fontSize = "20px";
-  //     // text.style.fontWeight = "bold";
-  //     // loader.appendChild(text);
+      //         // Transform the data into an array of objects that Highcharts can use
+      //         const chartData = Object.keys(castData).map(caste => {
+      //           const casteData = castData[caste];
+      //           return {
+      //             name: caste,
+      //             data: [
 
-  //     document.body.appendChild(loader);
-  //     try {
-  //       // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
-  //       const castResponse = await axios.post('/PrefferdMLAByCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-  //       const castData = castResponse.data;
-  //       console.log(castData);
+      //               Number(casteData.SameMLA?.slice(0, -1) ?? 0),
+      //               Number(casteData.OtherMLA?.slice(0, -1) ?? 0),
+      //               Number(casteData.Anyone?.slice(0, -1) ?? 0),
+      //               Number(casteData.Invaid?.slice(0, -1) ?? 0),
 
-  //       if (castData && Object.keys(castData).length > 0) {
+      //             ]
+      //           };
+      //         });
 
-  //         // Transform the data into an array of objects that Highcharts can use
-  //         const chartData = Object.keys(castData).map(caste => {
-  //           const casteData = castData[caste];
-  //           return {
-  //             name: caste,
-  //             data: [
+      //         // Create the chart container if it doesn't exist
+      //         let chartContainer = document.getElementById('chart-container');
+      //         if (!chartContainer) {
+      //           chartContainer = document.createElement('div');
+      //           chartContainer.id = 'chart-container';
+      //           resultContainer.appendChild(chartContainer);
+      //         }
 
-  //               Number(casteData.SameMLA?.slice(0, -1) ?? 0),
-  //               Number(casteData.OtherMLA?.slice(0, -1) ?? 0),
-  //               Number(casteData.Anyone?.slice(0, -1) ?? 0),
-  //               Number(casteData.Invaid?.slice(0, -1) ?? 0),
+      //         // Use Highcharts to create the stacked bar chart
+      //         Highcharts.chart(chartContainer, {
+      //           chart: {
+      //             type: 'bar'
+      //           },
+      //           title: {
+      //             text: 'Prefferd Party By Caste'
+      //           },
+      //           xAxis: {
+      //             categories: chartData.map(caste => caste.name)
+      //           },
+      //           yAxis: {
+      //             title: {
+      //               text: '%'
+      //             }
+      //           },
+      //           legend: {
+      //             reversed: true
+      //           },
+      //           plotOptions: {
+      //             series: {
+      //               stacking: 'normal',
+      //               dataLabels: {
+      //                 enabled: true,
+      //                 format: '{y}%'
+      //               }
+      //             }
+      //           },
+      //           series: [{
+      //             name: 'SameMLA',
+      //             data: chartData.map(caste => Number(caste.data[0])),
+      //             color: 'rgb(1, 169, 91)'
 
+      //           }, {
+      //             name: 'OtherMLA',
+      //             data: chartData.map(caste => Number(caste.data[1])),
+      //             color: 'rgb(0, 119, 112)'
+      //           }, {
+      //             name: 'Anyone',
+      //             data: chartData.map(caste => Number(caste.data[2])),
+      //             color: 'rgb(68, 114, 196)'
+      //           }, {
+      //             name: 'Invalid',
+      //             data: chartData.map(caste => Number(caste.data[3])),
+      //             color: 'blue'
+      //           }
+      //           ]
+      //         });
+      //       } else {
+      //         console.log('Data is not an object or is empty:', castData);
+      //         resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
+      //       }
+      //     } catch (error) {
+      //       console.error(error);
+      //     }finally {
+      //   // Remove the loader from the page
+      //   loader.style.display = 'none';
+      // }
+      //   }
 
+      // Prefferd CM by Caste
+      const PrefferdCMByCaste = document.querySelector(
+        "#PrefferdCMByCaste-btn"
+      );
+      PrefferdCMByCaste.addEventListener("click", renderPrefferdCMByCaste);
+      async function renderPrefferdCMByCaste(e) {
+        const selectedDistrict = districtDropdown.value;
+        const selectedConstituency = constituencyDropdown.value;
+        const selectedWeek = weekDropdown.value;
+        resultContainer.innerHTML = "";
+        e.preventDefault();
+        // Add a loader to the page
+        const loader = document.createElement("div");
+        loader.classList.add("loader");
+        loader.style.position = "fixed";
+        loader.style.top = "35%";
+        loader.style.left = "55%";
+        loader.style.transform = "translate(-50%, -50%)";
+        loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
+        loader.style.borderTopColor = "#3498db";
+        loader.style.borderRadius = "75%";
+        loader.style.width = "250px";
+        loader.style.height = "250px";
+        loader.style.animation = "spin 1s ease-in-out infinite";
 
-  //             ]
-  //           };
-  //         });
-
-  //         // Create the chart container if it doesn't exist
-  //         let chartContainer = document.getElementById('chart-container');
-  //         if (!chartContainer) {
-  //           chartContainer = document.createElement('div');
-  //           chartContainer.id = 'chart-container';
-  //           resultContainer.appendChild(chartContainer);
-  //         }
-
-  //         // Use Highcharts to create the stacked bar chart
-  //         Highcharts.chart(chartContainer, {
-  //           chart: {
-  //             type: 'bar'
-  //           },
-  //           title: {
-  //             text: 'Prefferd Party By Caste'
-  //           },
-  //           xAxis: {
-  //             categories: chartData.map(caste => caste.name)
-  //           },
-  //           yAxis: {
-  //             title: {
-  //               text: '%'
-  //             }
-  //           },
-  //           legend: {
-  //             reversed: true
-  //           },
-  //           plotOptions: {
-  //             series: {
-  //               stacking: 'normal',
-  //               dataLabels: {
-  //                 enabled: true,
-  //                 format: '{y}%'
-  //               }
-  //             }
-  //           },
-  //           series: [{
-  //             name: 'SameMLA',
-  //             data: chartData.map(caste => Number(caste.data[0])),
-  //             color: 'rgb(1, 169, 91)'
-
-  //           }, {
-  //             name: 'OtherMLA',
-  //             data: chartData.map(caste => Number(caste.data[1])),
-  //             color: 'rgb(0, 119, 112)'
-  //           }, {
-  //             name: 'Anyone',
-  //             data: chartData.map(caste => Number(caste.data[2])),
-  //             color: 'rgb(68, 114, 196)'
-  //           }, {
-  //             name: 'Invalid',
-  //             data: chartData.map(caste => Number(caste.data[3])),
-  //             color: 'blue'
-  //           }
-  //           ]
-  //         });
-  //       } else {
-  //         console.log('Data is not an object or is empty:', castData);
-  //         resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }finally {
-  //   // Remove the loader from the page
-  //   loader.style.display = 'none';
-  // }
-  //   }
-
-    // Prefferd CM by Caste 
-    const PrefferdCMByCaste = document.querySelector('#PrefferdCMByCaste-btn');
-    PrefferdCMByCaste.addEventListener('click', renderPrefferdCMByCaste);
-    async function renderPrefferdCMByCaste(e) {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = constituencyDropdown.value;
-      const selectedWeek = weekDropdown.value;
-      resultContainer.innerHTML = '';
-      e.preventDefault()
-      // Add a loader to the page
-      const loader = document.createElement("div");
-      loader.classList.add("loader");
-      loader.style.position = "fixed";
-      loader.style.top = "35%";
-      loader.style.left = "55%";
-      loader.style.transform = "translate(-50%, -50%)";
-      loader.style.border = "25px solid rgba(0, 0, 0, 0.1)";
-      loader.style.borderTopColor = "#3498db";
-      loader.style.borderRadius = "75%";
-      loader.style.width = "250px";
-      loader.style.height = "250px";
-      loader.style.animation = "spin 1s ease-in-out infinite";
-
-
-      document.body.appendChild(loader);
-      try {
-        // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
-        const castResponse = await axios.post('/PrefferdCMByCaste', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castDataa = castResponse.data;
-        const castData= castDataa.output 
-        const castData2=  castDataa.result1
-        console.log(castData2)  
-
-        if (castData && Object.keys(castData).length > 0) {
-
-          // Transform the data into an array of objects that Highcharts can use
-          const chartData = Object.keys(castData).map(caste => {
-            const casteData = castData[caste];
-            return {
-              name: caste,
-              data: [Number(casteData.NotGood.slice(0, -1)), Number(casteData.Good.slice(0, -1))]
-            };
+        document.body.appendChild(loader);
+        try {
+          // Call the PrefferdCaste endpoint to get the data for the stacked bar chart
+          const castResponse = await axios.post("/PrefferdCMByCaste", {
+            district: selectedDistrict,
+            constituency: selectedConstituency,
+            Date: selectedWeek,
           });
+          const castDataa = castResponse.data;
+          const castData = castDataa.output;
+          const castData2 = castDataa.result1;
+          console.log(castData2);
 
-          // Create the chart container if it doesn't exist
-          let chartContainer = document.getElementById('chart-container');
+          if (castData && Object.keys(castData).length > 0) {
+            // Transform the data into an array of objects that Highcharts can use
+            const chartData = Object.keys(castData).map((caste) => {
+              const casteData = castData[caste];
+              return {
+                name: caste,
+                data: [
+                  Number(casteData.NotGood.slice(0, -1)),
+                  Number(casteData.Good.slice(0, -1)),
+                ],
+              };
+            });
+
+            // Create the chart container if it doesn't exist
+            let chartContainer = document.getElementById("chart-container");
+            if (!chartContainer) {
+              chartContainer = document.createElement("div");
+              chartContainer.id = "chart-container";
+              chartContainer.style.display = "inline-block"; // change display property to inline-block
+              chartContainer.style.width = "50%";
+              chartContainer.style.height = "95%";
+              chartContainer.style.marginRight = "5px";
+              resultContainer.appendChild(chartContainer);
+            }
+
+            let chartContainer1 = document.getElementById("chart-container1");
+            if (!chartContainer1) {
+              chartContainer1 = document.createElement("div");
+              chartContainer1.id = "chart-container1";
+              chartContainer1.style.display = "inline-block"; // change display property to inline-block
+              chartContainer1.style.width = "50%";
+              chartContainer1.style.height = "95%";
+              chartContainer.style.marginleft = "5px";
+              resultContainer.appendChild(chartContainer1);
+            }
+
+            // Use Highcharts to create the stacked bar chart
+            Highcharts.chart(chartContainer, {
+              chart: {
+                type: "bar",
+              },
+              exporting: {
+                enabled: false, // Disable the context menu
+              },
+
+              title: {
+                text: "CM SATISFACTION BY CASTE",
+              },
+              xAxis: {
+                categories: chartData.map((caste) => caste.name),
+              },
+              yAxis: {
+                min: 0, // Set the minimum value of the y-axis
+                max: 100, // Set the maximum value of the y-axis
+                title: {
+                  text: "%",
+                },
+              },
+              legend: {
+                reversed: true,
+              },
+              plotOptions: {
+                series: {
+                  stacking: "normal",
+                  dataLabels: {
+                    enabled: true,
+                    format: "{y}%",
+                    style: {
+                      color: "#fff",
+                    },
+                  },
+                  pointWidth: 25, // Adjust the width of the bars (increase or decrease the value as desired)
+                  groupPadding: 0.01, // Adjust the gap between two bars (decrease or increase the value as desired)
+                },
+              },
+              series: [
+                {
+                  name: "Not Good",
+                  data: chartData.map((caste) => Number(caste.data[0])),
+                  color: "red",
+                },
+                {
+                  name: "Good",
+                  data: chartData.map((caste) => Number(caste.data[1])),
+                  color: "green",
+                },
+              ],
+            });
+            // Calculate total count for result2
+            const result2TotalCount = castData2.reduce(
+              (total, d) => total + d["totalFactor"],
+              0
+            );
+
+            // Create a pie chart for result2
+            const result2PieData = castData2.map((d) => {
+              let color;
+              switch (d["CM_Satisfaction"]) {
+                case "Good":
+                  color = "green";
+                  break;
+                case "Not Good":
+                  color = "red";
+              }
+              return {
+                name: d["CM_Satisfaction"],
+                y: (d["totalFactor"] / result2TotalCount) * 100,
+                color: color,
+              };
+            });
+
+            Highcharts.chart(chartContainer1, {
+              chart: {
+                type: "pie",
+
+                width: 550, // set width to 600px
+              },
+              exporting: {
+                enabled: false, // Disable the context menu
+              },
+
+              title: {
+                text: "CM SATISFACTION",
+              },
+              plotOptions: {
+                pie: {
+                  allowPointSelect: true,
+                  cursor: "pointer",
+                  dataLabels: {
+                    enabled: true,
+                    format: "{point.name}: {point.percentage:.0f}%",
+                    formatter: function () {
+                      return (
+                        this.point.name +
+                        ": " +
+                        this.point.percentage.toFixed(0) +
+                        "%"
+                      ); // Add percentage directly to the data label
+                    },
+                  },
+                  tooltip: {
+                    pointFormat: "{point.name}: <b>{point.percentage:.0f}%</b>",
+                  },
+                },
+              },
+              series: [
+                {
+                  data: result2PieData,
+                },
+              ],
+            });
+          } else {
+            console.log("Data is not an object or is empty:", castData);
+            resultContainer.innerHTML =
+              "<p>No data found. Please try again.</p>";
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          // Remove the loader from the page
+          loader.style.display = "none";
+        }
+      }
+
+      // TDP + JSP Alliance
+
+      const TDP_JSP_Alliance = document.querySelector("#TDPJSPAlliance-btn");
+      TDP_JSP_Alliance.addEventListener("click", renderTDPJSPAlliance);
+
+      async function renderTDPJSPAlliance(e) {
+        const selectedDistrict = districtDropdown.value;
+        const selectedConstituency = constituencyDropdown.value;
+        const selectedWeek = weekDropdown.value;
+        resultContainer.innerHTML = "";
+        if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+          resultContainer.innerHTML =
+            "<p>Please select all dropdowns to get the data.</p>";
+          return;
+        }
+        e.preventDefault();
+        // Add a loader to the page
+        const loader = document.getElementById("loader");
+        loader.style.display = "block";
+        try {
+          // Call the TDP_JSP_Alliance endpoint to get the data for the pie charts
+          const TDPJSPResponse = await axios.post("/TDP_JSP_Alliance", {
+            district: selectedDistrict,
+            constituency: selectedConstituency,
+            Date: selectedWeek,
+          });
+          const TDPJSPData = TDPJSPResponse.data;
+          console.log(TDPJSPData);
+
+          // Extract the data for TDP and JSP
+          const TDPData = TDPJSPData.result4.find((d) => d.Party === "TDP");
+          const JSPData = TDPJSPData.result.find((d) => d.Party === "JSP");
+          // Extract the data for result2
+          const result2Data = TDPJSPData.result2;
+          console.log(result2Data);
+
+          // Extract the data for result3
+          const result3Data = TDPJSPData.result3;
+          console.log(result3Data);
+
+          // Create the chart container
+          let chartContainer = document.getElementById("chart-container");
           if (!chartContainer) {
-            chartContainer = document.createElement('div');
-            chartContainer.id = 'chart-container';
-            chartContainer.style.display = 'inline-block'; // change display property to inline-block
-            chartContainer.style.width = '50%';
-            chartContainer.style.height = '95%';
-            chartContainer.style.marginRight = '5px'; 
+            chartContainer = document.createElement("div");
+            chartContainer.id = "chart-container";
+            chartContainer.style.display = "flex";
+            chartContainer.style.flexDirection = "row";
+            chartContainer.style.width = "100%";
+            chartContainer.style.height = "50%";
+
+            // resultContainer.style.marginleft='10px'
             resultContainer.appendChild(chartContainer);
           }
-
-          let chartContainer1 = document.getElementById('chart-container1');
+          // Create the chart container
+          let chartContainer1 = document.getElementById("chart-container1");
           if (!chartContainer1) {
-            chartContainer1 = document.createElement('div');
-            chartContainer1.id = 'chart-container1';
-            chartContainer1.style.display = 'inline-block'; // change display property to inline-block
-            chartContainer1.style.width = '50%';
-            chartContainer1.style.height = '95%';
-            chartContainer.style.marginleft = '5px'; 
+            chartContainer1 = document.createElement("div");
+            chartContainer1.id = "chart-container1";
+            chartContainer1.style.display = "flex";
+            chartContainer1.style.flexDirection = "row";
+            chartContainer1.style.width = "100%";
+            chartContainer1.style.height = "50%";
+            // resultContainer.style.marginleft='10px'
             resultContainer.appendChild(chartContainer1);
           }
 
-          // Use Highcharts to create the stacked bar chart
-          Highcharts.chart(chartContainer, {
-            chart: {
-              type: 'bar'
-            },
-            exporting: {
-              enabled: false // Disable the context menu
-            },
+          // Create the chart containers for TDP and JSP
+          let chartContainerTDP = document.createElement("div");
+          chartContainerTDP.id = "chart-container-tdp";
+          chartContainerTDP.style.width = "100%";
+          chartContainerTDP.style.height = "100%";
+          chartContainer.appendChild(chartContainerTDP);
 
+          let chartContainerJSP = document.createElement("div");
+          chartContainerJSP.style.width = "100%";
+          chartContainerJSP.style.height = "100%";
+          chartContainerJSP.id = "chart-container-jsp";
+          chartContainer.appendChild(chartContainerJSP);
+
+          let chartContainerJSPFull = document.createElement("div");
+          chartContainerJSPFull.style.width = "100%";
+          chartContainerJSPFull.style.height = "100%";
+          chartContainerJSPFull.id = "chart-container-jspfull";
+          chartContainer1.appendChild(chartContainerJSPFull);
+
+          let chartContainerTDPFull = document.createElement("div");
+          chartContainerTDPFull.style.width = "100%";
+          chartContainerTDPFull.style.height = "100%";
+          chartContainerTDPFull.id = "chart-container-tdpfull";
+          chartContainer1.appendChild(chartContainerTDPFull);
+
+          // Render the TDP pie chart
+          Highcharts.chart(chartContainerJSP, {
+            chart: {
+              type: "pie",
+              // styledMode: true // Enable styled mode
+              width: 600,
+              // height: 270,
+              spacing: [0, 0, 0, 0], // Set margin and padding to 0
+            },
             title: {
-              text: 'CM SATISFACTION BY CASTE'
-            },
-            xAxis: {
-              categories: chartData.map(caste => caste.name)
-            },
-            yAxis: {
-              min: 0, // Set the minimum value of the y-axis
-              max: 100, // Set the maximum value of the y-axis
-              title: {
-                text: '%'
-              }
-            },
-            legend: {
-              reversed: true
+              text: "TDP Voters preference on alliance ",
+              style: {
+                textTransform: "uppercase", // Transform text to capitals
+              },
             },
             plotOptions: {
-            series: {
-              stacking: 'normal',
-              dataLabels: {
-                enabled: true,
-                format: '{y}%',
-                style: {
-                  color: '#fff'
-                }
+              pie: {
+                // innerSize: '50%',
+                // distance: -30,
+                dataLabels: {
+                  enabled: true,
+                  format: "{point.name}: {point.percentage:.1f}%",
+                },
+                tooltip: {
+                  pointFormat: "{point.name}: <b>{point.percentage:.1f}%</b>", // Display 2 decimal places
+                },
               },
-              pointWidth: 25, // Adjust the width of the bars (increase or decrease the value as desired)
-              groupPadding: 0.01 // Adjust the gap between two bars (decrease or increase the value as desired)
-            }
-          },
-            series: [ {
-              name: 'Not Good',
-              data: chartData.map(caste => Number(caste.data[0])),
-              color: 'red'
             },
-            {
-              name: 'Good',
-              data: chartData.map(caste => Number(caste.data[1])),
-              color: 'green'
-            }]
+            series: [
+              {
+                data: [
+                  {
+                    name: "YSRCP",
+                    y: parseFloat(TDPData.YSRCP.replace("%", "")),
+                  },
+                  {
+                    name: "Will Not Vote",
+                    y: parseFloat(TDPData["Will Not Vote"].replace("%", "")),
+                  },
+                  {
+                    name: "JSP Candidate",
+                    y: parseFloat(TDPData["JSP Candidate"].replace("%", "")),
+                  },
+                  {
+                    name: "BJP",
+                    y: parseFloat(TDPData["BJP"].replace("%", "")),
+                  },
+                  {
+                    name: "INC",
+                    y: parseFloat(TDPData["INC"].replace("%", "")),
+                  },
+                ],
+                colors: [
+                  " #01A95B",
+                  "#D9D9D9",
+                  "#DE6B1D",
+                  "#F0201E",
+                  "#FE7B80",
+                ],
+              },
+            ],
           });
+
+          // Render the JSP pie chart
+          Highcharts.chart(chartContainerTDP, {
+            chart: {
+              type: "pie",
+              width: 600,
+              height: 270,
+            },
+            title: {
+              text: "JSP Voters preference on alliance ",
+              style: {
+                textTransform: "uppercase", // Transform text to capitals
+              },
+            },
+            plotOptions: {
+              pie: {
+                // innerSize: '50%',
+                // distance: -30,
+                dataLabels: {
+                  enabled: true,
+                  format: "{point.name}: {point.percentage:.1f}%",
+                },
+                tooltip: {
+                  pointFormat: "{point.name}: <b>{point.percentage:.1f}%</b>", // Display 2 decimal places
+                },
+              },
+            },
+            series: [
+              {
+                data: [
+                  {
+                    name: "YSRCP",
+                    y: parseFloat(JSPData.YSRCP.replace("%", "")),
+                  },
+                  {
+                    name: "Will Not Vote",
+                    y: parseFloat(JSPData["Will Not Vote"].replace("%", "")),
+                  },
+                  {
+                    name: "TDP Candidate",
+                    y: parseFloat(JSPData["TDP Candidate"].replace("%", "")),
+                  },
+                  {
+                    name: "BJP",
+                    y: parseFloat(JSPData["BJP"].replace("%", "")),
+                  },
+                  {
+                    name: "INC",
+                    y: parseFloat(JSPData["INC"].replace("%", "")),
+                  },
+                ],
+                colors: [
+                  " #01A95B",
+                  "#D9D9D9",
+                  "#DE6B1D",
+                  "#F0201E",
+                  "#FE7B80",
+                ],
+              },
+            ],
+          });
+
           // Calculate total count for result2
-        const result2TotalCount = castData2.reduce((total, d) => total + d['totalFactor'], 0);
+          const result2TotalCount = result2Data.reduce((total, d) => total + d["totalFactor"], 0);
+const partyColors1 = {
+  BJP: "#F0201E",
+  "Not Decided": "#FE7B80",
+  "will not vote": "#D9D9D9",
+  "TDP+JSP": "#DE6B1D",
+  YSRCP: "#01A95B",
+  // Add more party-color pairs as needed
+};
 
-        // Create a pie chart for result2
-        const result2PieData = castData2.map(d => {
-          let color;
-          switch (d['CM_Satisfaction']) {
-            case 'Good':
-              color = 'green';
-              break;
-            case 'Not Good':
-              color = 'red';
-            
-          }
-          return {
-            name: d['CM_Satisfaction'],
-            y: (d['totalFactor'] / result2TotalCount) * 100,
-            color: color
+// Create a pie chart for result2
+const result2PieData = result2Data.map((d) => ({
+  name: d["TDP Full"],
+  y: (d["totalFactor"] / result2TotalCount) * 100,
+  color: partyColors1[d["TDP Full"]] || null,
+}));
+
+Highcharts.chart("chart-container-jspfull", {
+  chart: {
+    type: "pie",
+    width: 600,
+  },
+  title: {
+    text: "Party Prefference If TDP Contests",
+    style: {
+      textTransform: "uppercase", // Transform text to capitals
+    },
+  },
+  plotOptions: {
+    pie: {
+      dataLabels: {
+        enabled: true,
+        format: "{point.name}: {point.percentage:.1f}%",
+      },
+      tooltip: {
+        pointFormat: "{point.name}: <b>{point.percentage:.1f}%</b>",
+      },
+    },
+  },
+  series: [
+    {
+      data: result2PieData,
+    },
+  ],
+  colors: Object.values(partyColors1),
+});
+
+
+          // Calculate total count for result3
+          const result3TotalCount = result3Data.reduce(
+            (total, d) => total + d["totalFactor"],
+            0
+          );
+
+          // Define a color mapping for each party
+          const partyColors = {
+            BJP: "#F0201E",
+            "Not Decided": "#FE7B80",
+            "will not vote": "#D9D9D9",
+            "TDP+JSP": "#DE6B1D",
+            YSRCP: "#01A95B",
+            // Add more party-color pairs as needed
           };
-        });
 
-        Highcharts.chart(chartContainer1, {
-          chart: {
-            type: 'pie',
-           
-            width: 550, // set width to 600px
-  
-          },
-          exporting: {
-            enabled: false // Disable the context menu
-          },
+          // Create a pie chart for result3
+          const result3PieData = result3Data.map((d) => ({
+            name: d["JSP Full"],
+            y: (d["totalFactor"] / result3TotalCount) * 100,
+            color: partyColors[d["JSP Full"]] || null,
+          }));
 
-          title: {
-            text: 'CM SATISFACTION'
-          },
-          plotOptions: {
-            pie: {
-              allowPointSelect: true,
-              cursor: 'pointer',
-              dataLabels: {
-                enabled: true,
-                format: '{point.name}: {point.percentage:.0f}%',
-                formatter: function() {
-                  return this.point.name + ': ' + this.point.percentage.toFixed(0) + '%'; // Add percentage directly to the data label
-                }
+          Highcharts.chart("chart-container-tdpfull", {
+            chart: {
+              type: "pie",
+              width: 600,
+            },
+            title: {
+              text: "Party Prefference If JSP Contests",
+              style: {
+                textTransform: "uppercase", // Transform text to capitals
               },
-              tooltip: {
-                pointFormat: '{point.name}: <b>{point.percentage:.0f}%</b>',
+            },
+            plotOptions: {
+              pie: {
+                dataLabels: {
+                  enabled: true,
+                  format: "{point.name}: {point.percentage:.1f}%",
+                },
+                tooltip: {
+                  pointFormat: "{point.name}: <b>{point.percentage:.1f}%</b>", // Display 2 decimal places
+                },
+              },
+            },
+            series: [
+              {
+                data: result3PieData,
+              },
+            ],
+            colors: Object.values(partyColors), // Use the defined colors as the chart colors
+          });
+        } catch (error) {
+          console.error(error);
+          resultContainer.innerHTML =
+            "<p>No Alliance data, Please choose next Survey Date.</p>";
+        } finally {
+          // Remove the loader from the page
+          loader.style.display = "none";
+        }
+      }
+
+      // prefferd YSRCP COORDINATOR  CANDIDATE
+      const PrefferYSRCPCoordinator = document.querySelector(
+        "#PrefferYSRCPCoordinator-btn"
+      );
+      PrefferYSRCPCoordinator.addEventListener(
+        "click",
+        renderPrefferYSRCPCoordinator
+      );
+
+      async function renderPrefferYSRCPCoordinator(e) {
+        const selectedDistrict = districtDropdown.value;
+        const selectedConstituency = constituencyDropdown.value;
+        const selectedWeek = weekDropdown.value;
+        resultContainer.innerHTML = "";
+        if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+          resultContainer.innerHTML =
+            "<p>Please select all dropdowns to get the data.</p>";
+          return;
+        }
+        e.preventDefault();
+        // Add a loader to the page
+        const loader = document.getElementById("loader");
+        loader.style.display = "block";
+
+        try {
+          // Call the PrefferdCaste endpoint to get the data for the pie chart
+          const castResponse = await axios.post("/PrefferYSRCPCoordinator", {
+            district: selectedDistrict,
+            constituency: selectedConstituency,
+            Date: selectedWeek,
+          });
+          const castData = castResponse.data;
+          console.log(castData);
+
+          if (castData && Object.keys(castData).length > 0) {
+            // create an array of objects to store data for the pie chart
+            const chartData = [];
+            castData.forEach((item) => {
+              let color;
+              if (item["YSRCP Co-ordinator"] === "Same Co-ordinator") {
+                color = "rgb(1, 169, 91)";
+              } else if (item["YSRCP Co-ordinator"] === "Anyone") {
+                color = "rgb(0, 119, 112)";
+              } else if (item["YSRCP Co-ordinator"] === "Other Co-ordinator") {
+                color = "rgb(68, 114, 196)";
               }
+              chartData.push({
+                name: item["YSRCP Co-ordinator"],
+                y: parseFloat(item["totalFactor_percentage"].replace("%", "")),
+                color: color, // add color property
+              });
+            });
+
+            //  Create the chart container if it doesn't exist
+            let chartContainer = document.getElementById("chart-container");
+            if (!chartContainer) {
+              chartContainer = document.createElement("div");
+              chartContainer.id = "chart-container";
+              chartContainer.style.width = "100%";
+              chartContainer.style.height = "100%";
+              resultContainer.appendChild(chartContainer);
             }
-          },
-          series: [{
-            data: result2PieData
-          }]
-        });
-        } else {
-          console.log('Data is not an object or is empty:', castData);
-          resultContainer.innerHTML = '<p>No data found. Please try again.</p>';
-        }
-      } catch (error) {
-        console.error(error);
-      }
-      finally {
-    // Remove the loader from the page
-    loader.style.display = 'none';
-      }
-    }
-
-    // TDP + JSP Alliance  
-
-    const TDP_JSP_Alliance = document.querySelector('#TDPJSPAlliance-btn');
-    TDP_JSP_Alliance.addEventListener('click', renderTDPJSPAlliance);
-
-    async function renderTDPJSPAlliance(e) {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = constituencyDropdown.value;
-      const selectedWeek = weekDropdown.value;
-      resultContainer.innerHTML = '';
-      if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-        resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-        return;
-      }
-      e.preventDefault()
-      // Add a loader to the page
-  const loader = document.getElementById('loader');
-      loader.style.display = 'block';
-      try {
-        // Call the TDP_JSP_Alliance endpoint to get the data for the pie charts
-        const TDPJSPResponse = await axios.post('/TDP_JSP_Alliance', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const TDPJSPData = TDPJSPResponse.data;
-        console.log(TDPJSPData);
-
-        // Extract the data for TDP and JSP
-        const TDPData = TDPJSPData.result.find(d => d.Party === 'TDP');
-        const JSPData = TDPJSPData.result.find(d => d.Party === 'JSP');
-        // Extract the data for result2
-        const result2Data = TDPJSPData.result2;
-        console.log(result2Data)
-
-        // Extract the data for result3
-        const result3Data = TDPJSPData.result3;
-        console.log(result3Data)
-
-        // Create the chart container
-        let chartContainer = document.getElementById('chart-container');
-        if (!chartContainer) {
-          chartContainer = document.createElement('div');
-          chartContainer.id = 'chart-container';
-          chartContainer.style.display = 'flex';
-          chartContainer.style.flexDirection = 'row';
-          chartContainer.style.width = '100%';
-          chartContainer.style.height = '50%';
-          
-          // resultContainer.style.marginleft='10px'
-          resultContainer.appendChild(chartContainer);
-        }
-        // Create the chart container
-        let chartContainer1 = document.getElementById('chart-container1');
-        if (!chartContainer1) {
-          chartContainer1 = document.createElement('div');
-          chartContainer1.id = 'chart-container1';
-          chartContainer1.style.display = 'flex';
-          chartContainer1.style.flexDirection = 'row';
-          chartContainer1.style.width = '100%';
-          chartContainer1.style.height = '50%';
-          // resultContainer.style.marginleft='10px'
-          resultContainer.appendChild(chartContainer1);
-        }
-
-        // Create the chart containers for TDP and JSP
-        let chartContainerTDP = document.createElement('div');
-        chartContainerTDP.id = 'chart-container-tdp';
-        chartContainerTDP.style.width = '100%';
-        chartContainerTDP.style.height = '100%';
-        chartContainer.appendChild(chartContainerTDP);
-
-        let chartContainerJSP = document.createElement('div');
-        chartContainerJSP.style.width = '100%';
-        chartContainerJSP.style.height = '100%';
-        chartContainerJSP.id = 'chart-container-jsp';
-        chartContainer.appendChild(chartContainerJSP);
-
-        let chartContainerJSPFull = document.createElement('div');
-        chartContainerJSPFull.style.width = '100%';
-        chartContainerJSPFull.style.height = '100%';
-        chartContainerJSPFull.id = 'chart-container-jspfull';
-        chartContainer1.appendChild(chartContainerJSPFull);
-
-
-        let chartContainerTDPFull = document.createElement('div');
-        chartContainerTDPFull.style.width = '100%';
-        chartContainerTDPFull.style.height = '100%';
-        chartContainerTDPFull.id = 'chart-container-tdpfull';
-        chartContainer1.appendChild(chartContainerTDPFull);
-
-        // Render the TDP pie chart
-        Highcharts.chart(chartContainerTDP, {
-          chart: {
-            type: 'pie',
-            // styledMode: true // Enable styled mode
-            width: 600,
-            // height: 270,
-            spacing: [0, 0, 0, 0] // Set margin and padding to 0
-          },
-          title: {
-            text: 'TDP Voters preference on alliance ',
-            style: {
-    textTransform: 'uppercase' // Transform text to capitals
-  }
-          },
-          plotOptions: {
-            pie: {
-              // innerSize: '50%',
-              // distance: -30,
-              dataLabels: {
-                enabled: true,
-                format: '{point.name}: {point.percentage:.1f}%'
+            Highcharts.chart(chartContainer, {
+              chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: "pie",
+              },
+              title: {
+                text: "YSRCP Co-ordinator ",
+                style: {
+                  textTransform: "uppercase", // Transform text to capitals
+                },
               },
               tooltip: {
-        pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' // Display 2 decimal places
+                pointFormat: "{series.name}: <b>{point.percentage:.0f}%</b>", // Update pointFormat to remove decimal
+              },
+              plotOptions: {
+                pie: {
+                  allowPointSelect: true,
+                  cursor: "pointer",
+                  dataLabels: {
+                    enabled: true,
+                    format: "<b>{point.name}</b>: {point.percentage:.0f} %", // Update format to remove decimal
+                  },
+                },
+              },
+              series: [
+                {
+                  name: "Preference Percentage",
+                  colorByPoint: true,
+                  data: chartData,
+                },
+              ],
+              colors: [
+                "rgb(1, 169, 91)", // Same MLA
+                "rgb(0, 119, 112)", // Other MLA
+                "rgb(68, 114, 196)", // Anyone
+              ],
+            });
+          } else {
+            // console.log('Data is not an object or is empty:', castData);
+            resultContainer.innerHTML =
+              "<p> No YSRCP-Coordinator for this constituency .</p>";
+            // renderPrefferMLAcandidate()
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          // Remove the loader from the page
+          loader.style.display = "none";
+        }
       }
+
+      // new changes
+
+      //   async function renderPrefferYSRCPCoordinator(e) {
+      //   const selectedDistrict = districtDropdown.value;
+      //   const selectedConstituency = constituencyDropdown.value;
+      //   const selectedWeek = weekDropdown.value;
+      //   resultContainer.innerHTML = '';
+      //   if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+      //     resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
+      //     return;
+      //   }
+
+      //   e.preventDefault();
+
+      //   // Add a loader to the page
+      //   const loader = document.getElementById('loader');
+      //   loader.style.display = 'block';
+
+      //   try {
+      //     // Call the PrefferdCaste endpoint to get the data for the pie chart
+      //     const castResponse = await axios.post('/PrefferYSRCPCoordinator', {
+      //       district: selectedDistrict,
+      //       constituency: selectedConstituency,
+      //       Date: selectedWeek,
+      //     });
+      //     const castData = castResponse.data;
+
+      //     if (Array.isArray(castData) && castData.length > 0) {
+      //       // Get the first element of the array which contains the percentages object
+      //       const percentages = castData[0];
+
+      //       // Create an array of objects to store data for the pie chart
+      //       const chartData = Object.keys(percentages).map((key) => {
+      //         let color;
+      //         if (key === 'Same Co-ordinator') {
+      //           color = 'rgb(1, 169, 91)';
+      //         } else if (key === 'Anyone') {
+      //           color = 'rgb(0, 119, 112)';
+      //         } else if (key === 'Other Co-ordinator') {
+      //           color = 'rgb(68, 114, 196)';
+      //         }
+
+      //         return {
+      //           name: key,
+      //           y: parseFloat(percentages[key].replace('%', '')),
+      //           color: color,
+      //         };
+      //       });
+
+      //       // Create the chart container if it doesn't exist
+      //       let chartContainer = document.getElementById('chart-container');
+      //       if (!chartContainer) {
+      //         chartContainer = document.createElement('div');
+      //         chartContainer.id = 'chart-container';
+      //         chartContainer.style.width = '100%';
+      //         chartContainer.style.height = '100%';
+      //         resultContainer.appendChild(chartContainer);
+      //       }
+
+      //       // Render the pie chart using Highcharts
+      //       Highcharts.chart(chartContainer, {
+      //         chart: {
+      //           plotBackgroundColor: null,
+      //           plotBorderWidth: null,
+      //           plotShadow: false,
+      //           type: 'pie',
+      //         },
+      //         title: {
+      //           text: 'YSRCP Co-ordinator ',
+      //           style: {
+      //             textTransform: 'uppercase', // Transform text to capitals
+      //           },
+      //         },
+      //         tooltip: {
+      //           pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>', // Update pointFormat to remove decimal
+      //         },
+      //         plotOptions: {
+      //           pie: {
+      //             allowPointSelect: true,
+      //             cursor: 'pointer',
+      //             dataLabels: {
+      //               enabled: true,
+      //               format: '<b>{point.name}</b>: {point.percentage:.2f} %', // Update format to remove decimal
+      //             },
+      //           },
+      //         },
+      //         series: [
+      //           {
+      //             name: 'Preference Percentage',
+      //             colorByPoint: true,
+      //             data: chartData,
+      //           },
+      //         ],
+      //         colors: [
+      //           'rgb(1, 169, 91)', // Same Co-ordinator
+      //           'rgb(0, 119, 112)', // Anyone
+      //           'rgb(68, 114, 196)', // Other Co-ordinator
+      //         ],
+      //       });
+      //     } else {
+      //       resultContainer.innerHTML = '<p>No YSRCP-Coordinator data for this constituency.</p>';
+      //     }
+      //   } catch (error) {
+      //     console.error(error);
+      //     resultContainer.innerHTML = '<p>Failed to fetch data from the server.</p>';
+      //   } finally {
+      //     // Remove the loader from the page
+      //     loader.style.display = 'none';
+      //   }
+      // }
+
+      // prefferd YSRCP COORDINATOR  CANDIDATE
+      const PrefferYSRCPCoordinatorcandidate = document.querySelector(
+        "#PrefferYSRCPCoordinatorcandidate-btn"
+      );
+      PrefferYSRCPCoordinatorcandidate.addEventListener(
+        "click",
+        renderPrefferYSRCPCoordinatorcandidate
+      );
+
+      async function renderPrefferYSRCPCoordinatorcandidate(e) {
+        const selectedDistrict = districtDropdown.value;
+        const selectedConstituency = constituencyDropdown.value;
+        const selectedWeek = weekDropdown.value;
+        resultContainer.innerHTML = "";
+        if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
+          resultContainer.innerHTML =
+            "<p>Please select all dropdowns to get the data.</p>";
+          return;
+        }
+        e.preventDefault();
+        // Add a loader to the page
+        const loader = document.getElementById("loader");
+        loader.style.display = "block";
+
+        try {
+          // Call the PrefferdCaste endpoint to get the data for the pie chart
+          const castResponse = await axios.post(
+            "/PrefferYSRCPCoordinatorcandidate",
+            {
+              district: selectedDistrict,
+              constituency: selectedConstituency,
+              Date: selectedWeek,
             }
-          },
-          series: [{
-            data: [{
-              name: 'YSRCP',
-              y: parseFloat(TDPData.YSRCP.replace('%', ''))
-            }, {
-              name: 'Will Not Vote',
-              y: parseFloat(TDPData['Will Not Vote'].replace('%', ''))
-            }, {
-              name: 'TDP+JSP',
-              y: parseFloat(TDPData['TDP+JSP'].replace('%', ''))
-            }],
-            colors: ['#ff6384', '#36a2eb', '#ffce56']
-          }]
-        });
+          );
+          const castData = castResponse.data;
 
+          if (castData && Object.keys(castData).length > 0) {
+            // create an array of objects to store data for the pie chart
+            const chartData = [];
+            castData.forEach((item) => {
+              chartData.push({
+                name: item["YSRCP-Best Candidate"],
+                y: parseFloat(item["totalFactor_percentage"].replace("%", "")),
+              });
+            });
 
-        // Render the JSP pie chart
-        Highcharts.chart(chartContainerJSP, {
-          chart: {
-            type: 'pie',
-            width: 600,
-            height: 270,
-          },
-          title: {
-            text: 'JSP Voters preference on alliance ',
-            style: {
-    textTransform: 'uppercase' // Transform text to capitals
-  }
-          },
-          plotOptions: {
-            pie: {
-              // innerSize: '50%',
-              // distance: -30,
-              dataLabels: {
-                enabled: true,
-                format: '{point.name}: {point.percentage:.1f}%'
+            //  Create the chart container if it doesn't exist
+            let chartContainer = document.getElementById("chart-container");
+            if (!chartContainer) {
+              chartContainer = document.createElement("div");
+              chartContainer.id = "chart-container";
+              chartContainer.style.width = "100%";
+              chartContainer.style.height = "100%";
+              resultContainer.appendChild(chartContainer);
+            }
+            Highcharts.chart(chartContainer, {
+              chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: "pie",
+              },
+              title: {
+                text: " YSRCP-Best Candidate",
+                style: {
+                  textTransform: "uppercase", // Transform text to capitals
+                },
               },
               tooltip: {
-        pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' // Display 2 decimal places
-      }
-            }
-          },
-          series: [{
-            data: [{
-              name: 'YSRCP',
-              y: parseFloat(JSPData.YSRCP.replace('%', ''))
-            }, {
-              name: 'Will Not Vote',
-              y: parseFloat(JSPData['Will Not Vote'].replace('%', ''))
-            }, {
-              name: 'TDP+JSP',
-              y: parseFloat(JSPData['TDP+JSP'].replace('%', ''))
-            }],
-            colors: ['#ff6384', '#36a2eb', '#ffce56']
-          }]
-        });
-
-        // Calculate total count for result2
-        const result2TotalCount = result2Data.reduce((total, d) => total + d['totalFactor'], 0);
-
-        // Create a pie chart for result2
-        const result2PieData = result2Data.map(d => ({
-          name: d['TDP Full'],
-          y: (d['totalFactor'] / result2TotalCount) * 100
-        }));
-
-        Highcharts.chart('chart-container-jspfull', {
-          chart: {
-            type: 'pie',
-            width: 600,
-          
-          },
-          title: {
-            text: 'Party Prefference If TDP Contests',
-            style: {
-    textTransform: 'uppercase' // Transform text to capitals
-  }
-          },
-          plotOptions: {
-            pie: {
-              // innerSize: '50%',
-              // distance: -30,
-              dataLabels: {
-                enabled: true,
-                format: '{point.name}: {point.percentage:.1f}%'
+                pointFormat: "{series.name}: <b>{point.percentage:.0f}%</b>", // Update pointFormat to remove decimal
               },
-              tooltip: {
-        pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' // Display 2 decimal places
-      }
-            }
-          },
-          series: [{
-            data: result2PieData
-          }]
-        });
-
-
-        // Calculate total count for result3
-        const result3TotalCount = result3Data.reduce((total, d) => total + d['totalFactor'], 0);
-
-        // Create a pie chart for result3
-        const result3PieData = result3Data.map(d => ({
-          name: d['JSP Full'],
-          y: (d['totalFactor'] / result3TotalCount) * 100
-        }));
-
-        Highcharts.chart('chart-container-tdpfull', {
-          chart: {
-            type: 'pie',
-            width: 600,
-           
-          },
-          title: {
-            text: 'Party Prefference If JSP Contests',
-            style: {
-    textTransform: 'uppercase' // Transform text to capitals
-  }
-          },
-          plotOptions: {
-            pie: {
-              // innerSize: '50%',
-              // distance: -30,
-              dataLabels: {
-                enabled: true,
-                format: '{point.name}: {point.percentage:.1f}%'
+              plotOptions: {
+                pie: {
+                  allowPointSelect: true,
+                  cursor: "pointer",
+                  dataLabels: {
+                    enabled: true,
+                    format: "<b>{point.name}</b>: {point.percentage:.0f} %", // Update format to remove decimal
+                  },
+                },
               },
-              tooltip: {
-        pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' // Display 2 decimal places
-      }
-            }
-          },
-          series: [{
-            data: result3PieData
-          }]
-        });
-
-      } catch (error) {
-        console.error(error);
-        resultContainer.innerHTML = '<p>No Alliance data, Please choose next Survey Date.</p>';
-      }
-      finally {
-    // Remove the loader from the page
-    loader.style.display = 'none';
-  }
-    }
-
-
-
-    // prefferd YSRCP COORDINATOR  CANDIDATE
-    const PrefferYSRCPCoordinator = document.querySelector('#PrefferYSRCPCoordinator-btn');
-    PrefferYSRCPCoordinator.addEventListener('click', renderPrefferYSRCPCoordinator);
-
-    async function renderPrefferYSRCPCoordinator(e) {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = constituencyDropdown.value;
-      const selectedWeek = weekDropdown.value;
-      resultContainer.innerHTML = '';
-      if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-        resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-        return;
-      }
-      e.preventDefault()
-      // Add a loader to the page
-  const loader = document.getElementById('loader');
-      loader.style.display = 'block';
-
-      try {
-        // Call the PrefferdCaste endpoint to get the data for the pie chart
-        const castResponse = await axios.post('/PrefferYSRCPCoordinator', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castData = castResponse.data;
-        console.log(castData)
-
-        if (castData && Object.keys(castData).length > 0) {
-  // create an array of objects to store data for the pie chart
-  const chartData = [];
-  castData.forEach((item) => {
-    let color;
-    if (item["YSRCP Co-ordinator"] === "Same Co-ordinator") {
-      color = 'rgb(1, 169, 91)';
-    } else if (item["YSRCP Co-ordinator"] === "Anyone") {
-      color = 'rgb(0, 119, 112)';
-    } else if (item["YSRCP Co-ordinator"] === "Other Co-ordinator") {
-      color = 'rgb(68, 114, 196)';
-    }
-    chartData.push({
-      name: item["YSRCP Co-ordinator"],
-      y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
-      color: color // add color property
-    });
-  });
-
-  //  Create the chart container if it doesn't exist
-  let chartContainer = document.getElementById('chart-container');
-  if (!chartContainer) {
-    chartContainer = document.createElement('div');
-    chartContainer.id = 'chart-container';
-    chartContainer.style.width = '100%';
-    chartContainer.style.height = '100%';
-    resultContainer.appendChild(chartContainer);
-  }
-  Highcharts.chart(chartContainer, {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'pie'
-    },
-    title: {
-      text: 'YSRCP Co-ordinator ',
-      style: {
-    textTransform: 'uppercase' // Transform text to capitals
-  }
-
-    },
-    tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.0f} %' // Update format to remove decimal
+              series: [
+                {
+                  name: "Preference Percentage",
+                  colorByPoint: true,
+                  data: chartData,
+                },
+              ],
+              // colors: [
+              //   'rgb(1, 169, 91)', // Same MLA
+              //   'rgb(0, 119, 112)', // Other MLA
+              //   'rgb(68, 114, 196)' // Anyone
+              // ]
+            });
+          } else {
+            // console.log('Data is not an object or is empty:', castData);
+            resultContainer.innerHTML =
+              "<p> No Alternative candidate for this constituency</p>";
+            // renderPrefferMLAcandidate()
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          // Remove the loader from the page
+          loader.style.display = "none";
         }
       }
-    },
-    series: [{
-      name: 'Preference Percentage',
-      colorByPoint: true,
-      data: chartData
-    }],
-    colors: [
-      'rgb(1, 169, 91)', // Same MLA
-      'rgb(0, 119, 112)', // Other MLA
-      'rgb(68, 114, 196)' // Anyone
-    ]
-  });
-        } else {
-          // console.log('Data is not an object or is empty:', castData);
-          resultContainer.innerHTML = '<p> No YSRCP-Coordinator for this constituency .</p>';
-          // renderPrefferMLAcandidate()
-        }
-      } catch (error) {
-        console.error(error);
-      }
-      finally {
-    // Remove the loader from the page
-    loader.style.display = 'none';
-  }
-    }
-
-
-  // new changes 
-  
-
-//   async function renderPrefferYSRCPCoordinator(e) {
-//   const selectedDistrict = districtDropdown.value;
-//   const selectedConstituency = constituencyDropdown.value;
-//   const selectedWeek = weekDropdown.value;
-//   resultContainer.innerHTML = '';
-//   if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-//     resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-//     return;
-//   }
-
-//   e.preventDefault();
-
-//   // Add a loader to the page
-//   const loader = document.getElementById('loader');
-//   loader.style.display = 'block';
-
-//   try {
-//     // Call the PrefferdCaste endpoint to get the data for the pie chart
-//     const castResponse = await axios.post('/PrefferYSRCPCoordinator', {
-//       district: selectedDistrict,
-//       constituency: selectedConstituency,
-//       Date: selectedWeek,
-//     });
-//     const castData = castResponse.data;
-
-//     if (Array.isArray(castData) && castData.length > 0) {
-//       // Get the first element of the array which contains the percentages object
-//       const percentages = castData[0];
-
-//       // Create an array of objects to store data for the pie chart
-//       const chartData = Object.keys(percentages).map((key) => {
-//         let color;
-//         if (key === 'Same Co-ordinator') {
-//           color = 'rgb(1, 169, 91)';
-//         } else if (key === 'Anyone') {
-//           color = 'rgb(0, 119, 112)';
-//         } else if (key === 'Other Co-ordinator') {
-//           color = 'rgb(68, 114, 196)';
-//         }
-
-//         return {
-//           name: key,
-//           y: parseFloat(percentages[key].replace('%', '')),
-//           color: color,
-//         };
-//       });
-
-//       // Create the chart container if it doesn't exist
-//       let chartContainer = document.getElementById('chart-container');
-//       if (!chartContainer) {
-//         chartContainer = document.createElement('div');
-//         chartContainer.id = 'chart-container';
-//         chartContainer.style.width = '100%';
-//         chartContainer.style.height = '100%';
-//         resultContainer.appendChild(chartContainer);
-//       }
-
-//       // Render the pie chart using Highcharts
-//       Highcharts.chart(chartContainer, {
-//         chart: {
-//           plotBackgroundColor: null,
-//           plotBorderWidth: null,
-//           plotShadow: false,
-//           type: 'pie',
-//         },
-//         title: {
-//           text: 'YSRCP Co-ordinator ',
-//           style: {
-//             textTransform: 'uppercase', // Transform text to capitals
-//           },
-//         },
-//         tooltip: {
-//           pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>', // Update pointFormat to remove decimal
-//         },
-//         plotOptions: {
-//           pie: {
-//             allowPointSelect: true,
-//             cursor: 'pointer',
-//             dataLabels: {
-//               enabled: true,
-//               format: '<b>{point.name}</b>: {point.percentage:.2f} %', // Update format to remove decimal
-//             },
-//           },
-//         },
-//         series: [
-//           {
-//             name: 'Preference Percentage',
-//             colorByPoint: true,
-//             data: chartData,
-//           },
-//         ],
-//         colors: [
-//           'rgb(1, 169, 91)', // Same Co-ordinator
-//           'rgb(0, 119, 112)', // Anyone
-//           'rgb(68, 114, 196)', // Other Co-ordinator
-//         ],
-//       });
-//     } else {
-//       resultContainer.innerHTML = '<p>No YSRCP-Coordinator data for this constituency.</p>';
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     resultContainer.innerHTML = '<p>Failed to fetch data from the server.</p>';
-//   } finally {
-//     // Remove the loader from the page
-//     loader.style.display = 'none';
-//   }
-// }
-
-
-
-
-    // prefferd YSRCP COORDINATOR  CANDIDATE
-    const PrefferYSRCPCoordinatorcandidate = document.querySelector('#PrefferYSRCPCoordinatorcandidate-btn');
-    PrefferYSRCPCoordinatorcandidate.addEventListener('click', renderPrefferYSRCPCoordinatorcandidate);
-
-    async function renderPrefferYSRCPCoordinatorcandidate(e) {
-      const selectedDistrict = districtDropdown.value;
-      const selectedConstituency = constituencyDropdown.value;
-      const selectedWeek = weekDropdown.value;
-      resultContainer.innerHTML = '';
-      if (!selectedDistrict || !selectedConstituency || !selectedWeek) {
-        resultContainer.innerHTML = '<p>Please select all dropdowns to get the data.</p>';
-        return;
-      }
-      e.preventDefault()
-      // Add a loader to the page
-  const loader = document.getElementById('loader');
-      loader.style.display = 'block';
-
-      try {
-        // Call the PrefferdCaste endpoint to get the data for the pie chart
-        const castResponse = await axios.post('/PrefferYSRCPCoordinatorcandidate', { district: selectedDistrict, constituency: selectedConstituency, Date: selectedWeek });
-        const castData = castResponse.data;
-
-        if (castData && Object.keys(castData).length > 0) {
-  // create an array of objects to store data for the pie chart
-  const chartData = [];
-  castData.forEach((item) => {
-    
-    chartData.push({
-      name: item['YSRCP-Best Candidate'],
-      y: parseFloat(item["totalFactor_percentage"].replace('%', '')),
-      
-    });
-  });
-
-  //  Create the chart container if it doesn't exist
-  let chartContainer = document.getElementById('chart-container');
-  if (!chartContainer) {
-    chartContainer = document.createElement('div');
-    chartContainer.id = 'chart-container';
-    chartContainer.style.width = '100%';
-    chartContainer.style.height = '100%';
-    resultContainer.appendChild(chartContainer);
-  }
-  Highcharts.chart(chartContainer, {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'pie'
-    },
-    title: {
-      text: ' YSRCP-Best Candidate',
-      style: {
-    textTransform: 'uppercase' // Transform text to capitals
-  }
-    },
-    tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>' // Update pointFormat to remove decimal
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.0f} %' // Update format to remove decimal
-        }
-      }
-    },
-    series: [{
-      name: 'Preference Percentage',
-      colorByPoint: true,
-      data: chartData
-    }],
-    // colors: [
-    //   'rgb(1, 169, 91)', // Same MLA
-    //   'rgb(0, 119, 112)', // Other MLA
-    //   'rgb(68, 114, 196)' // Anyone
-    // ]
-  });
-        } else {
-          // console.log('Data is not an object or is empty:', castData);
-          resultContainer.innerHTML = '<p> No Alternative candidate for this constituency</p>';
-          // renderPrefferMLAcandidate()
-        }
-      } catch (error) {
-        console.error(error);
-      }
-      finally {
-    // Remove the loader from the page
-    loader.style.display = 'none';
-  }
-    }
-
-
-    
-
-
-  </script>
-
-
-</body>
-
+    </script>
+  </body>
 </html>

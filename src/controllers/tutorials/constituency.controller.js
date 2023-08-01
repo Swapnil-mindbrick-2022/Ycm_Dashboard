@@ -1004,17 +1004,31 @@ const TDP_JSP_Alliance = async (req, res, next) => {
   try {
     const { district, constituency, Date } = req.body;
 
+    // const query = `
+    //   SELECT 
+    //     Party,
+    //     CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'YSRCP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`YSRCP\`,
+    //     CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'Will Not Vote' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`Will Not Vote\`,
+    //     CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'TDP+JSP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`TDP+JSP\`
+    //   FROM fileddata fd 
+    //   WHERE fd.District = :District AND fd.R_Constituency = :R_Constituency AND fd.Date = :Date AND fd.\`TDP+JSP Alliance\` IS NOT NULL
+    //     AND Party IN ('TDP', 'JSP')
+    //   GROUP BY Party;
+    // `;
+
     const query = `
-      SELECT 
-        Party,
-        CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'YSRCP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`YSRCP\`,
-        CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'Will Not Vote' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`Will Not Vote\`,
-        CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'TDP+JSP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`TDP+JSP\`
-      FROM fileddata fd 
-      WHERE fd.District = :District AND fd.R_Constituency = :R_Constituency AND fd.Date = :Date AND fd.\`TDP+JSP Alliance\` IS NOT NULL
-        AND Party IN ('TDP', 'JSP')
-      GROUP BY Party;
-    `;
+  SELECT 
+    Party,
+    CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'YSRCP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`YSRCP\`,
+    CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'Will Not Vote' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`Will Not Vote\`,
+    CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'BJP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`BJP\`,
+    CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'INC' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`INC\`,
+    CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'TDP+JSP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`TDP Candidate\`
+  FROM fileddata fd 
+  WHERE fd.District = :District AND fd.R_Constituency = :R_Constituency AND fd.Date = :Date AND fd.\`TDP+JSP Alliance\` IS NOT NULL
+    AND Party = 'JSP'
+  GROUP BY Party;
+`;
 
     const result = await db.sequelize.query(query, {
       type: db.sequelize.QueryTypes.SELECT,
@@ -1024,6 +1038,29 @@ const TDP_JSP_Alliance = async (req, res, next) => {
         Date: Date
       }
     });
+
+    const query4 = `
+    SELECT 
+      Party,
+      CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'YSRCP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`YSRCP\`,
+      CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'Will Not Vote' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`Will Not Vote\`,
+      CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'BJP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`BJP\`,
+      CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'INC' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`INC\`,
+      CONCAT(ROUND((SUM(CASE WHEN fd.\`TDP+JSP Alliance\` = 'TDP+JSP' THEN fd.Factor ELSE 0 END) / SUM(fd.Factor) * 100), 2), '%') AS \`JSP Candidate\`
+    FROM fileddata fd 
+    WHERE fd.District = :District AND fd.R_Constituency = :R_Constituency AND fd.Date = :Date AND fd.\`TDP+JSP Alliance\` IS NOT NULL
+      AND Party = 'TDP'
+    GROUP BY Party;
+  `;
+  
+      const result4 = await db.sequelize.query(query4, {
+        type: db.sequelize.QueryTypes.SELECT,
+        replacements: {
+          District: district,
+          R_Constituency: constituency,
+          Date: Date
+        }
+      });
     const query2 = `
     SELECT 
     \`TDP Full\`,
@@ -1069,7 +1106,7 @@ ORDER BY SUM(Factor) ASC;
     }
   });
 
-  res.status(200).json({ result, result2, result3 });
+  res.status(200).json({ result, result2, result3 ,result4});
     // console.log(result);
   } catch (error) {
     console.error(error);

@@ -119,7 +119,8 @@ const uploadmuliplefiles = async (req, res, next) => {
               ['Schemes Termination']:res['Schemes Termination'] || null,
               Rev_Mandal:res.Rev_Mandal ||res["R Mandal"] || null,
               sdate:formattedDate2|| null,
-              ['C&S']:res['C&S'] || null
+              ['C&S']:res['C&S'] || null,
+              ["TDP+JSP Alliance O"]:res["TDP+JSP Alliance O"] || null
               };
             });
     
