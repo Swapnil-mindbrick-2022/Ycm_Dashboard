@@ -43,7 +43,7 @@ module.exports = (sequelize, Sequelize) => {
     ['Offline Mode']:{
       type: Sequelize.STRING
     },
-    ['Surveyor Name']:{
+    ['Surveyor_Name']:{
       type: Sequelize.STRING
     },
     ['Surveyor Phone Number']:{

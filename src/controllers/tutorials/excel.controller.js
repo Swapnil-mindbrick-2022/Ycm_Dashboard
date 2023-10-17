@@ -77,7 +77,7 @@ const uploadmuliplefiles = async (req, res, next) => {
               ['Audio Url']: res['Audio Url']  || null,
               ['Audio Duration (in secs)']: res['Audio Duration (in secs)'] || null,
               ['Offline Mode']: res['Offline Mode'] || null,
-              ['Surveyor Name']:res['Surveyor Name'] || null,
+              ['Surveyor_Name']:res['Surveyor Name'] || null,
               ['Surveyor Phone Number']:res['Surveyor Phone Number'] || null,
               ['Name']:res['Name'] || null,
               ["Gender"]:res["Gender"] ||res['GENDER']||null,
