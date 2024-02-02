@@ -63,7 +63,7 @@ let routes = (app) => {
     
 })
 
-router.get('/overview',(req,res)=>{
+router.get('/overview',userauth,(req,res)=>{
     res.render('overviewpage')
 })
 
