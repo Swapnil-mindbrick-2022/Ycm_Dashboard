@@ -63,7 +63,7 @@
 
 
 module.exports = {
-  HOST: "163.47.152.167",
+  HOST: "163.47.153.118",
   USER: "root",
   PASSWORD: "#$yf54>(&FCD^&",
   DB: "dashobaord",

@@ -36,6 +36,8 @@ db.Trenddata=require('./trend.model.js')(sequelize, Sequelize)
 db.cordinates=require('./coordinate')(sequelize, Sequelize)
 db.Candidate=require('./candidate.model')(sequelize, Sequelize)
 db.summery=require('./summery.model')(sequelize, Sequelize)
+db.responseTable=require('./responses.model')(sequelize, Sequelize)
+db.questionData=require('./questions.model')(sequelize, Sequelize)
 
 
 db.sequelize.sync({ force: false })

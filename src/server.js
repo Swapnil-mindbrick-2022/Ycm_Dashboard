@@ -4,6 +4,7 @@ const db = require("./models");
 const path = require('path');
 const session = require('express-session')
 const initRoutes = require("./routes/user.js");
+const responseRoutes = require("./routes/responses.js");
 global.__basedir = __dirname + "/..";
 const  bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -67,6 +68,10 @@ app.use(passport.session());
 app.get("/data", function (req, res) {
   res.render(path.join(__dirname, "./views/index.ejs"));
 });
+
+
+
+
 // app.get("/register", function (req, res) {
 //   res.render(path.join(__dirname, "./views/register.ejs"));
 // });
@@ -75,6 +80,7 @@ app.get("/data", function (req, res) {
 
 
 initRoutes(app);
+responseRoutes(app)
 db.sequelize.sync();
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");

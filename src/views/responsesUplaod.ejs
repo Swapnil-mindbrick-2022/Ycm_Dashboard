@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+      /* Style for file upload form */
+.upload-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  width: 50%;
+  margin: 50px auto;
+  background-color: #f2f2f2;
+}
+
+/* Style for uploading icon */
+.upload-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+/* Style for file input */
+.upload-input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  border: none;
+  background-color: #fff;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for submit button */
+.upload-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.upload-btn:hover {
+  background-color: #0062cc;
+}
+
+/* Style for progress bar */
+.progress {
+  margin-top: 20px;
+  width: 100%;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #eee;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  background-color: #007bff;
+  transition: width 0.2s ease-in-out;
+}
+
+/* Style for uploading message */
+.uploading-msg {
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff;
+  display: none;
+}
+
+/* Style for done message */
+.done-msg {
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: green;
+  display: none;
+}
+.header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+      }
+
+      /* Style for the icon buttons */
+      .icon {
+        font-size: 20px;
+        margin-left: 20px;
+        cursor: pointer;
+        color: #fff;
+      }
+
+      /* Style for the active icon */
+      .active {
+        font-weight: bold;
+        text-decoration: underline;
+      }
+
+      /* Style for the logo */
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        margin-left: 20px;
+        cursor: pointer;
+        color: #fff;
+      }
+
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo"></div>
+      <div>
+        <a href="/homepage" class="icon active">Homepage</a>
+  
+        <a href="logout" class="icon">Logout</a>
+      </div>
+    </header>
+    <form class="upload-form" action="/responsesUpload" method="post" enctype="multipart/form-data">
+      <i class="upload-icon fas fa-cloud-upload-alt"></i>
+      <b>Upload Multiple Files:</b>
+      <br>
+      <input class="upload-input" type="file" name="files" multiple>
+      <select name="position" id="">
+        
+        <option value="responseData">responseData</option>
+        <option value="questionData">questionData</option>
+ 
+      </select>
+      <button class="upload-btn" type="submit">Upload</button>
+      <div class="progress">
+        <div class="progress-bar"></div>
+      </div>
+      <div class="uploading-msg">Uploading...</div>
+      <div class="done-msg">Uploading Done!</div>
+    </form>
+    
+    
+    <script >
+
+  const form = document.querySelector('.upload-form');
+  const progressBar = document.querySelector('.progress-bar');
+  const uploadingMsg = document.querySelector('.uploading-msg');
+  const doneMsg = document.querySelector('.done-msg');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    uploadingMsg.style.display = 'block';
+    progressBar.style.width = '0%';
+    progressBar.style.display = 'block';
+    doneMsg.style.display = 'none';
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', form.action, true);
+xhr.upload.onprogress = function (e) {
+  if (e.lengthComputable) {
+    const percent = (e.loaded / e.total) * 100;
+    progressBar.style.width = percent + '%';
+  }
+};
+xhr.onload = function () {
+  if (xhr.status === 200) {
+    uploadingMsg.style.display = 'none';
+    progressBar.style.display = 'none';
+    doneMsg.style.display = 'block';
+        document.querySelector('.upload-input').value = ''; // clear file input
+  }
+
+};
+xhr.send(new FormData(form));
+
+}); 
+
+
+    </script>
+  </body>
+</html>
