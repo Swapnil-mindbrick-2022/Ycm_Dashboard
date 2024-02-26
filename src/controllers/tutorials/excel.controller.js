@@ -7,6 +7,8 @@ const fileddata = db.fileddata
 const moment = require('moment');
 
 
+const rawfileddata = db.rawfielddata
+
 const _ = require('lodash');
 
 const Uploadhistory = db.uploadhistory;
@@ -180,6 +182,100 @@ const uploadmuliplefiles = async (req, res, next) => {
       }
     }
   }
+
+
+  //  raw  data  upload  
+
+  else if(position == "rawfileddata") {
+    for (let file of req.files) {
+      try {
+        const path = filePath + file.filename;
+        const rows = reader.read(path, { type: 'file' });
+        const sheetNames = rows.SheetNames;
+    
+        for (let sheetName of sheetNames) {
+          const arr = reader.utils.sheet_to_json(rows.Sheets[sheetName]);
+          const batches = chunkArray(arr, batchSize);
+    
+          for (let batch of batches) {
+            const bulkData = batch.map((res) => {
+
+              let dateValue = res['Date'];
+              if (typeof dateValue === 'number') {
+                dateValue = new Date((dateValue - 25569) * 86400 * 1000);
+              }
+              if (dateValue instanceof Date && !isNaN(dateValue)) {
+                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                formattedDate = dateValue.toLocaleDateString('en-US', options);
+              }
+           
+              return {
+              District: res["District"] || res['DISTRICT'] ||null,
+              PARLIAMENT: res.PARLIAMENT  ||res['PARLIAMENT'] || null,
+              ['New District']: res['New District'] || null,
+              R_Constituency: res.R_Constituency || null,
+              // Date: moment.utc(res['Date'], 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD') || moment.utc('1970-01-01', 'YYYY-MM-DD'),
+              ['Week']:res['Week'] || null,
+              Date: formattedDate || null,
+              
+                
+              ["Timestamp"]: res["Timestamp"] ||res['TIMESTAMP']|| null,
+              ["Location"]: res["Location"] || null,
+              ['Audio Url']: res['Audio Url']  || null,
+              ['Audio Duration (in secs)']: res['Audio Duration (in secs)'] || null,
+              ['Offline Mode']: res['Offline Mode'] || null,
+              ['Surveyor_Name']:res['Surveyor Name'] || null,
+              ['Surveyor Phone Number']:res['Surveyor Phone Number'] || null,
+              ['Name']:res['Name'] || null,
+              ["Gender"]:res["Gender"] ||res['GENDER']||null,
+              ['Contact Number']:res['Contact Number'] ||res['CONTACT NUMBER']|| null,
+              ['Age Group']:res['Age Group'] ||res['AGE GROUP']|| null,
+              ['Occupation']:res['Occupation'] ||res['OCCUPATION']||null,
+              ['Monthly Income']:res['Monthly Income'] || null,
+              ['Caste Category']:res['Caste Category'] || null,
+              ["RCaste"]:res["R.Caste"] || null,
+              ["Caste"]:res["Caste"] || null,
+              ['Constituency']:res['Constituency'] ||res['CONSTITUENCY']|| null,
+              ['Mandal Name']:res['Mandal Name'] ||res['MANDAL']|| null,
+              ['Ward Number']:res['Ward Number'] ||res['WARD NUMBER']|| null,
+              ['CM_Satisfaction']:res['CM_Satisfaction'] ||res[' CM SATISFACTION']|| null,
+              ['Party']:res['Party'] || null,
+              ['TDP+JSP Alliance']:res['TDP+JSP Alliance'] || null,
+              ['TDP Candidate(Alliance)']:res['TDP Candidate(Alliance)'] || null,
+              ['JSP Candidate(Alliance)']:res['JSP Candidate(Alliance)'] || null,
+              ["MLA Satisfaction"]:res["MLA Satisfaction"] || null,
+              ['MLA Preference']:res['MLA Preference'] || null,
+              ['2024_Candidate']:res  ['2024_Candidate'] || null, 
+              ['Schemes Termination']:res['Schemes Termination'] || null,
+              
+              ['Factor']:res['Factor'] || null,
+              ['Set']:res['Set'] || null,
+              ["SET_F"]:res["Set_F"] || null,
+              ['YSRCP Co-ordinator']:res['YSRCP Co-ordinator'] || null,
+              ['TDP Full']:res['TDP FULL'] || null,
+              ['JSP Full']:res['JSP FULL'] || null,
+              
+
+
+              };
+            });
+    
+            await rawfileddata.bulkCreate(bulkData , {
+              raw: true,
+              benchmark: true,
+              returning: false,
+            });
+          }
+        }
+    
+        await deleteFile(path);
+      } catch (error) {
+        console.error(error);
+        message.push(`Error processing file ${file.filename}`);
+      }
+    }
+  }
+
 
   if (message.length > 0) {
     res.status(500).send(message.join('\n'));

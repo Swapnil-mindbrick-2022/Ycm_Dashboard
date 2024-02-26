@@ -38,6 +38,7 @@ db.Candidate=require('./candidate.model')(sequelize, Sequelize)
 db.summery=require('./summery.model')(sequelize, Sequelize)
 db.responseTable=require('./responses.model')(sequelize, Sequelize)
 db.questionData=require('./questions.model')(sequelize, Sequelize)
+db.rawfielddata= require('./rawFielddata.model')(sequelize, Sequelize)
 
 
 db.sequelize.sync({ force: false })

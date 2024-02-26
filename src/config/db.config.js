@@ -62,11 +62,32 @@
 
 
 
+// module.exports = {
+//   HOST: "163.47.153.118",
+//   USER: "root",
+//   PASSWORD: "#$yf54>(&FCD^&",
+//   DB: "dashobaord",
+//   dialect: "mysql",
+//   port:"3306",
+//   retry: {
+//     max: 2000,
+//     min: 0,
+//     acquire: 3000000,
+//     idle: 1000000,
+//     max_allowed_packet:196777216,
+//     match: [/Deadlock/i],
+    
+//     backoffBase: 1000, // Initial backoff duration in ms. Default: 100,
+//     backoffExponent: 1.5, // Exponent to increase backoff each try. Default: 1.1
+//   }
+// };
+
+// cloud 
 module.exports = {
-  HOST: "163.47.153.118",
+  HOST: "103.151.107.142",
   USER: "root",
-  PASSWORD: "#$yf54>(&FCD^&",
-  DB: "dashobaord",
+  PASSWORD: "Mind@Yahoo!2",
+  DB: "dashboard",
   dialect: "mysql",
   port:"3306",
   retry: {
