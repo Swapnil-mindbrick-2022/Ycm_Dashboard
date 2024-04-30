@@ -199,7 +199,7 @@ const uploadmuliplefiles = async (req, res, next) => {
     
           for (let batch of batches) {
             const bulkData = batch.map((res) => {
-
+              
               let dateValue = res['Date'];
               if (typeof dateValue === 'number') {
                 dateValue = new Date((dateValue - 25569) * 86400 * 1000);
@@ -213,7 +213,7 @@ const uploadmuliplefiles = async (req, res, next) => {
               District: res["District"] || res['DISTRICT'] ||null,
               PARLIAMENT: res.PARLIAMENT  ||res['PARLIAMENT'] || null,
               ['New District']: res['New District'] || null,
-              R_Constituency: res.R_Constituency || null,
+              R_Constituency: res.R_Constituency ||res['R.Constituency'] ||null,
               // Date: moment.utc(res['Date'], 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD') || moment.utc('1970-01-01', 'YYYY-MM-DD'),
               ['Week']:res['Week'] || null,
               Date: formattedDate || null,
@@ -231,7 +231,7 @@ const uploadmuliplefiles = async (req, res, next) => {
               ['Contact Number']:res['Contact Number'] ||res['CONTACT NUMBER']|| null,
               ['Age Group']:res['Age Group'] ||res['AGE GROUP']|| null,
               ['Occupation']:res['Occupation'] ||res['OCCUPATION']||null,
-              ['Monthly Income']:res['Monthly Income'] || null,
+              ['Monthly Income']:res['Monthly Income'] ||res['నెలసరి ఆదాయం ']|| null,
               ['Caste Category']:res['Caste Category'] || null,
               ["RCaste"]:res["R.Caste"] || null,
               ["Caste"]:res["Caste"] || null,
